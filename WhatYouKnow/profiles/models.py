@@ -4,8 +4,8 @@ from django.contrib.auth.models import AbstractUser
 # from easy_thumbnails.fields import ThumbnailerImageField
 
 
-class ProfileUser(AbstractUser):
-    image = models.ImageField(upload_to="profile_images/", null=True, blank=True)
+class UserProfile(AbstractUser):
+    image = models.ImageField(upload_to="profiles/", null=True, blank=True)
     # , height_field=100, width_field=100)
     # image = ThumbnailerImageField(upload_to='profile_images', null=True, blank=True)
     name = models.CharField(max_length=254, blank=False)

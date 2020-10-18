@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import ProfileUser
+from .models import UserProfile
 
 
-class ProfileUserAdmin(UserAdmin):
+class UserProfileAdmin(UserAdmin):
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -31,4 +31,4 @@ class ProfileUserAdmin(UserAdmin):
     search_fields = ("username", "name", "email")
 
 
-admin.site.register(ProfileUser, ProfileUserAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
