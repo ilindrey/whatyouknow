@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from whatyouknow.blog.views import index
+from .blog.views import index
+    # , search_list
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index')
+    path('', index, name='index'),
+    # path('/search/category/', search_list, name='category')
 ]
