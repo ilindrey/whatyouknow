@@ -1,3 +1,5 @@
 django
 pillow
 python-decouple
+django-ckeditor
+django-taggit
