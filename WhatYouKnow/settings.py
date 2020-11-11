@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'whatyouknow.profiles',
     'whatyouknow.blog',
     # others
-    # 'ckeditor',
+    'ckeditor',
     'ckeditor_uploader',
     'taggit',
 ]
@@ -133,3 +133,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'profiles.UserProfile'
+
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

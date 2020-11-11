@@ -3,3 +3,4 @@ pillow
 python-decouple
 django-ckeditor
 django-taggit
+factory_boy
