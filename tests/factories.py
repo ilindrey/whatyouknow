@@ -32,7 +32,7 @@ class UserProfileFactory(DjangoModelFactory):
     name = LazyAttribute(lambda obj: "{} {}".format(obj.first_name, obj.last_name))
     website = Faker("url")
     description = Faker("text")
-    image = ImageField(width=500, height=300)
+    image = ImageField(color='gray', width=500, height=300)
 
 
 class CategoryFactory(DjangoModelFactory):
@@ -73,7 +73,7 @@ class PostFactory(DjangoModelFactory):
         end_date="now",
         tzinfo=timezone.get_current_timezone(),
     )
-    image = ImageField(color='green',width=4096, height=3072)
+    image = ImageField(color='gray', width=4096, height=3072)
     description = Faker("text", max_nb_chars=randint(1000, 100000))
 
     @post_generation
