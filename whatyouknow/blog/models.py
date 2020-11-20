@@ -26,7 +26,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, models.PROTECT)
     name = models.CharField(null=True, blank=False, max_length=200)
     date = models.DateTimeField()
-    image = models.ImageField(upload_to="posts/")
+    # image = models.ImageField(upload_to="posts/")
     description = RichTextUploadingField(null=True, blank=False)
     tags = TaggableManager()
 
