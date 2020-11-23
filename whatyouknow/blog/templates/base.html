@@ -15,11 +15,29 @@
 
 </head>
 <body>
-<div class="ui grid">
 
-    <div class="black row">
+<div class="ui black inverted secondary mini menu">
 
-        <div class="left floated left aligned three wide column">
+    {#            <div class="item">#}
+    <a class="item">
+        my tape
+    </a>
+    <a class="active item">
+        all streams
+    </a>
+
+    {% for category in categories %}
+        <a class="item">
+            {#                        <button class="ui primary tertiary button">#}
+            {{ category.name|lower }}
+            {#                        </button>#}
+        </a>
+    {% endfor %}
+    {#            </div>#}
+    <div class="right menu">
+
+        <div class="item">
+
             <div class="ui tiny search">
                 <div class="ui icon input">
                     <input class="prompt" type="text" placeholder="Search countries...">
@@ -28,83 +46,136 @@
                 <div class="results"></div>
             </div>
         </div>
+        <div class="item">
 
-        <div class="right floated right aligned three wide column">
+            <button class="circular ui icon black button">
+                <i class="bell icon"></i>
+            </button>
+        </div>
+        <div class="item">
 
-            <div class="ui horizontal list">
+            <button class="circular ui icon black button">
+                <i class="pencil icon"></i>
+            </button>
+        </div>
 
-                <div class="item">
-                    <button class="circular ui icon black button">
-                        <i class="bell icon"></i>
+        <div class="item">
+
+
+            <div class="ui inline dropdown">
+                <div class="text">
+
+                    <button class="ui tertiary blue button">
+                        <i class="ui circular inverted user blue icon"></i>
+                        Scronullik
+                        <i class="ui dropdown icon"></i>
                     </button>
                 </div>
-                <div class="item">
-                    <button class="circular ui icon black button">
-                        <i class="pencil icon"></i>
-                    </button>
+                <div class="menu">
+                    {#                                                        <div class="item">#}
+                    {#                                                        <div class="row"></div>#}
+
+                    {#                            <div class="sub header">#}
+                    {#                                <i class="ui circular inverted user blue large icon"></i> Scronullik#}
+                    {#                            </div>#}
+                    {#                                                        </div>#}
+                    {#                            <div class="ui divider"></div>#}
+                    <div class="item">
+                        <i class="user icon"></i>
+                        <span>Profile</span>
+                    </div>
+                    <div class="item">
+                        <i class="sign out icon"></i>
+                        <span>Sign out</span>
+                    </div>
                 </div>
-                <div class="item">
+            </div>
 
-                    <div class="ui inline dropdown">
-                        <div class="text">
 
-                            <button class="ui tertiary blue button">
-                                <i class="ui circular inverted user blue icon"></i>
-                                {#                                   Scronullik#}
-                                <i class="ui dropdown icon"></i>
-                            </button>
-                        </div>
-                        <div class="menu">
-                            {#                            <div class="item">#}
-                            {#                            <div class="row"></div>#}
+        </div>
+    </div>
+</div>
 
-                            <div class="sub header">
-                                <i class="ui circular inverted user blue large icon"></i> Scronullik
-                            </div>
-                            {#                            </div>#}
-                            <div class="ui divider"></div>
+<div class="ui hidden divider"></div>
+
+<div class="ui grid container">
+
+    {#        <div class="eight wide centered column">#}
+    <div class="twelve wide column">
+
+        <div class="ui segment">
+            {#            <div class="ui left rail">#}
+
+            {% for post in posts %}
+                {#                    <div class="ui piled segment">#}
+                <div class="ui padded grid">
+                    {##}
+                    <div class="row">
+                        {#                        <div class="ui list">#}
+                        {#                            <div class="item">#}
+
+                        <a class="ui primary horizontal label">{{ post.user.name }} (@{{ post.user.username }})</a>
+                        <label>{{ post.date }}</label>
+                        {#                            </div>#}
+                        {#                            <div class="item">#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        {#                        <div class="ui hidden divided"></div>#}
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="ui list">
                             <div class="item">
-                                <i class="user icon"></i>
-                                <span>Profile</span>
+
+                                <h1 class="ui header">{{ post.name }}</h1>
+
+                                {#                        <div class="ui hidden divided"></div>#}
+
                             </div>
                             <div class="item">
-                                <i class="sign out icon"></i>
-                                <span>Sign out</span>
+{#                                <div class="ui tag labels">#}
+                                    {% for tag in tags %}
+                                        {% if tag.post_id == post.pk %}
+                                            <a href="#" >{{ tag.name }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+{#                                </div>#}
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <img src="{{ post.image.url }}" class="ui fluid image">
+                    </div>
 
                 </div>
+                {% if not forloop.last %}
 
-            </div>
-
+                    <div class="ui divider"></div>
+                {% endif %}
+            {% endfor %}
         </div>
-
     </div>
-    <div class="row">
-        <div class="sixteen wide column">
-            <div class="ui horizontal list">
+    <div class="four wide column">
+        <div class="ui segment">
+            <div class="ui list">
                 {% for category in categories %}
                     <div class="item">
                         <button class="ui primary tertiary button">{{ category.name }}</button>
                     </div>
                 {% endfor %}
             </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="ui container">
-            <div class="ui segments">
-                <div class="ui raised segment">
-                    <h2 class="ui header">
-                        Which investment project should my company choose?
-                    </h2>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
+{#    </div>#}
+{#</div>#}
+</div>
+
+
+
 
 <script>
 
