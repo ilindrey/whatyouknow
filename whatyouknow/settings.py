@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'whatyouknow.profiles',
     'whatyouknow.blog',
     # others
-    'ckeditor',
-    'ckeditor_uploader',
+    'tinymce',
+    # 'ckeditor_uploader',
     'taggit',
 ]
 

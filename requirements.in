@@ -1,6 +1,8 @@
 django
 pillow
 python-decouple
-django-ckeditor
+django-tinymce
 django-taggit
 factory_boy
+mimesis
+mimesis_factory
