@@ -32,10 +32,8 @@ urlpatterns = [
     path('', index, name='index'),
     # path('/search/category/', search_list, name='category')
     # others
-    # path("ckeditor/", include("ckeditor_uploader.urls")),
-    path('tinymce/', include('tinymce.urls')),
+    path('summernote/', include('django_summernote.urls')),
 ]
-
 
 
 if DEBUG:

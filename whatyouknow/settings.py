@@ -38,13 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # others
+    'django_summernote',
+    # 'tinymce',
+    # 'django_ckeditor_5',
+    # 'ckeditor_uploader',
+    'taggit',
     # apps
     'whatyouknow.profiles',
     'whatyouknow.blog',
-    # others
-    'tinymce',
-    # 'ckeditor_uploader',
-    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -135,4 +137,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'profiles.UserProfile'
 
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
+X_FRAME_OPTIONS = 'SAMEORIGIN'

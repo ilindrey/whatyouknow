@@ -1,7 +1,6 @@
 from django.db import models
 
-# from ckeditor.fields import RichTextField
-from tinymce.models import HTMLField
+from django_summernote.fields import SummernoteTextField
 from taggit.managers import TaggableManager
 
 from whatyouknow.profiles.models import UserProfile
@@ -34,12 +33,12 @@ class Post(models.Model):
         on_delete=models.PROTECT
         )
     date = models.DateTimeField()
-    category = models.IntegerField(null=False, blank=False, choices=CATEGORY_CHOICES)
-    title = models.CharField(null=True, blank=False, max_length=200)
-    text = HTMLField(null=True, blank=False)
+    category = models.IntegerField(choices=CATEGORY_CHOICES)
+    title = models.CharField(max_length=200)
+    text = SummernoteTextField()
     feed_cover = models.URLField(null=True, blank=True)
-    feed_article_preview = HTMLField(null=True, blank=True)
-    feed_read_more_button_name = models.CharField(null=True, blank=True, max_length=50, default='Read more')
+    feed_article_preview = SummernoteTextField(null=True, blank=True)
+    feed_read_more_button_name = models.CharField(max_length=50, default='Read more', null=True, blank=True)
     tags = TaggableManager()
 
     def __str__(self):

@@ -1,7 +1,7 @@
 django
 pillow
 python-decouple
-django-tinymce
+django-summernote
 django-taggit
 factory_boy
 mimesis
