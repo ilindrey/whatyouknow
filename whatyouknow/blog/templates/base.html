@@ -6,8 +6,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> <!-- Style setting -->
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
@@ -129,7 +132,7 @@
                         <div class="ui list">
                             <div class="item">
 
-                                <h1 class="ui header">{{ post.name }}</h1>
+                                <h1 class="ui header">{{ post.title }}</h1>
 
                                 {#                        <div class="ui hidden divided"></div>#}
 
@@ -146,7 +149,20 @@
                         </div>
                     </div>
                     <div class="row">
-                        <img src="{{ post.image.url }}" class="ui fluid image">
+{#                        <img src="{{ post.image.url }}" class="ui fluid image">#}
+{#                        <div class="ui text">#}
+                        <div>
+                            {% if post.feed_cover %}
+{#                                <img src="{{ post.feed_cover }}" class="ui massive image"/>#}
+                                {{ post.feed_cover|safe }}
+                            {% endif %}
+                            {% if post.feed_article_preview %}
+                                {{ post.feed_article_preview|safe }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="ui blue basic button">{{ post.feed_read_more_button_name }}</button>
                     </div>
 
                 </div>

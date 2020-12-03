@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     # apps
     'whatyouknow.profiles',
     'whatyouknow.blog',
+    'whatyouknow.summernote'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,52 @@ AUTH_USER_MODEL = 'profiles.UserProfile'
 
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        # 'width': 1366,
+        # 'height': 720,
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
+                      'strikethrough', 'clear']],
+            ['color', ['color']],
+            ['list', ['ul', 'ol']],
+            ['para', ['paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']],
+            ],
+        'popover': {
+            'image': [
+                ['custom', ['imageAttributes']],
+                ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                ['remove', ['removeMedia']],
+                ],
+            },
+        'imageAttributes': {
+            'icon': '<i class="note-icon-pencil"/>',
+            'figureClass': '',
+            'figcaptionClass': '',
+            'captionText': 'Caption Goes Here.',
+            'manageAspectRatio': True # true = Lock the Image Width/Height, Default to true
+            },
+        },
+    'js': (
+        '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
+        '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
+        ),
+    'css': (
+        '/static/css/styles.css',
+        ),
+    'js_for_inplace': (
+        '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
+        '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
+        ),
+    'css_for_inplace': (
+        '/static/css/styles.css',
+        ),
+    }
+
