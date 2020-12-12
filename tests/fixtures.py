@@ -1,6 +1,7 @@
-from .factories import CategoryFactory, PostFactory
+from .factories import PostFactory
 
 
 def make_objects():
-    CategoryFactory.create_batch(size=8)
-    PostFactory.create_batch(size=50)
+    # CategoryFactory.create_batch(size=8)
+    # UserProfileFactory.create_batch(size=20)
+    PostFactory.create_batch(size=16)

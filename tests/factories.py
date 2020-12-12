@@ -1,20 +1,22 @@
-from random import randint
+from random import randint, choice
 
-import faker
-from django.utils import timezone
+from django.utils.timezone import get_current_timezone_name
+
+from mimesis_factory import MimesisField
 
 from factory.django import DjangoModelFactory, ImageField
 from factory import (
     LazyAttribute,
-    Faker,
+    LazyFunction,
     PostGenerationMethodCall,
-    SubFactory,
-    post_generation,
-    Iterator,
-)
+    SubFactory, post_generation,
+    )
 
+from .lazy_functions_for_factories import get_category, get_post_params
 
-fake = faker.Faker()
+from whatyouknow.blog.models import CATEGORY_CHOICES
+
+# from .mimesis.providers.post import Post
 
 
 class UserProfileFactory(DjangoModelFactory):
@@ -22,60 +24,68 @@ class UserProfileFactory(DjangoModelFactory):
         model = "profiles.UserProfile"
         django_get_or_create = ("username",)
 
-    username = Faker("user_name")
+    username = MimesisField('username')
     password = PostGenerationMethodCall("set_password", "defaultpassword")
-    first_name = Faker("first_name")
-    last_name = Faker("last_name")
-    email = Faker("email")
+    first_name = MimesisField("first_name")
+    last_name = MimesisField("last_name")
+    email = MimesisField("email")
     is_staff = False
     is_active = True
     name = LazyAttribute(lambda obj: "{} {}".format(obj.first_name, obj.last_name))
-    website = Faker("url")
-    description = Faker("text")
+    website = MimesisField("home_page")
+    description = MimesisField("text", quantity=randint(1, 10))
     image = ImageField(color='gray', width=500, height=300)
 
 
-class CategoryFactory(DjangoModelFactory):
-    class Meta:
-        model = "blog.Category"
-        django_get_or_create = ("name",)
-
-    name = Iterator(
-        [
-            "Technology",
-            "Development",
-            "Administration",
-            "Design",
-            "Business",
-            "Management",
-            "Marketing",
-            "Popular science",
-        ]
-    )
-    order = Iterator([1, 2, 3, 4, 5, 6, 7, 8])
+# class CategoryFactory(DjangoModelFactory):
+#     class Meta:
+#         model = "blog.Category"
+#         django_get_or_create = ("name",)
+#
+#     name = Iterator(
+#         [
+#             "Technology",
+#             "Development",
+#             "Administration",
+#             "Design",
+#             "Business",
+#             "Management",
+#             "Marketing",
+#             "Popular science",
+#         ]
+#     )
+#     order = Iterator([1, 2, 3, 4, 5, 6, 7, 8])
 
 
 class PostFactory(DjangoModelFactory):
     class Meta:
         model = "blog.Post"
         django_get_or_create = (
-            "name",
+            "title",
             "user",
             "category",
         )
 
+    class Params:
+        param_list = LazyFunction(get_post_params)
+
     user = SubFactory(UserProfileFactory)
-    category = SubFactory(CategoryFactory)
-    name = Faker("sentence")
-    date = Faker(
-        "date_time_between",
-        start_date="-2y",
-        end_date="now",
-        tzinfo=timezone.get_current_timezone(),
+    date = MimesisField(
+        "datetime",
+        start=2018,
+        end=2021,
+        timezone=get_current_timezone_name(),
     )
-    image = ImageField(color='gray', width=4096, height=3072)
-    description = Faker("text", max_nb_chars=randint(1000, 100000))
+    category = LazyFunction(get_category)
+    title = MimesisField("title")
+    text = LazyAttribute(lambda o: o.param_list['text'])
+    feed_cover = LazyAttribute(lambda o: o.param_list['feed_cover'])
+    feed_cover_caption = LazyAttribute(lambda o: o.param_list['feed_cover_caption'])
+    feed_article_preview = LazyAttribute(lambda o: o.param_list['feed_article_preview'])
+    feed_read_more_button_name = LazyAttribute(lambda o: o.param_list['feed_read_more_button_name'])
 
     @post_generation
     def post_tags(self, create, extracted, **kwargs):
-        self.tags.add(*fake.words(nb=randint(1, 10)))
+        from mimesis.providers.text import Text
+        prov = Text()
+        self.tags.add(*prov.words(quantity=randint(1, 10)))
