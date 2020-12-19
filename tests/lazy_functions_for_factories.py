@@ -1,3 +1,4 @@
+import json
 from random import randint, choice
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
@@ -211,3 +212,19 @@ def get_post_params():
         'feed_article_preview': feed_article_preview,
         'feed_read_more_button_name': feed_read_more_button_name
         }
+
+
+def get_tags(index_category):
+
+    category = CATEGORY_CHOICES[index_category][1]
+
+    with open('./tests/tags.json', 'r') as file:
+        data = json.load(file)
+        tag_set = data[category]
+    i = 0
+    lenght = randint(1,7)
+    tag_list = []
+    while i <= lenght:
+        tag_list.append(choice(tag_set))
+        i += 1
+    return tag_list

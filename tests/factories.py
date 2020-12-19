@@ -12,7 +12,7 @@ from factory import (
     SubFactory, post_generation,
     )
 
-from .lazy_functions_for_factories import get_category, get_post_params
+from .lazy_functions_for_factories import get_category, get_post_params, get_tags
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
 
@@ -86,6 +86,4 @@ class PostFactory(DjangoModelFactory):
 
     @post_generation
     def post_tags(self, create, extracted, **kwargs):
-        from mimesis.providers.text import Text
-        prov = Text()
-        self.tags.add(*prov.words(quantity=randint(1, 10)))
+        self.tags.add(*get_tags(self.category))
