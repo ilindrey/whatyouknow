@@ -17,13 +17,13 @@ from whatyouknow.profiles.models import UserProfile
 #         verbose_name_plural = "Categories"
 
 CATEGORY_CHOICES = (
-    (1, "Development"),
-    (2, "Administrating"),
-    (3, "Design"),
-    (4, "Business"),
-    (5, "Management"),
-    (6, "Marketing"),
-    (7, "Popular science"),)
+    (0, "Development"),
+    (1, "Administrating"),
+    (2, "Design"),
+    (3, "Business"),
+    (4, "Management"),
+    (5, "Marketing"),
+    (6, "Popular science"),)
 
 
 class Post(models.Model):
@@ -37,8 +37,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = SummernoteTextField()
     feed_cover = models.URLField(null=True, blank=True)
+    feed_cover_caption = models.CharField(max_length=200, null=True, blank=True)
     feed_article_preview = SummernoteTextField(null=True, blank=True)
-    feed_read_more_button_name = models.CharField(max_length=50, default='Read more', null=True, blank=True)
+    feed_read_more_button_name = models.CharField(max_length=100, default='Read more', null=True, blank=True)
     tags = TaggableManager()
 
     def __str__(self):

@@ -141,7 +141,7 @@
 {#                                <div class="ui tag labels">#}
                                     {% for tag in tags %}
                                         {% if tag.post_id == post.pk %}
-                                            <a href="#" >{{ tag.name }}</a>
+                                            <a href="#" class="ui basic label">{{ tag.name }}</a>
                                         {% endif %}
                                     {% endfor %}
 {#                                </div>#}
@@ -153,8 +153,19 @@
 {#                        <div class="ui text">#}
                         <div>
                             {% if post.feed_cover %}
-{#                                <img src="{{ post.feed_cover }}" class="ui massive image"/>#}
-                                {{ post.feed_cover|safe }}
+
+                                {% if post.feed_cover_caption %}
+                                    <div align="center">
+                                        <figure class="">
+                                            <img style="width: 50%;" src="{{ post.feed_cover }}">
+    {#                                        <img src="{{ post.feed_cover }}" class="ui massive image"/>#}
+                                        <figcaption class=""><i>{{ post.feed_cover_caption }}</i></figcaption>
+                                        </figure>
+                                    </div>
+                                {% else %}
+                                    <p align="center"><img style="width: 50%;" src="{{ post.feed_cover }}"></p>
+                                {% endif %}
+
                             {% endif %}
                             {% if post.feed_article_preview %}
                                 {{ post.feed_article_preview|safe }}

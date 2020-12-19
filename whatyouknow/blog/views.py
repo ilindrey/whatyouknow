@@ -3,15 +3,15 @@ from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import F
 
-from .models import Category, Post
+from .models import Post, CATEGORY_CHOICES
 
 
 def index(request):
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
     posts = Post.objects.all().order_by('-date')[:10]
     tags = Post.objects.values(post_id=F('id')).values('post_id', name=F('tags__name'))
     context = {
-        'categories': categories,
+        # 'categories': categories,
         'posts': posts,
         'tags': tags
         }
