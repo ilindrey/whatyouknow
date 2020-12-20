@@ -13,7 +13,8 @@ def index(request):
     context = {
         # 'categories': categories,
         'posts': posts,
-        'tags': tags
+        'tags': tags,
+        'categories': CATEGORY_CHOICES
         }
     return render(request, 'base.html', context)
 

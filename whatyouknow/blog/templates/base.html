@@ -19,29 +19,13 @@
 </head>
 <body>
 
-<div class="ui black inverted secondary mini menu">
+<div class="ui inverted vertical masthead center aligned segment">
+    <div class="ui container">
+        <div class="ui black inverted secondary mini menu">
+<div class="center aligned menu">
+        <div class="fluid item">
 
-    {#            <div class="item">#}
-    <a class="item">
-        my tape
-    </a>
-    <a class="active item">
-        all streams
-    </a>
-
-    {% for category in categories %}
-        <a class="item">
-            {#                        <button class="ui primary tertiary button">#}
-            {{ category.name|lower }}
-            {#                        </button>#}
-        </a>
-    {% endfor %}
-    {#            </div>#}
-    <div class="right menu">
-
-        <div class="item">
-
-            <div class="ui tiny search">
+            <div class="ui fluid search">
                 <div class="ui icon input">
                     <input class="prompt" type="text" placeholder="Search countries...">
                     <i class="search icon"></i>
@@ -49,6 +33,9 @@
                 <div class="results"></div>
             </div>
         </div>
+</div>
+    <div class="right menu">
+
         <div class="item">
 
             <button class="circular ui icon black button">
@@ -98,6 +85,8 @@
         </div>
     </div>
 </div>
+    </div>
+</div>
 
 <div class="ui hidden divider"></div>
 
@@ -105,6 +94,21 @@
 
     {#        <div class="eight wide centered column">#}
     <div class="twelve wide column">
+
+            <div class="ui black secondary mini menu ">
+                <a class="item">
+                    my choice
+                </a>
+                <a class="active item">
+                    all posts
+                </a>
+
+                {% for index, name in categories %}
+                    <a class="item">
+                        {{ name|lower }}
+                    </a>
+                {% endfor %}
+            </div>
 
         <div class="ui segment">
             {#            <div class="ui left rail">#}
@@ -118,7 +122,7 @@
                         {#                            <div class="item">#}
 
                         <a class="ui primary horizontal label">{{ post.user.name }} (@{{ post.user.username }})</a>
-                        <label>{{ post.date }}</label>
+                        <label>{{ post.date|date:"F d, Y \a\t h:i A" }}</label>
                         {#                            </div>#}
                         {#                            <div class="item">#}
                         {#                            </div>#}
@@ -157,13 +161,16 @@
                                 {% if post.feed_cover_caption %}
                                     <div align="center">
                                         <figure class="">
-                                            <img style="width: 50%;" src="{{ post.feed_cover }}">
-    {#                                        <img src="{{ post.feed_cover }}" class="ui massive image"/>#}
+{#                                            <img style="width: 50%;" src="{{ post.feed_cover }}">#}
+                                            <img src="{{ post.feed_cover }}" class="ui image"/>
                                         <figcaption class=""><i>{{ post.feed_cover_caption }}</i></figcaption>
                                         </figure>
                                     </div>
                                 {% else %}
-                                    <p align="center"><img style="width: 50%;" src="{{ post.feed_cover }}"></p>
+                                    <p align="center">
+{#                                        <img style="width: 50%;" src="{{ post.feed_cover }}">#}
+                                        <img src="{{ post.feed_cover }}" class="ui image"/>
+                                    </p>
                                 {% endif %}
 
                             {% endif %}
@@ -187,9 +194,9 @@
     <div class="four wide column">
         <div class="ui segment">
             <div class="ui list">
-                {% for category in categories %}
+                {% for index, name in categories %}
                     <div class="item">
-                        <button class="ui primary tertiary button">{{ category.name }}</button>
+                        <button class="ui primary tertiary button">{{ name }}</button>
                     </div>
                 {% endfor %}
             </div>
