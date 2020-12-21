@@ -19,72 +19,75 @@
 </head>
 <body>
 
-<div class="ui inverted vertical masthead center aligned segment">
+<div class="ui inverted vertical center aligned segment">
     <div class="ui container">
-        <div class="ui black inverted secondary mini menu">
-<div class="center aligned menu">
-        <div class="fluid item">
-
-            <div class="ui fluid search">
-                <div class="ui icon input">
-                    <input class="prompt" type="text" placeholder="Search countries...">
-                    <i class="search icon"></i>
-                </div>
-                <div class="results"></div>
+        <div class="ui black inverted secondary  menu">
+            <div class="item">
+                <img src="{% static 'images/logo/logo-transp-bg.svg' %}" class="ui medium image">
             </div>
-        </div>
-</div>
-    <div class="right menu">
+            <div class="center aligned menu">
+                <div class="fluid item">
 
-        <div class="item">
+                    <div class="ui fluid search">
+                        <div class="ui fluid icon input">
+                            <input class="prompt" type="text" placeholder="Search countries..." class="fluid">
+                            <i class="search icon"></i>
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right menu">
 
-            <button class="circular ui icon black button">
-                <i class="bell icon"></i>
-            </button>
-        </div>
-        <div class="item">
+                <div class="item">
 
-            <button class="circular ui icon black button">
-                <i class="pencil icon"></i>
-            </button>
-        </div>
-
-        <div class="item">
-
-
-            <div class="ui inline dropdown">
-                <div class="text">
-
-                    <button class="ui tertiary blue button">
-                        <i class="ui circular inverted user blue icon"></i>
-                        Scronullik
-                        <i class="ui dropdown icon"></i>
+                    <button class="circular ui icon black button">
+                        <i class="bell icon"></i>
                     </button>
                 </div>
-                <div class="menu">
-                    {#                                                        <div class="item">#}
-                    {#                                                        <div class="row"></div>#}
+                <div class="item">
 
-                    {#                            <div class="sub header">#}
-                    {#                                <i class="ui circular inverted user blue large icon"></i> Scronullik#}
-                    {#                            </div>#}
-                    {#                                                        </div>#}
-                    {#                            <div class="ui divider"></div>#}
-                    <div class="item">
-                        <i class="user icon"></i>
-                        <span>Profile</span>
+                    <button class="circular ui icon black button">
+                        <i class="pencil icon"></i>
+                    </button>
+                </div>
+
+                <div class="item">
+
+
+                    <div class="ui inline dropdown">
+                        <div class="text">
+
+                            <button class="ui tertiary blue button">
+                                <i class="ui circular inverted user blue icon"></i>
+{#                                Scronullik#}
+                                <i class="ui dropdown icon"></i>
+                            </button>
+                        </div>
+                        <div class="menu">
+                            {#                                                        <div class="item">#}
+                            {#                                                        <div class="row"></div>#}
+
+                            {#                            <div class="sub header">#}
+                            {#                                <i class="ui circular inverted user blue large icon"></i> Scronullik#}
+                            {#                            </div>#}
+                            {#                                                        </div>#}
+                            {#                            <div class="ui divider"></div>#}
+                            <div class="item">
+                                <i class="user icon"></i>
+                                <span>Profile</span>
+                            </div>
+                            <div class="item">
+                                <i class="sign out icon"></i>
+                                <span>Sign out</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item">
-                        <i class="sign out icon"></i>
-                        <span>Sign out</span>
-                    </div>
+
+
                 </div>
             </div>
-
-
         </div>
-    </div>
-</div>
     </div>
 </div>
 
