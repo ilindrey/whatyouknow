@@ -5,9 +5,12 @@ __pycache__
 
 .env
 
+node_modules/
 venv/
-media/
 
 /staticfiles/
+
+media/
+
 
 db.sqlite3

@@ -1,0 +1,11 @@
+{
+  "name": "whatyouknow",
+  "version": "1.0.0",
+  "repository": "git@github.com:Scronullik/whatyouknow.git",
+  "author": "Andrey Ilin <andreyilin@fastmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fomantic-ui": "^2.8.7",
+    "gulp": "^4.0.2"
+  }
+}
