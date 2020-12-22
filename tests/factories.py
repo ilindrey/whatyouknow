@@ -12,11 +12,9 @@ from factory import (
     SubFactory, post_generation,
     )
 
-from .lazy_functions_for_factories import get_category, get_post_params, get_tags
+from .lazy_functions import get_category, get_post_params, get_tags
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
-
-# from .mimesis.providers.post import Post
 
 
 class UserProfileFactory(DjangoModelFactory):
