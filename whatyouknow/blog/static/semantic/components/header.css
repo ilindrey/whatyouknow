@@ -19,7 +19,7 @@
   border: none;
   margin: calc(2rem - 0.1428571428571429em) 0 1rem;
   padding: 0 0;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: bold;
   line-height: 1.28571429em;
   text-transform: none;
@@ -356,13 +356,13 @@ a.ui.primary.header:hover {
   border-bottom: 2px solid #C850C0;
 }
 .ui.inverted.primary.header.header.header {
-  color: #54C8FF;
+  color: #DC73FF;
 }
 a.ui.inverted.primary.header.header.header:hover {
-  color: #21b8ff;
+  color: #cf40ff;
 }
 .ui.inverted.primary.dividing.header {
-  border-bottom: 2px solid #54C8FF;
+  border-bottom: 2px solid #DC73FF;
 }
 .ui.secondary.header {
   color: #282828;

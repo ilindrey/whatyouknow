@@ -8,7 +8,7 @@
        Fonts
 --------------------*/
 
-@fontName          : 'Lato';
+@fontName          : 'Open Sans';
 
 @headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 @pageFont          : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -634,8 +634,8 @@
 --------------------*/
 
 /* For source only. Modified in gulp for dist */
-@imagePath : '../../themes/default/assets/images';
-@fontPath  : '../../themes/default/assets/fonts';
+@imagePath : '../../themes/whatyouknow/assets/images';
+@fontPath  : '../../themes/whatyouknow/assets/fonts';
 
 /*-------------------
        Em Sizes

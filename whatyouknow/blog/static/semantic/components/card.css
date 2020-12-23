@@ -170,7 +170,7 @@
 .ui.card > .content > .header {
   display: block;
   margin: '';
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   color: rgba(0, 0, 0, 0.85);
 }
 
@@ -574,14 +574,14 @@ a.ui.card:hover,
 .ui.inverted.primary.cards > .card,
 .ui.inverted.cards > .primary.card,
 .ui.inverted.primary.card {
-  -webkit-box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #54C8FF, 0 0 0 1px #555555;
-          box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #54C8FF, 0 0 0 1px #555555;
+  -webkit-box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #DC73FF, 0 0 0 1px #555555;
+          box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #DC73FF, 0 0 0 1px #555555;
 }
 .ui.inverted.primary.cards > .card:hover,
 .ui.inverted.cards > .primary.card:hover,
 .ui.inverted.primary.card:hover {
-  -webkit-box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #21b8ff, 0 0 0 1px #555555;
-          box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #21b8ff, 0 0 0 1px #555555;
+  -webkit-box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #cf40ff, 0 0 0 1px #555555;
+          box-shadow: 0 1px 3px 0 #555555, 0 2px 0 0 #cf40ff, 0 0 0 1px #555555;
 }
 .ui.secondary.cards > .card,
 .ui.cards > .secondary.card,

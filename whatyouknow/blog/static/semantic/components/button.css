@@ -22,7 +22,7 @@
   vertical-align: baseline;
   background: #E0E1E2 none;
   color: rgba(0, 0, 0, 0.6);
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0 0.25em 0 0;
   padding: 0.78571429em 1.5em 0.78571429em;
   text-transform: none;
@@ -1418,9 +1418,9 @@
 .ui.inverted.primary.buttons .button,
 .ui.inverted.primary.button {
   background-color: transparent;
-  -webkit-box-shadow: 0 0 0 2px #54C8FF inset;
-          box-shadow: 0 0 0 2px #54C8FF inset;
-  color: #54C8FF;
+  -webkit-box-shadow: 0 0 0 2px #DC73FF inset;
+          box-shadow: 0 0 0 2px #DC73FF inset;
+  color: #DC73FF;
 }
 .ui.inverted.primary.buttons .button:hover,
 .ui.inverted.primary.button:hover,
@@ -1436,19 +1436,19 @@
 }
 .ui.inverted.primary.buttons .button:hover,
 .ui.inverted.primary.button:hover {
-  background-color: #21b8ff;
+  background-color: #cf40ff;
 }
 .ui.inverted.primary.buttons .button:focus,
 .ui.inverted.primary.button:focus {
-  background-color: #2bbbff;
+  background-color: #d24aff;
 }
 .ui.inverted.primary.buttons .active.button,
 .ui.inverted.primary.active.button {
-  background-color: #3ac0ff;
+  background-color: #d65aff;
 }
 .ui.inverted.primary.buttons .button:active,
 .ui.inverted.primary.button:active {
-  background-color: #21b8ff;
+  background-color: #cf40ff;
 }
 
 /* Inverted Basic */
@@ -1463,30 +1463,30 @@
 .ui.inverted.primary.basic.buttons .button:hover,
 .ui.inverted.primary.buttons .basic.button:hover,
 .ui.inverted.primary.basic.button:hover {
-  -webkit-box-shadow: 0 0 0 2px #21b8ff inset;
-          box-shadow: 0 0 0 2px #21b8ff inset;
-  color: #54C8FF;
+  -webkit-box-shadow: 0 0 0 2px #cf40ff inset;
+          box-shadow: 0 0 0 2px #cf40ff inset;
+  color: #DC73FF;
 }
 .ui.inverted.primary.basic.buttons .button:focus,
 .ui.inverted.primary.basic.buttons .button:focus,
 .ui.inverted.primary.basic.button:focus {
-  -webkit-box-shadow: 0 0 0 2px #2bbbff inset;
-          box-shadow: 0 0 0 2px #2bbbff inset;
-  color: #54C8FF;
+  -webkit-box-shadow: 0 0 0 2px #d24aff inset;
+          box-shadow: 0 0 0 2px #d24aff inset;
+  color: #DC73FF;
 }
 .ui.inverted.primary.basic.buttons .active.button,
 .ui.inverted.primary.buttons .basic.active.button,
 .ui.inverted.primary.basic.active.button {
-  -webkit-box-shadow: 0 0 0 2px #3ac0ff inset;
-          box-shadow: 0 0 0 2px #3ac0ff inset;
-  color: #54C8FF;
+  -webkit-box-shadow: 0 0 0 2px #d65aff inset;
+          box-shadow: 0 0 0 2px #d65aff inset;
+  color: #DC73FF;
 }
 .ui.inverted.primary.basic.buttons .button:active,
 .ui.inverted.primary.buttons .basic.button:active,
 .ui.inverted.primary.basic.button:active {
-  -webkit-box-shadow: 0 0 0 2px #21b8ff inset;
-          box-shadow: 0 0 0 2px #21b8ff inset;
-  color: #54C8FF;
+  -webkit-box-shadow: 0 0 0 2px #cf40ff inset;
+          box-shadow: 0 0 0 2px #cf40ff inset;
+  color: #DC73FF;
 }
 
 /* Tertiary */
