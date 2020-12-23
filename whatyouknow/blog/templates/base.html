@@ -20,99 +20,100 @@
 </head>
 <body>
 
-<div class="ui inverted vertical center aligned segment">
+<div class="ui black inverted secondary menu">
     <div class="ui container">
-        <div class="ui black inverted secondary  menu">
+        <div class="item">
+            <a href="{% url 'index' %}" class="ui medium image">
+                <img src="{% static 'images/logo/logo-transp-bg.svg' %}">
+            </a>
+        </div>
+        {#            <div class="center aligned menu">#}
+        {#                <div class="item">#}
+
+        {#                    <div class="ui fluid search" style="min-width: 150px; width: 810px;">#}
+        {#                        <div class="ui fluid icon input">#}
+        {#                            <input class="prompt" type="text" placeholder="Search countries...">#}
+        {#                            <i class="search icon"></i>#}
+        {#                        </div>#}
+        {#                        <div class="results"></div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        <div class="right menu">
+
             <div class="item">
-                <img src="{% static 'images/logo/logo-transp-bg.svg' %}" class="ui medium image">
-            </div>
-            <div class="center aligned menu">
-                <div class="fluid item">
 
-                    <div class="ui fluid search">
-                        <div class="ui fluid icon input">
-                            <input class="prompt" type="text" placeholder="Search countries..." class="fluid">
-                            <i class="search icon"></i>
+                <i class="search circular inverted link large icon"></i>
+                {#                    <button class="circular ui icon black button">#}
+                {#                    <i class="bell icon"></i>#}
+                {#                    </button>#}
+                <i class="bell circular inverted link large icon"></i>
+                {#                </div>#}
+                {#                <div class="item">#}
+
+                {#                    <button class="circular ui icon black button">#}
+                {#                        <a class="pencil icon"></a>#}
+                {#                    </button>#}
+                <i class="pencil circular inverted link large icon"></i>
+                {#                </div>#}
+                {##}
+                {#                <div class="item">#}
+
+
+                <div class="ui inline dropdown">
+                    <div class="text">
+
+                        <button class="ui tertiary blue button">
+                            <i class="ui circular inverted user blue icon"></i>
+                            {#                                Scronullik#}
+                            <i class="ui dropdown icon"></i>
+                        </button>
+                    </div>
+                    <div class="menu">
+                        <div class="item">
+                            <i class="user icon"></i>
+                            <span>Profile</span>
                         </div>
-                        <div class="results"></div>
+                        <div class="item">
+                            <i class="sign out icon"></i>
+                            <span>Sign out</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="right menu">
-
-                <div class="item">
-
-                    <button class="circular ui icon black button">
-                        <i class="bell icon"></i>
-                    </button>
-                </div>
-                <div class="item">
-
-                    <button class="circular ui icon black button">
-                        <i class="pencil icon"></i>
-                    </button>
-                </div>
-
-                <div class="item">
 
 
-                    <div class="ui inline dropdown">
-                        <div class="text">
-
-                            <button class="ui tertiary blue button">
-                                <i class="ui circular inverted user blue icon"></i>
-{#                                Scronullik#}
-                                <i class="ui dropdown icon"></i>
-                            </button>
-                        </div>
-                        <div class="menu">
-                            {#                                                        <div class="item">#}
-                            {#                                                        <div class="row"></div>#}
-
-                            {#                            <div class="sub header">#}
-                            {#                                <i class="ui circular inverted user blue large icon"></i> Scronullik#}
-                            {#                            </div>#}
-                            {#                                                        </div>#}
-                            {#                            <div class="ui divider"></div>#}
-                            <div class="item">
-                                <i class="user icon"></i>
-                                <span>Profile</span>
-                            </div>
-                            <div class="item">
-                                <i class="sign out icon"></i>
-                                <span>Sign out</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="ui hidden divider"></div>
+<div class="ui ui vertical stripe basic segment">
+
+    <div class="ui container">
+
+        <div class="ui black secondary pointing menu">
+            <a class="item">
+                my choices
+            </a>
+            <a class="active item">
+                all posts
+            </a>
+
+            {% for index, name in categories %}
+                <a class="item">
+                    {{ name|lower }}
+                </a>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
 
 <div class="ui grid container">
 
     {#        <div class="eight wide centered column">#}
     <div class="twelve wide column">
-
-            <div class="ui black secondary mini menu ">
-                <a class="item">
-                    my choice
-                </a>
-                <a class="active item">
-                    all posts
-                </a>
-
-                {% for index, name in categories %}
-                    <a class="item">
-                        {{ name|lower }}
-                    </a>
-                {% endfor %}
-            </div>
 
         <div class="ui segment">
             {#            <div class="ui left rail">#}
@@ -208,8 +209,6 @@
     </div>
 </div>
 
-{#    </div>#}
-{#</div>#}
 </div>
 
 
