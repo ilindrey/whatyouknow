@@ -1241,7 +1241,7 @@ Floated Menu / Item
 .ui.icon.menu .item {
   height: auto;
   text-align: center;
-  color: #1B1C1D;
+  color: #282828;
 }
 
 /* Icon */
@@ -1366,7 +1366,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .primary.active.item,
 .ui.ui.primary.menu .active.item:hover,
 .ui.ui.primary.menu .active.item {
-  color: #2185D0;
+  color: #C850C0;
 }
 .ui.ui.ui.menu .red.active.item,
 .ui.ui.red.menu .active.item:hover,
@@ -1381,7 +1381,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .yellow.active.item,
 .ui.ui.yellow.menu .active.item:hover,
 .ui.ui.yellow.menu .active.item {
-  color: #FBBD08;
+  color: #FFCC70;
 }
 .ui.ui.ui.menu .olive.active.item,
 .ui.ui.olive.menu .active.item:hover,
@@ -1401,7 +1401,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .blue.active.item,
 .ui.ui.blue.menu .active.item:hover,
 .ui.ui.blue.menu .active.item {
-  color: #2185D0;
+  color: #4158D0;
 }
 .ui.ui.ui.menu .violet.active.item,
 .ui.ui.violet.menu .active.item:hover,
@@ -1411,7 +1411,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .purple.active.item,
 .ui.ui.purple.menu .active.item:hover,
 .ui.ui.purple.menu .active.item {
-  color: #A333C8;
+  color: #C850C0;
 }
 .ui.ui.ui.menu .pink.active.item,
 .ui.ui.pink.menu .active.item:hover,
@@ -1431,7 +1431,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .black.active.item,
 .ui.ui.black.menu .active.item:hover,
 .ui.ui.black.menu .active.item {
-  color: #1B1C1D;
+  color: #282828;
 }
 
 /*--------------
@@ -1440,7 +1440,7 @@ Floated Menu / Item
 
 .ui.inverted.menu {
   border: 0 solid transparent;
-  background: #1B1C1D;
+  background: #282828;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -1556,7 +1556,7 @@ Floated Menu / Item
 
 .ui.ui.ui.inverted.menu .primary.active.item,
 .ui.ui.inverted.primary.menu {
-  background-color: #2185D0;
+  background-color: #C850C0;
 }
 .ui.inverted.primary.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1565,7 +1565,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.primary.menu .active.item {
-  background-color: #1678c2;
+  background-color: #c836bf;
 }
 .ui.ui.ui.inverted.menu .red.active.item,
 .ui.ui.inverted.red.menu {
@@ -1595,7 +1595,7 @@ Floated Menu / Item
 }
 .ui.ui.ui.inverted.menu .yellow.active.item,
 .ui.ui.inverted.yellow.menu {
-  background-color: #FBBD08;
+  background-color: #FFCC70;
 }
 .ui.inverted.yellow.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1604,7 +1604,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.yellow.menu .active.item {
-  background-color: #eaae00;
+  background-color: #ffc357;
 }
 .ui.ui.ui.inverted.menu .olive.active.item,
 .ui.ui.inverted.olive.menu {
@@ -1647,7 +1647,7 @@ Floated Menu / Item
 }
 .ui.ui.ui.inverted.menu .blue.active.item,
 .ui.ui.inverted.blue.menu {
-  background-color: #2185D0;
+  background-color: #4158D0;
 }
 .ui.inverted.blue.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1656,7 +1656,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.blue.menu .active.item {
-  background-color: #1678c2;
+  background-color: #2a44ce;
 }
 .ui.ui.ui.inverted.menu .violet.active.item,
 .ui.ui.inverted.violet.menu {
@@ -1673,7 +1673,7 @@ Floated Menu / Item
 }
 .ui.ui.ui.inverted.menu .purple.active.item,
 .ui.ui.inverted.purple.menu {
-  background-color: #A333C8;
+  background-color: #C850C0;
 }
 .ui.inverted.purple.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1682,7 +1682,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.purple.menu .active.item {
-  background-color: #9627ba;
+  background-color: #c836bf;
 }
 .ui.ui.ui.inverted.menu .pink.active.item,
 .ui.ui.inverted.pink.menu {
@@ -1725,7 +1725,7 @@ Floated Menu / Item
 }
 .ui.ui.ui.inverted.menu .black.active.item,
 .ui.ui.inverted.black.menu {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 .ui.inverted.black.menu .item:before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1734,7 +1734,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.black.menu .active.item {
-  background-color: #27292a;
+  background-color: #353535;
 }
 .ui.ui.ui.inverted.pointing.menu .active.item:after {
   background-color: inherit;
@@ -2006,10 +2006,10 @@ Floated Menu / Item
   background-color: #FFFFFF;
 }
 .ui.inverted.pointing.menu .primary.active.item:after {
-  background-color: #2185D0;
+  background-color: #C850C0;
 }
 .ui.inverted.pointing.menu .secondary.active.item:after {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 .ui.inverted.pointing.menu .red.active.item:after {
   background-color: #DB2828;
@@ -2018,7 +2018,7 @@ Floated Menu / Item
   background-color: #F2711C;
 }
 .ui.inverted.pointing.menu .yellow.active.item:after {
-  background-color: #FBBD08;
+  background-color: #FFCC70;
 }
 .ui.inverted.pointing.menu .olive.active.item:after {
   background-color: #B5CC18;
@@ -2030,13 +2030,13 @@ Floated Menu / Item
   background-color: #00B5AD;
 }
 .ui.inverted.pointing.menu .blue.active.item:after {
-  background-color: #2185D0;
+  background-color: #4158D0;
 }
 .ui.inverted.pointing.menu .violet.active.item:after {
   background-color: #6435C9;
 }
 .ui.inverted.pointing.menu .purple.active.item:after {
-  background-color: #A333C8;
+  background-color: #C850C0;
 }
 .ui.inverted.pointing.menu .pink.active.item:after {
   background-color: #E03997;
@@ -2048,7 +2048,7 @@ Floated Menu / Item
   background-color: #767676;
 }
 .ui.inverted.pointing.menu .black.active.item:after {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 
 /*--------------
@@ -2190,7 +2190,7 @@ Floated Menu / Item
 --------------------*/
 
 .ui.menu .ui.inverted.inverted.dropdown.item .menu {
-  background: #1B1C1D;
+  background: #282828;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -2215,6 +2215,12 @@ Floated Menu / Item
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

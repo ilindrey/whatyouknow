@@ -386,7 +386,7 @@
   background: #888888;
 }
 .ui.inverted.progress .bar > .progress {
-  color: #1B1C1D;
+  color: #282828;
 }
 .ui.inverted.progress > .label {
   color: #FFFFFF;
@@ -457,7 +457,7 @@
 .ui.indeterminate.primary.progress .bar::before,
 .ui.primary.progress .bar,
 .ui.progress .primary.bar {
-  background-color: #2185D0;
+  background-color: #C850C0;
 }
 .ui.inverted.indeterminate.primary.progress .bar::before,
 .ui.primary.inverted.progress .bar,
@@ -467,7 +467,7 @@
 .ui.indeterminate.secondary.progress .bar::before,
 .ui.secondary.progress .bar,
 .ui.progress .secondary.bar {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 .ui.inverted.indeterminate.secondary.progress .bar::before,
 .ui.secondary.inverted.progress .bar,
@@ -497,7 +497,7 @@
 .ui.indeterminate.yellow.progress .bar::before,
 .ui.yellow.progress .bar,
 .ui.progress .yellow.bar {
-  background-color: #FBBD08;
+  background-color: #FFCC70;
 }
 .ui.inverted.indeterminate.yellow.progress .bar::before,
 .ui.yellow.inverted.progress .bar,
@@ -537,7 +537,7 @@
 .ui.indeterminate.blue.progress .bar::before,
 .ui.blue.progress .bar,
 .ui.progress .blue.bar {
-  background-color: #2185D0;
+  background-color: #4158D0;
 }
 .ui.inverted.indeterminate.blue.progress .bar::before,
 .ui.blue.inverted.progress .bar,
@@ -557,7 +557,7 @@
 .ui.indeterminate.purple.progress .bar::before,
 .ui.purple.progress .bar,
 .ui.progress .purple.bar {
-  background-color: #A333C8;
+  background-color: #C850C0;
 }
 .ui.inverted.indeterminate.purple.progress .bar::before,
 .ui.purple.inverted.progress .bar,
@@ -597,7 +597,7 @@
 .ui.indeterminate.black.progress .bar::before,
 .ui.black.progress .bar,
 .ui.progress .black.bar {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 .ui.inverted.indeterminate.black.progress .bar::before,
 .ui.black.inverted.progress .bar,
@@ -716,7 +716,7 @@
 }
 .ui.sliding.indeterminate.progress .bar .progress,
 .ui.swinging.indeterminate.progress .bar .progress {
-  color: #1B1C1D;
+  color: #282828;
 }
 .ui.inverted.sliding.indeterminate.progress .bar,
 .ui.inverted.swinging.indeterminate.progress .bar,
@@ -835,6 +835,12 @@
     opacity: 0;
   }
 }
+
+
+/*******************************
+            Progress
+*******************************/
+
 
 
 /*******************************

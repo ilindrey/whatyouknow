@@ -263,7 +263,7 @@
   --------------------*/
 
 .ui.inverted.comments .comment {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 .ui.inverted.comments .comment .author,
 .ui.inverted.comments .comment .text {
@@ -282,6 +282,12 @@
   -webkit-box-shadow: -1px 0 0 #555555;
           box-shadow: -1px 0 0 #555555;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

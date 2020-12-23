@@ -1332,13 +1332,13 @@
 .ui.grid > .primary.row,
 .ui.grid > .primary.column,
 .ui.grid > .row > .primary.column {
-  background-color: #2185D0;
+  background-color: #C850C0;
   color: #FFFFFF;
 }
 .ui.grid > .secondary.row,
 .ui.grid > .secondary.column,
 .ui.grid > .row > .secondary.column {
-  background-color: #1B1C1D;
+  background-color: #282828;
   color: #FFFFFF;
 }
 .ui.grid > .red.row,
@@ -1356,7 +1356,7 @@
 .ui.grid > .yellow.row,
 .ui.grid > .yellow.column,
 .ui.grid > .row > .yellow.column {
-  background-color: #FBBD08;
+  background-color: #FFCC70;
   color: #FFFFFF;
 }
 .ui.grid > .olive.row,
@@ -1380,7 +1380,7 @@
 .ui.grid > .blue.row,
 .ui.grid > .blue.column,
 .ui.grid > .row > .blue.column {
-  background-color: #2185D0;
+  background-color: #4158D0;
   color: #FFFFFF;
 }
 .ui.grid > .violet.row,
@@ -1392,7 +1392,7 @@
 .ui.grid > .purple.row,
 .ui.grid > .purple.column,
 .ui.grid > .row > .purple.column {
-  background-color: #A333C8;
+  background-color: #C850C0;
   color: #FFFFFF;
 }
 .ui.grid > .pink.row,
@@ -1416,7 +1416,7 @@
 .ui.grid > .black.row,
 .ui.grid > .black.column,
 .ui.grid > .row > .black.column {
-  background-color: #1B1C1D;
+  background-color: #282828;
   color: #FFFFFF;
 }
 
@@ -2067,6 +2067,12 @@
 .ui[class*="very compact"][class*="very relaxed"].celled.grid > .row > .column {
   padding: 0.5em;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

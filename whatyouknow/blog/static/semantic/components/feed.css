@@ -302,7 +302,7 @@
   -------------------*/
 
 .ui.inverted.feed > .event {
-  background: #1B1C1D;
+  background: #282828;
 }
 .ui.inverted.feed > .event > .content .date,
 .ui.inverted.feed > .event > .content .meta .like {
@@ -315,6 +315,12 @@
 .ui.inverted.feed > .event > .content .meta .like:hover {
   color: #ffffff;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

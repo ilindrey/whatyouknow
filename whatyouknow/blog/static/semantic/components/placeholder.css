@@ -201,7 +201,7 @@
 .ui.inverted.placeholder .image.header:after,
 .ui.inverted.placeholder .line,
 .ui.inverted.placeholder .line:after {
-  background-color: #1B1C1D;
+  background-color: #282828;
 }
 
 
@@ -240,6 +240,12 @@
 .ui.fluid.placeholder {
   max-width: none;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

@@ -231,12 +231,12 @@
 
 /* Arrow Position */
 [data-tooltip][data-inverted]:before {
-  background: #1B1C1D;
+  background: #282828;
 }
 
 /* Popup  */
 [data-tooltip][data-inverted]:after {
-  background: #1B1C1D;
+  background: #282828;
   color: #FFFFFF;
   border: none;
   -webkit-box-shadow: none;
@@ -401,22 +401,22 @@
 
 /* Inverted Arrow Color */
 [data-inverted][data-position~="bottom"][data-tooltip]:before {
-  background: #1B1C1D;
+  background: #282828;
   -webkit-box-shadow: -1px -1px 0 0 #bababc;
           box-shadow: -1px -1px 0 0 #bababc;
 }
 [data-inverted][data-position="left center"][data-tooltip]:before {
-  background: #1B1C1D;
+  background: #282828;
   -webkit-box-shadow: 1px -1px 0 0 #bababc;
           box-shadow: 1px -1px 0 0 #bababc;
 }
 [data-inverted][data-position="right center"][data-tooltip]:before {
-  background: #1B1C1D;
+  background: #282828;
   -webkit-box-shadow: -1px 1px 0 0 #bababc;
           box-shadow: -1px 1px 0 0 #bababc;
 }
 [data-inverted][data-position~="top"][data-tooltip]:before {
-  background: #1B1C1D;
+  background: #282828;
 }
 [data-position~="bottom"][data-tooltip]:before {
   -webkit-transform-origin: center bottom;
@@ -620,14 +620,14 @@
 
 /* Inverted Arrow Color */
 .ui.inverted.bottom.popup:before {
-  background: #1B1C1D;
+  background: #282828;
 }
 .ui.inverted.right.center.popup:before,
 .ui.inverted.left.center.popup:before {
-  background: #1B1C1D;
+  background: #282828;
 }
 .ui.inverted.top.popup:before {
-  background: #1B1C1D;
+  background: #282828;
 }
 
 
@@ -723,7 +723,7 @@
 
 /* Inverted colors  */
 .ui.inverted.popup {
-  background: #1B1C1D;
+  background: #282828;
   color: #FFFFFF;
   border: none;
   -webkit-box-shadow: none;
@@ -734,7 +734,7 @@
   color: #FFFFFF;
 }
 .ui.inverted.popup:before {
-  background-color: #1B1C1D;
+  background-color: #282828;
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
 }
@@ -803,6 +803,12 @@
 [data-tooltip][data-variation~="massive"]:after {
   font-size: 1.71428571rem;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

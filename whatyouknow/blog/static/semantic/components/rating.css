@@ -92,14 +92,14 @@
 
 .ui.primary.rating .active.icon {
   color: #54C8FF;
-  text-shadow: 0px -1px 0px #2185D0, -1px 0px 0px #2185D0, 0px 1px 0px #2185D0, 1px 0px 0px #2185D0;
+  text-shadow: 0px -1px 0px #C850C0, -1px 0px 0px #C850C0, 0px 1px 0px #C850C0, 1px 0px 0px #C850C0;
 }
 .ui.primary.rating .icon.selected,
 .ui.primary.rating .icon.selected.active,
 .ui.primary.rating .icon.selected.partial.active {
   background: inherit;
   color: #21b8ff;
-  text-shadow: 0px -1px 0px #1678c2, -1px 0px 0px #1678c2, 0px 1px 0px #1678c2, 1px 0px 0px #1678c2;
+  text-shadow: 0px -1px 0px #c836bf, -1px 0px 0px #c836bf, 0px 1px 0px #c836bf, 1px 0px 0px #c836bf;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -108,21 +108,21 @@
   background: -webkit-linear-gradient(left, #54C8FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #54C8FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #2185D0 0.78px;
+  -webkit-text-stroke: #C850C0 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
 }
 .ui.secondary.rating .active.icon {
   color: #545454;
-  text-shadow: 0px -1px 0px #1B1C1D, -1px 0px 0px #1B1C1D, 0px 1px 0px #1B1C1D, 1px 0px 0px #1B1C1D;
+  text-shadow: 0px -1px 0px #282828, -1px 0px 0px #282828, 0px 1px 0px #282828, 1px 0px 0px #282828;
 }
 .ui.secondary.rating .icon.selected,
 .ui.secondary.rating .icon.selected.active,
 .ui.secondary.rating .icon.selected.partial.active {
   background: inherit;
   color: #6e6e6e;
-  text-shadow: 0px -1px 0px #27292a, -1px 0px 0px #27292a, 0px 1px 0px #27292a, 1px 0px 0px #27292a;
+  text-shadow: 0px -1px 0px #353535, -1px 0px 0px #353535, 0px 1px 0px #353535, 1px 0px 0px #353535;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -131,7 +131,7 @@
   background: -webkit-linear-gradient(left, #545454 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #545454 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #1B1C1D 0.78px;
+  -webkit-text-stroke: #282828 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -184,14 +184,14 @@
 }
 .ui.yellow.rating .active.icon {
   color: #FFE21F;
-  text-shadow: 0px -1px 0px #FBBD08, -1px 0px 0px #FBBD08, 0px 1px 0px #FBBD08, 1px 0px 0px #FBBD08;
+  text-shadow: 0px -1px 0px #FFCC70, -1px 0px 0px #FFCC70, 0px 1px 0px #FFCC70, 1px 0px 0px #FFCC70;
 }
 .ui.yellow.rating .icon.selected,
 .ui.yellow.rating .icon.selected.active,
 .ui.yellow.rating .icon.selected.partial.active {
   background: inherit;
   color: #ebcd00;
-  text-shadow: 0px -1px 0px #eaae00, -1px 0px 0px #eaae00, 0px 1px 0px #eaae00, 1px 0px 0px #eaae00;
+  text-shadow: 0px -1px 0px #ffc357, -1px 0px 0px #ffc357, 0px 1px 0px #ffc357, 1px 0px 0px #ffc357;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -200,7 +200,7 @@
   background: -webkit-linear-gradient(left, #FFE21F 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #FFE21F 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #FBBD08 0.78px;
+  -webkit-text-stroke: #FFCC70 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -276,14 +276,14 @@
 }
 .ui.blue.rating .active.icon {
   color: #54C8FF;
-  text-shadow: 0px -1px 0px #2185D0, -1px 0px 0px #2185D0, 0px 1px 0px #2185D0, 1px 0px 0px #2185D0;
+  text-shadow: 0px -1px 0px #4158D0, -1px 0px 0px #4158D0, 0px 1px 0px #4158D0, 1px 0px 0px #4158D0;
 }
 .ui.blue.rating .icon.selected,
 .ui.blue.rating .icon.selected.active,
 .ui.blue.rating .icon.selected.partial.active {
   background: inherit;
   color: #21b8ff;
-  text-shadow: 0px -1px 0px #1678c2, -1px 0px 0px #1678c2, 0px 1px 0px #1678c2, 1px 0px 0px #1678c2;
+  text-shadow: 0px -1px 0px #2a44ce, -1px 0px 0px #2a44ce, 0px 1px 0px #2a44ce, 1px 0px 0px #2a44ce;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -292,7 +292,7 @@
   background: -webkit-linear-gradient(left, #54C8FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #54C8FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #2185D0 0.78px;
+  -webkit-text-stroke: #4158D0 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -322,14 +322,14 @@
 }
 .ui.purple.rating .active.icon {
   color: #DC73FF;
-  text-shadow: 0px -1px 0px #A333C8, -1px 0px 0px #A333C8, 0px 1px 0px #A333C8, 1px 0px 0px #A333C8;
+  text-shadow: 0px -1px 0px #C850C0, -1px 0px 0px #C850C0, 0px 1px 0px #C850C0, 1px 0px 0px #C850C0;
 }
 .ui.purple.rating .icon.selected,
 .ui.purple.rating .icon.selected.active,
 .ui.purple.rating .icon.selected.partial.active {
   background: inherit;
   color: #cf40ff;
-  text-shadow: 0px -1px 0px #9627ba, -1px 0px 0px #9627ba, 0px 1px 0px #9627ba, 1px 0px 0px #9627ba;
+  text-shadow: 0px -1px 0px #c836bf, -1px 0px 0px #c836bf, 0px 1px 0px #c836bf, 1px 0px 0px #c836bf;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -338,7 +338,7 @@
   background: -webkit-linear-gradient(left, #DC73FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #DC73FF 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #A333C8 0.78px;
+  -webkit-text-stroke: #C850C0 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -414,14 +414,14 @@
 }
 .ui.black.rating .active.icon {
   color: #545454;
-  text-shadow: 0px -1px 0px #1B1C1D, -1px 0px 0px #1B1C1D, 0px 1px 0px #1B1C1D, 1px 0px 0px #1B1C1D;
+  text-shadow: 0px -1px 0px #282828, -1px 0px 0px #282828, 0px 1px 0px #282828, 1px 0px 0px #282828;
 }
 .ui.black.rating .icon.selected,
 .ui.black.rating .icon.selected.active,
 .ui.black.rating .icon.selected.partial.active {
   background: inherit;
   color: #000000;
-  text-shadow: 0px -1px 0px #27292a, -1px 0px 0px #27292a, 0px 1px 0px #27292a, 1px 0px 0px #27292a;
+  text-shadow: 0px -1px 0px #353535, -1px 0px 0px #353535, 0px 1px 0px #353535, 1px 0px 0px #353535;
   -webkit-text-stroke: unset;
   background-clip: unset;
 }
@@ -430,7 +430,7 @@
   background: -webkit-linear-gradient(left, #545454 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   background: linear-gradient(to right, #545454 0% var(--full), rgba(0, 0, 0, 0.15) var(--full) 100%);
   text-shadow: none;
-  -webkit-text-stroke: #1B1C1D 0.78px;
+  -webkit-text-stroke: #282828 0.78px;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -495,6 +495,12 @@
 .ui.massive.rating {
   font-size: 2rem;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************

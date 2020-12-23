@@ -17,13 +17,13 @@ span.ui.text {
   line-height: 1;
 }
 span.ui.primary.text {
-  color: #2185D0;
+  color: #C850C0;
 }
 span.ui.inverted.primary.text {
   color: #54C8FF;
 }
 span.ui.secondary.text {
-  color: #1B1C1D;
+  color: #282828;
 }
 span.ui.inverted.secondary.text {
   color: #545454;
@@ -41,7 +41,7 @@ span.ui.inverted.orange.text {
   color: #FF851B;
 }
 span.ui.yellow.text {
-  color: #FBBD08;
+  color: #FFCC70;
 }
 span.ui.inverted.yellow.text {
   color: #FFE21F;
@@ -65,7 +65,7 @@ span.ui.inverted.teal.text {
   color: #6DFFFF;
 }
 span.ui.blue.text {
-  color: #2185D0;
+  color: #4158D0;
 }
 span.ui.inverted.blue.text {
   color: #54C8FF;
@@ -77,7 +77,7 @@ span.ui.inverted.violet.text {
   color: #A291FB;
 }
 span.ui.purple.text {
-  color: #A333C8;
+  color: #C850C0;
 }
 span.ui.inverted.purple.text {
   color: #DC73FF;
@@ -101,7 +101,7 @@ span.ui.inverted.grey.text {
   color: #DCDDDE;
 }
 span.ui.black.text {
-  color: #1B1C1D;
+  color: #282828;
 }
 span.ui.inverted.black.text {
   color: #545454;
@@ -147,6 +147,12 @@ span.ui.huge.text {
 span.ui.massive.text {
   font-size: 8em;
 }
+
+
+/*******************************
+         Theme Overrides
+*******************************/
+
 
 
 /*******************************
