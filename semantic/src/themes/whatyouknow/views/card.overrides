@@ -1,3 +1,44 @@
 /*******************************
          Theme Overrides
 *******************************/
+
+.ui.one.cards > .card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+& when (@wyk_variationCardBasic) {
+  /*-------------------
+         Basic
+  --------------------*/
+
+  .ui.basic.cards > .card,
+  .ui.basic.card {
+    background: @basicBackground;
+    box-shadow: @basicBoxShadow;
+    border: @basicBorder;
+    border-radius: @basicBorderRadius;
+  }
+
+  .ui.basic.cards > .card > .content,
+  .ui.basic.card > .content {
+      border-top: @basicContentDivider;
+      padding: @basicContentPadding;
+  }
+
+  .ui.basic.cards > .card > .extra,
+  .ui.basic.card > .extra {
+      border-top: @basicExtraDivider !important;
+      padding: @basicExtraPadding;
+  }
+
+  .ui.inverted.basic.cards > .card > .content,
+  .ui.inverted.basic.card > .content {
+    border-top: @basicInvertedContentDivider;
+  }
+
+  .ui.inverted.basic.cards > .card > .extra,
+  .ui.inverted.basic.card > .extra {
+    border-top: @basicInvertedExtraDivider !important;
+  }
+}

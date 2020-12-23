@@ -17,13 +17,13 @@ span.ui.text {
   line-height: 1;
 }
 span.ui.primary.text {
-  color: #C850C0;
+  color: #4158D0;
 }
 span.ui.inverted.primary.text {
   color: #54C8FF;
 }
 span.ui.secondary.text {
-  color: #282828;
+  color: #1B1C1D;
 }
 span.ui.inverted.secondary.text {
   color: #545454;
@@ -41,7 +41,7 @@ span.ui.inverted.orange.text {
   color: #FF851B;
 }
 span.ui.yellow.text {
-  color: #FFCC70;
+  color: #FBBD08;
 }
 span.ui.inverted.yellow.text {
   color: #FFE21F;
@@ -77,7 +77,7 @@ span.ui.inverted.violet.text {
   color: #A291FB;
 }
 span.ui.purple.text {
-  color: #C850C0;
+  color: #A333C8;
 }
 span.ui.inverted.purple.text {
   color: #DC73FF;
@@ -101,7 +101,7 @@ span.ui.inverted.grey.text {
   color: #DCDDDE;
 }
 span.ui.black.text {
-  color: #282828;
+  color: #1B1C1D;
 }
 span.ui.inverted.black.text {
   color: #545454;

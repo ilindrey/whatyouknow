@@ -18,46 +18,37 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> <!-- Style setting -->
 
 </head>
-<body>
+<body >
 
-<div class="ui black inverted secondary menu">
+<div class="ui black attached inverted secondary menu">
     <div class="ui container">
         <div class="item">
             <a href="{% url 'index' %}" class="ui medium image">
                 <img src="{% static 'images/logo/logo-transp-bg.svg' %}">
             </a>
         </div>
-        {#            <div class="center aligned menu">#}
-        {#                <div class="item">#}
-
-        {#                    <div class="ui fluid search" style="min-width: 150px; width: 810px;">#}
-        {#                        <div class="ui fluid icon input">#}
-        {#                            <input class="prompt" type="text" placeholder="Search countries...">#}
-        {#                            <i class="search icon"></i>#}
-        {#                        </div>#}
-        {#                        <div class="results"></div>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
         <div class="right menu">
 
             <div class="item">
 
-                <i class="search circular inverted link large icon"></i>
-                {#                    <button class="circular ui icon black button">#}
-                {#                    <i class="bell icon"></i>#}
-                {#                    </button>#}
-                <i class="bell circular inverted link large icon"></i>
-                {#                </div>#}
-                {#                <div class="item">#}
+                <i class="large icons">
+                    <i class="big black circle outline icon"></i>
+                    <i class="search primary link icon"></i>
+                </i>
 
-                {#                    <button class="circular ui icon black button">#}
-                {#                        <a class="pencil icon"></a>#}
-                {#                    </button>#}
-                <i class="pencil circular inverted link large icon"></i>
-                {#                </div>#}
-                {##}
-                {#                <div class="item">#}
+                <i class="large icons">
+                    <i class="big black circle outline icon"></i>
+                    <i class="bell primary link icon"></i>
+                </i>
+                <i class="large icons">
+                    <i class="big black circle outline icon"></i>
+                    <i class="pencil primary link icon"></i>
+                </i>
+
+                <i class="large icons">
+                    <i class="big black circle outline icon"></i>
+                    <i class="bookmark primary link icon"></i>
+                </i>
 
 
                 <div class="ui inline dropdown">
@@ -87,131 +78,150 @@
     </div>
 </div>
 
-<div class="ui vertical stripe basic segment">
+<div class="ui attached vertical basic segment">
+    <div class="ui grid container">
 
-    <div class="ui container">
+        <div class="ui eleven wide column">
 
-        <div class="ui primary secondary pointing menu">
-            <a class="item">
-                my choices
-            </a>
-            <a class="active item">
-                all posts
-            </a>
+            <div class="ui vertical basic segment">
 
-            {% for index, name in categories %}
-                <a class="item">
-                    {{ name|lower }}
-                </a>
-            {% endfor %}
-        </div>
+                <div class="ui vertical basic segment container">
+                    <div class="ui primary secondary pointing menu">
+                        <a class="item">
+                            My choices
+                        </a>
+                        <a class="active item">
+                            All
+                        </a>
 
-    </div>
-
-</div>
-
-<div class="ui grid container">
-
-    {#        <div class="eight wide centered column">#}
-    <div class="twelve wide column">
-
-        <div class="ui segment">
-            {#            <div class="ui left rail">#}
-
-            {% for post in posts %}
-                {#                    <div class="ui piled segment">#}
-                <div class="ui padded grid">
-                    {##}
-                    <div class="row">
-                        {#                        <div class="ui list">#}
-                        {#                            <div class="item">#}
-
-                        <a class="ui primary horizontal label">{{ post.user.name }} (@{{ post.user.username }})</a>
-                        <label>{{ post.date|date:"F d, Y \a\t h:i A" }}</label>
-                        {#                            </div>#}
-                        {#                            <div class="item">#}
-                        {#                            </div>#}
-                        {#                        </div>#}
-                        {#                        <div class="ui hidden divided"></div>#}
+                        {% for index, name in categories %}
+                            <a class="item">
+                                {{ name }}
+                            </a>
+                        {% endfor %}
                     </div>
 
-                    <div class="row">
-
-
-                        <div class="ui list">
-                            <div class="item">
-
-                                <h1 class="ui header">{{ post.title }}</h1>
-
-                                {#                        <div class="ui hidden divided"></div>#}
-
-                            </div>
-                            <div class="item">
-{#                                <div class="ui tag labels">#}
-                                    {% for tag in tags %}
-                                        {% if tag.post_id == post.pk %}
-                                            <a href="#" class="ui basic label">{{ tag.name }}</a>
-                                        {% endif %}
-                                    {% endfor %}
-{#                                </div>#}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-{#                        <img src="{{ post.image.url }}" class="ui fluid image">#}
-{#                        <div class="ui text">#}
-                        <div>
-                            {% if post.feed_cover %}
-
-                                {% if post.feed_cover_caption %}
-                                    <div align="center">
-                                        <figure class="">
-{#                                            <img style="width: 50%;" src="{{ post.feed_cover }}">#}
-                                            <img src="{{ post.feed_cover }}" class="ui image"/>
-                                        <figcaption class=""><i>{{ post.feed_cover_caption }}</i></figcaption>
-                                        </figure>
-                                    </div>
-                                {% else %}
-                                    <p align="center">
-{#                                        <img style="width: 50%;" src="{{ post.feed_cover }}">#}
-                                        <img src="{{ post.feed_cover }}" class="ui image"/>
-                                    </p>
-                                {% endif %}
-
-                            {% endif %}
-                            {% if post.feed_article_preview %}
-                                {{ post.feed_article_preview|safe }}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <button class="ui primary basic button">{{ post.feed_read_more_button_name }}</button>
+                    <div class="ui tiny pagination menu">
+                        <a class="item">
+                            Day
+                        </a>
+                        <a class="primary active item">
+                            Week
+                        </a>
+                        <a class="item">
+                            Month
+                        </a>
+                        <a class="item">
+                            Year
+                        </a>
                     </div>
 
+                    <div class="ui right floated tiny pagination menu">
+                        <a class="primary active item">
+                            Any rating
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>10
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>25
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>50
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>75
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>80
+                        </a>
+                        <a class="item">
+                            <i class="grey greater than equal icon"></i>90
+                        </a>
+                    </div>
                 </div>
-                {% if not forloop.last %}
 
-                    <div class="ui divider"></div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="four wide column">
-        <div class="ui segment">
-            <div class="ui list">
-                {% for index, name in categories %}
-                    <div class="item">
-                        <button class="ui primary tertiary button">{{ name }}</button>
+                <div class="ui vertical basic segment container">
+
+                    <div class="ui one basic cards">
+                        {% for post in posts %}
+
+                            <div class="ui card" >
+                                <div class="content">
+                                    <div class="right floated meta">
+                                        <span class="date">{{ post.date|date:"F d, Y \a\t h:i A" }}</span>
+                                    </div>
+                                    <a class="ui basic image label">
+                                        <img src="{{ post.user.image.url }}">
+                                        {{ post.user.name }} (@{{ post.user.username }})
+                                    </a>
+                                    <a class="primary header" style="margin-top: 0.5em;">{{ post.title }}</a>
+                                    <div class="left floated meta" style="margin-top: 0.5em;">
+
+                                        {% regroup tags by post_id as post_tags_list %}
+
+                                        {% for post_id, post_tags in post_tags_list %}
+                                            {% if post_id == post.pk %}
+
+                                                {% for tag in post_tags %}
+
+                                                    {% if forloop.last %}
+                                                        <a>{{ tag.name }}</a>
+                                                    {% else %}
+                                                        <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>
+                                                    {% endif %}
+
+                                                {% endfor %}
+
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                {% if post.feed_cover %}
+                                    <div class="image" style="margin-top: 0.5em;">
+                                        {% if post.feed_cover_caption %}
+                                            <figure class="">
+                                                <img src="{{ post.feed_cover }}" class="ui centered massive image"/>
+                                                <figcaption class=""><i class="ui centered text">{{ post.feed_cover_caption }}</i></figcaption>
+                                            </figure>
+                                        {% else %}
+                                            <img src="{{ post.feed_cover }}" class="ui centered massive image"/>
+                                        {% endif %}
+
+                                    </div>
+                                {% endif %}
+                                <div class="content" style="padding-top: 0.5em;">
+                                    <div class="description">
+                                        {{ post.feed_article_preview|safe }}
+                                    </div>
+                                </div>
+                                <div class="extra content">
+                                    <button class="ui primary left floated basic button">{{ post.feed_read_more_button_name }}</button>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+
                     </div>
-                {% endfor %}
+                </div>
+                <div class="ui right rail">
+                    <div class="ui raised segment">
+                        <div class="ui link list">
+                            {% for index, name in categories %}
+                                <div class="item">
+                                    {#                                <button class="ui primary tertiary button">{{ name }}</button>#}
+                                    <a>{{ name }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
-
-</div>
-
-
 
 <script>
 

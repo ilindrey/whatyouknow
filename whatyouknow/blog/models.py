@@ -23,7 +23,7 @@ CATEGORY_CHOICES = (
     # (3, "Business"),
     (3, "Management"),
     (4, "Marketing"),
-    (5, "Popular science"),)
+    (5, "PopSci"),)
 
 
 class Post(models.Model):

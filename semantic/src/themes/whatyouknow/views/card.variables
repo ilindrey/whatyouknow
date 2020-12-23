@@ -239,3 +239,17 @@
   0 @shadowDistance 3px 0 @solidWhiteBorderColor,
   0 0 0 @borderWidth @solidWhiteBorderColor
 ;
+
+/* add in the whatyouknow theme */
+
+/* Basic */
+@basicBackground: none transparent;
+@basicBorder: none;
+@basicBoxShadow: none;
+@basicBorderRadius: 0;
+@basicContentPadding: 1em 0;
+@basicExtraPadding: 0.75em 0;
+@basicContentDivider: @borderWidth solid rgba(0, 0, 0, 0);
+@basicExtraDivider: 1px solid rgba(0, 0, 0, 0);
+@basicInvertedContentDivider: @borderWidth solid rgba(255, 255, 255, 0);
+@basicInvertedExtraDivider: 1px solid rgba(255, 255, 255, 0);

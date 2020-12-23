@@ -227,7 +227,7 @@ i.bordered.inverted.icon {
 /* Inverted Shapes */
 i.inverted.bordered.icon,
 i.inverted.circular.icon {
-  background-color: #282828;
+  background-color: #1B1C1D;
   color: #FFFFFF;
 }
 i.inverted.icon {
@@ -239,25 +239,25 @@ i.inverted.icon {
 --------------------*/
 
 i.primary.icon.icon.icon.icon {
-  color: #C850C0;
+  color: #4158D0;
 }
 i.inverted.primary.icon.icon.icon.icon {
-  color: #DC73FF;
+  color: #54C8FF;
 }
 i.inverted.bordered.primary.icon.icon.icon.icon,
 i.inverted.circular.primary.icon.icon.icon.icon {
-  background-color: #C850C0;
+  background-color: #4158D0;
   color: #FFFFFF;
 }
 i.secondary.icon.icon.icon.icon {
-  color: #282828;
+  color: #1B1C1D;
 }
 i.inverted.secondary.icon.icon.icon.icon {
   color: #545454;
 }
 i.inverted.bordered.secondary.icon.icon.icon.icon,
 i.inverted.circular.secondary.icon.icon.icon.icon {
-  background-color: #282828;
+  background-color: #1B1C1D;
   color: #FFFFFF;
 }
 i.red.icon.icon.icon.icon {
@@ -283,14 +283,14 @@ i.inverted.circular.orange.icon.icon.icon.icon {
   color: #FFFFFF;
 }
 i.yellow.icon.icon.icon.icon {
-  color: #FFCC70;
+  color: #FBBD08;
 }
 i.inverted.yellow.icon.icon.icon.icon {
   color: #FFE21F;
 }
 i.inverted.bordered.yellow.icon.icon.icon.icon,
 i.inverted.circular.yellow.icon.icon.icon.icon {
-  background-color: #FFCC70;
+  background-color: #FBBD08;
   color: #FFFFFF;
 }
 i.olive.icon.icon.icon.icon {
@@ -349,14 +349,14 @@ i.inverted.circular.violet.icon.icon.icon.icon {
   color: #FFFFFF;
 }
 i.purple.icon.icon.icon.icon {
-  color: #C850C0;
+  color: #A333C8;
 }
 i.inverted.purple.icon.icon.icon.icon {
   color: #DC73FF;
 }
 i.inverted.bordered.purple.icon.icon.icon.icon,
 i.inverted.circular.purple.icon.icon.icon.icon {
-  background-color: #C850C0;
+  background-color: #A333C8;
   color: #FFFFFF;
 }
 i.pink.icon.icon.icon.icon {
@@ -393,14 +393,14 @@ i.inverted.circular.grey.icon.icon.icon.icon {
   color: #FFFFFF;
 }
 i.black.icon.icon.icon.icon {
-  color: #282828;
+  color: #1B1C1D;
 }
 i.inverted.black.icon.icon.icon.icon {
   color: #545454;
 }
 i.inverted.bordered.black.icon.icon.icon.icon,
 i.inverted.circular.black.icon.icon.icon.icon {
-  background-color: #282828;
+  background-color: #1B1C1D;
   color: #FFFFFF;
 }
 
@@ -512,7 +512,7 @@ i.icons .icon.corner[class*="bottom right"] {
   bottom: 0;
 }
 i.icons .inverted.corner.icon {
-  text-shadow: -1px -1px 0 #282828, 1px -1px 0 #282828, -1px 1px 0 #282828, 1px 1px 0 #282828;
+  text-shadow: -1px -1px 0 #1B1C1D, 1px -1px 0 #1B1C1D, -1px 1px 0 #1B1C1D, 1px 1px 0 #1B1C1D;
 }
 /*
 * Font Awesome 5.13.0 by @fontawesome [https://fontawesome.com]

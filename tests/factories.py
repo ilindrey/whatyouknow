@@ -32,7 +32,7 @@ class UserProfileFactory(DjangoModelFactory):
     name = LazyAttribute(lambda obj: "{} {}".format(obj.first_name, obj.last_name))
     website = MimesisField("home_page")
     description = MimesisField("text", quantity=randint(1, 10))
-    image = ImageField(color='gray', width=500, height=300)
+    image = ImageField(color='gray', width=256, height=256)
 
 
 # class CategoryFactory(DjangoModelFactory):

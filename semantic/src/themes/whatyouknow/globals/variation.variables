@@ -328,6 +328,7 @@
 @variationCardLink: true;
 @variationCardDoubling: true;
 @variationCardStackable: true;
+@wyk_variationCardBasic: true;
 @variationCardSizes: @variationAllSizes;
 
 /* Comment */

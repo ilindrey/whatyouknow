@@ -103,7 +103,8 @@
 --------------------*/
 
 /* Basic */
-@basicBackground: none @white;
+// @basicBackground: none @white;
+@basicBackground: none @wyk_background;
 @basicBorderWidth: 1px;
 @basicBorderWidthOffset: -@basicBorderWidth;
 @basicBorderFullWidthOffset: e(%("calc(100%% + %d)", @basicBorderWidth));

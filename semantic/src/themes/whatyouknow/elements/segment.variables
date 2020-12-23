@@ -6,7 +6,8 @@
        Element
 --------------------*/
 
-@background: @white;
+// @background: @white;
+@background: @wyk_background;
 @borderWidth: 1px;
 @border: @borderWidth solid @borderColor;
 
