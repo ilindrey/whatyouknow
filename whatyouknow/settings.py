@@ -178,14 +178,14 @@ SUMMERNOTE_CONFIG = {
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
         ),
     'css': (
-        '/static/css/styles.css',
+        '/static/summernote/style.css',
         ),
     'js_for_inplace': (
         '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
         ),
     'css_for_inplace': (
-        '/static/css/styles.css',
+        '/static/summernote/style.css',
         ),
     }
 
