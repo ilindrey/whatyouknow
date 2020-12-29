@@ -17,3 +17,8 @@ body
     line-height: 1.4;
     background: var(--light-grey);
 }
+
+.footer.segment
+{
+    padding: 10em 0;
+}
