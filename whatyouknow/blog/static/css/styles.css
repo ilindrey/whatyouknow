@@ -22,3 +22,7 @@ body
 {
     padding: 10em 0;
 }
+.stripe.segment
+{
+    padding-bottom: 5em;
+}
