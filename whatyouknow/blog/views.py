@@ -16,7 +16,7 @@ def index(request):
         'tags': tags,
         'categories': CATEGORY_CHOICES
         }
-    return render(request, 'base.html', context)
+    return render(request, 'home.html', context)
 
 
 # def search_list(request):

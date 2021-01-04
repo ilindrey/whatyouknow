@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> <!-- Style setting -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="{% static 'semantic/semantic.min.js' %}"></script>
+
+</head>
+<body >
+
+<div class="ui black attached inverted secondary menu">
+    <div class="ui container">
+        {% block menu %}
+        {% endblock %}
+    </div>
+</div>
+
+<div class="ui attached basic segment">
+    <div class="ui main grid container">
+
+        <div class="ui twelve wide column">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+        <div class="ui four wide column">
+        
+            <div class="ui side basic segment">
+
+                {% block rail %}
+
+                {% endblock %}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<footer class="ui attached inverted black vertical footer segment" >
+    <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+            <div class="three wide column">
+                {#                <h4 class="ui inverted header">Acrtions</h4>#}
+                <h4 class="ui inverted header">Quick Links</h4>
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <a>Create post</a>
+                    </div>
+                    <div class="item">
+                        <a>Bookmarks</a>
+                    </div>
+                    <div class="item">
+                        <a>Profile</a>
+                    </div>
+                    <div class="item">
+                        <a>Settings</a>
+                    </div>
+                </div>
+            </div>
+            {#            <div class="three wide column">#}
+            {#                <h4 class="ui inverted header">Your account</h4>#}
+            {#                <div class="ui inverted link list">#}
+            {#                    <div class="item">#}
+            {#                        <a>Profile</a>#}
+            {#                    </div>#}
+            {#                    <div class="item">#}
+            {#                        <a>Settings</a>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div class="three wide column">
+                <h4 class="ui inverted header">Info</h4>
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <a>Contact us</a>
+                    </div>
+                    <div class="item">
+                        <a>About</a>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header">Follow Us</h4>
+                <div class="ui inverted horizontal list">
+                    <div class="item">
+                        <button class="ui circular facebook icon button">
+                            <i class="facebook icon"></i>
+                        </button>
+                    </div>
+                    <div class="item">
+                        <button class="ui circular instagram icon button">
+                            <i class="instagram icon"></i>
+                        </button>
+                    </div>
+                    <div class="item">
+                        <button class="ui circular twitter icon button">
+                            <i class="twitter icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <p>© 2020 - {% now "Y" %} WhatYouKnow</p>
+                <p>This site is made by Scronullik</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

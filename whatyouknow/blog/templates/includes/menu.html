@@ -1,0 +1,94 @@
+{% load static %}
+
+<div class="item">
+    <a href="{% url 'index' %}" class="ui medium image">
+        <img src="{% static 'images/logo/logo-transp-bg.svg' %}">
+    </a>
+</div>
+<div class="right menu">
+
+    <div class="item">
+
+        <i class="large icons">
+            <i class="big black circle outline icon"></i>
+            <i class="search primary link icon"></i>
+        </i>
+
+        <i class="large icons">
+            <i class="big black circle outline icon"></i>
+            <i class="bell primary link icon"></i>
+        </i>
+        <i class="large icons">
+            <i class="big black circle outline icon"></i>
+            <i class="pencil primary link icon"></i>
+        </i>
+
+        <i class="large icons">
+            <i class="big black circle outline icon"></i>
+            <i class="bookmark primary link icon"></i>
+        </i>
+
+
+        <div class="ui inline dropdown">
+            <div class="text">
+
+                <button class="ui tertiary primary button">
+                    <i class="ui circular inverted user primary icon"></i>
+{#                                                    Scronullik#}
+                    <i class="ui dropdown icon"></i>
+                </button>
+            </div>
+            <div class="menu">
+                <div class="item">
+                    <i class="user icon"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="item">
+                    <i class="sign out icon"></i>
+                    <span>Sign out</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(
+        function () {
+
+            $('.ui.search').search({
+                source: [
+                    {title: 'Andorra'},
+                    {title: 'United Arab Emirates'},
+                    {title: 'Afghanistan'},
+                    {title: 'Antigua'},
+                    {title: 'Anguilla'},
+                    {title: 'Albania'},
+                    {title: 'Armenia'},
+                    {title: 'Netherlands Antilles'},
+                    {title: 'Angola'},
+                    {title: 'Argentina'},
+                    {title: 'American Samoa'},
+                    {title: 'Austria'},
+                    {title: 'Australia'},
+                    {title: 'Aruba'},
+                    {title: 'Aland Islands'},
+                    {title: 'Azerbaijan'},
+                    {title: 'Bosnia'},
+                    {title: 'Barbados'},
+                    {title: 'Bangladesh'},
+                    {title: 'Belgium'},
+                    {title: 'Burkina Faso'},
+                    {title: 'Bulgaria'},
+                    {title: 'Bahrain'},
+                    {title: 'Burundi'}]
+            });
+
+            $('.ui.inline.dropdown').dropdown({action: 'select'});
+        }
+    );
+
+</script>

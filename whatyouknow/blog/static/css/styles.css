@@ -5,6 +5,7 @@
 :root
 {
     --light-grey: #F3F4F5;
+    --rail-color: #e9eaf1;
 }
 
 body
@@ -22,7 +23,12 @@ body
 {
     padding: 10em 0;
 }
-.stripe.segment
+.main.container
 {
-    padding-bottom: 5em;
+    padding: 1em 0 5em 0;
+}
+
+.side.basic.segment
+{
+    background: var(--rail-color);
 }
