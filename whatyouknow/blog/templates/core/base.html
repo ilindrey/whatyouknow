@@ -29,14 +29,28 @@
 
         <div class="ui twelve wide column">
 
-            {% block content %}
+            <div class="ui fitted horizontal basic segment container">
+                {% block hat %}
 
-            {% endblock %}
+                {% endblock %}
+            </div>
+
+            <div class="ui vertical basic segment container">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+            <div class="ui fitted horizontal basic segment container">
+                {% block floor %}
+
+                {% endblock %}
+            </div>
 
         </div>
 
         <div class="ui four wide column">
-        
+
             <div class="ui side basic segment">
 
                 {% block rail %}
