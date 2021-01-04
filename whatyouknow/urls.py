@@ -24,12 +24,12 @@ from .settings import DEBUG
 
 
 
-from .blog.views import index
+from .blog.views import home
     # , search_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('', home, name='home'),
     # path('/search/category/', search_list, name='category')
     # others
     path('summernote/', include('django_summernote.urls')),
