@@ -29,19 +29,19 @@
 
         <div class="ui twelve wide column">
 
-            <div class="ui fitted horizontal basic segment container">
-                {% block hat %}
+            <div class="ui fitted horizontal basic segment container" id="roof">
+                {% block roof %}
 
                 {% endblock %}
             </div>
 
-            <div class="ui vertical basic segment container">
+            <div class="ui vertical basic segment container" id="content">
                 {% block content %}
 
                 {% endblock %}
             </div>
 
-            <div class="ui fitted horizontal basic segment container">
+            <div class="ui fitted horizontal basic segment container" id="floor">
                 {% block floor %}
 
                 {% endblock %}
@@ -134,6 +134,28 @@
         </div>
     </div>
 </footer>
+
+<script type="text/javascript">
+
+    $(document).ready(
+        function () {
+
+            let blocks_id_name = ["roof", "content", "floor"];
+
+            for (let name_id of blocks_id_name)
+            {
+                let block_id = '#' + name_id;
+
+                if ($(block_id).children().length === 0)
+                {
+                    $(block_id).remove();
+                }
+            }
+
+        }
+    );
+
+</script>
 
 {% block script %}
 {% endblock %}

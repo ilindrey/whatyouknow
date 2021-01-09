@@ -84071,11 +84071,6 @@ a.inverted.ui.card:hover,
          Theme Overrides
 *******************************/
 
-.ui.one.cards > .card {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
 /*-------------------
          Basic
   --------------------*/

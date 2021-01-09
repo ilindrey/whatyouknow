@@ -6,7 +6,7 @@
 {% endblock %}
 
 
-{% block hat %}
+{% block roof %}
 
     <div class="ui primary secondary pointing menu">
         <a class="item">
@@ -67,7 +67,8 @@
 
 {% block content %}
 
-    <div class="ui one basic cards">
+    <div class="ui fluid basic one cards">
+
         {% for post in posts %}
 
             <div class="ui card" >
@@ -79,7 +80,7 @@
                         <img src="{{ post.user.image.url }}">
                         {{ post.user.name }} (@{{ post.user.username }})
                     </a>
-                    <a class="primary header" style="margin-top: 0.5em;">{{ post.title }}</a>
+                    <a class="primary header" style="margin-top: 0.5em;" href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
                     <div class="left floated meta" style="margin-top: 0.5em;">
 
                         {% regroup tags by post_id as post_tags_list %}
@@ -121,10 +122,11 @@
                     </div>
                 </div>
                 <div class="extra content">
-                    <button class="ui primary left floated basic button">{{ post.feed_read_more_button_name }}</button>
+                    <a href="{% url 'post_detail' post.pk %}"><button class="ui primary left floated basic button" >{{ post.feed_read_more_button_name }}</button></a>
                 </div>
 
             </div>
+
         {% endfor %}
 
     </div>
