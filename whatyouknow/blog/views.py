@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import F
@@ -28,4 +28,11 @@ def home(request):
 #     return JsonResponse({}, status=400)
 
 
-
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    tags = post.tags.all()
+    context = {
+        'post': post,
+        'tags': tags
+        }
+    return render(request, 'post_detail.html', context)

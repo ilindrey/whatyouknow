@@ -22,14 +22,13 @@ from django.conf.urls.static import static
 
 from .settings import DEBUG
 
-
-
-from .blog.views import home
-    # , search_list
+from .blog.views import home, post_detail
+# , search_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('post/<int:pk>/', post_detail, name='post_detail'),
     # path('/search/category/', search_list, name='category')
     # others
     path('summernote/', include('django_summernote.urls')),

@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+
+
+{% block menu %}
+    {% include 'includes/menu.html' %}
+{% endblock %}
+
+
+{% block roof %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="ui fluid basic card" >
+        <div class="content">
+            <div class="right floated meta">
+                <span class="date">{{ post.date|date:"F d, Y \a\t h:i A" }}</span>
+            </div>
+            <a class="ui basic image label">
+                <img src="{{ post.user.image.url }}">
+                {{ post.user.name }} (@{{ post.user.username }})
+            </a>
+            <a class="primary header" style="margin-top: 0.5em;" href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+            <div class="left floated meta" style="margin-top: 0.5em;">
+
+                {% for tag in tags %}
+
+                    {% if forloop.last %}
+                        <a>{{ tag.name }}</a>
+                    {% else %}
+                        <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+            <div class="description" style="padding-top: 0.5em;">
+                {{ post.text|safe }}
+            </div>
+        </div>
+        {#        <div class="content" style="padding-top: 0.5em;">#}
+        {#            <div class="description">#}
+        {#                {{ post.text|safe }}#}
+        {#            </div>#}
+        {#        </div>#}
+        <div class="extra">
+            <div class="ui divider"></div>
+            <div class="ui compact segment">
+                <span class="ui primary huge text">8.7</span>
+                <div class="ui primary huge rating"></div>
+            </div>
+            <div class="ui right floated compact segment">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <i class="ui grey fitted bookmark icon"></i>
+                        <span class="ui text">33</span>
+                    </div>
+                    <div class="item">
+                        <i class="ui grey fitted eye icon"></i>
+                        <span class="ui text">11336</span>
+                    </div>
+                    <div class="item">
+                        <i class="ui grey fitted comment icon"></i>
+                        <span class="ui text">Comment</span>
+                    </div>
+                    <div class="item">
+                        <i class="ui grey fitted comment icon"></i>
+                        <span class="ui text">Comment</span>
+                    </div>
+                </div>
+            </div>
+            {#                    <a href="{% url 'post_detail' post.pk %}"><button class="ui primary left floated basic button" >{{ post.feed_read_more_button_name }}</button></a>#}
+        </div>
+        {#            <div class="ui blue rating"></div>#}
+
+    </div>
+
+{% endblock %}
+
+
+{% block floor %}
+
+{% endblock %}
+
+
+{% block rail %}
+    {% include 'includes/rail.html' %}
+{% endblock %}
+
+
+{% block script %}
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+                $('.rating').rating({
+                    {#icon: 'star',#}
+                    initialRating: 7,
+                    maxRating: 10
+                });
+            }
+        );
+
+    </script>
+
+{% endblock %}
