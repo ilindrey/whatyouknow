@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # others
+    # 'django.contrib.humanize',
     'django_summernote',
     # 'tinymce',
     # 'django_ckeditor_5',

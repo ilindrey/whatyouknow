@@ -7,6 +7,15 @@
 //    margin-right: 0 !important;
 //}
 
+//.ui.cards > .card > .cropped.image > img,
+//.ui.card > .cropped.image > img {
+//  display: block;
+//  height: 250px;
+//  width: 100%;
+//  border-radius: inherit;
+//  object-fit: cover;
+//}
+
 & when (@wyk_variationCardBasic) {
   /*-------------------
          Basic

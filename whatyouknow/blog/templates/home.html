@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
 
-
 {% block menu %}
     {% include 'includes/menu.html' %}
 {% endblock %}
@@ -67,65 +66,53 @@
 
 {% block content %}
 
-    <div class="ui fluid basic one cards">
+    <div class="ui two link cards">
 
         {% for post in posts %}
+            <a class="ui card" href="{% url 'post_detail' post.pk %}">
 
-            <div class="ui card" >
+                <div class="cropped image">
+                    <img src="{{ post.feed_cover }}">
+                </div>
+
                 <div class="content">
-                    <div class="right floated meta">
-                        <span class="date">{{ post.date|date:"F d, Y \a\t h:i A" }}</span>
-                    </div>
-                    <a class="ui basic image label">
-                        <img src="{{ post.user.image.url }}">
-                        {{ post.user.name }} (@{{ post.user.username }})
-                    </a>
-                    <a class="primary header" style="margin-top: 0.5em;" href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
-                    <div class="left floated meta" style="margin-top: 0.5em;">
+                    <div class="ui list">
+                        <div class="item">
+                            <img class="ui avatar image" src="{{ post.user.image.url }}">
+                            <span class="ui black text">{{ post.user.name }}</span>
+                            <span class="ui grey text">(@{{ post.user.username }})</span>
+                        </div>
+                        <div class="item">
+                            <div class="header">{{ post.title }}</div>
+                        </div>
+                        <div class="item">
 
-                        {% regroup tags by post_id as post_tags_list %}
-
-                        {% for post_id, post_tags in post_tags_list %}
-                            {% if post_id == post.pk %}
-
-                                {% for tag in post_tags %}
-
-                                    {% if forloop.last %}
-                                        <a>{{ tag.name }}</a>
-                                    {% else %}
-                                        <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>
-                                    {% endif %}
-
-                                {% endfor %}
-
-                            {% endif %}
-                        {% endfor %}
-
+                            <span class="ui grey text">
+                                {{ post.feed_article_preview|safe|truncatechars:310 }}
+                            </span>
+                        </div>
                     </div>
                 </div>
-                {% if post.feed_cover %}
-                    <div class="image" style="margin-top: 0.5em;">
-                        {% if post.feed_cover_caption %}
-                            <figure class="">
-                                <img src="{{ post.feed_cover }}" class="ui centered massive image"/>
-                                <figcaption class=""><i class="ui centered text">{{ post.feed_cover_caption }}</i></figcaption>
-                            </figure>
-                        {% else %}
-                            <img src="{{ post.feed_cover }}" class="ui centered massive image"/>
-                        {% endif %}
+                <div class="extra">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <i class="ui star icon"></i>
+                            8.7
+                        </div>
+                        <div class="item">
+                            <i class="ui bookmark icon"></i>
+                            7
+                        </div>
+                        <div class="item">
+                            <i class="ui comment icon"></i>
+                            22
+                        </div>
 
                     </div>
-                {% endif %}
-                <div class="content" style="padding-top: 0.5em;">
-                    <div class="description">
-                        {{ post.feed_article_preview|safe }}
-                    </div>
-                </div>
-                <div class="extra content">
-                    <a href="{% url 'post_detail' post.pk %}"><button class="ui primary left floated basic button" >{{ post.feed_read_more_button_name }}</button></a>
+                    <div class="right floated item">{{ post.date|date:"F d, Y \a\t h:i A" }}</div>
                 </div>
 
-            </div>
+            </a>
 
         {% endfor %}
 
