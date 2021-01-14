@@ -1,4 +1,5 @@
 import json
+
 from random import randint, choice
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
@@ -13,15 +14,21 @@ def get_category():
     return choice(int_value_list_categories)
 
 
-def get_image_url():
+def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None):
+
     url_list = [
         'https://picsum.photos/{}/{}',
         ]
 
     url = choice(url_list)
 
-    width = randint(500, 4096)
-    height = randint(250, width)
+    if not max_width:
+        max_width = 4096
+    width = randint(min_width, max_width)
+
+    if not max_height:
+        max_height = width
+    height = randint(min_height, max_height)
 
     return url.format(width, height)
 
@@ -31,8 +38,8 @@ def get_post_params():
     text = ''
     feed_cover = None
     feed_cover_caption = None
-    feed_article_preview = None
-    feed_read_more_button_name = None
+    # feed_article_preview = None
+    # feed_read_more_button_name = None
 
     html_template_text_block = '<p>{}<br></p>'
 
@@ -75,8 +82,10 @@ def get_post_params():
     gen_image_captions = randint(0, 10) == 0
     gen_several_images_in_row = randint(0, 10) == 0
 
-    gen_feed_cover = randint(0, 10) == 0 if gen_image_first else randint(0, 100) == 0
-    gen_feed_article_preview = randint(0, 10) == 0 if gen_feed_cover else randint(0, 100) == 0
+    # gen_feed_cover = randint(0, 10) == 0 if gen_image_first else randint(0, 100) == 0
+    # gen_feed_article_preview = randint(0, 10) == 0 if gen_feed_cover else randint(0, 100) == 0
+    gen_feed_cover = 1
+    gen_feed_article_preview = 1
 
     gen_feed_read_more_button_name = randint(0, 100) == 0
 
@@ -141,7 +150,10 @@ def get_post_params():
         value = ''
         value_with_html_template = ''
         if current_gen_type == 'image':
-            value = get_image_url()
+            if not gen_feed_cover and (i == 0 and current_gen_type == 'image'):
+                value = get_image_url(410, 250, 1200, 250)
+            else:
+                value = get_image_url()
             image_tag = html_template_image.format(value)
             if gen_image_captions:
                 caption = prov.title()
@@ -188,7 +200,7 @@ def get_post_params():
         i += 1
 
     if gen_feed_cover:
-        feed_cover = get_image_url()
+        feed_cover = get_image_url(410, 250, 1200, 250)
         if gen_image_captions:
             feed_cover_caption = prov.title()
 
@@ -222,9 +234,9 @@ def get_tags(index_category):
         data = json.load(file)
         tag_set = data[category]
     i = 0
-    lenght = randint(1,7)
+    length = randint(1, 7)
     tag_list = []
-    while i <= lenght:
+    while i <= length:
         tag_list.append(choice(tag_set))
         i += 1
     return tag_list

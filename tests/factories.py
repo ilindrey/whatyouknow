@@ -1,6 +1,7 @@
-from random import randint, choice
+from random import randint, randrange
+from datetime import datetime, timedelta
 
-from django.utils.timezone import get_current_timezone_name
+from django.utils.timezone import get_current_timezone
 
 from mimesis_factory import MimesisField
 
@@ -9,12 +10,12 @@ from factory import (
     LazyAttribute,
     LazyFunction,
     PostGenerationMethodCall,
-    SubFactory, post_generation,
+    SubFactory, post_generation, lazy_attribute
     )
 
 from .lazy_functions import get_category, get_post_params, get_tags
 
-from whatyouknow.blog.models import CATEGORY_CHOICES
+current_tz = get_current_timezone()
 
 
 class UserProfileFactory(DjangoModelFactory):
@@ -35,26 +36,6 @@ class UserProfileFactory(DjangoModelFactory):
     image = ImageField(color='gray', width=256, height=256)
 
 
-# class CategoryFactory(DjangoModelFactory):
-#     class Meta:
-#         model = "blog.Category"
-#         django_get_or_create = ("name",)
-#
-#     name = Iterator(
-#         [
-#             "Technology",
-#             "Development",
-#             "Administration",
-#             "Design",
-#             "Business",
-#             "Management",
-#             "Marketing",
-#             "Popular science",
-#         ]
-#     )
-#     order = Iterator([1, 2, 3, 4, 5, 6, 7, 8])
-
-
 class PostFactory(DjangoModelFactory):
     class Meta:
         model = "blog.Post"
@@ -62,18 +43,36 @@ class PostFactory(DjangoModelFactory):
             "title",
             "user",
             "category",
-        )
+            )
 
     class Params:
         param_list = LazyFunction(get_post_params)
 
     user = SubFactory(UserProfileFactory)
-    date = MimesisField(
-        "datetime",
-        start=2018,
-        end=2021,
-        timezone=get_current_timezone_name(),
-    )
+
+    @lazy_attribute
+    def date(self):
+
+        start_datetime = datetime(2020, 1, 1, tzinfo=current_tz)
+        end_datetime = datetime.now(tz=current_tz)
+
+        time_between_dates = end_datetime - start_datetime
+        days_between_dates = time_between_dates.days
+
+        random_number_of_days = randrange(days_between_dates)
+
+        hours = randint(0, 23)
+        minutes = randint(0, 59)
+        seconds = randint(0, 59)
+        microseconds = randint(0, 999)
+
+        random_date = start_datetime + timedelta(days=random_number_of_days,
+                                                 hours=hours,
+                                                 minutes=minutes,
+                                                 seconds=seconds,
+                                                 microseconds=microseconds)
+        return random_date
+
     category = LazyFunction(get_category)
     title = MimesisField("title")
     text = LazyAttribute(lambda o: o.param_list['text'])
