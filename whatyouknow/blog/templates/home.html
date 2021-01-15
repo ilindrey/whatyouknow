@@ -76,22 +76,30 @@
                 </div>
 
                 <div class="content">
+
                     <div class="ui list">
-                        <div class="item">
-                            <img class="ui avatar image" src="{{ post.user.image.url }}">
-                            <span class="ui black text">{{ post.user.name }}</span>
-                            <span class="ui grey text">(@{{ post.user.username }})</span>
-                        </div>
+
+
                         <div class="item">
                             <div class="header">{{ post.title }}</div>
                         </div>
-                        <div class="item">
 
+                        <div class="item">
                             <span class="ui grey text">
                                 {{ post.feed_article_preview|safe|truncatechars:310 }}
                             </span>
                         </div>
+
+                        <div class="right floated item">
+                            <img class="ui avatar image" src="{{ post.user.image.url }}">
+                            <div class="content">
+                                <div class="ui black text">{{ post.user.name }}</div>
+                                <span class="ui grey text">(@{{ post.user.username }})</span>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
                 <div class="extra">
                     <div class="ui horizontal list">

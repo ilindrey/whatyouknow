@@ -50,7 +50,7 @@ def get_post_params():
     html_template_ordered_list = '<ol>{}</ol>'
     html_template_unordered_list = '<ul>{}</ul>'
 
-    html_template_image = '<img style="width: 50%;" src="{}">'
+    html_template_image = '<img style="width: 100%;" src="{}">'
     html_template_image_align_without_captions = '<p align="center">{}<br></p>'
     html_template_image_align_with_captions = """
                     <div align="center">

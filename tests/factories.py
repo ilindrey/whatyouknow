@@ -31,6 +31,7 @@ class UserProfileFactory(DjangoModelFactory):
     is_staff = False
     is_active = True
     name = LazyAttribute(lambda obj: "{} {}".format(obj.first_name, obj.last_name))
+    specialization = MimesisField("occupation")
     website = MimesisField("home_page")
     description = MimesisField("text", quantity=randint(1, 10))
     image = ImageField(color='gray', width=256, height=256)
