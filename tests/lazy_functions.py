@@ -37,7 +37,7 @@ def get_post_params():
 
     text = ''
     feed_cover = None
-    feed_cover_caption = None
+    # feed_cover_caption = None
     # feed_article_preview = None
     # feed_read_more_button_name = None
 
@@ -189,8 +189,8 @@ def get_post_params():
 
         if not gen_feed_cover and (i == 0 and current_gen_type == 'image'):
             feed_cover = value
-            if gen_image_captions:
-                feed_cover_caption = caption
+            # if gen_image_captions:
+            #     feed_cover_caption = caption
         elif not gen_feed_article_preview and len(feed_article_preview_value) <= max_length_feed_article_preview:
             feed_article_preview_value += value
             feed_article_preview_html_template += value_with_html_template
@@ -201,8 +201,8 @@ def get_post_params():
 
     if gen_feed_cover:
         feed_cover = get_image_url(410, 250, 1200, 250)
-        if gen_image_captions:
-            feed_cover_caption = prov.title()
+        # if gen_image_captions:
+        #     feed_cover_caption = prov.title()
 
     if gen_feed_article_preview:
         value = ''
@@ -220,7 +220,7 @@ def get_post_params():
     return {
         'text': text,
         'feed_cover': feed_cover,
-        'feed_cover_caption': feed_cover_caption,
+        # 'feed_cover_caption': feed_cover_caption,
         'feed_article_preview': feed_article_preview,
         'feed_read_more_button_name': feed_read_more_button_name
         }

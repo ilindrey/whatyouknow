@@ -37,7 +37,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = SummernoteTextField()
     feed_cover = models.URLField(null=True, blank=True)
-    feed_cover_caption = models.CharField(max_length=200, null=True, blank=True)
+    # feed_cover_caption = models.CharField(max_length=200, null=True, blank=True)
     feed_article_preview = SummernoteTextField(null=True, blank=True)
     feed_read_more_button_name = models.CharField(max_length=100, default='Read more', null=True, blank=True)
     tags = TaggableManager()
