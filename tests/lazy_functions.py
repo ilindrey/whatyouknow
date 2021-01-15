@@ -37,9 +37,7 @@ def get_post_params():
 
     text = ''
     feed_cover = None
-    # feed_cover_caption = None
     # feed_article_preview = None
-    # feed_read_more_button_name = None
 
     html_template_text_block = '<p>{}<br></p>'
 
@@ -61,17 +59,6 @@ def get_post_params():
                     </div>
                     """
 
-    read_more_button_name_list = [
-        'Read more...',
-        'Continue',
-        'Continue...',
-        'Click to view',
-        'Click to view...',
-        'Click to continue',
-        'Click to continue...',
-        'With this post we start a series of articles, click to continue',
-        ]
-
     gen_headers = randint(0, 2) in [i for i in range(2)]
     gen_subheaders = gen_headers and randint(0, 5) == 0
 
@@ -86,8 +73,6 @@ def get_post_params():
     # gen_feed_article_preview = randint(0, 10) == 0 if gen_feed_cover else randint(0, 100) == 0
     gen_feed_cover = 1
     gen_feed_article_preview = 1
-
-    gen_feed_read_more_button_name = randint(0, 100) == 0
 
     generation_list = [
         'image',
@@ -146,7 +131,6 @@ def get_post_params():
         if current_gen_type in ('ordered_list', 'unordered_list') and previous_gen_type != 'text':
             continue
 
-        caption = None
         value = ''
         value_with_html_template = ''
         if current_gen_type == 'image':
@@ -189,8 +173,6 @@ def get_post_params():
 
         if not gen_feed_cover and (i == 0 and current_gen_type == 'image'):
             feed_cover = value
-            # if gen_image_captions:
-            #     feed_cover_caption = caption
         elif not gen_feed_article_preview and len(feed_article_preview_value) <= max_length_feed_article_preview:
             feed_article_preview_value += value
             feed_article_preview_html_template += value_with_html_template
@@ -201,8 +183,6 @@ def get_post_params():
 
     if gen_feed_cover:
         feed_cover = get_image_url(410, 250, 1200, 250)
-        # if gen_image_captions:
-        #     feed_cover_caption = prov.title()
 
     if gen_feed_article_preview:
         value = ''
@@ -212,17 +192,10 @@ def get_post_params():
     else:
         feed_article_preview = feed_article_preview_html_template
 
-    if gen_feed_read_more_button_name:
-        feed_read_more_button_name = choice(read_more_button_name_list)
-    else:
-        feed_read_more_button_name = 'Read more'
-
     return {
         'text': text,
         'feed_cover': feed_cover,
-        # 'feed_cover_caption': feed_cover_caption,
         'feed_article_preview': feed_article_preview,
-        'feed_read_more_button_name': feed_read_more_button_name
         }
 
 

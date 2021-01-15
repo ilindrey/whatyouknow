@@ -78,9 +78,7 @@ class PostFactory(DjangoModelFactory):
     title = MimesisField("title")
     text = LazyAttribute(lambda o: o.param_list['text'])
     feed_cover = LazyAttribute(lambda o: o.param_list['feed_cover'])
-    # feed_cover_caption = LazyAttribute(lambda o: o.param_list['feed_cover_caption'])
     feed_article_preview = LazyAttribute(lambda o: o.param_list['feed_article_preview'])
-    feed_read_more_button_name = LazyAttribute(lambda o: o.param_list['feed_read_more_button_name'])
 
     @post_generation
     def post_tags(self, create, extracted, **kwargs):
