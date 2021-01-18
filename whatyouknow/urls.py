@@ -29,9 +29,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
-    # path('/search/category/', search_list, name='category')
     # others
     path('summernote/', include('django_summernote.urls')),
+    path('comments/', include('django_comments_xtd.urls')),
 ]
 
 

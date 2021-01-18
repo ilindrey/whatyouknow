@@ -8,7 +8,7 @@ from .models import Post, CATEGORY_CHOICES
 
 def home(request):
     # categories = Category.objects.all()
-    posts = Post.objects.all().order_by('-date')[:12]
+    posts = Post.objects.all().order_by('-publish')[:12]
     tags = Post.objects.values(post_id=F('id')).values('post_id', name=F('tags__name'))
     context = {
         # 'categories': categories,

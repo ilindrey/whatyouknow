@@ -52,7 +52,7 @@ class PostFactory(DjangoModelFactory):
     user = SubFactory(UserProfileFactory)
 
     @lazy_attribute
-    def date(self):
+    def publish(self):
 
         start_datetime = datetime(2020, 1, 1, tzinfo=current_tz)
         end_datetime = datetime.now(tz=current_tz)

@@ -1,7 +1,8 @@
-django
 pillow
 python-decouple
+django
 django-summernote
+django-comments-xtd
 django-taggit
 factory_boy
 mimesis

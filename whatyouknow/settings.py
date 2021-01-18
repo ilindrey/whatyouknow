@@ -33,20 +33,24 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # default django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # others
-    # 'django.contrib.humanize',
+
+    # other django apps
+    'django.contrib.sites',
+
+    # other apps
     'django_summernote',
-    # 'tinymce',
-    # 'django_ckeditor_5',
-    # 'ckeditor_uploader',
+    'django_comments',
+    'django_comments_xtd',
     'taggit',
-    # apps
+
+    # project apps
     'whatyouknow.profiles',
     'whatyouknow.blog',
     'whatyouknow.summernote'
@@ -140,6 +144,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'profiles.UserProfile'
 
 
+# django.contrib.sites
+SITE_ID = 1
+
+
+# django_comments_xtd
+COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+COMMENTS_XTD_CONFIRM_EMAIL = False
+
+# django_summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SUMMERNOTE_CONFIG = {

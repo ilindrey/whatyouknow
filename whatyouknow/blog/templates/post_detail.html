@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load comments %}
 
 {% block menu %}
     {% include 'includes/menu.html' %}
@@ -12,6 +12,8 @@
 
 
 {% block content %}
+
+    {% get_comment_count for post as comment_count %}
 
     <div class="ui grid">
 
@@ -56,33 +58,81 @@
         </div>
 
         <div class="row">
-            <div class="ui compact segment">
-                <div class="ui  primary horizontal statistic">
-                    <div class="value">
-                        8.7
-                    </div>
-                    <div class="label">
-                        <div class="ui primary huge rating"></div>
-                    </div>
-                </div>
-                <div class="ui divider"></div>
-                <div class="ui  horizontal list">
 
-                    <div class="item">
-                        <i class="ui grey fitted bookmark icon"></i>
-                        <span class="ui text">33</span>
+            <div class="ui grid container">
+
+                <div class="two column row">
+
+                    <div class="column">
+                        <div class="ui left floated fitted basic compact segment">
+                            <div class="ui mini statistics">
+
+                                <div class="statistic">
+                                    <div class="value">
+                                        33
+                                    </div>
+                                    <div class="label">
+                                        <i class="ui fitted bookmark icon"></i>
+                                        <span class="ui text">bookmarks</span>
+                                    </div>
+                                </div>
+
+                                <div class="statistic">
+                                    <div class="value">
+                                        11336
+                                    </div>
+                                    <div class="label">
+                                        <i class="ui fitted eye icon"></i>
+                                        <span class="ui text">views</span>
+                                    </div>
+                                </div>
+
+                                <div class="statistic">
+                                    <div class="value">
+                                        {{ comment_count|default_if_none:0 }}
+                                    </div>
+                                    <div class="label">
+                                        <i class="ui fitted comment icon"></i>
+                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="item">
-                        <i class="ui grey fitted eye icon"></i>
-                        <span class="ui text">11336</span>
+
+                    <div class="column">
+
+                        <div class="ui right floated fitted basic compact segment">
+                            <div class="ui primary horizontal statistic">
+                                <div class="value">
+                                    8.7
+                                </div>
+                                <div class="label">
+                                    <div class="ui primary huge rating"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="item">
-                        <i class="ui grey fitted comment icon"></i>
-                        <span class="ui text">11</span>
-                    </div>
-                    <div class="item">
-                        <i class="ui grey fitted share icon"></i>
-                        <span class="ui text">Share</span>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="ui container">
+                <div class="ui right floated fitted basic compact segment">
+                    <div class="ui horizontal link list">
+                        <div class="item">
+                            <i class="ui huge primary bookmark link icon"></i>
+                        </div>
+                        <div class="item">
+                            <i class="ui huge primary share link icon"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,7 +148,7 @@
                     </div>
                 </div>
 
-                <div class="two column row">
+                <div class="four column row">
                     <div class="left floated center aligned five wide column">
                         <div class="ui list">
                             <div class="item">
@@ -146,8 +196,8 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="ui divider hidden"></div>
-                            <div><span class="ui black text">{{ post.user.description }}</span></div>
+                        <div class="ui divider hidden"></div>
+                        <div><span class="ui black text">{{ post.user.description }}</span></div>
                     </div>
                 </div>
 
@@ -155,6 +205,22 @@
 
         </div>
 
+        <div class="row">
+            <div class="ui vertically divided aligned grid container">
+
+                <div class="row">
+                    <div class="column">
+                        <h2 class="ui header">Comments</h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if comment_count %}
+                        {% render_comment_list for post %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
