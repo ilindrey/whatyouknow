@@ -6,7 +6,7 @@
 #
 asgiref==3.3.1
     # via django
-django-comments-xtd==2.8.1
+django-comments-xtd==2.8.2
     # via -r requirements.in
 django-contrib-comments==2.0.0
     # via django-comments-xtd
@@ -14,7 +14,7 @@ django-summernote==0.8.11.6
     # via -r requirements.in
 django-taggit==1.3.0
     # via -r requirements.in
-django==3.1.3
+django==3.1.5
     # via
     #   -r requirements.in
     #   django-comments-xtd
@@ -26,25 +26,19 @@ djangorestframework==3.12.2
     # via django-comments-xtd
 docutils==0.16
     # via django-comments-xtd
-factory-boy==3.1.0
-    # via
-    #   -r requirements.in
-    #   mimesis-factory
-faker==4.17.1
-    # via factory-boy
-mimesis-factory==1.2.0
+factory-boy==3.2.0
     # via -r requirements.in
-mimesis==4.1.2
+faker==5.7.0
     # via
     #   -r requirements.in
-    #   mimesis-factory
-pillow==8.0.1
+    #   factory-boy
+pillow==8.1.0
     # via -r requirements.in
 python-dateutil==2.8.1
     # via faker
-python-decouple==3.3
+python-decouple==3.4
     # via -r requirements.in
-pytz==2020.4
+pytz==2020.5
     # via django
 six==1.15.0
     # via

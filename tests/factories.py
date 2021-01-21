@@ -1,85 +1,119 @@
-from random import randint, randrange
-from datetime import datetime, timedelta
+from random import randint
+from datetime import datetime
 
-from django.utils.timezone import get_current_timezone
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
+from django.utils.timezone import now
+from django.db.models import Subquery, Q
 
-from mimesis_factory import MimesisField
+import factory
+from decouple import config
 
-from factory.django import DjangoModelFactory, ImageField
-from factory import (
-    LazyAttribute,
-    LazyFunction,
-    PostGenerationMethodCall,
-    SubFactory, post_generation, lazy_attribute
-    )
+from whatyouknow.profiles.models import UserProfile
+from whatyouknow.blog.models import Post
+from django_comments.models import Comment
+from django_comments_xtd.models import XtdComment
 
-from .lazy_functions import get_category, get_post_params, get_tags
-
-current_tz = get_current_timezone()
+from .lazy_functions import get_image_url, get_category, get_post_text, get_tags, current_tz
 
 
-class UserProfileFactory(DjangoModelFactory):
+class SuperUserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "profiles.UserProfile"
-        django_get_or_create = ("username",)
+        model = UserProfile
+        django_get_or_create = ('username',)
 
-    username = MimesisField('username')
-    password = PostGenerationMethodCall("set_password", "defaultpassword")
-    first_name = MimesisField("first_name")
-    last_name = MimesisField("last_name")
-    email = MimesisField("email")
-    is_staff = False
+    username = config('SUPERUSER_NAME')
+    name = 'Administrator'
+    password = factory.PostGenerationMethodCall('set_password', config('SUPERUSER_PASSWORD'))
+    email = 'admin@whatyouknow.com'
     is_active = True
-    name = LazyAttribute(lambda obj: "{} {}".format(obj.first_name, obj.last_name))
-    specialization = MimesisField("occupation")
-    website = MimesisField("home_page")
-    description = MimesisField("text", quantity=randint(1, 10))
-    image = ImageField(color='gray', width=256, height=256)
+    is_staff = True
+    is_superuser = True
+    image = factory.django.ImageField(color='black', width=256, height=256)
 
 
-class PostFactory(DjangoModelFactory):
+class UserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = "blog.Post"
-        django_get_or_create = (
-            "title",
-            "user",
-            "category",
-            )
+        model = UserProfile
+        django_get_or_create = ('username',)
+
+    username = factory.Faker('user_name')
+    password = factory.PostGenerationMethodCall('set_password', 'defaultpassword')
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    email = factory.Faker('email')
+    is_active = True
+    is_staff = False
+    is_superuser = False
+    name = factory.LazyAttribute(lambda obj: '{} {}'.format(obj.first_name, obj.last_name))
+    specialization = factory.Faker('job')
+    website = factory.Faker('url')
+    description = factory.Faker('paragraph', nb_sentences=randint(10, 25))
+    image = factory.django.ImageField(color='gray', width=256, height=256)
+
+
+class PostFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Post
+        django_get_or_create = ('user', 'category', 'title')
+
+    user = factory.Iterator(UserProfile.objects.filter(is_superuser=False))
+    # user = factory.SubFactory(UserProfileFactory)
+    category = factory.LazyFunction(get_category)
+    # category = factory.fuzzy.FuzzyChoice(CATEGORY_CHOICES, getter=lambda c: c[0])
+    publish = factory.Faker('date_time_between', start_date='-2y', end_date='now', tzinfo=current_tz)
+    title = factory.Faker('sentence')
+    feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
+    feed_article_preview = factory.Faker('text', max_nb_chars=randint(500, 1500))
+    text = factory.LazyFunction(get_post_text)
+
+    @factory.post_generation
+    def post_tags(self, create, extracted, **kwargs):
+        if create:
+            self.tags.add(*get_tags(self.category))
+
+
+class XtdCommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = XtdComment
+        django_get_or_create = ('site', 'content_type', 'object_pk', 'user', 'submit_date',)
 
     class Params:
-        param_list = LazyFunction(get_post_params)
+        is_reply = randint(0, 10) in [i for i in range(10)]  # for 9 out of 10 cases
 
-    user = SubFactory(UserProfileFactory)
+    site = Site.objects.get_current()
+    content_object = factory.Iterator(Post.objects.all())
+    content_type = factory.LazyAttribute(lambda o: ContentType.objects.get_for_model(o.content_object))
+    object_pk = factory.SelfAttribute('content_object.pk')
+    user = factory.Iterator(UserProfile.objects.filter(is_superuser=False))
+    # user = factory.SubFactory(UserProfileFactory)
+    submit_date = factory.Faker('date_time_between_dates',
+                                datetime_start=factory.SelfAttribute('..content_object.publish'),
+                                datetime_end=now(),
+                                tzinfo=current_tz)
+    comment = factory.Faker('text', max_nb_chars=randint(500, 1500))
+    is_public = True
 
-    @lazy_attribute
-    def publish(self):
+    @factory.lazy_attribute
+    def parent_id(self):
+        if self.is_reply:
+            qs = XtdComment.objects.filter(site=self.site,
+                                           content_type=self.content_type,
+                                           object_pk=self.object_pk)
+            count = qs.count()
+            if count != 0:
+                return qs[randint(0, count-1)].pk
+            return 0
+        return 0
 
-        start_datetime = datetime(2020, 1, 1, tzinfo=current_tz)
-        end_datetime = datetime.now(tz=current_tz)
-
-        time_between_dates = end_datetime - start_datetime
-        days_between_dates = time_between_dates.days
-
-        random_number_of_days = randrange(days_between_dates)
-
-        hours = randint(0, 23)
-        minutes = randint(0, 59)
-        seconds = randint(0, 59)
-        microseconds = randint(0, 999)
-
-        random_date = start_datetime + timedelta(days=random_number_of_days,
-                                                 hours=hours,
-                                                 minutes=minutes,
-                                                 seconds=seconds,
-                                                 microseconds=microseconds)
-        return random_date
-
-    category = LazyFunction(get_category)
-    title = MimesisField("title")
-    text = LazyAttribute(lambda o: o.param_list['text'])
-    feed_cover = LazyAttribute(lambda o: o.param_list['feed_cover'])
-    feed_article_preview = LazyAttribute(lambda o: o.param_list['feed_article_preview'])
-
-    @post_generation
-    def post_tags(self, create, extracted, **kwargs):
-        self.tags.add(*get_tags(self.category))
+    @factory.lazy_attribute
+    def thread_id(self):
+        if self.is_reply:
+            qs = XtdComment.objects.filter(site=self.site,
+                                           content_type=self.content_type,
+                                           object_pk=self.object_pk)
+            count = qs.count()
+            if count != 0:
+                return qs.get(pk=self.parent_id).thread_id  # parent.thread_id
+            return 0
+        return 0

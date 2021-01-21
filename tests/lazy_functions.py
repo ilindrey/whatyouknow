@@ -1,17 +1,17 @@
 import json
+from random import choice, randint
+# , randrange
+# from datetime import datetime, timedelta
 
-from random import randint, choice
+from django.utils.timezone import get_current_timezone
+# , now
+from faker import Faker
+
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
 
-from mimesis.providers.text import Text
-
-prov = Text()
-
-
-def get_category():
-    int_value_list_categories = [x[0] for x in CATEGORY_CHOICES]
-    return choice(int_value_list_categories)
+current_tz = get_current_timezone()
+fake = Faker()
 
 
 def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None):
@@ -33,11 +33,9 @@ def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None
     return url.format(width, height)
 
 
-def get_post_params():
+def get_post_text():
 
     text = ''
-    feed_cover = None
-    # feed_article_preview = None
 
     html_template_text_block = '<p>{}<br></p>'
 
@@ -69,11 +67,6 @@ def get_post_params():
     gen_image_captions = randint(0, 10) == 0
     gen_several_images_in_row = randint(0, 10) == 0
 
-    # gen_feed_cover = randint(0, 10) == 0 if gen_image_first else randint(0, 100) == 0
-    # gen_feed_article_preview = randint(0, 10) == 0 if gen_feed_cover else randint(0, 100) == 0
-    gen_feed_cover = 1
-    gen_feed_article_preview = 1
-
     generation_list = [
         'image',
         'text',
@@ -93,9 +86,6 @@ def get_post_params():
     previous_gen_type = ''
     subheader_current_iteration = 0
     current_header_contains_text = False
-    feed_article_preview_value = ''
-    feed_article_preview_html_template = ''
-    max_length_feed_article_preview = randint(500, 2000)
     while i < length:
 
         if i == 0 and gen_image_first:
@@ -131,72 +121,52 @@ def get_post_params():
         if current_gen_type in ('ordered_list', 'unordered_list') and previous_gen_type != 'text':
             continue
 
-        value = ''
         value_with_html_template = ''
         if current_gen_type == 'image':
-            if not gen_feed_cover and (i == 0 and current_gen_type == 'image'):
-                value = get_image_url(410, 250, 1200, 250)
-            else:
-                value = get_image_url()
+            value = get_image_url()
             image_tag = html_template_image.format(value)
             if gen_image_captions:
-                caption = prov.title()
+                caption = fake.sentence()
                 value_with_html_template = html_template_image_align_with_captions.format(image_tag, caption)
             else:
                 value_with_html_template = html_template_image_align_without_captions.format(image_tag)
         elif current_gen_type == 'text':
-            value = prov.text(quantity=randint(3, 50))
+            value = fake.text(max_nb_chars=randint(500, 5000))
             value_with_html_template = html_template_text_block.format(value)
             current_header_contains_text = True
         elif current_gen_type == 'header':
-            value = prov.title()
+            value = fake.sentence()
             value_with_html_template = html_template_header.format(value)
             subheader_current_iteration = 0
             current_header_contains_text = False
         elif current_gen_type == 'subheader':
-            value = prov.title()
+            value = fake.sentence()
             subheader_current_iteration += 1
             value_with_html_template = html_template_subheader.format(subheader_current_iteration, value)
             current_header_contains_text = False
         elif current_gen_type == 'ordered_list':
             items_list_str = ''
             for item in range(randint(2, 20)):
-                value = prov.title()
+                value = fake.sentence()
                 items_list_str += html_template_list_item.format(value)
             value_with_html_template = html_template_ordered_list.format(items_list_str)
         elif current_gen_type == 'unordered_list':
             items_list_str = ''
             for item in range(randint(2, 20)):
-                value = prov.title()
+                value = fake.sentence()
                 items_list_str += html_template_list_item.format(value)
             value_with_html_template = html_template_unordered_list.format(items_list_str)
-
-        if not gen_feed_cover and (i == 0 and current_gen_type == 'image'):
-            feed_cover = value
-        elif not gen_feed_article_preview and len(feed_article_preview_value) <= max_length_feed_article_preview:
-            feed_article_preview_value += value
-            feed_article_preview_html_template += value_with_html_template
 
         text += value_with_html_template
         previous_gen_type = current_gen_type
         i += 1
 
-    if gen_feed_cover:
-        feed_cover = get_image_url(410, 250, 1200, 250)
+    return text
 
-    if gen_feed_article_preview:
-        value = ''
-        while 0 <= len(value) <= max_length_feed_article_preview:
-            value = prov.text(quantity=randint(3, 50))
-        feed_article_preview = html_template_text_block.format(value)
-    else:
-        feed_article_preview = feed_article_preview_html_template
 
-    return {
-        'text': text,
-        'feed_cover': feed_cover,
-        'feed_article_preview': feed_article_preview,
-        }
+def get_category():
+    int_value_list_categories = [x[0] for x in CATEGORY_CHOICES]
+    return choice(int_value_list_categories)
 
 
 def get_tags(index_category):

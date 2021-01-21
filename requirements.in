@@ -4,6 +4,5 @@ django
 django-summernote
 django-comments-xtd
 django-taggit
+faker
 factory_boy
-mimesis
-mimesis_factory

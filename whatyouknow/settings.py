@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 
     # other apps
     'django_summernote',
-    'django_comments',
     'django_comments_xtd',
+    'django_comments',
     'taggit',
 
     # project apps
@@ -150,7 +150,7 @@ SITE_ID = 1
 
 # django_comments_xtd
 COMMENTS_APP = 'django_comments_xtd'
-COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+COMMENTS_XTD_MAX_THREAD_LEVEL = 9999
 COMMENTS_XTD_CONFIRM_EMAIL = False
 
 # django_summernote
