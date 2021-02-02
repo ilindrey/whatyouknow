@@ -2,7 +2,7 @@ pillow
 python-decouple
 django
 django-summernote
-django-comments-xtd
 django-taggit
+django-mptt
 faker
 factory_boy

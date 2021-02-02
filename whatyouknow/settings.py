@@ -42,18 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # other django apps
-    'django.contrib.sites',
+    # 'django.contrib.sites',
 
     # other apps
     'django_summernote',
-    'django_comments_xtd',
-    'django_comments',
     'taggit',
+    'mptt',
 
     # project apps
     'whatyouknow.profiles',
     'whatyouknow.blog',
-    'whatyouknow.summernote'
+    'whatyouknow.comments',
+    'whatyouknow.summernote',
+
 ]
 
 MIDDLEWARE = [
@@ -145,13 +146,15 @@ AUTH_USER_MODEL = 'profiles.UserProfile'
 
 
 # django.contrib.sites
-SITE_ID = 1
+# SITE_ID = 1
 
+# django_comments_dab
+LOGIN_URL = 'login'
 
-# django_comments_xtd
-COMMENTS_APP = 'django_comments_xtd'
-COMMENTS_XTD_MAX_THREAD_LEVEL = 9999
-COMMENTS_XTD_CONFIRM_EMAIL = False
+# # django_comments_xtd
+# COMMENTS_APP = 'django_comments_xtd'
+# COMMENTS_XTD_MAX_THREAD_LEVEL = 9999
+# COMMENTS_XTD_CONFIRM_EMAIL = False
 
 # django_summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'

@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
-{% load comments %}
+{#{% load comments %}#}
+{#{% load comments_xtd %}#}
 
 {% block menu %}
     {% include 'includes/menu.html' %}
@@ -205,6 +206,12 @@
 
         </div>
 
+{#        {% if post.allow_comments %}#}
+        <div class="row">
+{#            {% render_comment_form for post %}#}
+        </div>
+{#        {% endif %}#}
+
         <div class="row">
             <div class="ui vertically divided aligned grid container">
 
@@ -215,12 +222,15 @@
                 </div>
 
                 <div class="row">
-                    {% if comment_count %}
-                        {% render_comment_list for post %}
-                    {% endif %}
+{#                    {% if comment_count %}#}
+{#                        {% render_xtdcomment_tree for post %}#}
+{#                    {% endif %}#}
                 </div>
             </div>
         </div>
+
+
+
     </div>
 
 {% endblock %}

@@ -1,22 +1,19 @@
-from django_comments_xtd.models import XtdComment
+from .reference import ReferenceModel as rm
 
-from whatyouknow.blog.models import Post
-from whatyouknow.profiles.models import UserProfile
-
-from .factories import SuperUserFactory, UserProfileFactory, PostFactory, XtdCommentFactory
+from .factories import SuperUserFactory, UserProfileFactory, PostFactory, PostCommentsFactory
 
 
 def make_objects(factor=1, create_superuser=False):
 
-    XtdComment.objects.all().delete()
-    Post.objects.all().delete()
+    rm.COMMENT.objects.all().delete()
+    rm.POST.objects.all().delete()
 
     if create_superuser:
-        UserProfile.objects.all().delete()
+        rm.USER.objects.all().delete()
         SuperUserFactory.create()
     else:
-        UserProfile.objects.filter(is_superuser=False).delete()
+        rm.USER.objects.filter(is_superuser=False).delete()
 
-    UserProfileFactory.create_batch(size=1000*factor)
+    UserProfileFactory.create_batch(size=20*factor)
     PostFactory.create_batch(size=10*factor)
-    XtdCommentFactory.create_batch(size=500*factor)
+    PostCommentsFactory.create_batch(100*factor)

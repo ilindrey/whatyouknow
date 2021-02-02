@@ -1,12 +1,9 @@
 import json
 from random import choice, randint
-# , randrange
-# from datetime import datetime, timedelta
 
 from django.utils.timezone import get_current_timezone
-# , now
-from faker import Faker
 
+from faker import Faker
 
 from whatyouknow.blog.models import CATEGORY_CHOICES
 

@@ -31,7 +31,6 @@ urlpatterns = [
     path('post/<int:pk>/', post_detail, name='post_detail'),
     # others
     path('summernote/', include('django_summernote.urls')),
-    path('comments/', include('django_comments_xtd.urls')),
 ]
 
 
