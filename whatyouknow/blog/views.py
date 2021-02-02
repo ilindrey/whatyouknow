@@ -3,7 +3,7 @@ from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import F
 
-from .models import Post, CATEGORY_CHOICES
+from .models import Post, CategoryTypes
 
 
 def home(request):
@@ -14,7 +14,7 @@ def home(request):
         # 'categories': categories,
         'posts': posts,
         'tags': tags,
-        'categories': CATEGORY_CHOICES
+        'categories': CategoryTypes.choices()
         }
     return render(request, 'home.html', context)
 

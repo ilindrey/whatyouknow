@@ -52,8 +52,7 @@ class PostFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('user', 'category', 'title')
 
     user = factory.Iterator(rm.USER.objects.filter(is_superuser=False))
-    # user = factory.SubFactory(UserProfileFactory)
-    category = factory.fuzzy.FuzzyChoice(CATEGORY_CHOICES, getter=lambda c: c[0])
+    category = factory.LazyFunction(CategoryTypes.get_random_index)
     publish = factory.Faker('date_time_between', start_date='-2y', end_date='now', tzinfo=current_tz)
     title = factory.Faker('sentence')
     feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))

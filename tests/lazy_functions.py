@@ -5,7 +5,8 @@ from django.utils.timezone import get_current_timezone
 
 from faker import Faker
 
-from whatyouknow.blog.models import CATEGORY_CHOICES
+from whatyouknow.blog.models import CategoryTypes
+
 
 current_tz = get_current_timezone()
 fake = Faker()
@@ -161,18 +162,13 @@ def get_post_text():
     return text
 
 
-def get_category():
-    int_value_list_categories = [x[0] for x in CATEGORY_CHOICES]
-    return choice(int_value_list_categories)
+def get_tags(category):
 
-
-def get_tags(index_category):
-
-    category = CATEGORY_CHOICES[index_category][1]
+    category_name = CategoryTypes.get_name(category)
 
     with open('./tests/tags.json', 'r') as file:
         data = json.load(file)
-        tag_set = data[category]
+        tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0
     length = randint(1, 7)
     tag_list = []

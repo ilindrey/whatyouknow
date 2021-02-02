@@ -1,5 +1,5 @@
 {
-  "Development":
+  "development":
   [
     "Programming",
     "Industrial Programming",
@@ -65,7 +65,7 @@
     "Notepad++",
     "Atom"
   ],
-  "Administrating": [
+  "administrating": [
     "System administration",
     "Network technologies",
     "Network hardware",
@@ -75,17 +75,17 @@
     "Database Administration",
     "DevOps"
   ],
-  "Design": [
+  "design": [
     "Prototyping",
     "Mobile applications design"
   ],
-  "Management": [
+  "management": [
     "Development Management",
     "Project management",
     "Product Management",
     "DevOps"
   ],
-  "Marketing": [
+  "marketing": [
     "Mobile applications monetization",
     "Games monetization",
     "Games promotion",
@@ -94,7 +94,7 @@
     "Content-marketing",
     "Search engine optimization"
   ],
-  "PopSci": [
+  "popular_science": [
     "Machine learning",
     "Social networks and communities",
     "Electronics for beginners",
