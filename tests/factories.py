@@ -101,7 +101,7 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
                 content_type=self.content_type,
                 object_id=self.object_id,
                 posted__lt=self.posted
-                )
+                ).order_by('posted')
             count = qs.count()
             if count != 0:
                 return qs[randint(0, count - 1)]

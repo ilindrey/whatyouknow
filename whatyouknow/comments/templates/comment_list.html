@@ -39,9 +39,14 @@
                             <div class="detail">@{{ node.user.username }}</div>
                         </a>
                         <div class="metadata">
-                            <span>{{ node.posted|datetime_format }}</span>
-{#                            <span>id - {{ node.id }}</span>#}
-{#                            <span>parent_id - {{ node.parent_id }}</span>#}
+                            <span>
+                                {{ node.posted|datetime_format }}
+                                {% if node.posted != node.edited %}
+                                    <span>(edited)</span>
+                                {% endif %}
+                            </span>
+                            <span>id - {{ node.id }}</span>
+                            <span>parent_id - {{ node.parent_id }}</span>
                         </div>
                         <div class="text">
                             {{ node.text|safe }}
@@ -55,7 +60,7 @@
                     </div>
 
                     {% for level in structure.closed_levels %}
-                        {% if node.level == 1 %}
+                        {% if level == 1 %}
                             </div>
                             </div>
                         {% else %}
