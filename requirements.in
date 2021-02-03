@@ -1,5 +1,6 @@
 pillow
 python-decouple
+python-dateutil
 django
 django-summernote
 django-taggit

@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load custom %}
 
 {% block menu %}
     {% include 'includes/menu.html' %}
@@ -117,7 +118,7 @@
                         </div>
 
                     </div>
-                    <div class="right floated item">{{ post.publish|date:"F d, Y \a\t h:i A" }}</div>
+                    <div class="right floated item">{{ post.publish|datetime_format }}</div>
                 </div>
 
             </a>

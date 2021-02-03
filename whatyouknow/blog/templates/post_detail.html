@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
-{#{% load comments %}#}
-{#{% load comments_xtd %}#}
+{% load custom %}
 
 {% block menu %}
     {% include 'includes/menu.html' %}
@@ -27,6 +26,7 @@
                         <div class="header">{{ post.user.name }}</div>
                         <span class="ui grey text">(@{{ post.user.username }})</span>
                     </div>
+                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>
                 </div>
 
                 <div class="item">

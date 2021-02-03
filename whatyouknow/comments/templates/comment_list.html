@@ -1,4 +1,5 @@
 {% load mptt_tags %}
+{% load custom %}
 
 <div class="ui vertically divided aligned grid container">
 
@@ -38,12 +39,18 @@
                             <div class="detail">(@{{ node.user.username }})</div>
                         </a>
                         <div class="metadata">
-                            <span>{{ node.posted|timesince }}</span>
-                            <span>id - {{ node.id }}</span>
-                            <span>parent_id - {{ node.parent_id }}</span>
+                            <span>{{ node.posted|datetime_format }}</span>
+{#                            <span>id - {{ node.id }}</span>#}
+{#                            <span>parent_id - {{ node.parent_id }}</span>#}
                         </div>
                         <div class="text">
                             {{ node.text|safe }}
+                        </div>
+                        <div class="actions">
+                            <a class="like"><i class="thumbs up link icon"></i>13</a>
+                            <a class="dislike"><i class="thumbs up link icon"></i>2</a>
+                            <a class="reply">Reply</a>
+                            <a class="edit">Edit</a>
                         </div>
                     </div>
 
