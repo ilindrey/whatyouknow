@@ -1,0 +1,59 @@
+{% load mptt_tags %}
+
+<div class="ui vertically divided aligned grid container">
+
+    <div class="row">
+        <div class="column">
+            <h2 class="ui header">Comments</h2>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="ui threaded comments">
+
+            {% recursetree comments %}
+
+                {% for node, structure in comments|tree_info  %}
+
+                    {% if structure.new_level %}
+                        <div class="ui comments">
+                        <div class="comment">
+                    {% else %}
+                        </div>
+                        <div class="comment">
+                    {% endif %}
+
+                    <a class="avatar">
+                        <img src="{{ node.user.image.url}}">
+                    </a>
+                    <div class="content">
+                        <a class="ui basic image label">
+                            {#                        <img src="{{ node.user.image.url}}">#}
+                            {{ node.user.name }}
+                            <div class="detail">(@{{ node.user.username }})</div>
+                        </a>
+                        <div class="metadata">
+                            <span>{{ node.posted|timesince }}</span>
+                            <span>id - {{ node.id }}</span>
+                            <span>parent_id - {{ node.parent_id }}</span>
+                        </div>
+                        <div class="text">
+                            {{ node.text|safe }}
+                        </div>
+                    </div>
+
+                    {% for level in structure.closed_levels %}
+                        </div>
+                        </div>
+                    {% endfor %}
+
+                {% endfor %}
+
+            {% endrecursetree %}
+
+        </div>
+
+    </div>
+
+</div>

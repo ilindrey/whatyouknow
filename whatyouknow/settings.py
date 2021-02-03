@@ -149,7 +149,7 @@ AUTH_USER_MODEL = 'profiles.UserProfile'
 # SITE_ID = 1
 
 # django_comments_dab
-LOGIN_URL = 'login'
+# LOGIN_URL = 'login'
 
 # # django_comments_xtd
 # COMMENTS_APP = 'django_comments_xtd'

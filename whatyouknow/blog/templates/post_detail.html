@@ -14,7 +14,7 @@
 
 {% block content %}
 
-    {% get_comment_count for post as comment_count %}
+{#    {% get_comment_count for post as comment_count %}#}
 
     <div class="ui grid">
 
@@ -90,11 +90,13 @@
 
                                 <div class="statistic">
                                     <div class="value">
-                                        {{ comment_count|default_if_none:0 }}
+{#                                        {{ comment_count|default_if_none:0 }}#}
+                                        0
                                     </div>
                                     <div class="label">
                                         <i class="ui fitted comment icon"></i>
-                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>
+{#                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>#}
+                                        <span class="ui text">comments</span>
                                     </div>
                                 </div>
 
@@ -213,20 +215,7 @@
 {#        {% endif %}#}
 
         <div class="row">
-            <div class="ui vertically divided aligned grid container">
-
-                <div class="row">
-                    <div class="column">
-                        <h2 class="ui header">Comments</h2>
-                    </div>
-                </div>
-
-                <div class="row">
-{#                    {% if comment_count %}#}
-{#                        {% render_xtdcomment_tree for post %}#}
-{#                    {% endif %}#}
-                </div>
-            </div>
+            {% include 'comment_list.html' %}
         </div>
 
 

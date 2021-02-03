@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, randrange
 
 from django.contrib.contenttypes.models import ContentType
 from django.utils.timezone import now
@@ -7,6 +7,7 @@ import factory
 from decouple import config
 
 from whatyouknow.blog.models import CategoryTypes
+from whatyouknow.comments.models import Comment
 from .reference import ReferenceModel as rm
 from .lazy_functions import get_image_url, get_post_text, get_tags, current_tz
 
@@ -71,7 +72,8 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('content_type', 'object_id', 'user', 'posted')
 
     class Params:
-        is_reply = randint(0, 10) in [i for i in range(10)]  # for 9 out of 10 cases
+        is_reply = randrange(10) != 0  # for 9 out of 10 cases
+        # is_edited = randrange(4) == 0  # for 1 out of 4 cases
 
     content_object = factory.Iterator(rm.POST.objects.all())
     content_type = factory.LazyAttribute(lambda o: ContentType.objects.get_for_model(o.content_object))
@@ -83,12 +85,23 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
                            tzinfo=current_tz)
     text = factory.Faker('text', max_nb_chars=randint(500, 1500))
 
+    # @factory.lazy_attribute
+    # def edited(self):
+    #     if self.is_edited:
+    #         return factory.Faker('date_time_between_dates',
+    #                              datetime_start=self.posted,
+    #                              datetime_end=now(),
+    #                              tzinfo=current_tz)
+    #     return self.posted
+
     @factory.lazy_attribute
     def parent(self):
         if self.is_reply:
             qs = rm.COMMENT.objects.filter(
                 content_type=self.content_type,
-                object_id=self.object_id)
+                object_id=self.object_id,
+                posted__lt=self.posted
+                )
             count = qs.count()
             if count != 0:
                 return qs[randint(0, count - 1)]

@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import F
+from django.contrib.contenttypes.models import ContentType
 
 from .models import Post, CategoryTypes
+from whatyouknow.comments.models import Comment
 
 
 def home(request):
@@ -31,8 +33,11 @@ def home(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     tags = post.tags.all()
+    comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Post),
+                                      object_id=pk)
     context = {
         'post': post,
-        'tags': tags
+        'tags': tags,
+        'comments': comments,
         }
     return render(request, 'post_detail.html', context)
