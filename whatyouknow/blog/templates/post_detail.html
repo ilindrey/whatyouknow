@@ -13,7 +13,7 @@
 
 {% block content %}
 
-{#    {% get_comment_count for post as comment_count %}#}
+    {#    {% get_comment_count for post as comment_count %}#}
 
     <div class="ui grid">
 
@@ -21,12 +21,18 @@
             <div class="ui list">
 
                 <div class="item">
-                    <img class="ui avatar image" src="{{ post.user.image.url }}">
-                    <div class="content">
-                        <div class="header">{{ post.user.name }}</div>
-                        <span class="ui grey text">(@{{ post.user.username }})</span>
+                    <div class="ui horizontal list">
+                        <div class="link item">
+                            <a class="ui basic image label">
+                                <img src="{{ post.user.image.url}}">
+                                {{ post.user.name }}
+                                <div class="detail">@{{ post.user.username }}</div>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <span class="ui grey text">{{  post.publish|datetime_format }}</span>
+                        </div>
                     </div>
-                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>
                 </div>
 
                 <div class="item">
@@ -53,6 +59,73 @@
                 </div>
             </div>
         </div>
+
+
+
+        {#        <div class="bottom aligned row">#}
+        {#            #}
+        {#                    <img class="ui avatar image" src="{{ post.user.image.url }}">#}
+        {#                    <div class="content">#}
+        {#                        <div class="header">{{ post.user.name }}</div>#}
+        {#                        <span class="ui grey text">(@{{ post.user.username }})</span>#}
+        {#                    </div>#}
+        {#                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>#}
+        {#        </div>#}
+        {##}
+        {#    <div class="top aligned row">#}
+        {#                    <h2 class="ui header">{{ post.title }}</h2>#}
+        {#    </div>#}
+        {##}
+        {#    <div class="top aligned row">#}
+        {#                    <div class="ui horizontal link list">#}
+        {##}
+        {#                        {% for tag in tags %}#}
+        {##}
+        {#                            <div class="item">#}
+        {#                                {% if forloop.last %}#}
+        {#                                    <a>{{ tag.name }}</a>#}
+        {#                                {% else %}#}
+        {#                                    <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>#}
+        {#                                {% endif %}#}
+        {#                            </div>#}
+        {#                        {% endfor %}#}
+        {##}
+        {#                    </div>#}
+        {##}
+        {#    </div>#}
+
+        {#        <div class="row">#}
+        {#            <div class="ui basic segments">#}
+        {#                <div class="ui segment">#}
+        {#                    <img class="ui avatar image" src="{{ post.user.image.url }}">#}
+        {#                    <div class="content">#}
+        {#                        <div class="header">{{ post.user.name }}</div>#}
+        {#                        <span class="ui grey text">(@{{ post.user.username }})</span>#}
+        {#                    </div>#}
+        {#                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>#}
+        {#                </div>#}
+        {#                <div class="ui segment">#}
+        {#                    <h1 class="ui header">{{ post.title }}</h1>#}
+        {#                </div>#}
+        {#                <div class="ui segment">#}
+        {##}
+        {#                    <div class="ui horizontal link list">#}
+        {##}
+        {#                        {% for tag in tags %}#}
+        {##}
+        {#                            <div class="item">#}
+        {#                                {% if forloop.last %}#}
+        {#                                    <a>{{ tag.name }}</a>#}
+        {#                                {% else %}#}
+        {#                                    <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>#}
+        {#                                {% endif %}#}
+        {#                            </div>#}
+        {#                        {% endfor %}#}
+        {##}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
 
         <div class="row">
             {{ post.text|safe }}
@@ -90,12 +163,12 @@
 
                                 <div class="statistic">
                                     <div class="value">
-{#                                        {{ comment_count|default_if_none:0 }}#}
+                                        {#                                        {{ comment_count|default_if_none:0 }}#}
                                         0
                                     </div>
                                     <div class="label">
                                         <i class="ui fitted comment icon"></i>
-{#                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>#}
+                                        {#                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>#}
                                         <span class="ui text">comments</span>
                                     </div>
                                 </div>
@@ -208,11 +281,11 @@
 
         </div>
 
-{#        {% if post.allow_comments %}#}
+        {#        {% if post.allow_comments %}#}
         <div class="row">
-{#            {% render_comment_form for post %}#}
+            {#            {% render_comment_form for post %}#}
         </div>
-{#        {% endif %}#}
+        {#        {% endif %}#}
 
         <div class="row">
             {% include 'comment_list.html' %}

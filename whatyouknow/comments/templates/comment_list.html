@@ -36,7 +36,7 @@
                         <a class="ui basic image label">
                             {#                        <img src="{{ node.user.image.url}}">#}
                             {{ node.user.name }}
-                            <div class="detail">(@{{ node.user.username }})</div>
+                            <div class="detail">@{{ node.user.username }}</div>
                         </a>
                         <div class="metadata">
                             <span>{{ node.posted|datetime_format }}</span>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="actions">
                             <a class="like"><i class="thumbs up link icon"></i>13</a>
-                            <a class="dislike"><i class="thumbs up link icon"></i>2</a>
+                            <a class="dislike"><i class="thumbs down link icon"></i>2</a>
                             <a class="reply">Reply</a>
                             <a class="edit">Edit</a>
                         </div>
