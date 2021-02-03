@@ -17,8 +17,12 @@
                 {% for node, structure in comments|tree_info  %}
 
                     {% if structure.new_level %}
-                        <div class="ui comments">
-                        <div class="comment">
+                        {% if node.level == 1 %}
+                            <div class="ui comments">
+                            <div class="comment">
+                        {% else %}
+                            <div class="comment">
+                        {% endif %}
                     {% else %}
                         </div>
                         <div class="comment">
@@ -44,8 +48,12 @@
                     </div>
 
                     {% for level in structure.closed_levels %}
-                        </div>
-                        </div>
+                        {% if node.level == 1 %}
+                            </div>
+                            </div>
+                        {% else %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
 
                 {% endfor %}
