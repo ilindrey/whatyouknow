@@ -39,7 +39,8 @@
 @avatarHeight: auto;
 @avatarSpacing: 1em;
 @avatarMargin: (@commentLineHeight - 1em) 0 0;
-@avatarBorderRadius: 0.25rem;
+// @avatarBorderRadius: 0.25rem;
+@avatarBorderRadius: 500rem;
 
 /* Content */
 @contentMargin: @avatarWidth + @avatarSpacing;

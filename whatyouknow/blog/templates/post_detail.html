@@ -21,15 +21,15 @@
             <div class="ui list">
 
                 <div class="item">
-                    <div class="ui horizontal list">
-                        <div class="link item">
-                            <a class="ui basic image label">
-                                <img src="{{ post.user.image.url}}">
-                                {{ post.user.name }}
-                                <div class="detail">@{{ post.user.username }}</div>
-                            </a>
-                        </div>
-                        <div class="item">
+                    <div class="ui horizontal link list">
+                        <a class="item">
+                            <img class="ui avatar image" src="{{ post.user.image.url }}">
+                            <div class="content">
+                                <span class="header">{{ post.user.name }}</span>
+                                <span class="ui grey text">@{{ post.user.username }}</span>
+                            </div>
+                        </a>
+                        <div class="disabled item">
                             <span class="ui grey text">{{  post.publish|datetime_format }}</span>
                         </div>
                     </div>
@@ -60,73 +60,6 @@
             </div>
         </div>
 
-
-
-        {#        <div class="bottom aligned row">#}
-        {#            #}
-        {#                    <img class="ui avatar image" src="{{ post.user.image.url }}">#}
-        {#                    <div class="content">#}
-        {#                        <div class="header">{{ post.user.name }}</div>#}
-        {#                        <span class="ui grey text">(@{{ post.user.username }})</span>#}
-        {#                    </div>#}
-        {#                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>#}
-        {#        </div>#}
-        {##}
-        {#    <div class="top aligned row">#}
-        {#                    <h2 class="ui header">{{ post.title }}</h2>#}
-        {#    </div>#}
-        {##}
-        {#    <div class="top aligned row">#}
-        {#                    <div class="ui horizontal link list">#}
-        {##}
-        {#                        {% for tag in tags %}#}
-        {##}
-        {#                            <div class="item">#}
-        {#                                {% if forloop.last %}#}
-        {#                                    <a>{{ tag.name }}</a>#}
-        {#                                {% else %}#}
-        {#                                    <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>#}
-        {#                                {% endif %}#}
-        {#                            </div>#}
-        {#                        {% endfor %}#}
-        {##}
-        {#                    </div>#}
-        {##}
-        {#    </div>#}
-
-        {#        <div class="row">#}
-        {#            <div class="ui basic segments">#}
-        {#                <div class="ui segment">#}
-        {#                    <img class="ui avatar image" src="{{ post.user.image.url }}">#}
-        {#                    <div class="content">#}
-        {#                        <div class="header">{{ post.user.name }}</div>#}
-        {#                        <span class="ui grey text">(@{{ post.user.username }})</span>#}
-        {#                    </div>#}
-        {#                    <span class="ui grey text">{{  post.publish|datetime_format }}</span>#}
-        {#                </div>#}
-        {#                <div class="ui segment">#}
-        {#                    <h1 class="ui header">{{ post.title }}</h1>#}
-        {#                </div>#}
-        {#                <div class="ui segment">#}
-        {##}
-        {#                    <div class="ui horizontal link list">#}
-        {##}
-        {#                        {% for tag in tags %}#}
-        {##}
-        {#                            <div class="item">#}
-        {#                                {% if forloop.last %}#}
-        {#                                    <a>{{ tag.name }}</a>#}
-        {#                                {% else %}#}
-        {#                                    <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>#}
-        {#                                {% endif %}#}
-        {#                            </div>#}
-        {#                        {% endfor %}#}
-        {##}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
-
         <div class="row">
             {{ post.text|safe }}
         </div>
@@ -139,25 +72,15 @@
 
                     <div class="column">
                         <div class="ui left floated fitted basic compact segment">
-                            <div class="ui mini statistics">
-
-                                <div class="statistic">
-                                    <div class="value">
-                                        33
-                                    </div>
-                                    <div class="label">
-                                        <i class="ui fitted bookmark icon"></i>
-                                        <span class="ui text">bookmarks</span>
-                                    </div>
-                                </div>
+                            <div class="ui grey mini statistics">
 
                                 <div class="statistic">
                                     <div class="value">
                                         11336
                                     </div>
                                     <div class="label">
-                                        <i class="ui fitted eye icon"></i>
-                                        <span class="ui text">views</span>
+                                        <i class="ui grey fitted eye icon"></i>
+                                        <span class="ui grey text">views</span>
                                     </div>
                                 </div>
 
@@ -167,9 +90,9 @@
                                         0
                                     </div>
                                     <div class="label">
-                                        <i class="ui fitted comment icon"></i>
+                                        <i class="ui grey fitted comment icon"></i>
                                         {#                                        <span class="ui text">comment{{ comment_count|default_if_none:0|pluralize }}</span>#}
-                                        <span class="ui text">comments</span>
+                                        <span class="ui grey text">comments</span>
                                     </div>
                                 </div>
 
@@ -181,13 +104,30 @@
                     <div class="column">
 
                         <div class="ui right floated fitted basic compact segment">
-                            <div class="ui primary horizontal statistic">
-                                <div class="value">
-                                    8.7
-                                </div>
-                                <div class="label">
-                                    <div class="ui primary huge rating"></div>
-                                </div>
+                            <div class="ui horizontal list">
+                                <a class="item">
+                                    <span class="ui large black text">
+                                        <i class="ui thumbs up link icon"></i>
+                                        13
+                                    </span>
+                                </a>
+                                <a class="item">
+                                    <span class="ui large black text">
+                                        <i class="ui thumbs down link icon"></i>
+                                        2
+                                    </span>
+                                </a>
+                                <a class="item">
+                                    <span class="ui large black text">
+                                        <i class="ui bookmark link icon"></i>
+                                        7
+                                    </span>
+                                </a>
+                                <a class="item">
+                                    <span class="ui large black text">
+                                        <i class="ui share link icon"></i>
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -197,21 +137,6 @@
 
             </div>
 
-        </div>
-
-        <div class="row">
-            <div class="ui container">
-                <div class="ui right floated fitted basic compact segment">
-                    <div class="ui horizontal link list">
-                        <div class="item">
-                            <i class="ui huge primary bookmark link icon"></i>
-                        </div>
-                        <div class="item">
-                            <i class="ui huge primary share link icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="row">
@@ -226,14 +151,14 @@
 
                 <div class="four column row">
                     <div class="left floated center aligned five wide column">
-                        <div class="ui list">
-                            <div class="item">
+                        <div class="ui link list">
+                            <a class="item">
                                 <img class="ui small centered circular image" src="{{ post.user.image.url }}">
-                            </div>
-                            <div class="item">
+                            </a>
+                            <a class="item">
                                 <div class="ui header">{{ post.user.name }}</div>
                                 <span class="ui grey text">(@{{ post.user.username }})</span>
-                            </div>
+                            </a>
                             {% if post.user.specialization %}
                                 <div class="item">
                                     <span class="ui black text">{{ post.user.specialization }}</span>
@@ -243,7 +168,7 @@
 
                     </div>
                     <div class="right floated left aligned eleven wide column">
-                        <div class="ui small statistics">
+                        <div class="ui black small statistics">
                             <div class="statistic">
                                 <div class="value">
                                     13
@@ -255,11 +180,11 @@
                             </div>
                             <div class="statistic">
                                 <div class="value">
-                                    9.1
+                                    16136
                                 </div>
                                 <div class="label">
-                                    <i class="ui star icon"></i>
-                                    <span>avg. rating</span>
+                                    <i class="ui thumbs up icon"></i>
+                                    <span>likes</span>
                                 </div>
                             </div>
                             <div class="statistic">
@@ -288,7 +213,7 @@
         {#        {% endif %}#}
 
         <div class="row">
-            {% include 'comment_list.html' %}
+            {% include 'comment_tree.html' %}
         </div>
 
 
