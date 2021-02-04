@@ -57,7 +57,7 @@ class PostFactory(factory.django.DjangoModelFactory):
     publish = factory.Faker('date_time_between', start_date='-2y', end_date='now', tzinfo=current_tz)
     title = factory.Faker('sentence')
     feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
-    feed_article_preview = factory.Faker('text', max_nb_chars=randint(100, 1500))
+    feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
     text = factory.LazyFunction(get_post_text)
 
     @factory.post_generation
@@ -83,7 +83,7 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
                            datetime_start=factory.SelfAttribute('..content_object.publish'),
                            datetime_end=now(),
                            tzinfo=current_tz)
-    text = factory.Faker('text', max_nb_chars=randint(100, 1500))
+    text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
 
     # @factory.lazy_attribute
     # def edited(self):
