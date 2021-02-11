@@ -2,13 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.db.models import F
-from django.contrib.contenttypes.models import ContentType
 
 from .models import Post, CategoryTypes
-from whatyouknow.comments.models import Comment
 
 
-def home(request):
+def post_list(request):
     # categories = Category.objects.all()
     posts = Post.objects.all().order_by('-publish')[:12]
     tags = Post.objects.values(post_id=F('id')).values('post_id', name=F('tags__name'))
@@ -18,7 +16,7 @@ def home(request):
         'tags': tags,
         'categories': CategoryTypes.choices()
         }
-    return render(request, 'home.html', context)
+    return render(request, 'post_list.html', context)
 
 
 # def search_list(request):

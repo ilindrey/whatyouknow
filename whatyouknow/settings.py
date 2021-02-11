@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'mptt',
 
     # project apps
+    'whatyouknow.core',
     'whatyouknow.profiles',
     'whatyouknow.blog',
     'whatyouknow.comments',
@@ -143,18 +144,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'profiles.UserProfile'
-
-
-# django.contrib.sites
-# SITE_ID = 1
-
-# django_comments_dab
-# LOGIN_URL = 'login'
-
-# # django_comments_xtd
-# COMMENTS_APP = 'django_comments_xtd'
-# COMMENTS_XTD_MAX_THREAD_LEVEL = 9999
-# COMMENTS_XTD_CONFIRM_EMAIL = False
 
 # django_summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
