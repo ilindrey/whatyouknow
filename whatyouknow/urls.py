@@ -22,13 +22,17 @@ from django.conf.urls.static import static
 
 from .settings import DEBUG
 
+from django_js_reverse.views import urls_js
+
 from .blog.views import home, post_detail
 # , search_list
 
 urlpatterns = [
+    # apps
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
+    path('comments/', include('whatyouknow.comments.urls')),
     # others
     path('summernote/', include('django_summernote.urls')),
 ]

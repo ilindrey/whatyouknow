@@ -33,11 +33,13 @@ def home(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     tags = post.tags.all()
-    comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Post),
-                                      object_id=pk)
+    comment_parent_tree = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Post),
+                                                 object_id=pk,
+                                                 parent=None
+                                                 )
     context = {
         'post': post,
         'tags': tags,
-        'comments': comments,
+        'comments': comment_parent_tree,
         }
     return render(request, 'post_detail.html', context)

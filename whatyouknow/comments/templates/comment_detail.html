@@ -1,0 +1,49 @@
+{% load custom %}
+
+<div class="comment">
+    <input type="hidden" name="comment_id" value="{{ node.id }}">
+    <a class="avatar">
+        <img src="{{ node.user.image.url}}">
+    </a>
+    <div class="content">
+        <a class="author">
+            @{{ node.user.username }}
+        </a>
+        <div class="metadata">
+            <span>
+                {{ node.posted|datetime_format }}
+                {% if node.posted != node.edited %}
+                    <span>(edited)</span>
+                {% endif %}
+            </span>
+            <span>id - {{ node.id }}</span>
+            <span>parent_id - {{ node.parent_id }}</span>
+        </div>
+        <div class="text">
+            {{ node.text|safe }}
+        </div>
+        <div class="actions">
+            {% with count_answers=node.get_descendant_count %}
+                {% if count_answers %}
+                    <a class="answers">
+                        <input type="hidden" name="is_show" value="false" data-url="{% url 'comment_children' %}">
+
+                        <span class="ui text">
+                            Show {% if count_answers != 0 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}
+                        </span>
+                        <i class="dropdown icon"></i>
+                    </a>
+                {% endif %}
+            {% endwith %}
+            <a class="reply">
+                Reply
+            </a>
+            <a class="reply">
+                Edit
+            </a>
+            <a class="like"><i class="thumbs up link icon"></i>13</a>
+            <a class="dislike"><i class="thumbs down link icon"></i>2</a>
+        </div>
+    </div>
+
+</div>
