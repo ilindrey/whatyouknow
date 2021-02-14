@@ -4,7 +4,11 @@
 
     <div class="row">
         <div class="column">
-            <h2 class="ui header">Comments</h2>
+            <h2 class="ui header">
+                {% with count_comments=comments.count %}
+                    {% if count_comments > 1 %} {{ count_comments }} {% endif %} comment{{ count_comments|pluralize }}
+                {% endwith %}
+            </h2>
         </div>
     </div>
 
