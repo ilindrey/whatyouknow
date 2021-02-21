@@ -9,6 +9,7 @@ from whatyouknow.blog.models import CategoryTypes
 
 
 current_tz = get_current_timezone()
+
 fake = Faker()
 
 
@@ -166,7 +167,7 @@ def get_tags(category):
 
     category_name = CategoryTypes.get_name(category)
 
-    with open('./tests/tags.json', 'r') as file:
+    with open('tags.json', 'r') as file:
         data = json.load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0

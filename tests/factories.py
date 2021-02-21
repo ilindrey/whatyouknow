@@ -1,15 +1,17 @@
 from random import randint, randrange
 
 from django.contrib.contenttypes.models import ContentType
-from django.utils.timezone import now
+from django.utils.timezone import now, datetime
 
 import factory
 from decouple import config
 
 from whatyouknow.blog.models import CategoryTypes
-from whatyouknow.comments.models import Comment
-from .reference import ReferenceModel as rm
-from .lazy_functions import get_image_url, get_post_text, get_tags, current_tz
+from reference import ReferenceModel as rm
+from utils import get_image_url, get_post_text, get_tags, current_tz
+
+
+dt_now = now()
 
 
 class SuperUserFactory(factory.django.DjangoModelFactory):
@@ -54,7 +56,10 @@ class PostFactory(factory.django.DjangoModelFactory):
 
     user = factory.Iterator(rm.USER.objects.filter(is_superuser=False))
     category = factory.LazyFunction(CategoryTypes.get_random_index)
-    publish = factory.Faker('date_time_between', start_date='-2y', end_date='now', tzinfo=current_tz)
+    publish = factory.Faker('date_time_between_dates',
+                            datetime_start=datetime(2019, 1, 1),
+                            datetime_end=dt_now,
+                            tzinfo=current_tz)
     title = factory.Faker('sentence')
     feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
     feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
@@ -69,39 +74,36 @@ class PostFactory(factory.django.DjangoModelFactory):
 class PostCommentsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'comments.Comment'
-        django_get_or_create = ('content_type', 'object_id', 'user', 'posted')
+        django_get_or_create = ('content_type', 'object_id', 'user', 'date_posted')
 
     class Params:
-        is_reply = randrange(10) != 0  # for 9 out of 10 cases
-        # is_edited = randrange(4) == 0  # for 1 out of 4 cases
+        is_comment_edited = factory.LazyAttribute(lambda o: randrange(3) == 0)  # for 1 out of 3 cases
+        is_comment_reply = factory.LazyAttribute(lambda o: randrange(10) != 0)  # for 9 out of 10 cases
 
     content_object = factory.Iterator(rm.POST.objects.all())
     content_type = factory.LazyAttribute(lambda o: ContentType.objects.get_for_model(o.content_object))
     object_id = factory.SelfAttribute('content_object.pk')
     user = factory.Iterator(rm.USER.objects.filter(is_superuser=False))
-    posted = factory.Faker('date_time_between_dates',
-                           datetime_start=factory.SelfAttribute('..content_object.publish'),
-                           datetime_end=now(),
-                           tzinfo=current_tz)
     text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
-
-    # @factory.lazy_attribute
-    # def edited(self):
-    #     if self.is_edited:
-    #         return factory.Faker('date_time_between_dates',
-    #                              datetime_start=self.posted,
-    #                              datetime_end=now(),
-    #                              tzinfo=current_tz)
-    #     return self.posted
+    date_posted = factory.Faker('date_time_between_dates',
+                                datetime_start=factory.SelfAttribute('..content_object.publish'),
+                                datetime_end=dt_now,
+                                tzinfo=current_tz)
+    date_edited = factory.Maybe('is_comment_edited',
+                                yes_declaration=factory.Faker('date_time_between_dates',
+                                                              datetime_start=factory.SelfAttribute('..date_posted'),
+                                                              datetime_end=dt_now,
+                                                              tzinfo=current_tz),
+                                no_declaration=factory.SelfAttribute('date_posted'))
 
     @factory.lazy_attribute
     def parent(self):
-        if self.is_reply:
+        if self.is_comment_reply:
             qs = rm.COMMENT.objects.filter(
                 content_type=self.content_type,
                 object_id=self.object_id,
-                posted__lt=self.posted
-                ).order_by('posted')
+                date_posted__lt=self.date_posted
+                ).order_by('date_posted')
             count = qs.count()
             if count != 0:
                 return qs[randint(0, count - 1)]
