@@ -19,7 +19,7 @@ def comment_children(request):
     parent_id = request.GET.get('parent_id')
 
     if request.is_ajax() and parent_id:
-        comments = Comment.objects.filter(parent_id=parent_id).order_by('posted')
+        comments = Comment.objects.filter(parent_id=parent_id)
         # build a html posts list with the paginated posts
         template = render_to_string('comment_children_tree.html', {'comments': comments})
         # package output data and return it as a JSON object

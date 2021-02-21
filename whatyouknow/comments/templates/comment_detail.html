@@ -11,8 +11,8 @@
         </a>
         <div class="metadata">
             <span>
-                {{ node.posted|datetime_format }}
-                {% if node.posted != node.edited %}
+                {{ node.date_posted|datetime_format }}
+                {% if node.is_edited %}
                     <span>(edited)</span>
                 {% endif %}
             </span>
