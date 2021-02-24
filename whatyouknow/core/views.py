@@ -1,5 +1,5 @@
-from django.shortcuts import redirect
+from django.views.generic import RedirectView
 
 
-def index(request):
-    return redirect('post_list')
+class IndexView(RedirectView):
+    pattern_name = 'post_list'
