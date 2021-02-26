@@ -1,4 +1,27 @@
 $(function (){
+
+    $(document).ready(function () {
+
+        let obj_data =  $('#comment_obj_info').data();
+        let urls =  $('#comment_urls').data();
+
+        $.ajax({
+            type: 'get',
+            url: urls.getCommentParentsList,
+            data: {
+                'app_label': obj_data.appLabel,
+                'model_name': obj_data.modelName,
+                'model_pk': obj_data.modelPk,
+            },
+            success: function(data) {
+                $('#comment_list_row').append(data);
+            },
+            error: function(xhr, status, error) {
+
+            }
+        });
+
+    });
     $(document).on('click', '.answers', function (e)
     {
         e.preventDefault();
@@ -31,16 +54,20 @@ $(function (){
 
             let comment_id = $(comment_id_tag).val();
 
-            let the_url =  $(is_show_tag).attr('data-url');
+            let obj_data =  $('#comment_obj_info').data();
+            let urls =  $('#comment_urls').data();
 
             $.ajax({
                 type: 'get',
-                url: the_url,
+                url: urls.getCommentChildrenList,
                 data: {
+                    'app_label': obj_data.appLabel,
+                    'model_name': obj_data.modelName,
+                    'model_pk': obj_data.modelPk,
                     'parent_id': comment_id,
                 },
                 success: function(data) {
-                    $(comment_template).append(data.comment_children);
+                    $(comment_template).append(data);
                     $(is_show_tag).val(true);
                     answers_text_tag.text(answers_text_text.replace("Show", "Hide"));
                 },
@@ -52,8 +79,8 @@ $(function (){
         }
     });
 
-   //function get_name(tag)
-   //{
-   //      return $(tag).attr('name')
-   // };
+    //function get_name(tag)
+    //{
+    //      return $(tag).attr('name')
+    // };
 });

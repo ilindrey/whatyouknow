@@ -1,0 +1,5 @@
+{% load mptt_tags %}
+
+{% recursetree comment_list %}
+   {% include 'comments/detail.html' %}
+{% endrecursetree %}

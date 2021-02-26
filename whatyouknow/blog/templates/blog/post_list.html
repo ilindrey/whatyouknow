@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
-{% load custom %}
+{% extends 'core/base.html' %}
+{% load core %}
 
 {% block menu %}
-    {% include 'includes/menu.html' %}
+    {% include 'core/includes/menu.html' %}
 {% endblock %}
 
 
@@ -69,7 +69,7 @@
 
     <div class="ui two link cards">
 
-        {% for post in posts %}
+        {% for post in post_list %}
             <a class="ui card" href="{% url 'post_detail' post.pk %}">
 
                 <div class="cropped image">
@@ -131,44 +131,10 @@
 
 
 {% block floor %}
-    <div class="ui left floated tiny pagination menu">
-        <a class="item">
-            <i class="angle double left icon"></i>
-        </a>
-        <a class="item">
-            <i class="angle left icon"></i>
-        </a>
-        <a class="item">
-            1
-        </a>
-        <a class="item">
-            2
-        </a>
-        <a class="primary active item">
-            3
-        </a>
-        <a class="item">
-            4
-        </a>
-        <a class="item">
-            5
-        </a>
-        <div class="disabled item">
-            ...
-        </div>
-        <a class="item">
-            78
-        </a>
-        <a class="item">
-            <i class="angle right icon"></i>
-        </a>
-        <a class="item">
-            <i class="angle double right icon"></i>
-        </a>
-    </div>
+    {% include 'core/includes/pagination.html' %}
 {% endblock %}
 
 
 {% block rail %}
-    {% include 'includes/rail.html' %}
+    {% include 'blog/includes/rail.html' %}
 {% endblock %}

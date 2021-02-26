@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
-{% load custom %}
+{% extends 'core/base.html' %}
+{% load core %}
 {% load comments %}
 
 {% block menu %}
-    {% include 'includes/menu.html' %}
+    {% include 'core/includes/menu.html' %}
 {% endblock %}
 
 
@@ -44,7 +44,7 @@
 
                     <div class="ui horizontal link list">
 
-                        {% for tag in tags %}
+                        {% for tag in post.tags.all %}
 
                             <div class="item">
                                 {% if forloop.last %}
@@ -230,7 +230,7 @@
 
 
 {% block rail %}
-    {% include 'includes/rail.html' %}
+    {% include 'blog/includes/rail.html' %}
 {% endblock %}
 
 

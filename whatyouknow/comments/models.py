@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -16,12 +17,15 @@ class Comment(MPTTModel):
     text = SummernoteTextField()
     date_posted = models.DateTimeField(default=timezone.now, editable=False)
     date_edited = models.DateTimeField(default=timezone.now, editable=False)
-    is_edited = models.BooleanField(default=False, editable=True)
+    is_edited = models.BooleanField(default=False, editable=False)
     # edited = models.DateTimeField(auto_now=True)
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', editable=False)
 
     class MPTTMeta:
         order_insertion_by = ['date_posted']
+
+    def get_absolute_url(self):
+        return self.content_object.get_absolute_url() + '#comment_' + str(self.pk)
 
     def save(self, *args, **kwargs):
 

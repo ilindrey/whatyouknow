@@ -1,4 +1,4 @@
-{% load custom %}
+{% load core %}
 
 <div class="comment">
     <input type="hidden" name="comment_id" value="{{ node.id }}">
@@ -10,6 +10,9 @@
             @{{ node.user.username }}
         </a>
         <div class="metadata">
+            <a name="#comment_{{ node.id }}" href="{{ node.get_absolute_url }}">
+                <i class="grey linkify icon"></i>
+            </a>
             <span>
                 {{ node.date_posted|datetime_format }}
                 {% if node.is_edited %}
@@ -26,7 +29,7 @@
             {% with count_answers=node.get_descendant_count %}
                 {% if count_answers %}
                     <a class="answers">
-                        <input type="hidden" name="is_show" value="false" autocomplete="off" data-url="{% url 'comment_children' %}">
+                        <input type="hidden" name="is_show" value="false" autocomplete="off">
                         <span class="ui text">
                             Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}
                         </span>

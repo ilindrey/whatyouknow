@@ -1,0 +1,39 @@
+{% load static %}
+
+<div class="ui vertically divided aligned grid container">
+
+    <div class="row">
+        <div class="column">
+            <h2 class="ui header">
+                {% with count_comments=comment_list.count %}
+                    {% if count_comments > 1 %} {{ count_comments }} {% endif %} comment{{ count_comments|default_if_none:0|pluralize }}
+                {% endwith %}
+            </h2>
+        </div>
+{#        <div class="ui divider"></div>#}
+
+        <article id="comment_obj_info"
+                 data-app-label="{{ obj.app_label }}"
+                 data-model-name="{{ obj.model_name }}"
+                 data-model-pk="{{ obj.model_pk }}"
+        >
+        </article>
+        <article id="comment_urls"
+                 data-get-comment-parents-list="{% url 'comment_parents_list' %}"
+                 data-get-comment-children-list="{% url 'comment_children_list' %}"
+        >
+        </article>
+    </div>
+
+    <div class="row" id="comment_list_row">
+        <!-- this will embed html via ajax code -->
+    </div>
+
+{#    <div class="row">#}
+{#        {% include 'includes/pagination.html' %}#}
+{#    </div>#}
+
+</div>
+
+
+<script type="text/javascript" src="{% static 'comments/comments.js' %}"></script>

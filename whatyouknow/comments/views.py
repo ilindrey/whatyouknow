@@ -1,30 +1,33 @@
-from django.shortcuts import render
-
-from django.template.loader import render_to_string
-from django.http import JsonResponse
-
+from django.apps import apps
+from django.views import generic
 from django.contrib.contenttypes.models import ContentType
 
 
 from .models import Comment
-from .utils import render_parent_comments
 
 
-def comment_parents(request, obj):
-    return render(request, render_parent_comments(obj))
+class CommentList(generic.ListView):
+    allow_empty = False
+
+    def get_queryset(self):
+
+        parent_id = self.request.GET.get('parent_id')
+
+        app_label = self.request.GET.get('app_label')
+        model_name = self.request.GET.get('model_name')
+        model_pk = self.request.GET.get('model_pk')
+
+        obj = apps.get_model(app_label, model_name).objects.get(pk=model_pk)
+
+        return Comment.objects.filter(content_type=ContentType.objects.get_for_model(obj._meta.model),
+                                      object_id=obj.pk,
+                                      parent=parent_id)
 
 
-def comment_children(request):
+class CommentParentsList(CommentList):
+    paginate_by = 10
+    template_name = 'comments/parent_list.html'
 
-    parent_id = request.GET.get('parent_id')
 
-    if request.is_ajax() and parent_id:
-        comments = Comment.objects.filter(parent_id=parent_id)
-        # build a html posts list with the paginated posts
-        template = render_to_string('comment_children_tree.html', {'comments': comments})
-        # package output data and return it as a JSON object
-        output_data = {
-            'comment_children': template
-            }
-        return JsonResponse(output_data, status=200)
-    return JsonResponse({"error": ""}, status=400)
+class CommentChildrenList(CommentList):
+    template_name = 'comments/children_list.html'

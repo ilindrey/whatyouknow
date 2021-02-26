@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import comment_children
+from .views import *
 
 urlpatterns = [
-    # path('ajax/children/<int:parent_id>', comment_children, name='comment_children'),
-    path('ajax/children', comment_children, name='comment_children'),
+    path('ajax/comments_parents_list', CommentParentsList.as_view(), name='comment_parents_list'),
+    path('ajax/comments_children_list', CommentChildrenList.as_view(), name='comment_children_list'),
 ]

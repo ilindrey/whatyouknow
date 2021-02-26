@@ -1,0 +1,96 @@
+<div class="ui vertical fitted basic compact segment">
+
+    <div class="ui grid container">
+        <div class="row">
+            <!-- divider row -->
+        </div>
+        <div class="row">
+            {#            {% if page_obj.has_previous or page_obj.has_next %}#}
+            {#                <div class="ui buttons">#}
+            {#                    {% if page_obj.has_previous %}#}
+            {#                        <a class="item" href="?page={{ page_obj.previous_page_number }}">#}
+            {#                            <div class="ui animated fade button" tabindex="0">#}
+            {#                                <div class="visible content"><i class="angle left icon"></i></div>#}
+            {#                                <div class="hidden content">#}
+            {#                                    Prev#}
+            {#                                </div>#}
+            {#                            </div>#}
+            {#                        </a>#}
+            {#                    {% endif %}#}
+            {#                    {% if page_obj.has_previous and page_obj.has_next %}#}
+            {#                        <div class="or"></div>#}
+            {#                    {% endif %}#}
+            {#                    {% if page_obj.has_next %}#}
+            {#                        <a class="item" href="?page={{ page_obj.next_page_number }}">#}
+            {#                            <div class="ui animated fade button" tabindex="0">#}
+            {#                                <div class="visible content"><i class="angle right icon"></i></div>#}
+            {#                                <div class="hidden content">#}
+            {#                                    Next#}
+            {#                                </div>#}
+            {#                            </div>#}
+            {#                        </a>#}
+            {#                    {% endif %}#}
+            {#                </div>#}
+            {#            {% endif %}#}
+            {% if page_obj.has_previous or page_obj.has_next %}
+                <div class="ui basic labels">
+                    {% if page_obj.has_previous %}
+                        <a class="ui label" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="arrow left icon"></i>
+                            Previous
+                        </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a class="ui label" href="?page={{ page_obj.next_page_number }}">
+                            Next
+                            <i class="arrow right icon"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="ui left floated tiny pagination menu">
+
+                {% if page_obj.has_previous and page_obj.number|add:-5 >= 1 %}
+                    <a class="item" href="?page={{ 1 }}">
+                        {{ 1 }}
+                    </a>
+                    <a class="disabled item">...</a>
+                {% endif %}
+
+                {% for n in page_obj.paginator.page_range %}
+
+                    {% if n == page_obj.number %}
+                        <a class="active item" href="?page={{ page_obj.number }}">
+                            {{ page_obj.number }}
+                        </a>
+                    {% elif page_obj.number <= 5 and n <= 5 %}
+                        <a class="item" href="?page={{ n }}">
+                            {{ n }}
+                        </a>
+                    {% elif page_obj.number >= page_obj.paginator.num_pages|add:-5 and n >= page_obj.paginator.num_pages|add:-5 %}
+                        <a class="item" href="?page={{ n }}">
+                            {{ n }}
+                        </a>
+                    {% elif n > page_obj.number|add:-4 and n < page_obj.number|add:4 %}
+                        <a class="item" href="?page={{ n }}">
+                            {{ n }}
+                        </a>
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if page_obj.has_next and page_obj.number < page_obj.paginator.num_pages|add:-5 %}
+                    <a class="disabled item">...</a>
+                    <a class="item" href="?page={{ page_obj.paginator.num_pages }}">
+                        {{ page_obj.paginator.num_pages }}
+                    </a>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>

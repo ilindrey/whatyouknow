@@ -1,10 +1,15 @@
 from django import template
 
-from whatyouknow.comments.utils import render_parent_comments
-
 register = template.Library()
 
 
-@register.simple_tag
+@register.inclusion_tag('comments/base.html')
 def render_comments(obj):
-    return render_parent_comments(obj)
+    obj = {
+        'app_label': obj._meta.app_label,
+        'model_name': obj._meta.model_name,
+        'model_pk': obj.pk
+        }
+    return {
+        'obj': obj
+        }

@@ -49,14 +49,13 @@ class Post(models.Model):
     feed_article_preview = SummernoteTextField(null=True, blank=True)
     tags = TaggableManager()
 
+    class Meta:
+        verbose_name_plural = 'Posts'
+        ordering = ('-publish', )
+
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse(
-            'post_detail',
-            kwargs={'pk': self.pk})
+        return reverse('post_detail', kwargs={'pk': self.pk})
 
-    class Meta:
-        verbose_name_plural = "Posts"
-        ordering = ('-publish', )
