@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load core %}
+{% load comments %}
 
 {% block menu %}
     {% include 'core/includes/menu.html' %}
@@ -114,7 +115,7 @@
                         </div>
                         <div class="item">
                             <i class="ui comment icon"></i>
-                            22
+                            {% comments_count post %}
                         </div>
 
                     </div>
