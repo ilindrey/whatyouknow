@@ -38,7 +38,7 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
     password = factory.PostGenerationMethodCall('set_password', 'defaultpassword')
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
-    email = factory.Faker('email')
+    email = factory.Sequence(lambda u: factory.Faker('email'))
     is_active = True
     is_staff = False
     is_superuser = False

@@ -15,15 +15,15 @@ def make_objects(factor=1, create_superuser=False):
         print_cleared_model(rm.USER)
 
         SuperUserFactory.create()
-        print('Superuser has been created.')
+        print('Superuser was created.')
     else:
         rm.USER.objects.filter(is_superuser=False).delete()
-        print_cleared_model(rm.USER, 'Superuser saved.')
+        print_cleared_model(rm.USER, 'Superuser was not deleted.')
 
     user_count = 20
     post_count = 10
 
-    post_comments_factor = 10
+    post_comments_factor = 100
 
     total_count = user_count * factor
     UserProfileFactory.create_batch(size=total_count)
@@ -39,7 +39,7 @@ def make_objects(factor=1, create_superuser=False):
 
 
 def print_cleared_model(model, extra_msg=None):
-    msg = 'The' + model.__name__ + ' model has been cleared.'
+    msg = model.__name__ + ' model was cleared.'
     if extra_msg:
         msg += ' ' + extra_msg
     print(msg)
