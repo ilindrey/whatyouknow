@@ -46,4 +46,4 @@ def print_cleared_model(model, extra_msg=None):
 
 
 def print_create_batch_info(factory, count):
-    print('Factory' + factory.__name__ + ' created batch ' + str(count) + ' count.')
+    print('Factory ' + factory.__name__ + ' created batch ' + str(count) + ' count.')
