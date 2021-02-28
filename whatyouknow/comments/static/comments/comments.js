@@ -2,17 +2,13 @@ $(function (){
 
     $(document).ready(function () {
 
-        let obj_data =  $('#comment_obj_info').data();
+        let obj_data = get_obj_data();
         let urls =  $('#comment_urls').data();
 
         $.ajax({
             type: 'get',
             url: urls.getCommentParentsList,
-            data: {
-                'app_label': obj_data.appLabel,
-                'model_name': obj_data.modelName,
-                'model_pk': obj_data.modelPk,
-            },
+            data: obj_data,
             success: function(data) {
                 $('#comment_list_row').append(data);
             },
@@ -21,7 +17,21 @@ $(function (){
             }
         });
 
+        // $.ajax({
+        //     type: 'get',
+        //     url: urls.getCommentHeader,
+        //     data: obj_data,
+        //     success: function(data) {
+        //         $('#comment_header_row').append(data);
+        //     },
+        //     error: function(xhr, status, error) {
+        //
+        //     }
+        // });
+
+
     });
+
     $(document).on('click', '.answers', function (e)
     {
         e.preventDefault();
@@ -79,6 +89,15 @@ $(function (){
         }
     });
 
+    function get_obj_data()
+    {
+        let obj_data =  $('#comment_obj_info').data();
+        return {
+                'app_label': obj_data.appLabel,
+                'model_name': obj_data.modelName,
+                'model_pk': obj_data.modelPk,
+            };
+    };
     //function get_name(tag)
     //{
     //      return $(tag).attr('name')

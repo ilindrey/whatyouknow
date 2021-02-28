@@ -20,7 +20,7 @@
 
 .ui.comments {
   margin: 1.5em 0;
-  max-width: 650px;
+  max-width: none;
 }
 .ui.comments:first-child {
   margin-top: 0;

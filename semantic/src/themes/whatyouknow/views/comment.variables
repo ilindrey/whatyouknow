@@ -7,7 +7,8 @@
        View
 --------------------*/
 
-@maxWidth: 650px;
+//@maxWidth: 650px;
+@maxWidth: none;
 @margin: 1.5em 0;
 
 /*-------------------
