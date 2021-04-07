@@ -1,7 +1,6 @@
 {% load core %}
 
-<div class="comment">
-    <input type="hidden" name="comment_id" value="{{ node.id }}">
+<div class="comment" id="comment_{{ node.id }}" data-node-id="{{ node.id }}" data-parent-id="{{ node.parent_id }}">
     <a class="avatar">
         <img src="{{ node.user.image.url}}">
     </a>
@@ -14,7 +13,8 @@
                 <i class="grey linkify icon"></i>
             </a>
             <span>
-                {{ node.date_posted|datetime_format }}
+{#                {{ node.date_posted|datetime_format }}#}
+                {{ node.date_posted }}
                 {% if node.is_edited %}
                     <span>(edited)</span>
                 {% endif %}
@@ -26,26 +26,31 @@
             {{ node.text|safe }}
         </div>
         <div class="actions">
-            {% with count_answers=node.get_descendant_count %}
-                {% if count_answers %}
-                    <a class="answers">
-                        <input type="hidden" name="is_show" value="false" autocomplete="off">
-                        <span class="ui text">
-                            Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}
-                        </span>
-                        <i class="dropdown icon"></i>
-                    </a>
-                {% endif %}
-            {% endwith %}
+            {% if is_parent %}
+                {% with count_answers=node.get_descendant_count %}
+                    {% if count_answers %}
+                        <a class="answers" data-is-show="false">
+                            <span class="ui text">
+                                Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}
+                            </span>
+                            <i class="dropdown icon"></i>
+                        </a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
             <a class="reply">
                 Reply
             </a>
-            <a class="reply">
+            <a class="edit">
                 Edit
             </a>
             <a class="like"><i class="thumbs up link icon"></i>13</a>
             <a class="dislike"><i class="thumbs down link icon"></i>2</a>
         </div>
     </div>
-
+    {% if not is_parent and not node.is_leaf_node %}
+        <div class="ui comments">
+            {{ children }}
+        </div>
+    {% endif %}
 </div>

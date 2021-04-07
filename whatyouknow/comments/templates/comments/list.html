@@ -1,0 +1,13 @@
+{% load mptt_tags %}
+
+{% if not is_parent %}
+    <div class="ui comments">
+{% endif %}
+
+{% recursetree comment_list %}
+    {% include 'comments/detail.html' %}
+{% endrecursetree %}
+
+{% if not is_parent %}
+    </div>
+{% endif %}

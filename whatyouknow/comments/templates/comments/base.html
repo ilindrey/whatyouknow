@@ -1,9 +1,15 @@
 {% load static %}
 
 
-<div class="ui vertically divided aligned grid container">
+<div class="ui vertically divided aligned grid container"
+     id="info-comments"
+     data-param-app-label="{{ obj.app_label }}"
+     data-param-model-name="{{ obj.model_name }}"
+     data-param-model-pk="{{ obj.model_pk }}"
+     data-url-parent-comment-list="{% url 'parent_comment_list' %}"
+     data-url-descendant-comment-list="{% url 'descendant_comment_list' %}"
+>
 
-    {#    <div class="row" id="comment_header_row">#}
     <div class="row">
         <div class="column">
             <h2 class="ui header">
@@ -13,24 +19,21 @@
     </div>
 
     <div class="row" >
-        <div class="column" id="comment_list_row">
-            <!-- this will embed html via ajax code -->
+        {#        <div class="column" id="comment-list-row">#}
+        {##}
+        {#            <!-- this will embed html via ajax code -->#}
+        {#        </div>#}
+
+        <div class="column">
+            <div class="ui threaded comments" id="comment-list-row">
+                <!-- this will embed html via ajax code -->
+            </div>
+            {% include 'comments/loader.html' %}
         </div>
     </div>
 
 
 </div>
 
-<article id="comment_obj_info"
-         data-app-label="{{ obj.app_label }}"
-         data-model-name="{{ obj.model_name }}"
-         data-model-pk="{{ obj.model_pk }}"
->
-</article>
-<article id="comment_urls"
-         data-get-comment-parents-list="{% url 'comment_parents_list' %}"
-         data-get-comment-children-list="{% url 'comment_children_list' %}"
-        {#         data-get-comment-header="{% url 'comment_header' %}"#}
->
-</article>
-<script type="text/javascript" src="{% static 'comments/comments.js' %}"></script>
+<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
+<script type="text/javascript" src="{% static 'comments/js/comments.js' %}"></script>

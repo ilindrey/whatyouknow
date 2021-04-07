@@ -8,7 +8,6 @@ from .models import Comment
 class MultipleObjectCommentsMixin:
 
     def get_queryset(self):
-
         app_label = self.request.GET.get('app_label')
         model_name = self.request.GET.get('model_name')
         model_pk = self.request.GET.get('model_pk')
@@ -19,29 +18,25 @@ class MultipleObjectCommentsMixin:
                                       object_id=obj.pk)
 
 
-# class CommentHeaderView(MultipleObjectCommentsMixin, generic.TemplateView):
-#     template_name = 'comments/del_header.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['count_comments'] = self.get_object_comments_queryset().count()
-#         return context
+class BaseCommentList(generic.ListView):
+    allow_empty = True
+    template_name = 'comments/list.html'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['is_parent'] = self.request.GET.get('parent_id') is None
+        return context
 
 
-class CommentList(MultipleObjectCommentsMixin, generic.ListView):
-    allow_empty = False
+class ParentCommentList(MultipleObjectCommentsMixin, BaseCommentList):
+    paginate_by = 100
+
+    def get_queryset(self):
+        return super().get_queryset().filter(parent=None)
+
+
+class DescendantCommentList(BaseCommentList):
 
     def get_queryset(self):
         parent_id = self.request.GET.get('parent_id')
-        return super(CommentList, self).get_queryset().filter(parent=parent_id)
-
-
-class CommentParentsList(CommentList):
-    paginate_by = 10
-    template_name = 'comments/parent_list.html'
-
-
-class CommentChildrenList(CommentList):
-    template_name = 'comments/children_list.html'
-
-
+        return Comment.objects.get(pk=parent_id).get_descendants()
