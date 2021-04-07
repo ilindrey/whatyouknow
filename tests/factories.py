@@ -78,7 +78,7 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
 
     class Params:
         is_comment_edited = factory.LazyAttribute(lambda o: randrange(3) == 0)  # for 1 out of 3 cases
-        is_comment_reply = factory.LazyAttribute(lambda o: randrange(10) != 0)  # for 9 out of 10 cases
+        is_comment_reply = factory.LazyAttribute(lambda o: randrange(10) < 5)  # for 5 out of 10 cases
 
     content_object = factory.Iterator(rm.POST.objects.all())
     content_type = factory.LazyAttribute(lambda o: ContentType.objects.get_for_model(o.content_object))
