@@ -64,18 +64,11 @@ $(function (){
                 success: function (result)
                 {
                     nodeCommentTag.append(result);
-
-
+                    answersTag.data(isShowDataKey, true);
+                    answersTextTag.text(answersTextString.replace("Show", "Hide"));
                 },
                 complete: function ()
                 {
-                    console.log('pre - ' + answersTag.data(isShowDataKey));
-
-                    answersTag.data(isShowDataKey, true);
-
-                    console.log('after - ' + answersTag.data(isShowDataKey));
-                    answersTextTag.text(answersTextString.replace("Show", "Hide"));
-
                     loaderDescendantTag.remove();
                 }
             });
