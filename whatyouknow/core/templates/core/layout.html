@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'core/favicon.ico' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'core/semantic/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.css' %}"> <!-- Style setting -->
+
+    <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="{% static 'core/semantic/semantic.min.js' %}"></script>
+
+</head>
+<body>
+
+<div class="ui attached black inverted text menu">
+    <div class="ui container">
+        {% block menu %}
+        {% endblock %}
+    </div>
+</div>
+
+<div class="ui attached vertical basic segment">
+    <div class="ui main grid container">
+
+        {% block container %}
+
+
+        {% endblock %}
+
+    </div>
+
+</div>
+
+{% block footer %}
+{% endblock %}
+
+{% block base_scripts %}
+
+{% endblock %}
+
+</body>
+</html>

@@ -233,21 +233,3 @@
     {% include 'blog/includes/rail.html' %}
 {% endblock %}
 
-
-{% block script %}
-
-    <script type="text/javascript">
-
-        $(document).ready(
-            function () {
-                $('.rating').rating({
-                    {#icon: 'star',#}
-                    initialRating: 0,
-                    maxRating: 10
-                });
-            }
-        );
-
-    </script>
-
-{% endblock %}

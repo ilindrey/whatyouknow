@@ -1,164 +1,54 @@
+
+{% extends 'core/layout.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-    <link rel="shortcut icon" type="image/png" href="{% static 'core/favicon.ico' %}"/>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'core/semantic/semantic.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.css' %}"> <!-- Style setting -->
-
-    <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="{% static 'core/semantic/semantic.min.js' %}"></script>
-
-</head>
-<body >
-
-<div class="ui black inverted attached text menu">
-    <div class="ui container">
-        {% block menu %}
-        {% endblock %}
-    </div>
-</div>
-
-<div class="ui attached basic segment">
-    <div class="ui main grid container">
-
-        <div class="ui twelve wide column">
-
-            <div class="ui fitted horizontal basic segment container" id="roof">
-                {% block roof %}
-
-                {% endblock %}
-            </div>
-
-            <div class="ui vertical basic segment container" id="content">
-                {% block content %}
-
-                {% endblock %}
-            </div>
-
-            <div class="ui fitted horizontal basic segment container" id="floor">
-                {% block floor %}
-
-                {% endblock %}
-            </div>
-
-        </div>
-
-        <div class="ui four wide column">
-
-            <div class="ui side segment">
-
-                {% block rail %}
-
-                {% endblock %}
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-<footer class="ui attached inverted black vertical footer segment" >
-    <div class="ui container">
-        <div class="ui stackable inverted divided equal height stackable grid">
-            <div class="three wide column">
-                {#                <h4 class="ui inverted header">Acrtions</h4>#}
-                <h4 class="ui inverted header">Quick Links</h4>
-                <div class="ui inverted link list">
-                    <div class="item">
-                        <a>Create post</a>
-                    </div>
-                    <div class="item">
-                        <a>Bookmarks</a>
-                    </div>
-                    <div class="item">
-                        <a>Profile</a>
-                    </div>
-                    <div class="item">
-                        <a>Settings</a>
-                    </div>
-                </div>
-            </div>
-            {#            <div class="three wide column">#}
-            {#                <h4 class="ui inverted header">Your account</h4>#}
-            {#                <div class="ui inverted link list">#}
-            {#                    <div class="item">#}
-            {#                        <a>Profile</a>#}
-            {#                    </div>#}
-            {#                    <div class="item">#}
-            {#                        <a>Settings</a>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
-            <div class="three wide column">
-                <h4 class="ui inverted header">Info</h4>
-                <div class="ui inverted link list">
-                    <div class="item">
-                        <a>Contact us</a>
-                    </div>
-                    <div class="item">
-                        <a>About</a>
-                    </div>
-                </div>
-            </div>
-            <div class="three wide column">
-                <h4 class="ui inverted header">Follow Us</h4>
-                <div class="ui inverted horizontal list">
-                    <div class="item">
-                        <button class="ui circular facebook icon button">
-                            <i class="facebook icon"></i>
-                        </button>
-                    </div>
-                    <div class="item">
-                        <button class="ui circular instagram icon button">
-                            <i class="instagram icon"></i>
-                        </button>
-                    </div>
-                    <div class="item">
-                        <button class="ui circular twitter icon button">
-                            <i class="twitter icon"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="four wide column">
-                <p>© 2020 - {% now "Y" %} WhatYouKnow</p>
-                <p>This site is made by Scronullik</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script type="text/javascript">
-
-    $(document).ready(
-        function () {
-
-            let blocks_id_name = ["roof", "content", "floor"];
-
-            for (let name_id of blocks_id_name)
-            {
-                let block_id = '#' + name_id;
-
-                if ($(block_id).children().length === 0)
-                {
-                    $(block_id).remove();
-                }
-            }
-
-        }
-    );
-
-</script>
-
-{% block script %}
+{% block menu %}
+    {% include 'core/includes/menu.html' %}
 {% endblock %}
 
-</body>
-</html>
+{% block container %}
+
+    <div class="ui twelve wide column">
+
+        <div class="ui fitted horizontal basic segment container" id="roof">
+            {% block roof %}
+
+            {% endblock %}
+        </div>
+
+        <div class="ui vertical basic segment container" id="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+
+        <div class="ui fitted horizontal basic segment container" id="floor">
+            {% block floor %}
+
+            {% endblock %}
+        </div>
+
+    </div>
+
+    <div class="ui four wide column">
+
+        <div class="ui side segment">
+
+            {% block rail %}
+
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'core/includes/footer.html' %}
+{% endblock %}
+
+{% block base_scripts %}
+<script type="text/javascript" src="{% static 'core/js/base.js' %}"></script>
+{% endblock %}
