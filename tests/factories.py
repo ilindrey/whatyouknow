@@ -22,7 +22,7 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     username = config('SUPERUSER_NAME')
     name = 'Administrator'
     password = factory.PostGenerationMethodCall('set_password', config('SUPERUSER_PASSWORD'))
-    email = 'admin@whatyouknow.com'
+    email = config('SUPERUSER_NAME') + '@whatyouknow.com'
     is_active = True
     is_staff = True
     is_superuser = True
@@ -38,7 +38,7 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
     password = factory.PostGenerationMethodCall('set_password', 'defaultpassword')
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
-    email = factory.Sequence(lambda u: factory.Faker('email'))
+    email = factory.Faker('email')
     is_active = True
     is_staff = False
     is_superuser = False
