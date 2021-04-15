@@ -6193,6 +6193,15 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
          Theme Overrides
 *******************************/
 
+/* Auth Container */
+
+.ui.auth.container {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  max-width: 400px;
+  line-height: 1.5;
+  font-size: 1.14285714rem;
+}
+
 /*******************************
          Site Overrides
 *******************************/

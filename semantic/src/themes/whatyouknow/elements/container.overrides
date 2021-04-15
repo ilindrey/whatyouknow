@@ -1,3 +1,13 @@
 /*******************************
          Theme Overrides
 *******************************/
+
+& when (@wyk_variationContainerAuth) {
+  /* Auth Container */
+  .ui.auth.container {
+    font-family: @authFontFamily;
+    max-width: @authWidth;
+    line-height: @authLineHeight;
+    font-size: @authSize;
+  }
+}

@@ -56,3 +56,11 @@
 @textFontFamily: @pageFont;
 @textLineHeight: 1.5;
 @textSize: @large;
+
+
+
+/* wyk_auth */
+@authWidth: 400px;
+@authFontFamily: @pageFont;
+@authLineHeight: 1.5;
+@authSize: @large;
