@@ -24,12 +24,13 @@ from .settings import DEBUG
 
 
 urlpatterns = [
-    # default apps
-    path('admin/', admin.site.urls),
     # apps
     path('', include('whatyouknow.core.urls')),
+    path('profiles/', include('whatyouknow.profiles.urls')),
     path('posts/', include('whatyouknow.blog.urls')),
     path('comments/', include('whatyouknow.comments.urls')),
+    # default apps
+    path('admin/', admin.site.urls),
     # others
     path('summernote/', include('django_summernote.urls')),
 ]

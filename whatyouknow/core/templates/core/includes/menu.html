@@ -11,74 +11,71 @@
         <i class="search primary large icon"></i>
     </a>
 
-    <a class="item">
-        <i class="bell primary large icon"></i>
-    </a>
+    {% if user.is_authenticated %}
 
-    <a class="item">
-        <i class="bookmark primary large icon"></i>
-    </a>
+        <a class="item">
+            <i class="bell primary large icon"></i>
+        </a>
 
-    <a class="item">
-        <i class="pencil primary large icon"></i>
-    </a>
+        <a class="item">
+            <i class="bookmark primary large icon"></i>
+        </a>
 
-    <div class="item">
+        <a class="item">
+            <i class="pencil primary large icon"></i>
+        </a>
 
-        <div class="ui black icon top right pointing dropdown" id="user_profile_menu">
-            <i class="ui primary circular inverted user icon"></i>
-            <i class="ui primary dropdown icon"></i>
-            <div class="menu">
-                <div class="item">
-                    <i class="user icon"></i>
-                    <span>Profile</span>
-                </div>
-                <div class="item">
-                    <i class="sign out icon"></i>
-                    <span>Sign out</span>
+        <div class="item">
+
+            <div class="ui black icon top right pointing dropdown" id="user_profile_menu">
+                <i class="ui primary circular inverted user icon"></i>
+                <i class="ui primary dropdown icon"></i>
+                <div class="ui menu">
+                    <div class="item">
+                        <div class="ui horizontal link list">
+                            <a class="item">
+                                {% if urser.image %}
+                                    <img class="ui avatar image" src="{{ user.image.url }}">
+                                {% else %}
+                                    <i class="ui grey circular inverted user icon"></i>
+                                {% endif %}
+                                <div class="content">
+                                    <span class="header">{{ user.name }}</span>
+                                    <span class="ui grey text">@{{ user.username }}</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <a class="item">
+                        <i class="user icon"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a class="item" href="{% url 'logout' %}">
+                        <i class="sign out icon"></i>
+                        <span>Sign out</span>
+                    </a>
                 </div>
             </div>
+
         </div>
 
-    </div>
+    {% else %}
+
+        <div class="item">
+            <a class="ui primary basic button" href="{% url 'login' %}">
+                Log in
+            </a>
+        </div>
+
+        <div class="item">
+            <a class="ui primary button">
+                Sing up
+            </a>
+        </div>
+
+    {% endif %}
 
 </div>
 
-<script type="text/javascript">
-
-    $(document).ready(
-        function () {
-
-            $('.ui.search').search({
-                source: [
-                    {title: 'Andorra'},
-                    {title: 'United Arab Emirates'},
-                    {title: 'Afghanistan'},
-                    {title: 'Antigua'},
-                    {title: 'Anguilla'},
-                    {title: 'Albania'},
-                    {title: 'Armenia'},
-                    {title: 'Netherlands Antilles'},
-                    {title: 'Angola'},
-                    {title: 'Argentina'},
-                    {title: 'American Samoa'},
-                    {title: 'Austria'},
-                    {title: 'Australia'},
-                    {title: 'Aruba'},
-                    {title: 'Aland Islands'},
-                    {title: 'Azerbaijan'},
-                    {title: 'Bosnia'},
-                    {title: 'Barbados'},
-                    {title: 'Bangladesh'},
-                    {title: 'Belgium'},
-                    {title: 'Burkina Faso'},
-                    {title: 'Bulgaria'},
-                    {title: 'Bahrain'},
-                    {title: 'Burundi'}]
-            });
-
-            $('#user_profile_menu').dropdown();
-        }
-    );
-
-</script>
+<script type="text/javascript" src="{% static 'core/js/menu.js' %}"></script>

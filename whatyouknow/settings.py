@@ -145,6 +145,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'profiles.UserProfile'
 
+LOGIN_REDIRECT_URL = 'index'
+
 # django_summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 

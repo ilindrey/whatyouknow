@@ -1,0 +1,23 @@
+{% extends  'core/layout.html' %}
+
+{% load static %}
+
+{% block menu %}
+
+    <div class="center item">
+        <a href="{% url 'index' %}" class="ui medium image">
+            <img src="{% static 'core/images/logo/logo-transp-bg.svg' %}">
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block container %}
+<div class="ui three column centered grid">
+    <div class="column">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
