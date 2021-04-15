@@ -19,7 +19,12 @@ class Comment(MPTTModel):
     date_edited = models.DateTimeField(default=timezone.now, editable=False)
     is_edited = models.BooleanField(default=False, editable=False)
     # edited = models.DateTimeField(auto_now=True)
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', editable=False)
+    parent = TreeForeignKey('self',
+                            on_delete=models.CASCADE,
+                            null=True,
+                            blank=True,
+                            related_name='children',
+                            editable=False)
 
     class MPTTMeta:
         order_insertion_by = ['date_posted']
