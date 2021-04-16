@@ -24,20 +24,15 @@
                 <div class="field {% if field.errors %}error{% endif %}">
 
                     <label>{{ field.label_tag }}</label>
-{#                    <input type="{{ field.widget_type }}"#}
-{#                            {% if field.help_text %}#}
-{#                           placeholder="{{ field.help_text }}"#}
-{#                            {% else %}#}
-{#                           placeholder="{{ field.label }}"#}
-{#                            {% endif %} value="{{ field }}">#}
-                    {{ field }}
 
+                    {{ field }}
 
                     {% if field.errors %}
                         <div class="ui error message">
                             {{ field.errors }}
                         </div>
                     {% endif %}
+
                 </div>
             {% endfor %}
 
