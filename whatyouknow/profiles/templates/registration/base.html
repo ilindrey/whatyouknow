@@ -1,15 +1,7 @@
 {% extends  'core/layout.html' %}
 
-{% load static %}
-
 {% block menu %}
-
-    <div class="center item">
-        <a href="{% url 'index' %}" class="ui medium image">
-            <img class="ui centered image" src="{% static 'core/images/logo/logo-transp-bg.svg' %}">
-        </a>
-    </div>
-
+    {% include 'profile/includes/simple_menu.html' %}
 {% endblock %}
 
 {% block container %}

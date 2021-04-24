@@ -36,9 +36,9 @@
                 {% endif %}
                 <i class="ui primary dropdown icon"></i>
 
-                <div class="ui menu">
+                <div class="ui vertical menu">
 
-                    <a class="item">
+                    <a class="item" href="{% include 'profile/includes/user_profile_url.html' %}">
                         <span class="ui grey text">Singed in as </span>
                         <div class="hidden divider"></div>
                         <span class="ui primary text">@{{ user.username }}</span>
@@ -46,7 +46,7 @@
 
                     <div class="divider"></div>
 
-                    <a class="item">
+                    <a class="item" href="{% include 'profile/includes/user_profile_url.html' %}">
                         <i class="user icon"></i>
                         <span>Your profile</span>
                     </a>
