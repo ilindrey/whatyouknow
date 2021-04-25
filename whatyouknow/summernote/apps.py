@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class SummernoteConfig(AppConfig):
-    name = 'summernote'
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'whatyouknow.summernote'

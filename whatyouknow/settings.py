@@ -49,12 +49,16 @@ INSTALLED_APPS = [
     'taggit',
     'mptt',
 
+    # setting apps
+    # 'whatyouknow.setting_apps.over_admin',
+    # 'whatyouknow.setting_apps.summernote',
+    'whatyouknow.summernote',
+
     # project apps
     'whatyouknow.core',
     'whatyouknow.profiles',
     'whatyouknow.blog',
     'whatyouknow.comments',
-    'whatyouknow.summernote',
 
 ]
 
@@ -154,10 +158,13 @@ SUMMERNOTE_CONFIG = {
     'summernote': {
         # 'width': 1366,
         # 'height': 720,
+        # 'fontNames': ['Arial'],
+        # 'fontNamesIgnoreCheck': ['Open Sans'],
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
                       'strikethrough', 'clear']],
+            ['fontname', ['fontname']],
             ['color', ['color']],
             ['list', ['ul', 'ol']],
             ['para', ['paragraph']],
@@ -179,7 +186,7 @@ SUMMERNOTE_CONFIG = {
             'figureClass': '',
             'figcaptionClass': '',
             'captionText': 'Caption Goes Here.',
-            'manageAspectRatio': True # true = Lock the Image Width/Height, Default to true
+            'manageAspectRatio': True  # true = Lock the Image Width/Height, Default to true
             },
         },
     'js': (
@@ -187,14 +194,14 @@ SUMMERNOTE_CONFIG = {
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
         ),
     'css': (
-        '/static/summernote/summernote.css',
+        '/static/core/css/fonts.css',
         ),
     'js_for_inplace': (
         '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
         ),
     'css_for_inplace': (
-        '/static/summernote/summernote.css',
+        '/static/core/css/fonts.css',
         ),
     }
 
