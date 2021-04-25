@@ -1,5 +1,4 @@
 from django.utils import timezone
-from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -34,9 +33,8 @@ class Comment(MPTTModel):
 
     def save(self, *args, **kwargs):
 
-        # same as auto_now=True. This is for factory_boy.
         if self.pk:
-            self.date_edited = timezone.now()
+            self.date_edited = timezone.now()  # same as auto_now=True. This is for factory_boy.
 
         self.is_edited = self.date_edited is not None and self.date_posted != self.date_edited
         super().save(*args, **kwargs)
