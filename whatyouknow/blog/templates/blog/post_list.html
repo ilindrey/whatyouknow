@@ -14,7 +14,7 @@
             My choices
         </a>
         <a class="active item">
-            All
+            All posts
         </a>
 
         {% for index, name in categories %}
@@ -39,7 +39,7 @@
         </a>
     </div>
 
-    <div class="ui right floated tiny compact menu">
+    <div class="ui tiny compact menu">
         <a class="primary active item">
             Any rating
         </a>
@@ -68,12 +68,12 @@
 
 {% block content %}
 
-    <div class="ui two link cards">
+    <div class="ui three link cropped cards">
 
         {% for post in post_list %}
             <a class="ui card" href="{% url 'post_detail' post.pk %}">
 
-                <div class="cropped image">
+                <div class="image">
                     <img src="{{ post.feed_cover }}">
                 </div>
 
@@ -88,7 +88,7 @@
 
                         <div class="item">
                             <span class="ui grey text">
-                                {{ post.feed_article_preview|safe|truncatechars:300 }}
+                                {{ post.feed_article_preview|safe|truncatechars:100 }}
                             </span>
                         </div>
 
@@ -133,9 +133,4 @@
 
 {% block floor %}
     {% include 'core/includes/pagination.html' %}
-{% endblock %}
-
-
-{% block rail %}
-    {% include 'blog/includes/rail.html' %}
 {% endblock %}

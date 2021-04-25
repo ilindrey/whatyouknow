@@ -1348,6 +1348,20 @@ a.inverted.ui.card:hover,
   border-top: 1px solid rgba(255, 255, 255, 0) !important;
 }
 
+/*-------------------
+         Cropped
+  --------------------*/
+
+.ui.cropped.card > .image > img,
+.ui.cropped.cards > .card > .image > img {
+  display: block;
+  height: 250px;
+  width: 100%;
+  border-radius: inherit;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
 
 /*******************************
     User Variable Overrides

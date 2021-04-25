@@ -51,3 +51,18 @@
     border-top: @basicInvertedExtraDivider !important;
   }
 }
+
+
+& when (@wyk_variationCardCropped) {
+  /*-------------------
+         Cropped
+  --------------------*/
+    .ui.cropped.card > .image > img, .ui.cropped.cards > .card > .image > img
+    {
+        display: @croppedDisplayImage;
+        height: @croppedHeightImage;
+        width: @croppedWidthImage;
+        border-radius: @croppedBorderRadiusImage;
+        object-fit: @croppedObjectFitImage;
+    }
+}

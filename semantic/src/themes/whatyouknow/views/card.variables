@@ -240,6 +240,9 @@
   0 0 0 @borderWidth @solidWhiteBorderColor
 ;
 
+
+
+
 /* add in the whatyouknow theme */
 
 /* Basic */
@@ -253,3 +256,11 @@
 @basicExtraDivider: 1px solid rgba(0, 0, 0, 0);
 @basicInvertedContentDivider: @borderWidth solid rgba(255, 255, 255, 0);
 @basicInvertedExtraDivider: 1px solid rgba(255, 255, 255, 0);
+
+
+/* Cropped */
+@croppedDisplayImage: block;
+@croppedHeightImage: 250px;
+@croppedWidthImage: 100%;
+@croppedBorderRadiusImage: inherit;
+@croppedObjectFitImage: cover;

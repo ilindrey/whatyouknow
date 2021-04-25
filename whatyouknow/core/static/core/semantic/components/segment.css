@@ -863,6 +863,16 @@
 *******************************/
 
 
+/* Main */
+.ui.main.segment {
+  padding: 1em 0 5em 0;
+}
+
+/* Footer */
+.ui.footer.segment {
+  padding: 10em 0;
+}
+
 
 /*******************************
          Site Overrides

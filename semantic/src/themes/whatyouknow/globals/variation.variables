@@ -193,6 +193,8 @@
 @variationSegmentTertiary: true;
 @variationSegmentAttached: true;
 @variationSegmentFitted: true;
+@wyk_variationSegmentMain: true;
+@wyk_variationSegmentFooter: true;
 @variationSegmentSizes: @variationAllSizes;
 
 /* Step */
@@ -329,7 +331,8 @@
 @variationCardLink: true;
 @variationCardDoubling: true;
 @variationCardStackable: true;
-@wyk_variationCardBasic: true;
+@wyk_variationCardBasic: true;;
+@wyk_variationCardCropped: true;
 @variationCardSizes: @variationAllSizes;
 
 /* Comment */

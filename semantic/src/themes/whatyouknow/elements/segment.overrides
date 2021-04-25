@@ -1,3 +1,17 @@
 /*******************************
          Theme Overrides
 *******************************/
+
+& when (@wyk_variationSegmentMain) {
+  /* Main */
+  .ui.main.segment {
+    padding: @mainSegmentPadding;
+  }
+}
+
+& when (@wyk_variationSegmentFooter) {
+  /* Footer */
+  .ui.footer.segment {
+    padding: @footerSegmentPadding;
+  }
+}
