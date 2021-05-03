@@ -1,0 +1,77 @@
+<div class="ui stackable two column grid container">
+
+    <div class="stretched row">
+        <div class="left floated center aligned three wide column">
+
+            <div class="ui basic fitted segment">
+{#                <div class="ui inverted fitted circular segment">#}
+                    {% if object.image %}
+                        <img class="ui huge centered circular image" src="{{ object.image.url }}">
+                    {% else %}
+                        <i class="ui huge inverted primary circular user icon"></i>
+                    {% endif %}
+{#                </div>#}
+            </div>
+
+            <div class="ui basic fitted segment">
+                <div class="ui mini green statistic">
+                    <div class="value">
+                        +16136
+                    </div>
+                    <div class="label">
+                        <span class="ui green text">reputation</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right floated left aligned twelve wide column">
+
+            <div class="ui basic fitted segment">
+
+                <div class="ui two grid">
+                    <div class="row">
+
+                        <div class="twelve wide column">
+                            <div class="ui basic fitted segment">
+                                <div class="ui header">{{ object.name }}</div>
+                            </div>
+
+                            <div class="ui basic fitted segment">
+                                <div class="ui text">@{{ object.username }}</div>
+
+                            </div>
+                            {% if object.specialization %}
+                                <div class="ui basic fitted segment">
+                                    <div class="ui text">{{ object.specialization }}</div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="right aligned four wide column">
+                            <a class="ui primary icon button">
+                                <i class="setting icon"></i>
+                            </a>
+                        </div>
+                        <div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ui basic fitted segment">
+                {% if object.description %}
+                    <div class="row">
+                        <div class="ui text">{{ object.description }}</div>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>

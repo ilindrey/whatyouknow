@@ -1,82 +1,21 @@
 {% extends 'core/base.html' %}
 
+{% load static %}
+
 {% block menu %}
-    {% include 'profile/includes/simple_menu.html' %}
+    {% include 'core/includes/menu.html' %}
 {% endblock %}
 
 {% block content %}
 
-    <div class="ui vertically divided aligned grid container">
+    {% include 'profile/includes/profile_detail_card.html' %}
+    {% include 'profile/includes/profile_detail_tabs.html' %}
 
-        <div class="four column row">
-            <div class="left floated center aligned five wide column">
-                <div class="ui link list">
-                    <a class="item">
-                        {% if object.image %}
-                            <img class="ui massive centered circular image" src="{{ object.image.url }}">
-                        {% else %}
-                            {#                            <img class="ui small centered circular image" src="">#}
-                            <i class="ui grey massive circular inverted user icon"></i>
-                        {% endif %}
-                    </a>
-                    <a class="item" href="{% include 'profile/includes/user_profile_url.html' %}">
-                        <div class="ui header">{{ object.name }}</div>
-                        <span class="ui grey text">(@{{ object.username }})</span>
-                    </a>
-                    {% if object.specialization %}
-                        <div class="item">
-                            <span class="ui black text">{{ object.specialization }}</span>
-                        </div>
-                    {% endif %}
-                </div>
-
-            </div>
-            <div class="right floated left aligned eleven wide column">
-                <div class="ui black small statistics">
-                    <div class="statistic">
-                        <div class="value">
-                            13
-                        </div>
-                        <div class="label">
-                            <i class="ui pencil icon"></i>
-                            <span>posts</span>
-                        </div>
-                    </div>
-                    <div class="statistic">
-                        <div class="value">
-                            16136
-                        </div>
-                        <div class="label">
-                            <i class="ui thumbs up icon"></i>
-                            <span>likes</span>
-                        </div>
-                    </div>
-                    <div class="statistic">
-                        <div class="value">
-                            1121
-                        </div>
-                        <div class="label">
-                            <i class="ui comment icon"></i>
-                            <span>comments</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui divider hidden"></div>
-                <div><span class="ui black text">{{ object.description }}</span></div>
-            </div>
-        </div>
-
-    </div>
 
 {% endblock %}
 
-{% block rail %}
-    <div class="ui vertical menu">
-        <a class="item active">
-            Your profile
-        </a>
-        <a class="item">
-            Settings
-        </a>
-    </div>
+{% block script %}
+
+    <script  src="{% static 'profile/js/profile.js' %}"></script>
+
 {% endblock %}

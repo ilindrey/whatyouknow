@@ -13,7 +13,7 @@ class UserProfile(AbstractUser):
                               unique=True,
                               blank=False)
     specialization = models.CharField(max_length=100, blank=True)
-    website = models.URLField(max_length=200, blank=True)
+    website = models.URLField(max_length=200, blank=True)  # delete
     description = models.TextField(max_length=1000, blank=True)
 
     USERNAME_FIELD = 'email'
