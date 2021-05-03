@@ -29,7 +29,7 @@ class Comment(MPTTModel):
         order_insertion_by = ['date_posted']
 
     def get_absolute_url(self):
-        return self.content_object.get_absolute_url() + '#comment_' + str(self.pk)
+        return self.content_object.get_absolute_url() + '?comment=' + str(self.pk)
 
     def save(self, *args, **kwargs):
 

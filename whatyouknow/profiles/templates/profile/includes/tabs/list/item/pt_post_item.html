@@ -1,9 +1,9 @@
 <div class="item">
-    <div class="image">
+    <a class="image" href="{% url 'post_detail' post.pk %}">
         <img src="{{ post.feed_cover }}">
-    </div>
+    </a>
     <div class="content">
-        <div class="header">{{ post.title }}</div>
+        <a class="header" href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
         {#      <div class="meta">#}
         {#        <span>Description</span>#}
         {#      </div>#}

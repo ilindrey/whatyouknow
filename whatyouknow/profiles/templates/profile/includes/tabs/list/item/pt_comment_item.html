@@ -7,7 +7,7 @@
     {#                <img src="{{ post.feed_cover }}">#}
     {#            </div>#}
     <div class="content">
-        <div class="header">{{ comment.content_object }}</div>
+        <a class="header" href="{{ comment.get_absolute_url }}">{{ comment.content_object }}</a>
         {#      <div class="meta">#}
         {#        <span>Description</span>#}
         {#      </div>#}
