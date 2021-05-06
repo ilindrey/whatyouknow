@@ -6,8 +6,7 @@
      data-param-app-label="{{ obj.app_label }}"
      data-param-model-name="{{ obj.model_name }}"
      data-param-model-pk="{{ obj.model_pk }}"
-     data-url-parent-comment-list="{% url 'parent_comment_list' %}"
-     data-url-descendant-comment-list="{% url 'descendant_comment_list' %}"
+     data-url-comment-list="{% url 'comment_list' %}"
 >
 
     <div class="row">
@@ -25,7 +24,7 @@
         {#        </div>#}
 
         <div class="column">
-            <div class="ui threaded comments" id="comment-list-row">
+            <div class="ui threaded comments" id="comment-list-row" >
                 <!-- this will embed html via ajax code -->
             </div>
             {% include 'comments/loader.html' %}
@@ -35,5 +34,5 @@
 
 </div>
 
-<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
+{#<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>#}
 <script type="text/javascript" src="{% static 'comments/js/comments.js' %}"></script>

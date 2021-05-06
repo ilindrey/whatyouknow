@@ -1,13 +1,21 @@
 {% load mptt_tags %}
 
-{% if not is_parent %}
-    <div class="ui comments">
-{% endif %}
+{#{% if is_parent and page_obj.number == 1 %}#}
+{#   <div class="ui threaded comments" id="comment-list-row" data-total-page="{{ page_obj.paginator.num_pages }}" data-current-page="{{ page_obj.number }}">#}
+{#{% endif %}#}
+
+{#{% if page_obj.number == 1 %}#}
+{#    <div class="ui threaded comments">#}
+{#{% endif %}#}
 
 {% recursetree comment_list %}
     {% include 'comments/detail.html' %}
 {% endrecursetree %}
 
-{% if not is_parent %}
-    </div>
-{% endif %}
+{#{% if is_parent and page_obj.number == 1 %}#}
+{#    </div>#}
+{#{% endif %}#}
+{##}
+{#{% if page_obj.number == 1 %}#}
+{#    </div>#}
+{#{% endif %}#}

@@ -9,7 +9,8 @@
             @{{ node.user.username }}
         </a>
         <div class="metadata">
-            <a name="#comment_{{ node.id }}" href="{{ node.get_absolute_url }}">
+            <a href="{{ node.get_absolute_url }}">
+{#            <a name="#comment_{{ node.id }}" href="{{ node.get_absolute_url }}">#}
                 <i class="grey linkify icon"></i>
             </a>
             <span>
@@ -26,18 +27,18 @@
             {{ node.text|safe }}
         </div>
         <div class="actions">
-            {% if is_parent %}
-                {% with count_answers=node.get_descendant_count %}
-                    {% if count_answers %}
-                        <a class="answers" data-is-show="false">
-                            <span class="ui text">
-                                Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}
-                            </span>
-                            <i class="dropdown icon"></i>
-                        </a>
-                    {% endif %}
-                {% endwith %}
-            {% endif %}
+{#            {% if is_parent %}#}
+{#                {% with count_answers=node.get_descendant_count %}#}
+{#                    {% if count_answers %}#}
+{#                        <a class="answers" data-is-show="false">#}
+{#                            <span class="ui text">#}
+{#                                Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}#}
+{#                            </span>#}
+{#                            <i class="dropdown icon"></i>#}
+{#                        </a>#}
+{#                    {% endif %}#}
+{#                {% endwith %}#}
+{#            {% endif %}#}
             <a class="reply">
                 Reply
             </a>
@@ -48,7 +49,7 @@
             <a class="dislike"><i class="thumbs down link icon"></i>2</a>
         </div>
     </div>
-    {% if not is_parent and not node.is_leaf_node %}
+    {% if not node.is_leaf_node %}
         <div class="ui comments">
             {{ children }}
         </div>
