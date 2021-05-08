@@ -27,28 +27,41 @@
 
         <div class="item">
 
-            <div class="ui black icon top right pointing dropdown" id="user_profile_menu">
+            <div class="ui black icon top right labeled pointing dropdown" id="user_profile_menu">
 
-                {% if user.image %}
-                    <img class="ui avatar image" src="{{ user.image.url }}">
-                {% else %}
-                    <i class="ui primary circular inverted user icon"></i>
-                {% endif %}
+                {% include 'core/includes/menu/avatars.html' %}
                 <i class="ui primary dropdown icon"></i>
 
                 <div class="ui vertical menu">
 
-                    <a class="item" href="{% include 'profile/includes/user_profile_url.html' %}">
-                        <span class="ui grey text">Singed in as </span>
-                        <div class="hidden divider"></div>
-                        <span class="ui primary text">@{{ user.username }}</span>
+                    <a class="item" href="{% url 'profile' user.username %}">
+
+                        <div class="ui list">
+                            <div class="item">
+                                {% include 'core/includes/menu/avatars.html' %}
+                                <div class="content">
+                                    <span class="ui grey text">Singed in as </span>
+                                    <div class="ui fitted divider hidden"></div>
+                                    <span class="ui primary text">@{{ user.username }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </a>
 
-                    <div class="divider"></div>
+                    <a class="item" href="{% url 'profile_tab' user.username 'posts' %}">
+                        <i class="pencil icon"></i>
+                        <span>Your posts</span>
+                    </a>
 
-                    <a class="item" href="{% include 'profile/includes/user_profile_url.html' %}">
-                        <i class="user icon"></i>
-                        <span>Your profile</span>
+                    <a class="item" href="{% url 'profile_tab' user.username 'comments' %}">
+                        <i class="comments icon"></i>
+                        <span>Your comments</span>
+                    </a>
+
+                    <a class="item" href="{% url 'profile_settings' user.username %}">
+                        <i class="setting icon"></i>
+                        <span>Settings</span>
                     </a>
 
                     <a class="item" href="{% url 'logout' %}">
