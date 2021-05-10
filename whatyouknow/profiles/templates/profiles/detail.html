@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block menu %}
+    {% include 'core/includes/menu.html' %}
+{% endblock %}
+
+{% block content %}
+    {% include 'profiles/includes/detail_card.html' %}
+    {% include 'profiles/includes/detail_tabs.html' %}
+{% endblock %}
+
+{% block script %}
+    <script  src="{% static 'profiles/js/tabs.js' %}"></script>
+{% endblock %}
