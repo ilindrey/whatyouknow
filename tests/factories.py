@@ -11,7 +11,7 @@ from reference import ReferenceModel as rm
 from utils import get_image_url, get_post_text, get_tags, current_tz
 
 
-dt_now = now()
+DATETIME_NOW = now()
 
 
 class SuperUserFactory(factory.django.DjangoModelFactory):
@@ -26,27 +26,24 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     is_active = True
     is_staff = True
     is_superuser = True
-    image = factory.django.ImageField(color='black', width=256, height=256)
+    avatar = factory.django.ImageField(color='black', width=300, height=300)
 
 
-class UserProfileFactory(factory.django.DjangoModelFactory):
+class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = rm.USER
         django_get_or_create = ('username',)
 
     username = factory.Faker('user_name')
-    password = factory.PostGenerationMethodCall('set_password', 'defaultpassword')
-    first_name = factory.Faker('first_name')
-    last_name = factory.Faker('last_name')
+    password = factory.PostGenerationMethodCall('set_password', '123456')
     email = factory.Faker('email')
+    name = factory.Faker('name')
     is_active = True
     is_staff = False
     is_superuser = False
-    name = factory.LazyAttribute(lambda obj: '{} {}'.format(obj.first_name, obj.last_name))
     specialization = factory.Faker('job')
-    website = factory.Faker('url')
     description = factory.Faker('paragraph', nb_sentences=randint(10, 25))
-    image = factory.django.ImageField(color='gray', width=256, height=256)
+    avatar = factory.django.ImageField(color='gray', width=300, height=300)
 
 
 class PostFactory(factory.django.DjangoModelFactory):
@@ -58,7 +55,7 @@ class PostFactory(factory.django.DjangoModelFactory):
     category = factory.LazyFunction(CategoryTypes.get_random_index)
     publish = factory.Faker('date_time_between_dates',
                             datetime_start=datetime(2019, 1, 1),
-                            datetime_end=dt_now,
+                            datetime_end=DATETIME_NOW,
                             tzinfo=current_tz)
     title = factory.Faker('sentence')
     feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
@@ -87,12 +84,12 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
     text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
     date_posted = factory.Faker('date_time_between_dates',
                                 datetime_start=factory.SelfAttribute('..content_object.publish'),
-                                datetime_end=dt_now,
+                                datetime_end=DATETIME_NOW,
                                 tzinfo=current_tz)
     date_edited = factory.Maybe('is_comment_edited',
                                 yes_declaration=factory.Faker('date_time_between_dates',
                                                               datetime_start=factory.SelfAttribute('..date_posted'),
-                                                              datetime_end=dt_now,
+                                                              datetime_end=DATETIME_NOW,
                                                               tzinfo=current_tz),
                                 no_declaration=factory.SelfAttribute('date_posted'))
 

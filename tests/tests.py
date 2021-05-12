@@ -6,4 +6,4 @@ django.setup()
 
 if __name__ == '__main__':
     from fixtures import make_objects
-    make_objects(factor=10, create_superuser=False)
+    make_objects(factor=3, create_superuser=False)
