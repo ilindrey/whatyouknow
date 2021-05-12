@@ -71175,6 +71175,7 @@ ol.ui.suffixed.list li:before,
 
 .ui.main.segment {
   padding: 1em 0 5em 0;
+  min-height: 90%;
 }
 
 /* Footer */

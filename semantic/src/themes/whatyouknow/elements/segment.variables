@@ -158,7 +158,8 @@
 
 
 /* wyk_Main */
-@mainSegmentPadding: 1em 0 5em 0;
+@mainPadding: 1em 0 5em 0;
+@mainMinHeight: 90%;
 
 /* wyk_Footer */
-@footerSegmentPadding:  10em 0;
+@footerPadding:  10em 0;
