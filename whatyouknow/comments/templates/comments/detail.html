@@ -2,7 +2,7 @@
 
 <div class="comment" id="comment_{{ node.id }}" data-node-id="{{ node.id }}" data-parent-id="{{ node.parent_id }}">
     <a class="avatar">
-        <img src="{{ node.user.image.url}}">
+        {% include 'comments/includes/avatar.html' %}
     </a>
     <div class="content">
         <a class="author">

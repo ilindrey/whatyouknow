@@ -8,9 +8,8 @@ __pycache__
 node_modules/
 venv/
 
-/staticfiles/
-
-media/
+/static/
+/media/
 
 db.sqlite3
 /db.sqlite3-journal

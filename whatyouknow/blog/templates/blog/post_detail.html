@@ -24,7 +24,7 @@
                 <div class="item">
                     <div class="ui horizontal link list">
                         <a class="item">
-                            <img class="ui avatar image" src="{{ post.user.image.url }}">
+                            {% include 'core/includes/avatar.html' %}
                             <div class="content">
                                 <span class="header">{{ post.user.name }}</span>
                                 <span class="ui grey text">@{{ post.user.username }}</span>

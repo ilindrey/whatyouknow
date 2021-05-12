@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 'django.forms',
+
     # other django apps
     # 'django.contrib.sites',
 
@@ -48,10 +50,9 @@ INSTALLED_APPS = [
     'django_summernote',
     'taggit',
     'mptt',
+    'versatileimagefield',
 
     # setting apps
-    # 'whatyouknow.setting_apps.over_admin',
-    # 'whatyouknow.setting_apps.summernote',
     'whatyouknow.summernote',
 
     # project apps
@@ -59,7 +60,6 @@ INSTALLED_APPS = [
     'whatyouknow.profiles',
     'whatyouknow.blog',
     'whatyouknow.comments',
-
 ]
 
 MIDDLEWARE = [
@@ -142,16 +142,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-AUTH_USER_MODEL = 'profiles.UserProfile'
+AUTH_USER_MODEL = 'profiles.Profile'
 
 LOGIN_REDIRECT_URL = 'index'
 
-# django_summernote
+# FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'
+
+# django-summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SUMMERNOTE_CONFIG = {
@@ -205,3 +207,67 @@ SUMMERNOTE_CONFIG = {
         ),
     }
 
+
+# django-versatileimagefield
+
+VERSATILEIMAGEFIELD_SETTINGS = {
+    # The amount of time, in seconds, that references to created images
+    # should be stored in the cache. Defaults to `2592000` (30 days)
+    'cache_length': 2592000,
+    # The name of the cache you'd like `django-versatileimagefield` to use.
+    # Defaults to 'versatileimagefield_cache'. If no cache exists with the name
+    # provided, the 'default' cache will be used instead.
+    'cache_name': 'versatileimagefield_cache',
+    # The save quality of modified JPEG images. More info here:
+    # https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html#jpeg
+    # Defaults to 70
+    'jpeg_resize_quality': 70,
+    # The name of the top-level folder within storage classes to save all
+    # sized images. Defaults to '__sized__'
+    'sized_directory_name': '__sized__',
+    # The name of the directory to save all filtered images within.
+    # Defaults to '__filtered__':
+    'filtered_directory_name': '__filtered__',
+    # The name of the directory to save placeholder images within.
+    # Defaults to '__placeholder__':
+    'placeholder_directory_name': '__placeholder__',
+    # Whether or not to create new images on-the-fly. Set this to `False` for
+    # speedy performance but don't forget to 'pre-warm' to ensure they're
+    # created and available at the appropriate URL.
+    'create_images_on_demand': False,
+    # A dot-notated python path string to a function that processes sized
+    # image keys. Typically used to md5-ify the 'image key' portion of the
+    # filename, giving each a uniform length.
+    # `django-versatileimagefield` ships with two post processors:
+    # 1. 'versatileimagefield.processors.md5' Returns a full length (32 char)
+    #    md5 hash of `image_key`.
+    # 2. 'versatileimagefield.processors.md5_16' Returns the first 16 chars
+    #    of the 32 character md5 hash of `image_key`.
+    # By default, image_keys are unprocessed. To write your own processor,
+    # just define a function (that can be imported from your project's
+    # python path) that takes a single argument, `image_key` and returns
+    # a string.
+    'image_key_post_processor': None,
+    # Whether to create progressive JPEGs. Read more about progressive JPEGs
+    # here: https://optimus.io/support/progressive-jpeg/
+    'progressive_jpeg': False
+}
+
+VERSATILEIMAGEFIELD_USE_PLACEHOLDIT = False
+
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    'profile_avatar': [
+        ('full_size', 'url'),
+        ('avatar_crop', 'crop__28x28'),
+        ('comment_avatar_crop', 'crop__35x35'),
+        ('mini_crop', 'crop__35x35'),
+        ('tiny_crop', 'crop__80x80'),
+        ('small_crop', 'crop__150x150'),
+        ('medium_crop', 'crop__300x300'),
+        ('large_crop', 'crop__450x450'),
+        ('big_crop', 'crop__600x600'),
+        ('huge_crop', 'crop__800x800'),
+        ('massive_crop', 'crop__960x960'),
+    ],
+}
