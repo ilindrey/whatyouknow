@@ -4,10 +4,19 @@ from random import choice as random_choice
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 
 from django_summernote.fields import SummernoteTextField
 from taggit.managers import TaggableManager
+from versatileimagefield.fields import VersatileImageField, PPOIField
+from versatileimagefield.image_warmer import VersatileImageFieldWarmer
+from versatileimagefield.placeholder import OnStoragePlaceholderImage
+
+# from whatyouknow.storages import AssetsStorage
+
+
+# UPLOAD_TO_FEED_CODER = 'blog/feed_covers'
 
 
 class CategoryTypes(Flag):
@@ -45,7 +54,13 @@ class Post(models.Model):
     category = models.IntegerField(choices=CategoryTypes.choices())
     title = models.CharField(max_length=200)
     text = SummernoteTextField()
-    feed_cover = models.URLField(null=True, blank=True)
+    feed_cover = VersatileImageField(
+        'feed_cover',
+        upload_to='blog/feed_covers',
+        blank=False,
+        ppoi_field='feed_cover_ppoi',
+        )
+    feed_cover_ppoi = PPOIField()
     feed_article_preview = SummernoteTextField(null=True, blank=True)
     tags = TaggableManager()
 
@@ -59,3 +74,13 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
 
+
+@receiver(models.signals.post_save, sender=Post)
+def warm_Profile_avatar_images(sender, instance, **kwargs):
+    """Ensures Person head shots are created post-save"""
+    post_img_warmer = VersatileImageFieldWarmer(
+        instance_or_queryset=instance,
+        rendition_key_set='post_feed_cover',
+        image_attr='feed_cover'
+    )
+    num_created, failed_to_create = post_img_warmer.warm()
