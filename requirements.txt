@@ -6,6 +6,10 @@
 #
 asgiref==3.3.4
     # via django
+certifi==2020.12.5
+    # via requests
+chardet==4.0.0
+    # via requests
 django-js-asset==1.2.2
     # via django-mptt
 django-mptt==0.12.0
@@ -28,6 +32,8 @@ faker==8.1.3
     # via
     #   -r requirements.in
     #   factory-boy
+idna==2.10
+    # via requests
 pillow==8.2.0
     # via
     #   -r requirements.in
@@ -42,9 +48,13 @@ python-magic==0.4.22
     # via django-versatileimagefield
 pytz==2021.1
     # via django
+requests==2.25.1
+    # via -r requirements.in
 six==1.16.0
     # via python-dateutil
 sqlparse==0.4.1
     # via django
 text-unidecode==1.3
     # via faker
+urllib3==1.26.4
+    # via requests

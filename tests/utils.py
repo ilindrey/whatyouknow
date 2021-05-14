@@ -1,6 +1,8 @@
 import json
+import requests
 from random import choice, randint
 
+from django.core.files.storage import default_storage
 from django.utils.timezone import get_current_timezone
 
 from faker import Faker
@@ -8,9 +10,9 @@ from faker import Faker
 from whatyouknow.blog.models import CategoryTypes
 
 
-current_tz = get_current_timezone()
+CURRENT_TZ = get_current_timezone()
 
-fake = Faker()
+FAKE = Faker()
 
 
 def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None):
@@ -30,6 +32,14 @@ def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None
     height = randint(min_height, max_height)
 
     return url.format(width, height)
+
+
+def get_image_file_data(min_width=500, min_height=250, max_width=None, max_height=None):
+
+    image_url = get_image_url(min_width=min_width, min_height=min_height, max_width=max_width, max_height=max_height)
+    img_data = requests.get(image_url).content
+
+    return img_data
 
 
 def get_post_text():
@@ -125,34 +135,34 @@ def get_post_text():
             value = get_image_url()
             image_tag = html_template_image.format(value)
             if gen_image_captions:
-                caption = fake.sentence()
+                caption = FAKE.sentence()
                 value_with_html_template = html_template_image_align_with_captions.format(image_tag, caption)
             else:
                 value_with_html_template = html_template_image_align_without_captions.format(image_tag)
         elif current_gen_type == 'text':
-            value = fake.text(max_nb_chars=randint(500, 5000))
+            value = FAKE.text(max_nb_chars=randint(500, 5000))
             value_with_html_template = html_template_text_block.format(value)
             current_header_contains_text = True
         elif current_gen_type == 'header':
-            value = fake.sentence()
+            value = FAKE.sentence()
             value_with_html_template = html_template_header.format(value)
             subheader_current_iteration = 0
             current_header_contains_text = False
         elif current_gen_type == 'subheader':
-            value = fake.sentence()
+            value = FAKE.sentence()
             subheader_current_iteration += 1
             value_with_html_template = html_template_subheader.format(subheader_current_iteration, value)
             current_header_contains_text = False
         elif current_gen_type == 'ordered_list':
             items_list_str = ''
             for item in range(randint(2, 20)):
-                value = fake.sentence()
+                value = FAKE.sentence()
                 items_list_str += html_template_list_item.format(value)
             value_with_html_template = html_template_ordered_list.format(items_list_str)
         elif current_gen_type == 'unordered_list':
             items_list_str = ''
             for item in range(randint(2, 20)):
-                value = fake.sentence()
+                value = FAKE.sentence()
                 items_list_str += html_template_list_item.format(value)
             value_with_html_template = html_template_unordered_list.format(items_list_str)
 

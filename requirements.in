@@ -8,3 +8,4 @@ django-mptt
 django-versatileimagefield
 faker
 factory_boy
+requests

@@ -8,7 +8,7 @@ from decouple import config
 
 from whatyouknow.blog.models import CategoryTypes
 from reference import ReferenceModel as rm
-from utils import get_image_url, get_post_text, get_tags, current_tz
+from utils import get_image_url, get_image_file_data, get_post_text, get_tags, CURRENT_TZ
 
 
 DATETIME_NOW = now()
@@ -26,7 +26,8 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     is_active = True
     is_staff = True
     is_superuser = True
-    avatar = factory.django.ImageField(color='black', width=300, height=300)
+    avatar = factory.django.FileField(filename='admin_' + rm.USER.avatar.field.name + '.jpg',
+                                      data=factory.LazyAttribute(lambda o: get_image_file_data(min_width=300, min_height=300)))
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -43,7 +44,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     is_superuser = False
     specialization = factory.Faker('job')
     description = factory.Faker('paragraph', nb_sentences=randint(10, 25))
-    avatar = factory.django.ImageField(color='gray', width=300, height=300)
+    avatar = factory.django.FileField(filename=rm.USER.avatar.field.name + '.jpg',
+                                      data=factory.LazyAttribute(lambda o: get_image_file_data(min_width=300, min_height=300)))
 
 
 class PostFactory(factory.django.DjangoModelFactory):
@@ -56,7 +58,7 @@ class PostFactory(factory.django.DjangoModelFactory):
     publish = factory.Faker('date_time_between_dates',
                             datetime_start=datetime(2019, 1, 1),
                             datetime_end=DATETIME_NOW,
-                            tzinfo=current_tz)
+                            tzinfo=CURRENT_TZ)
     title = factory.Faker('sentence')
     feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
     feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
@@ -85,12 +87,12 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
     date_posted = factory.Faker('date_time_between_dates',
                                 datetime_start=factory.SelfAttribute('..content_object.publish'),
                                 datetime_end=DATETIME_NOW,
-                                tzinfo=current_tz)
+                                tzinfo=CURRENT_TZ)
     date_edited = factory.Maybe('is_comment_edited',
                                 yes_declaration=factory.Faker('date_time_between_dates',
                                                               datetime_start=factory.SelfAttribute('..date_posted'),
                                                               datetime_end=DATETIME_NOW,
-                                                              tzinfo=current_tz),
+                                                              tzinfo=CURRENT_TZ),
                                 no_declaration=factory.SelfAttribute('date_posted'))
 
     @factory.lazy_attribute
