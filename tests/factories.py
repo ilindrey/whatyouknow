@@ -7,8 +7,8 @@ import factory
 from decouple import config
 
 from whatyouknow.blog.models import CategoryTypes
-from reference import ReferenceModel as rm
-from utils import get_image_url, get_image_file_data, get_post_text, get_tags, CURRENT_TZ
+from .reference import ReferenceModel as rm
+from .utils import get_image_file_data, get_post_text, get_tags, CURRENT_TZ
 
 
 DATETIME_NOW = now()
@@ -26,8 +26,10 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     is_active = True
     is_staff = True
     is_superuser = True
-    avatar = factory.django.FileField(filename='admin_' + rm.USER.avatar.field.name + '.jpg',
-                                      data=factory.LazyAttribute(lambda o: get_image_file_data(min_width=300, min_height=300)))
+    avatar = factory.django.FileField(
+        filename='admin_' + rm.USER.avatar.field.name + '.jpg',
+        data=factory.LazyAttribute(
+            lambda o: get_image_file_data(min_width=300, min_height=300)))
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -36,7 +38,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('username',)
 
     username = factory.Faker('user_name')
-    password = factory.PostGenerationMethodCall('set_password', '123456')
+    password = factory.PostGenerationMethodCall('set_password', '1234')
     email = factory.Faker('email')
     name = factory.Faker('name')
     is_active = True
@@ -45,7 +47,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     specialization = factory.Faker('job')
     description = factory.Faker('paragraph', nb_sentences=randint(10, 25))
     avatar = factory.django.FileField(filename=rm.USER.avatar.field.name + '.jpg',
-                                      data=factory.LazyAttribute(lambda o: get_image_file_data(min_width=300, min_height=300)))
+                                      data=factory.LazyAttribute(
+                                          lambda o: get_image_file_data(min_width=300, min_height=300)))
 
 
 class PostFactory(factory.django.DjangoModelFactory):
@@ -60,7 +63,9 @@ class PostFactory(factory.django.DjangoModelFactory):
                             datetime_end=DATETIME_NOW,
                             tzinfo=CURRENT_TZ)
     title = factory.Faker('sentence')
-    feed_cover = factory.LazyAttribute(lambda o: get_image_url(410, 250, 1200, 250))
+    feed_cover = factory.django.FileField(filename=rm.POST.feed_cover.field.name + '.jpg',
+                                          data=factory.LazyAttribute(
+                                              lambda o: get_image_file_data(min_width=360, min_height=250)))
     feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
     text = factory.LazyFunction(get_post_text)
 

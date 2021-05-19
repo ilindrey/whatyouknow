@@ -1,24 +1,27 @@
 import json
-import requests
+from requests import get as requests_get
+from PIL import Image
+from io import BytesIO, StringIO
 from random import choice, randint
 
-from django.core.files.storage import default_storage
 from django.utils.timezone import get_current_timezone
 
 from faker import Faker
 
 from whatyouknow.blog.models import CategoryTypes
-
+from whatyouknow.storages import AssetsStorage
 
 CURRENT_TZ = get_current_timezone()
 
 FAKE = Faker()
 
 
-def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None):
+def get_image_url(min_width=500, min_height=500, max_width=None, max_height=None):
 
     url_list = [
-        'https://picsum.photos/{}/{}',
+        # 'https://picsum.photos/{}/{}',  # bug
+        # 'https://loremflickr.com/{}/{}',  # only cats
+        'https://placeimg.com/{}/{}/any',
         ]
 
     url = choice(url_list)
@@ -34,12 +37,13 @@ def get_image_url(min_width=500, min_height=250, max_width=None, max_height=None
     return url.format(width, height)
 
 
-def get_image_file_data(min_width=500, min_height=250, max_width=None, max_height=None):
+def get_image_file_data(min_width=500, min_height=500):
 
-    image_url = get_image_url(min_width=min_width, min_height=min_height, max_width=max_width, max_height=max_height)
-    img_data = requests.get(image_url).content
+    image_url = get_image_url(min_width=min_width, min_height=min_height)
 
-    return img_data
+    response = requests_get(image_url, stream=True)
+
+    return response.content
 
 
 def get_post_text():
@@ -176,8 +180,9 @@ def get_post_text():
 def get_tags(category):
 
     category_name = CategoryTypes.get_name(category)
+    assets_storage = AssetsStorage()
 
-    with open('tags.json', 'r') as file:
+    with assets_storage.open('tests/tags.json', 'r') as file:
         data = json.load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0
