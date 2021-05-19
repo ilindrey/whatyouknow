@@ -1,5 +1,4 @@
 
-
 def main():
     import os
     import django
@@ -8,4 +7,4 @@ def main():
     django.setup()
 
     from .fixtures import make_objects
-    make_objects(factor=10, create_superuser=False)
+    make_objects(factor=10)

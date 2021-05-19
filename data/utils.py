@@ -1,4 +1,4 @@
-import json
+from json import load as json_load
 from requests import get as requests_get
 from random import choice, randint
 
@@ -6,8 +6,8 @@ from django.utils.timezone import get_current_timezone
 
 from faker import Faker
 
-from whatyouknow.blog.models import CategoryTypes
 from storages import AssetsStorage
+from whatyouknow.blog.models import CategoryTypes
 
 CURRENT_TZ = get_current_timezone()
 
@@ -181,7 +181,7 @@ def get_tags(category):
     assets_storage = AssetsStorage()
 
     with assets_storage.open('tests/tags.json', 'r') as file:
-        data = json.load(file)
+        data = json_load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0
     length = randint(1, 7)
