@@ -1,7 +1,5 @@
 import json
 from requests import get as requests_get
-from PIL import Image
-from io import BytesIO, StringIO
 from random import choice, randint
 
 from django.utils.timezone import get_current_timezone
@@ -9,7 +7,7 @@ from django.utils.timezone import get_current_timezone
 from faker import Faker
 
 from whatyouknow.blog.models import CategoryTypes
-from whatyouknow.storages import AssetsStorage
+from storages import AssetsStorage
 
 CURRENT_TZ = get_current_timezone()
 

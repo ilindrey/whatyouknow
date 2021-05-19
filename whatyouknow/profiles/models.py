@@ -9,7 +9,7 @@ from versatileimagefield.fields import VersatileImageField, PPOIField
 from versatileimagefield.image_warmer import VersatileImageFieldWarmer
 from versatileimagefield.placeholder import OnStoragePlaceholderImage
 
-from whatyouknow.storages import AssetsStorage
+from storages import AssetsStorage
 
 
 UPLOAD_TO_AVATAR = 'profiles/avatars/'
