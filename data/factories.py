@@ -6,7 +6,7 @@ from django.utils.timezone import now, datetime
 import factory
 from decouple import config
 
-from whatyouknow.blog.models import CategoryTypes
+from apps.blog.models import CategoryTypes
 from .reference import ReferenceModel as rm
 from .utils import get_image_file_data, get_post_text, get_tags, CURRENT_TZ
 

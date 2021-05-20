@@ -3,7 +3,7 @@ from django.db.models import Model
 from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 
-from whatyouknow.comments.models import Comment
+from apps.comments.models import Comment
 
 register = template.Library()
 

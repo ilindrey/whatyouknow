@@ -7,7 +7,7 @@ from django.utils.timezone import get_current_timezone
 from faker import Faker
 
 from storages import AssetsStorage
-from whatyouknow.blog.models import CategoryTypes
+from apps.blog.models import CategoryTypes
 
 CURRENT_TZ = get_current_timezone()
 

@@ -2,8 +2,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.views import generic
 from django.urls import reverse
 
-from whatyouknow.blog.models import Post
-from whatyouknow.comments.models import Comment
+from apps.blog.models import Post
+from apps.comments.models import Comment
 
 from .models import Profile
 from .forms import ProfileForm

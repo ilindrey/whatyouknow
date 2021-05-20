@@ -52,14 +52,13 @@ INSTALLED_APPS = [
     'mptt',
     'versatileimagefield',
 
-    # setting apps
-    'whatyouknow.summernote',
 
     # project apps
-    'whatyouknow.core',
-    'whatyouknow.profiles',
-    'whatyouknow.blog',
-    'whatyouknow.comments',
+    'apps.core',
+    'apps.profiles',
+    'apps.blog',
+    'apps.comments',
+    'apps.summernote',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'whatyouknow.urls'
+ROOT_URLCONF = 'configuration.urls'
 
 TEMPLATES = [
     {
@@ -91,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'whatyouknow.wsgi.application'
+WSGI_APPLICATION = 'configuration.wsgi.application'
 
 
 # Database

@@ -22,10 +22,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # apps
-    path('', include('whatyouknow.core.urls')),
-    path('profiles/', include('whatyouknow.profiles.urls')),
-    path('posts/', include('whatyouknow.blog.urls')),
-    path('comments/', include('whatyouknow.comments.urls')),
+    path('', include('apps.core.urls')),
+    path('profiles/', include('apps.profiles.urls')),
+    path('posts/', include('apps.blog.urls')),
+    path('comments/', include('apps.comments.urls')),
     # default apps
     path('admin/', admin.site.urls),
     # others

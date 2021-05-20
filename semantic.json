@@ -8,12 +8,12 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../whatyouknow/core/static/core/semantic/",
-      "uncompressed": "../whatyouknow/core/static/core/semantic/components/",
-      "compressed": "../whatyouknow/core/static/core/semantic/components/",
-      "themes": "../whatyouknow/core/static/core/semantic/themes/"
+      "packaged": "../apps/core/static/core/semantic/",
+      "uncompressed": "../apps/core/static/core/semantic/components/",
+      "compressed": "../apps/core/static/core/semantic/components/",
+      "themes": "../apps/core/static/core/semantic/themes/"
     },
-    "clean": "../whatyouknow/core/static/core/semantic/"
+    "clean": "../apps/core/static/core/semantic/"
   },
   "permission": false,
   "autoInstall": false,
