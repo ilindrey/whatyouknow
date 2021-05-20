@@ -1,4 +1,5 @@
-from django.conf import settings
+from shutil import rmtree
+
 from django.core.files.storage import default_storage
 
 from .reference import ReferenceModel as rm
@@ -49,46 +50,12 @@ def clear_media_files():
     """
     location = default_storage.base_location
 
-    avatar_upload_to = rm.USER.avatar.field.upload_to
-    feed_cover_upload_to = rm.POST.feed_cover.field.upload_to
-    sized_directory_name = settings.VERSATILEIMAGEFIELD_SETTINGS['sized_directory_name']
-    filtered_directory_name = settings.VERSATILEIMAGEFIELD_SETTINGS['filtered_directory_name']
-    placeholder_directory_name = settings.VERSATILEIMAGEFIELD_SETTINGS['placeholder_directory_name']
-
-    path_avatar = location / avatar_upload_to
-    path_feed_cover = location / feed_cover_upload_to
-    path_sized = location / sized_directory_name
-    path_filtered = location / filtered_directory_name
-    path_placeholder = location / placeholder_directory_name
-
-    remove_files_dir(path_avatar)
-    remove_files_dir(path_feed_cover)
-
-    descendant_list = [
-        avatar_upload_to,
-        feed_cover_upload_to
-        ]
-
-    remove_files_versatile_dir(path_sized, descendant_list)
-    remove_files_versatile_dir(path_filtered, descendant_list)
-    remove_files_versatile_dir(path_placeholder, descendant_list)
-
-
-def remove_files_dir(path):
-    if not path.exists():
-        return
-
     try:
-        files = path.glob('*.*')
-        for file in files:
-            file.unlink()
+        listdir = default_storage.listdir(location)[0]
+        for dir in listdir:
+            rmtree(location / dir)
     except OSError as e:
-        print("Error: %s : %s" % (path, e.strerror))
-
-
-def remove_files_versatile_dir(path, descendant_list):
-    for descendant in descendant_list:
-        remove_files_dir(path / descendant)
+        print("Error: %s" % e.strerror)
 
 
 def print_cleared_model(model, extra_msg=None):
