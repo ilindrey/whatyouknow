@@ -1,10 +1,12 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.views import generic
+from django.urls import reverse
 
 from whatyouknow.blog.models import Post
 from whatyouknow.comments.models import Comment
 
-from .models import UserProfile
+from .models import Profile
+from .forms import ProfileForm
 
 
 class ProfileView(generic.RedirectView):
@@ -19,8 +21,8 @@ class ProfileView(generic.RedirectView):
 class ProfileTabView(generic.DetailView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
-    model = UserProfile
-    template_name = 'profile/profile_detail.html'
+    model = Profile
+    template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
 
@@ -53,7 +55,7 @@ class ProfileTabDataLoadList(generic.ListView):
         tab = self.request.GET.get('tab')
         page = int(self.request.GET.get('page', 1))
 
-        base_tab_dir = 'profile/includes/tabs/'
+        base_tab_dir = 'profiles/includes/tabs/'
 
         if tab == 'posts':
             template = 'pt_post_base.html' if page == 1 else 'list/pt_post_list.html'
@@ -66,3 +68,14 @@ class ProfileTabDataLoadList(generic.ListView):
                     'cls': self.__class__.__name__, })
 
         return base_tab_dir + template
+
+
+class ProfileSettingsView(generic.UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = 'profiles/settings.html'
+
+    def get_success_url(self):
+        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})

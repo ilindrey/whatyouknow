@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block menu %}
+    {% include 'core/includes/menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="ui stackable grid container">
+
+        <div class="three column row">
+
+
+            {% if not user.is_authenticated %}
+                <div class="center aligned centered column">
+                    <span class="ui black text">
+                        You are not signed in.
+                    </span>
+                </div>
+            {% elif user.username != view.kwargs.username %}
+                <div class="center aligned centered column">
+                    <span class="ui black text">
+                        You do not have access to this page.
+                    </span>
+                </div>
+            {% else %}
+
+{#                <div class="column">#}
+{#                    {% if object.image %}#}
+{#                        <img class="ui huge centered circular image" src="{{ object.image.url }}">#}
+{#                    {% else %}#}
+{#                        <i class="ui huge inverted primary circular user icon"></i>#}
+{#                    {% endif %}#}
+{#                </div>#}
+
+                <div class="column">
+
+                    <form class="ui form {% if form.non_field_errors %}error{% endif %}" method="post">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="ui error message">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+                            <div class="field {% if field.errors %}error{% endif %}">
+
+                                <label>{{ field.label_tag }}</label>
+
+                                {{ field }}
+
+                                {% if field.errors %}
+                                    <div class="ui error message">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+
+                        <button class="ui primary fluid button" type="submit">Save</button>
+
+                    </form>
+
+                    <div id="cropper"></div>
+
+{#                    {{ form.media }}#}
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    {#    <script  src="{% static 'profiles/js/tabs.js' %}"></script>#}
+{% endblock %}

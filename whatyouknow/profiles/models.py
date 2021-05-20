@@ -59,4 +59,3 @@ def warm_Profile_avatar_images(sender, instance, **kwargs):
         image_attr='avatar'
     )
     num_created, failed_to_create = profile_img_warmer.warm()
-    # profile_img_warmer.warm()
