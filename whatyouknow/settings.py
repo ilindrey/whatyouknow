@@ -221,7 +221,7 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     # The save quality of modified JPEG images. More info here:
     # https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html#jpeg
     # Defaults to 70
-    'jpeg_resize_quality': 70,
+    'jpeg_resize_quality': 100,
     # The name of the top-level folder within storage classes to save all
     # sized images. Defaults to '__sized__'
     'sized_directory_name': '__sized__',
