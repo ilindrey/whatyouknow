@@ -1,42 +1,9 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');*/
-/*@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');*/
-/*@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');*/
-
 :root
 {
     --light-grey: #F3F4F5;
-    --rail-color: #e9eaf1;
 }
 
 body
 {
-    /*font-family: 'Source Sans Pro', 'PT Sans', 'Open Sans', sans-serif;*/
-    /*font-family: 'Source Sans Pro', sans-serif;*/
-    /*font-family: 'PT Sans', sans-serif;*/
-    /*font-family: 'Open Sans', sans-serif;*/
-    /*font-size: 14px;*/
-    /*line-height: 1.4;*/
     background: var(--light-grey);
-}
-
-.footer.segment
-{
-    padding: 10em 0;
-}
-.main.container
-{
-    padding: 1em 0 5em 0;
-}
-
-.side.basic.segment
-{
-    background: var(--rail-color);
-}
-.ui.card > .cropped.image > img, .ui.cards > .card > .cropped.image > img
-{
-    display: block;
-    height: 250px;
-    width: 100%;
-    border-radius: inherit;
-    object-fit: cover;
 }
