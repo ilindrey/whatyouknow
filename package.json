@@ -4,6 +4,9 @@
   "repository": "git@github.com:Scronullik/whatyouknow.git",
   "author": "Andrey Ilin <andreyilin@fastmail.com>",
   "license": "MIT",
+  "scripts": {
+    "fom_build": "cd ./semantic && gulp build"
+  },
   "dependencies": {
     "fomantic-ui": "^2.8.7",
     "gulp": "^4.0.2"
