@@ -66,8 +66,8 @@ def print_cleared_model(model, extra_msg=None):
 
 
 def print_start_create_info(factory, count):
-    print(factory.__name__ + ' factory of ' + str(count) + ' records is currently being created.')
+    print('Start creating ' + str(count) + ' records of the ' + factory.__name__ + ' factory.')
 
 
 def print_create_batch_info(factory, count):
-    print('Factory ' + factory.__name__ + ' created batch ' + str(count) + ' count.')
+    print('-- Factory ' + factory.__name__ + ' created batch ' + str(count) + ' count.')
