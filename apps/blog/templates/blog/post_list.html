@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% load core %}
 {% load comments %}
+{% load thumbnail %}
 
 {% block menu %}
     {% include 'core/includes/menu.html' %}
@@ -74,7 +75,7 @@
             <a class="ui card" href="{% url 'post_detail' post.pk %}">
 
                 <div class="image">
-                    <img src="{{ post.feed_cover.crop.360x250 }}">
+                    <img src="{{ post.feed_cover|thumbnail_url:'default' }}">
                 </div>
 
                 <div class="content">
@@ -93,7 +94,7 @@
                         </div>
 
                         <div class="right floated item">
-                            {% include 'blog/includes/avatar.html' %}
+                            {% include 'blog/includes/post_author_user_avatar.html' %}
                             <div class="content">
                                 <div class="ui black text">{{ post.user.name }}</div>
                                 <span class="ui grey text">@{{ post.user.username }}</span>

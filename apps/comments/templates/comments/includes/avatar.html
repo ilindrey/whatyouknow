@@ -1,1 +1,2 @@
-<img src="{{ node.user.image.crop.35x35 }}">
+{% load profiles %}
+<img src="{% get_avatar node.user 'comment' %}">

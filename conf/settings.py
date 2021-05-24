@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
 
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,16 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'django.forms',
-
-    # other django apps
-    # 'django.contrib.sites',
-
-    # other apps
+    # packages
     'django_summernote',
     'taggit',
     'mptt',
-    'versatileimagefield',
+    'easy_thumbnails',
 
 
     # project apps
@@ -71,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'configuration.urls'
+ROOT_URLCONF = 'conf.urls'
 
 TEMPLATES = [
     {
@@ -90,7 +85,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'configuration.wsgi.application'
+WSGI_APPLICATION = 'conf.wsgi.application'
 
 
 # Database
@@ -146,19 +141,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = '/media/'
+STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = '/{}/'.format(STATIC_ROOT.name)
+
+
+# Media files
+
 MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/{}/'.format(MEDIA_ROOT.name)
+
+
+# User model
 
 AUTH_USER_MODEL = 'profiles.Profile'
 
+
+# redirect login
+
 LOGIN_REDIRECT_URL = 'index'
 
-# FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'
 
 # django-summernote
+
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SUMMERNOTE_CONFIG = {
@@ -213,70 +218,36 @@ SUMMERNOTE_CONFIG = {
     }
 
 
-# django-versatileimagefield
+# easy_thumbnails
 
-VERSATILEIMAGEFIELD_SETTINGS = {
-    # The amount of time, in seconds, that references to created images
-    # should be stored in the cache. Defaults to `2592000` (30 days)
-    'cache_length': 2592000,
-    # The name of the cache you'd like `django-versatileimagefield` to use.
-    # Defaults to 'versatileimagefield_cache'. If no cache exists with the name
-    # provided, the 'default' cache will be used instead.
-    'cache_name': 'versatileimagefield_cache',
-    # The save quality of modified JPEG images. More info here:
-    # https://pillow.readthedocs.io/en/latest/handbook/image-file-formats.html#jpeg
-    # Defaults to 70
-    'jpeg_resize_quality': 100,
-    # The name of the top-level folder within storage classes to save all
-    # sized images. Defaults to '__sized__'
-    'sized_directory_name': '__sized__',
-    # The name of the directory to save all filtered images within.
-    # Defaults to '__filtered__':
-    'filtered_directory_name': '__filtered__',
-    # The name of the directory to save placeholder images within.
-    # Defaults to '__placeholder__':
-    'placeholder_directory_name': '__placeholder__',
-    # Whether or not to create new images on-the-fly. Set this to `False` for
-    # speedy performance but don't forget to 'pre-warm' to ensure they're
-    # created and available at the appropriate URL.
-    'create_images_on_demand': False,
-    # A dot-notated python path string to a function that processes sized
-    # image keys. Typically used to md5-ify the 'image key' portion of the
-    # filename, giving each a uniform length.
-    # `django-versatileimagefield` ships with two post processors:
-    # 1. 'versatileimagefield.processors.md5' Returns a full length (32 char)
-    #    md5 hash of `image_key`.
-    # 2. 'versatileimagefield.processors.md5_16' Returns the first 16 chars
-    #    of the 32 character md5 hash of `image_key`.
-    # By default, image_keys are unprocessed. To write your own processor,
-    # just define a function (that can be imported from your project's
-    # python path) that takes a single argument, `image_key` and returns
-    # a string.
-    'image_key_post_processor': None,
-    # Whether to create progressive JPEGs. Read more about progressive JPEGs
-    # here: https://optimus.io/support/progressive-jpeg/
-    'progressive_jpeg': False
-}
+THUMBNAIL_DEFAULT_OPTIONS = {
+    'quality': 100, 'subsampling': 2
+    }
 
-VERSATILEIMAGEFIELD_USE_PLACEHOLDIT = False
+THUMBNAIL_ALIASES = {
+    'profiles.Profile.avatar': {
+        'default':
+            {
+                'size': (28, 28),
+                'crop': 'smart',
+                },
+        'comment':
+            {
+                'size': (35, 35),
+                'crop': 'smart',
+                },
+        'medium':  # semantic image size
+            {
+                'size': (300, 300),
+                'crop': 'smart',
+                }
+        },
+    'blog.Post.feed_cover': {
+        'default':
+            {
+                'size': (360, 250),
+                'crop': 'smart',
 
-
-VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
-    'profile_avatar': [
-        ('full_size', 'url'),
-        ('avatar_crop', 'crop__28x28'),
-        ('comment_avatar_crop', 'crop__35x35'),
-        # ('mini_crop', 'crop__35x35'),
-        # ('tiny_crop', 'crop__80x80'),
-        # ('small_crop', 'crop__150x150'),
-        ('medium_crop', 'crop__300x300'),
-        # ('large_crop', 'crop__450x450'),
-        # ('big_crop', 'crop__600x600'),
-        # ('huge_crop', 'crop__800x800'),
-        # ('massive_crop', 'crop__960x960'),
-    ],
-    'post_feed_cover': [
-        ('full_size', 'url'),
-        ('feed_cover_crop', 'crop__360x250'),
-    ],
-}
+                }
+        }
+    }

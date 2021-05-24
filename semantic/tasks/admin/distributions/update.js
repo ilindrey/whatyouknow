@@ -27,7 +27,7 @@ var
   project        = require('../../config/project/release'),
 
 
-  // oAuth configuration for GitHub
+  // oAuth conf for GitHub
   oAuth          = fs.existsSync(__dirname + '/../../config/admin/oauth.js')
     ? require('../../config/admin/oauth')
     : false,

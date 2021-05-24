@@ -18,7 +18,7 @@
                         You are not signed in.
                     </span>
                 </div>
-            {% elif user.username != view.kwargs.username %}
+            {% elif user.username != profile.username %}
                 <div class="center aligned centered column">
                     <span class="ui black text">
                         You do not have access to this page.
@@ -35,6 +35,8 @@
 {#                </div>#}
 
                 <div class="column">
+
+                    {% include 'profiles/includes/avatar/avatar_card.html' %}
 
                     <form class="ui form {% if form.non_field_errors %}error{% endif %}" method="post">
                         {% csrf_token %}
@@ -68,10 +70,6 @@
                         <button class="ui primary fluid button" type="submit">Save</button>
 
                     </form>
-
-                    <div id="cropper"></div>
-
-{#                    {{ form.media }}#}
 
                 </div>
 

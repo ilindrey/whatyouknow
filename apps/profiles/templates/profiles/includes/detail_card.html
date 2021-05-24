@@ -1,10 +1,12 @@
+{% load thumbnail %}
+
 <div class="ui stackable two column grid container">
 
     <div class="stretched row">
         <div class="left floated center aligned five wide column">
 
             <div class="ui basic fitted segment">
-                <img class="ui medium centered circular image" src="{{ object.avatar.crop.300x300 }}">
+                <img class="ui medium centered circular image" src="{{ object.avatar|thumbnail_url:'medium' }}">
             </div>
 
             <div class="ui basic fitted segment">

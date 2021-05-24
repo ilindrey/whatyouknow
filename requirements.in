@@ -5,7 +5,7 @@ django
 django-summernote
 django-taggit
 django-mptt
-django-versatileimagefield
+easy_thumbnails
 faker
 factory_boy
 requests

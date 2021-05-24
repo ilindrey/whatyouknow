@@ -82,7 +82,7 @@ module.exports = {
     return when.hasConfig();
   },
 
-  // detect whether there is a semantic.json configuration and that the auto-install option is set to true
+  // detect whether there is a semantic.json conf and that the auto-install option is set to true
   shouldAutoInstall: function() {
     var
       config = when.hasConfig()

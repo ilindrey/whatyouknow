@@ -2,11 +2,11 @@ from json import load as json_load
 from requests import get as requests_get
 from random import choice, randint
 
+from django.conf import settings
 from django.utils.timezone import get_current_timezone
 
 from faker import Faker
 
-from storages import AssetsStorage
 from apps.blog.models import CategoryTypes
 
 CURRENT_TZ = get_current_timezone()
@@ -178,9 +178,8 @@ def get_post_text():
 def get_tags(category):
 
     category_name = CategoryTypes.get_name(category)
-    assets_storage = AssetsStorage()
 
-    with assets_storage.open('tests/tags.json', 'r') as file:
+    with open(settings.BASE_DIR / 'data/assets/tags.json', 'r') as file:
         data = json_load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0
