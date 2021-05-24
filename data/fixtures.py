@@ -1,6 +1,7 @@
 from shutil import rmtree
 
 from django.conf import settings
+from django.core.files.storage import default_storage
 
 from .reference import ReferenceModel as rm
 from .factories import SuperUserFactory, ProfileFactory, PostFactory, PostCommentsFactory
@@ -48,13 +49,11 @@ def clear_media_files():
         Delete MEDIA_ROOT directory with media files
     :return:
     """
-    location = settings.BASE_DIR / settings.MEDIA_ROOT
-
+    location = default_storage.base_location
     try:
-        list = location.glob('*.*')
-        # listdir = default_storage.listdir(location)[0]
-        # for dir in listdir:
-        #     rmtree(default_storage.path(dir))
+        listdir = default_storage.listdir(location)[0]
+        for dir in listdir:
+            rmtree(default_storage.path(dir))
     except OSError as e:
         print("Error: %s" % e.strerror)
 
