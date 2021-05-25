@@ -236,7 +236,7 @@ THUMBNAIL_ALIASES = {
                 'size': (35, 35),
                 'crop': 'smart',
                 },
-        'medium':  # semantic image size
+        'card':  # semantic image size
             {
                 'size': (300, 300),
                 'crop': 'smart',
@@ -248,6 +248,11 @@ THUMBNAIL_ALIASES = {
                 'size': (360, 250),
                 'crop': 'smart',
 
-                }
+                },
+        'item':
+            {
+                'size': (180, 125),
+                'crop': 'smart',
+                },
         }
     }
