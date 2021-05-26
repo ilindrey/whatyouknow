@@ -36,9 +36,13 @@
 
                 <div class="column">
 
-                    {% include 'profiles/includes/avatar/avatar_card.html' %}
+{#                    {% include 'profiles/includes/avatar/avatar_card.html' %}#}
 
-                    <form class="ui form {% if form.non_field_errors %}error{% endif %}" method="post">
+                    <form class="ui form {% if form.non_field_errors %}error{% endif %}"
+                          method="post"
+                          enctype="multipart/form-data"
+                          id="avatar_form"
+                    >
                         {% csrf_token %}
 
                         {% if form.non_field_errors %}
@@ -67,7 +71,7 @@
                             </div>
                         {% endfor %}
 
-                        <button class="ui primary fluid button" type="submit">Save</button>
+{#                        <input class="hidden" type="submit">Save</input>#}
 
                     </form>
 
@@ -82,5 +86,5 @@
 {% endblock %}
 
 {% block script %}
-    {#    <script  src="{% static 'profiles/js/tabs.js' %}"></script>#}
+        <script  src="{% static 'profiles/js/settings.js' %}"></script>
 {% endblock %}

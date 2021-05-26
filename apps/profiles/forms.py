@@ -1,22 +1,13 @@
-from django.forms import ModelForm
+from django import forms
 
 from .models import Profile
 
-# from .widgets import AvatarFileInput
+from .widgets import AvatarFileInput
 
 
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(label='', required=False, widget=AvatarFileInput)
+
     class Meta:
         model = Profile
         fields = ('avatar', )
-        # widgets = {
-        #     'avatar': CroppieField()
-        #     }
-
-
-# class AvatarForm(ModelForm):
-#     avatar = CroppieField()
-#
-#     class Meta:
-#         model = Profile
-#         fields = ('avatar',)

@@ -1,0 +1,31 @@
+{% load static %}
+{% load profiles %}
+
+<div class="ui medium centered circular image">
+    <div class="ui dimmer">
+        <div class="content">
+            <h2 class="ui inverted header">
+{#                {% if widget.is_initial %}#}
+                    {{ widget.initial_text }}
+{#                {% endif %}#}
+            </h2>
+
+            <div class="ui small primary button" id="upload_avatar_button">
+                Upload
+            </div>
+            <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} style="display: None;">
+
+
+            {% if not widget.required and widget.value %}
+                <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_avatar_button" >
+                    Remove
+                </div>
+                <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %} style="display: None;">
+            {% endif %}
+
+        </div>
+    </div>
+    <img src="{{ widget.avatar_img }}">
+</div>
+
+<script src="{% static 'widgets/avatar.js' %}"></script>
