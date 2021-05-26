@@ -1,12 +1,5 @@
 $(document).ready(function () {
 
-    // $.fn.api.settings.api = {
-    //     'profile' : '{% url 'profile' object.username %}',
-    //     'profile_tab' : '{% url 'profile_tab' object.username current_tab %}',
-    //     'profile_tab_data_load' : '{% url 'profile_tab_data_load' object.username %}',
-    // };
-
-
     let profileTabsContainer =  $('#profile_tabs_container');
 
     const urlAjaxProfileTabDataLoad =  profileTabsContainer.data('url-ajax-profile-tab-data-load');
@@ -15,13 +8,11 @@ $(document).ready(function () {
     let currentTab = profileTabsContainer.data(keyCurrentTab);
 
 
-    const tab_menu = $('#user_profile_tab_menu .item');
+    const $tabMenu = $('#user_profile_tab_menu .item');
 
+    $tabMenu.tab('change tab', currentTab);
 
-    tab_menu.tab('change tab', currentTab);
-
-    tab_menu.tab({
-
+    $tabMenu.tab({
         onFirstLoad: function ()
         {
             $(this).visibility({
@@ -98,6 +89,6 @@ $(document).ready(function () {
         }
     });
 
-    tab_menu.tab('change tab', currentTab);
+    $('#' + currentTab).tab('change tab', currentTab);
 
 });
