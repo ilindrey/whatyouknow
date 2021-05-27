@@ -1,7 +1,7 @@
 {% load static %}
 {% load profiles %}
 
-<div class="ui medium centered circular image">
+<div class="ui medium centered circular image" id="avatar_file_input">
     <div class="ui dimmer">
         <div class="content">
             <h2 class="ui inverted header">
@@ -27,5 +27,13 @@
     </div>
     <img src="{{ widget.avatar_img }}">
 </div>
-
+<div class="ui mini modal" id="avatar_call_remove">
+  <div class="content">
+      Are you sure you want to reset your current avatar?
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">Cancel</div>
+    <div class="ui primary ok button">OK</div>
+  </div>
+</div>
 <script src="{% static 'widgets/avatar.js' %}"></script>

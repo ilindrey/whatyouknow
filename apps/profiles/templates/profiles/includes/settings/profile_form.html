@@ -1,0 +1,12 @@
+{% extends 'core/includes/forms/base.html' %}
+
+{% block params %}
+    method="post"
+    id="profile_form"
+{% endblock %}
+
+
+{% block filler %}
+    {% csrf_token %}
+    {% include 'core/includes/forms/fields.html' %}
+{% endblock %}

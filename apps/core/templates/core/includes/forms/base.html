@@ -1,0 +1,12 @@
+
+<form class="ui form{% if form.non_field_errors %} error{% endif %}"
+        {% block params %}
+      method="get"
+        {% endblock %}
+>
+
+    {% block filler %}
+        {% include 'core/includes/forms/fields.html' %}
+    {% endblock %}
+
+</form>

@@ -35,46 +35,12 @@
 {#                </div>#}
 
                 <div class="column">
+                    {% include 'profiles/includes/settings/profile_form.html' %}
+                </div>
 
-{#                    {% include 'profiles/includes/avatar/avatar_card.html' %}#}
 
-                    <form class="ui form {% if form.non_field_errors %}error{% endif %}"
-                          method="post"
-                          enctype="multipart/form-data"
-                          id="avatar_form"
-                    >
-                        {% csrf_token %}
-
-                        {% if form.non_field_errors %}
-                            <div class="ui error message">
-                                {{ form.non_field_errors }}
-                            </div>
-                        {% endif %}
-
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
-
-                        {% for field in form.visible_fields %}
-                            <div class="field {% if field.errors %}error{% endif %}">
-
-                                <label>{{ field.label_tag }}</label>
-
-                                {{ field }}
-
-                                {% if field.errors %}
-                                    <div class="ui error message">
-                                        {{ field.errors }}
-                                    </div>
-                                {% endif %}
-
-                            </div>
-                        {% endfor %}
-
-{#                        <input class="hidden" type="submit">Save</input>#}
-
-                    </form>
-
+                <div class="right column" id="avatar_segment" data-avatar-form-url="{% url 'profile_avatar' profile.username %}">
+{#                    {% include 'profiles/includes/settings/avatar_form.html' %}#}
                 </div>
 
             {% endif %}

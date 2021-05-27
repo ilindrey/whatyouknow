@@ -6,7 +6,7 @@ from apps.blog.models import Post
 from apps.comments.models import Comment
 
 from .models import Profile
-from .forms import ProfileForm
+from .forms import AvatarForm, ProfileForm
 
 
 class ProfileView(generic.RedirectView):
@@ -76,6 +76,17 @@ class ProfileSettingsView(generic.UpdateView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
     template_name = 'profiles/settings.html'
+
+    def get_success_url(self):
+        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
+
+
+class ProfileAvatarView(generic.UpdateView):
+    model = Profile
+    form_class = AvatarForm
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = 'profiles/includes/settings/avatar_form.html'
 
     def get_success_url(self):
         return reverse('profile_settings', kwargs={'username': self.kwargs['username']})

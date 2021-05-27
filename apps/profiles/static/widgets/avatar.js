@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $('.ui.image')
+    $('#avatar_file_input')
         .dimmer({
             on: 'hover'
         });
@@ -12,5 +12,10 @@ $(document).on('click', '#upload_avatar_button', () =>
 
 $(document).on('click', '#remove_avatar_button', () =>
 {
-    $('#avatar-clear_id').click();
+    $('#avatar_call_remove').modal({
+        closable: false,
+        onApprove: function () {
+            $('#avatar-clear_id').click();
+    }
+    }).modal('show');
 });

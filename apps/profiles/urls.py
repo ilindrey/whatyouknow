@@ -2,7 +2,7 @@ from django.urls import path
 
 from django.contrib.auth.views import LoginView, LogoutView
 
-from .views import ProfileView, ProfileSettingsView, ProfileTabView, ProfileTabDataLoadList
+from .views import ProfileView, ProfileAvatarView, ProfileSettingsView, ProfileTabView, ProfileTabDataLoadList
 
 urlpatterns = [
     # authentication and registration
@@ -16,4 +16,5 @@ urlpatterns = [
 
     # ajax profile
     path('<str:username>/ajax/profile_tab_data_load', ProfileTabDataLoadList.as_view(), name='profile_tab_data_load'),
+    path('<str:username>/ajax/profile_avatar', ProfileAvatarView.as_view(), name='profile_avatar'),
 ]
