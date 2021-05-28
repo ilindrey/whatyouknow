@@ -2,11 +2,8 @@
 
 {% block params %}
     method="post"
-    id="profile_form"
 {% endblock %}
 
-
-{% block filler %}
+{% block csrf_token %}
     {% csrf_token %}
-    {% include 'core/includes/forms/fields.html' %}
 {% endblock %}

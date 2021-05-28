@@ -1,8 +1,14 @@
 from django import forms
+# from django.forms.widgets import
+
+from apps.blog.models import CategoryTypes
+from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSearchInput
 
 from .models import Profile
-
 from .widgets import AvatarFileInput
+
+
+CATEGORY_CHOICES = CategoryTypes.choices()
 
 
 class AvatarForm(forms.ModelForm):
@@ -18,3 +24,12 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('name', 'username', 'email', 'specialization', 'description')
+
+
+class FeedForm(forms.Form):
+    categories = forms.MultipleChoiceField(choices=CATEGORY_CHOICES,
+                                           widget=SemanticCheckboxSelectMultiple(attrs={
+                                               'inline': True,
+                                               'type_checkbox': 'toggle',
+                                               }))
+    exclude_tags = forms.CharField(widget=SemanticSearchInput(attrs={'placeholder': 'Search tag...'}))

@@ -1,13 +1,8 @@
-{% extends 'core/includes/forms/base.html' %}
+{% extends 'core/includes/forms/post.html' %}
 
 {% block params %}
     method="post"
     enctype="multipart/form-data"
     id="avatar_form"
     action="{% url 'profile_avatar' profile.username %}"
-{% endblock %}
-
-{% block filler %}
-    {% csrf_token %}
-    {% include 'core/includes/forms/fields.html' %}
 {% endblock %}

@@ -1,0 +1,7 @@
+<div class="ui search"{% if widget.attrs.id %} id="{{ widget.attrs.id }}_search"{% endif %}>
+    <div class="ui icon input">
+        {% include "django/forms/widgets/input.html" %}
+        <i class="search icon"></i>
+    </div>
+    <div class="results"></div>
+</div>

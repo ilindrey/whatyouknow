@@ -9,48 +9,69 @@
 {% block content %}
     <div class="ui stackable grid container">
 
-        <div class="three column row">
 
 
-            {% if not user.is_authenticated %}
+        {% if not user.is_authenticated %}
+            <div class="three column row">
                 <div class="center aligned centered column">
                     <span class="ui black text">
                         You are not signed in.
                     </span>
                 </div>
-            {% elif user.username != profile.username %}
+            </div>
+        {% elif user.username != profile.username %}
+            <div class="three column row">
                 <div class="center aligned centered column">
                     <span class="ui black text">
                         You do not have access to this page.
                     </span>
                 </div>
-            {% else %}
+            </div>
+        {% else %}
 
-{#                <div class="column">#}
-{#                    {% if object.image %}#}
-{#                        <img class="ui huge centered circular image" src="{{ object.image.url }}">#}
-{#                    {% else %}#}
-{#                        <i class="ui huge inverted primary circular user icon"></i>#}
-{#                    {% endif %}#}
-{#                </div>#}
 
+            <div class="row">
                 <div class="column">
-                    {% include 'profiles/includes/settings/profile_form.html' %}
+                    <h4 class="ui horizontal divider header">
+                        Your profile
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="five wide column" id="avatar_segment" data-avatar-form-url="{% url 'profile_avatar' profile.username %}">
+                    <!-- ajax load avatar form -->
                 </div>
 
-
-                <div class="right column" id="avatar_segment" data-avatar-form-url="{% url 'profile_avatar' profile.username %}">
-{#                    {% include 'profiles/includes/settings/avatar_form.html' %}#}
+                <div class="eleven wide column">
+                    {% include 'profiles/includes/settings/forms/profile.html' %}
                 </div>
 
-            {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Your feed
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column" data-feed-form-url="{% url 'profile_feed' profile.username %}" id="feed_segment">
+
+                </div>
+            </div>
+
+        {% endif %}
 
 
-        </div>
+    </div>
 
     </div>
 {% endblock %}
 
 {% block script %}
-        <script  src="{% static 'profiles/js/settings.js' %}"></script>
+    <script  src="{% static 'profiles/js/settings.js' %}"></script>
 {% endblock %}

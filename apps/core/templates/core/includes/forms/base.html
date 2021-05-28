@@ -4,9 +4,25 @@
       method="get"
         {% endblock %}
 >
+    {% block csrf_token %}
+    {% endblock %}
+
+    {% if form.non_field_errors %}
+        <div class="ui error message">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
 
     {% block filler %}
-        {% include 'core/includes/forms/fields.html' %}
+        {% for field in form.visible_fields %}
+            {% include 'core/includes/forms/field.html' %}
+        {% endfor %}
+        {% block button %}
+        {% endblock %}
     {% endblock %}
 
 </form>

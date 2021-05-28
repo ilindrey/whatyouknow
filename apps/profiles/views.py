@@ -6,7 +6,7 @@ from apps.blog.models import Post
 from apps.comments.models import Comment
 
 from .models import Profile
-from .forms import AvatarForm, ProfileForm
+from .forms import AvatarForm, ProfileForm, FeedForm
 
 
 class ProfileView(generic.RedirectView):
@@ -38,7 +38,7 @@ class ProfileTabView(generic.DetailView):
         return context
 
 
-class ProfileTabDataLoadList(generic.ListView):
+class ProfileTabDataLoadListView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
@@ -70,23 +70,25 @@ class ProfileTabDataLoadList(generic.ListView):
         return base_tab_dir + template
 
 
-class ProfileSettingsView(generic.UpdateView):
+class ProfileMixin:
     model = Profile
-    form_class = ProfileForm
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+    def get_success_url(self):
+        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
+
+
+class ProfileSettingsView(ProfileMixin, generic.UpdateView):
+    form_class = ProfileForm
     template_name = 'profiles/settings.html'
 
-    def get_success_url(self):
-        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
 
-
-class ProfileAvatarView(generic.UpdateView):
-    model = Profile
+class ProfileAvatarView(ProfileMixin, generic.UpdateView):
     form_class = AvatarForm
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-    template_name = 'profiles/includes/settings/avatar_form.html'
+    template_name = 'profiles/includes/settings/forms/avatar.html'
 
-    def get_success_url(self):
-        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
+
+class ProfileFeedView(ProfileMixin, generic.FormView):
+    form_class = FeedForm
+    template_name = 'profiles/includes/settings/forms/feed.html'

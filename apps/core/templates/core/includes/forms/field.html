@@ -1,0 +1,14 @@
+<div class="{% block field_class %}{% endblock %}field{% if field.errors %} error{% endif %}">
+
+    {% block field %}
+        {{ field.label_tag }}
+        {{ field }}
+    {% endblock %}
+
+    {% if field.errors %}
+        <div class="ui error message">
+            {{ field.errors }}
+        </div>
+    {% endif %}
+
+</div>
