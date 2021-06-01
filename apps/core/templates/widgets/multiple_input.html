@@ -1,5 +1,5 @@
-{% with id=widget.attrs.id %}<div class="ui{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}{% if widget.attrs.inline %} horizontal{% endif %} list"{% if id %} id="{{ id }}"{% endif %}>{% for group, options, index in widget.optgroups %}{% if group %}
-    <div class="item"><div class="ui{% if widget.attrs.type_checkbox %} {{ widget.attrs.type_checkbox }}{% endif %} checkbox">{{ group }}<div class="ui{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}{% if widget.attrs.inline %} horizontal{% endif %} list" {% if id %} id="{{ id }}_{{ index }}"{% endif %}>{% endif %}{% for option in options %}
-    <div class="item"><div class="ui{% if widget.attrs.type_checkbox %} {{ widget.attrs.type_checkbox }}{% endif %} checkbox">{% include option.template_name with widget=option %}</div></div>{% endfor %}{% if group %}
+{% with id=widget.attrs.id %}<div class="ui{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}{% if widget.inline %} horizontal{% endif %} list"{% if id %} id="{{ id }}"{% endif %}>{% for group, options, index in widget.optgroups %}{% if group %}
+    <div class="item"><div class="ui{% if widget.type_checkbox %} {{ widget.type_checkbox }}{% endif %} checkbox">{{ group }}<div class="ui{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}{% if widget.inline %} horizontal{% endif %} list" {% if id %} id="{{ id }}_{{ index }}"{% endif %}>{% endif %}{% for option in options %}
+    <div class="item"><div class="ui{% if widget.type_checkbox %} {{ widget.type_checkbox }}{% endif %} checkbox">{% include option.template_name with widget=option %}</div></div>{% endfor %}{% if group %}
     </div></div></div>{% endif %}{% endfor %}
 </div>{% endwith %}

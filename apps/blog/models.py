@@ -21,20 +21,32 @@ class CategoryTypes(Flag):
     POPULAR_SCIENCE = (5, "Popular Science")
 
     @classmethod
-    def choices(cls):
+    def get_name(cls, index):
+        return cls.get_list()[index][1]
+
+    @classmethod
+    def get_list(cls):
         return [key.value for key in cls]
 
     @classmethod
+    def get_list_index(cls):
+        return [key.value[0] for key in cls]
+
+    @classmethod
+    def get_list_name(cls):
+        return [key.value[1] for key in cls]
+
+    @classmethod
     def get_random(cls):
-        return random_choice(cls.choices())
+        return random_choice(cls.get_list())
 
     @classmethod
     def get_random_index(cls):
         return cls.get_random()[0]
 
     @classmethod
-    def get_name(cls, index):
-        return cls.choices()[index][1]
+    def get_random_name(cls):
+        return cls.get_random()[1]
 
 
 class Post(models.Model):
@@ -44,7 +56,7 @@ class Post(models.Model):
         on_delete=models.PROTECT
         )
     publish = models.DateTimeField(default=timezone.now)
-    category = models.IntegerField(choices=CategoryTypes.choices())
+    category = models.IntegerField(choices=CategoryTypes.get_list())
     title = models.CharField(max_length=200)
     text = SummernoteTextField()
     feed_cover = models.ImageField(upload_to='blog/feed_covers', blank=False)

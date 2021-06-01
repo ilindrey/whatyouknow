@@ -8,7 +8,7 @@ from .models import Profile
 from .widgets import AvatarFileInput
 
 
-CATEGORY_CHOICES = CategoryTypes.choices()
+CATEGORY_CHOICES = CategoryTypes.get_list()
 
 
 class AvatarForm(forms.ModelForm):
@@ -28,8 +28,5 @@ class ProfileForm(forms.ModelForm):
 
 class FeedForm(forms.Form):
     categories = forms.MultipleChoiceField(choices=CATEGORY_CHOICES,
-                                           widget=SemanticCheckboxSelectMultiple(attrs={
-                                               'inline': True,
-                                               'type_checkbox': 'toggle',
-                                               }))
+                                           widget=SemanticCheckboxSelectMultiple(inline=True, type_checkbox='toggle'))
     exclude_tags = forms.CharField(widget=SemanticSearchInput(attrs={'placeholder': 'Search tag...'}))
