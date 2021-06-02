@@ -11,12 +11,23 @@ urlpatterns = [
 
     # profile
     path('<str:username>/', views.ProfileView.as_view(), name='profile'),
-    path('<str:username>/tabs/<str:tab>/', views.ProfileTabView.as_view(), name='profile_tab'),
-    path('<str:username>/settings/', views.ProfileSettingsView.as_view(), name='profile_settings'),
 
-    # ajax profile
-    path('<str:username>/ajax/tabs/profile_tab_data_load',
+    # tabs
+    path('<str:username>/tabs/<str:tab>/', views.TabProfileView.as_view(), name='profile_tab'),
+    path('<str:username>/tabs/ajax/profile_tab_data_load',
          views.ProfileTabDataLoadListView.as_view(), name='profile_tab_data_load'),
-    path('<str:username>/ajax/settings/load_profile_avatar', views.ProfileAvatarView.as_view(), name='profile_avatar'),
-    path('<str:username>/ajax/settings/load_profile_feed', views.ProfileFeedView.as_view(), name='profile_feed'),
+
+    # settings
+    path('<str:username>/settings/',
+         views.EditProfileView.as_view(), name='profile_edit'),
+    path('<str:username>/settings/ajax/load_profile_avatar',
+         views.EditAvatarProfileView.as_view(), name='profile_edit_avatar'),
+    path('<str:username>/settings/ajax/load_edit_feed_settings',
+         views.FeedSettingsProfileView.as_view(), name='profile_edit_feed_settings'),
+    path('<str:username>/settings/ajax/search_tags',
+         views.FeedSearchTags.as_view(), name='profile_search_tags'),
+    path('<str:username>/settings/ajax/Load_excluded_feed_tags',
+         views.FeedLoadExcludedTags.as_view(), name='profile_load_excluded_feed_tags'),
+    path('<str:username>/settings/ajax/delete_excluded_feed_tag',
+         views.FeedDeleteExcludedTag.as_view(), name='profile_delete_excluded_feed_tag')
 ]

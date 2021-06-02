@@ -10,6 +10,11 @@ from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 from taggit.managers import TaggableManager
 
 
+def default_settings():
+    from apps.blog.models import CategoryTypes
+    return {'feed_categories': CategoryTypes.get_list_index()}
+
+
 class Profile(AbstractUser):
     avatar = models.ImageField(
         _('avatar'),
@@ -23,8 +28,8 @@ class Profile(AbstractUser):
                               blank=False)
     specialization = models.CharField(_('specialization'), max_length=100, blank=True)
     description = models.TextField(_('description'), max_length=1000, blank=True)
-    tags = TaggableManager()
-    settings = models.JSONField(_('settings'), default=dict, blank=True)
+    excluded_feed_tags = TaggableManager()
+    settings = models.JSONField(_('settings'), default=default_settings, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'username']

@@ -1,0 +1,25 @@
+{% extends 'core/includes/forms/post.html' %}
+
+{% block params %}
+    method="post"
+    id="edit_feed_settings_form"
+{% endblock %}
+
+{% block filler %}
+    {% with form.categories as field %}
+        {% include 'core/includes/forms/field.html' %}
+    {% endwith %}
+    {% with form.search_tags as field %}
+        {% include 'profiles/includes/settings/forms/fields/search_tags.html' %}
+    {% endwith %}
+    {% with form.excluded_feed_tags as field %}
+        {% include 'core/includes/forms/field.html' %}
+    {% endwith %}
+    <div class="ui vertical basic segment"
+         id="excluded_feed_tags_segment"
+         data-load-excluded-feed-tags-url="{% url 'profile_load_excluded_feed_tags' profile.username %}"
+         data-delete-excluded-feed-tag-url="{% url 'profile_delete_excluded_feed_tag' profile.username %}"
+    >
+        <!-- ajax load tag list -->
+    </div>
+{% endblock %}

@@ -12,7 +12,7 @@ class PostList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostList, self).get_context_data(**kwargs)
-        context['categories'] = CategoryTypes.choices()
+        context['categories'] = CategoryTypes.get_list()
         return context
 
 

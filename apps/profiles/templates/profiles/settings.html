@@ -40,12 +40,15 @@
 
             <div class="row">
 
-                <div class="five wide column" id="avatar_segment" data-avatar-form-url="{% url 'profile_avatar' profile.username %}">
+                <div class="five wide column"
+                     id="avatar_segment"
+                     data-edit-avatar-url="{% url 'profile_edit_avatar' profile.username %}"
+                >
                     <!-- ajax load avatar form -->
                 </div>
 
                 <div class="eleven wide column">
-                    {% include 'profiles/includes/settings/forms/profile.html' %}
+                    {% include 'profiles/includes/settings/forms/edit_profile.html' %}
                 </div>
 
             </div>
@@ -59,8 +62,12 @@
             </div>
 
             <div class="row">
-                <div class="column" data-feed-form-url="{% url 'profile_feed' profile.username %}" id="feed_segment">
-
+                <div class="column"
+                     id="feed_segment"
+                     data-edit-feed-settings-url="{% url 'profile_edit_feed_settings' profile.username %}"
+                     data-search-tags-url="{% url 'profile_search_tags' profile.username %}"
+                >
+                    <!-- ajax load feed settings form -->
                 </div>
             </div>
 

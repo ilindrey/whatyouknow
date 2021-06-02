@@ -1,10 +1,10 @@
 from django.forms.widgets import ClearableFileInput
-
 from django.templatetags.static import static
+
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 
 
-class AvatarFileInput(ClearableFileInput):
+class SemanticAvatarFileInput(ClearableFileInput):
     initial_text = 'Change avatar'
     template_name = 'widgets/avatar_file_input.html'
 
