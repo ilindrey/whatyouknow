@@ -2,14 +2,8 @@
 
 {% load static %}
 
-{% block menu %}
-    {% include 'core/includes/menu.html' %}
-{% endblock %}
-
 {% block content %}
     <div class="ui stackable grid container">
-
-
 
         {% if not user.is_authenticated %}
             <div class="three column row">
@@ -48,7 +42,7 @@
                 </div>
 
                 <div class="eleven wide column">
-                    {% include 'profiles/includes/settings/forms/edit_profile.html' %}
+                    {% include 'profiles/settings/forms/edit_profile.html' %}
                 </div>
 
             </div>
@@ -72,7 +66,6 @@
             </div>
 
         {% endif %}
-
 
     </div>
 

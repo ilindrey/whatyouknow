@@ -1,0 +1,10 @@
+{% extends 'core/forms/post.html' %}
+
+{% block params %}
+    method="post"
+    id="profile_form"
+{% endblock %}
+
+{% block button %}
+    {% include 'profiles/settings/forms/buttons/save_settings.html' %}
+{% endblock %}

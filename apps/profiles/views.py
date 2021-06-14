@@ -37,16 +37,12 @@ class TabProfileView(ProfileMixin, generic.DetailView):
     template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(TabProfileView, self).get_context_data(**kwargs)
-
         context['tab_header_list'] = {
             'posts': Post.objects.filter(user__username=self.kwargs['username']).count(),
             'comments': Comment.objects.filter(user__username=self.kwargs['username']).count()
             }
-
         context['current_tab'] = self.kwargs['tab']
-
         return context
 
 
@@ -67,8 +63,7 @@ class ProfileTabDataLoadListView(generic.ListView):
         tab = self.request.GET.get('tab')
         page = int(self.request.GET.get('page', 1))
 
-        base_tab_dir = 'profiles/includes/tabs/'
-
+        base_tab_dir = 'profiles/detail/tabs/'
         if tab == 'posts':
             template = 'pt_post_base.html' if page == 1 else 'list/pt_post_list.html'
         elif tab == 'comments':
@@ -89,12 +84,12 @@ class EditProfileView(ProfileMixin, ProfileEditMixin, generic.UpdateView):
 
 class EditAvatarProfileView(ProfileMixin, ProfileEditMixin, generic.UpdateView):
     form_class = EditAvatarForm
-    template_name = 'profiles/includes/settings/forms/edit_avatar.html'
+    template_name = 'profiles/settings/forms/edit_avatar.html'
 
 
 class FeedSettingsProfileView(ProfileMixin, generic.UpdateView):
     form_class = FeedSettingsForm
-    template_name = 'profiles/includes/settings/forms/edit_feed_settings.html'
+    template_name = 'profiles/settings/forms/edit_feed_settings.html'
 
     def get_initial(self):
         if 'feed_categories' in self.object.settings:
@@ -129,7 +124,7 @@ class FeedSearchTags(generic.ListView):
 
 class FeedLoadExcludedTags(generic.ListView):
     model = Profile
-    template_name = 'profiles/includes/settings/excluded_feed_tags.html'
+    template_name = 'profiles/settings/forms/annexes/excluded_feed_tags.html'
 
     def get_queryset(self):
         return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')

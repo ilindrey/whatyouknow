@@ -2,13 +2,9 @@
 
 {% load static %}
 
-{% block menu %}
-    {% include 'core/includes/menu.html' %}
-{% endblock %}
-
 {% block content %}
-    {% include 'profiles/includes/detail_card.html' %}
-    {% include 'profiles/includes/detail_tabs.html' %}
+    {% include 'profiles/detail/card.html' %}
+    {% include 'profiles/detail/tabs.html' %}
 {% endblock %}
 
 {% block script %}

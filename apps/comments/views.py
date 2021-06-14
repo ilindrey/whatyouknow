@@ -18,27 +18,9 @@ class MultipleObjectCommentsMixin:
                                       object_id=obj.pk)
 
 
-# class BaseCommentList(generic.ListView):
-#     allow_empty = True
-#     template_name = 'comments/list.html'
-#
-#     def get_context_data(self):
-#         context = super().get_context_data()
-#         context['is_parent'] = self.request.GET.get('parent_id') is None
-#         return context
-
-
 class CommentList(MultipleObjectCommentsMixin, generic.ListView):
-    # paginate_by = 100
-    # allow_empty = True
     template_name = 'comments/list.html'
 
     def get_queryset(self):
         return super().get_queryset()
 
-
-# class DescendantCommentList(BaseCommentList):
-#
-#     def get_queryset(self):
-#         parent_id = self.request.GET.get('parent_id')
-#         return Comment.objects.get(pk=parent_id).get_descendants()

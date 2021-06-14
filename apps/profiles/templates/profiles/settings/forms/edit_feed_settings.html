@@ -1,4 +1,4 @@
-{% extends 'core/includes/forms/post.html' %}
+{% extends 'core/forms/post.html' %}
 
 {% block params %}
     method="post"
@@ -7,13 +7,13 @@
 
 {% block filler %}
     {% with form.categories as field %}
-        {% include 'core/includes/forms/field.html' %}
+        {% include 'core/forms/field.html' %}
     {% endwith %}
     {% with form.search_tags as field %}
-        {% include 'profiles/includes/settings/forms/fields/search_tags.html' %}
+        {% include 'profiles/settings/forms/fields/search_tags.html' %}
     {% endwith %}
     {% with form.excluded_feed_tags as field %}
-        {% include 'core/includes/forms/field.html' %}
+        {% include 'core/forms/field.html' %}
     {% endwith %}
     <div class="ui vertical basic segment"
          id="excluded_feed_tags_segment"
