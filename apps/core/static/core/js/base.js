@@ -9,7 +9,7 @@ $(document).ready(
 
             if ($(block_id).children().length === 0)
             {
-                $(block_id).remove();
+                $(block_id).closest('.row').remove();
             }
         }
 

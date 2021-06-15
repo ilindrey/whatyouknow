@@ -1,13 +1,30 @@
-{% extends  'core/layout.html' %}
+{% extends  'core/base.html' %}
 
 {% block menu %}
     {% include 'core/menu/simple.html' %}
 {% endblock %}
 
-{% block container %}
-<div class="ui auth container">
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
-</div>
+    <div class="ui stackable grid">
+
+        {% if user.is_authenticated %}
+            <div class="three column row">
+                <div class="center aligned centered column">
+                    <span class="ui black text">
+                        You are already signed in.
+                    </span>
+                </div>
+            </div>
+        {% else %}
+            <div class="three column row">
+                <div class="center aligned centered column">
+                    {% block auth_content %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
 {% endblock %}

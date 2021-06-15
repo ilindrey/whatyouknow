@@ -1,44 +1,13 @@
 {% extends 'registration/base.html' %}
 
-{% block content %}
+{% block auth_content %}
+{% include 'registration/login/forms/login.html' %}
+{% endblock %}
 
-    {% if user.is_authenticated %}
-        <span class="ui info text">
-            You are already signed in.
-        </span>
-    {% else %}
-        <form class="ui form {% if form.non_field_errors %}error{% endif %}" method="post">
-            {% csrf_token %}
-
-            {% if form.non_field_errors %}
-                <div class="ui error message">
-                    {{ form.non_field_errors }}
-                </div>
-            {% endif %}
-
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                <div class="field {% if field.errors %}error{% endif %}">
-
-                    <label>{{ field.label_tag }}</label>
-
-                    {{ field }}
-
-                    {% if field.errors %}
-                        <div class="ui error message">
-                            {{ field.errors }}
-                        </div>
-                    {% endif %}
-
-                </div>
-            {% endfor %}
-
-            <button class="ui primary fluid button" type="submit">Login</button>
-
-        </form>
-    {% endif %}
-
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#login_form').form();
+        });
+    </script>
 {% endblock %}

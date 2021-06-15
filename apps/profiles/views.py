@@ -124,7 +124,7 @@ class FeedSearchTags(generic.ListView):
 
 class FeedLoadExcludedTags(generic.ListView):
     model = Profile
-    template_name = 'profiles/settings/forms/annexes/excluded_feed_tags.html'
+    template_name = 'profiles/settings/forms/includes/excluded_feed_tags.html'
 
     def get_queryset(self):
         return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')

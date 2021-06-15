@@ -64,7 +64,7 @@
 
 {% block content %}
 
-    <div class="ui three link cropped cards">
+    <div class="ui three link cropped stackable cards">
 
         {% for post in post_list %}
             <a class="ui card" href="{% url 'post_detail' post.pk %}">

@@ -3,10 +3,98 @@
 {% load static %}
 
 {% block content %}
-    {% include 'profiles/detail/card.html' %}
-    {% include 'profiles/detail/tabs.html' %}
+    <div class="ui stackable grid">
+
+        <div class="stretched row">
+
+            <div class="left floated center aligned five wide column">
+                <div class="ui basic fitted segment">
+                    {% include 'profiles/avatar/card.html' %}
+                </div>
+                <div class="ui basic fitted segment">
+                    <div class="ui mini green statistic">
+                        <div class="value">
+                            +16136
+                        </div>
+                        <div class="label">
+                            <span class="ui green text">reputation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right floated left aligned eleven wide column">
+
+                <div class="ui basic fitted segment">
+
+                    <div class="ui two grid">
+                        <div class="row">
+
+                            <div class="twelve wide column">
+                                <div class="ui basic fitted segment">
+                                    <div class="ui header">{{ object.name }}</div>
+                                </div>
+
+                                <div class="ui basic fitted segment">
+                                    <div class="ui text">@{{ object.username }}</div>
+
+                                </div>
+                                {% if object.specialization %}
+                                    <div class="ui basic fitted segment">
+                                        <div class="ui text">{{ object.specialization }}</div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="right aligned four wide column">
+                                <a class="ui primary icon button" href="{% url 'profile_edit' object.username %}">
+                                    <i class="setting icon"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ui basic fitted segment">
+                    {% if object.description %}
+                        <div class="row">
+                            <div class="ui text">{{ object.description }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="column"
+                 id="profile_tabs_container"
+                 data-url-ajax-profile-tab-data-load="{% url 'profile_tab_data_load' object.username %}"
+                 data-current-tab="{{ current_tab }}">
+                <div class="ui tabular primary secondary pointing menu" id="user_profile_tab_menu">
+                    {% for key, value in tab_header_list.items %}
+                        <a class="item" data-tab="{{ key }}" id="{{ key }}" >
+                            {{ key|capfirst }}
+                            {% if value > 0 %}
+                                ({{ value }})
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% for key, value in tab_header_list.items %}
+                    <div class="ui bottom attached tab segment" data-tab="{{ key }}" id="tab_{{ key }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
 
 {% block script %}
-    <script  src="{% static 'profiles/js/tabs.js' %}"></script>
+    <script  src="{% static 'profiles/js/profile.js' %}"></script>
 {% endblock %}

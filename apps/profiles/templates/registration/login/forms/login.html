@@ -1,0 +1,10 @@
+{% extends 'core/forms/post.html' %}
+
+{% block params %}
+    method="post"
+    id="login_form"
+{% endblock %}
+
+{% block button %}
+    {% include 'registration/login/forms/buttons/login.html' %}
+{% endblock %}
