@@ -1,18 +1,15 @@
 $(document).ready(function () {
 
-    let profileTabsContainer =  $('#profile_tabs_container');
-
-    const urlAjaxProfileTabDataLoad =  profileTabsContainer.data('url-ajax-profile-tab-data-load');
+    const $tabMenu = $('#user_profile_tab_menu');
+    const $tabMenuItems = $tabMenu.find('.item');
 
     const keyCurrentTab = 'current-tab';
-    let currentTab = profileTabsContainer.data(keyCurrentTab);
+    const urlAjaxProfileTabLoadData =  $tabMenu.data('url-ajax-profile-tab-load-data');
+    let currentTab = $tabMenu.data(keyCurrentTab);
 
+    $tabMenuItems.tab('change tab', currentTab);
 
-    const $tabMenu = $('#user_profile_tab_menu .item');
-
-    $tabMenu.tab('change tab', currentTab);
-
-    $tabMenu.tab({
+    $tabMenuItems.tab({
         onFirstLoad: function ()
         {
             $(this).visibility({
@@ -49,7 +46,7 @@ $(document).ready(function () {
                     {
                         $.ajax({
                             type: 'get',
-                            url: urlAjaxProfileTabDataLoad,
+                            url: urlAjaxProfileTabLoadData,
                             data: {
                                 tab: tabName,
                                 page: nextPage,
@@ -84,7 +81,7 @@ $(document).ready(function () {
             history.pushState(null, null, newUrl.href);
 
             currentTab = tabPath;
-            profileTabsContainer.data(keyCurrentTab, currentTab)
+            $tabMenu.data(keyCurrentTab, currentTab)
 
         }
     });

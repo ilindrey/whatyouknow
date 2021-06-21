@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="right aligned four wide column">
-                                <a class="ui primary icon button" href="{% url 'profile_edit' object.username %}">
+                                <a class="ui primary icon button" href="{% url 'profile_settings' object.username %}">
                                     <i class="setting icon"></i>
                                 </a>
                             </div>
@@ -71,11 +71,11 @@
         </div>
 
         <div class="row">
-            <div class="column"
-                 id="profile_tabs_container"
-                 data-url-ajax-profile-tab-data-load="{% url 'profile_tab_data_load' object.username %}"
-                 data-current-tab="{{ current_tab }}">
-                <div class="ui tabular primary secondary pointing menu" id="user_profile_tab_menu">
+            <div class="column">
+                <div class="ui tabular primary secondary pointing menu"
+                     id="user_profile_tab_menu"
+                     data-url-ajax-profile-tab-load-data="{% url 'profile_tab_load_data' object.username %}"
+                     data-current-tab="{{ current_tab }}">
                     {% for key, value in tab_header_list.items %}
                         <a class="item" data-tab="{{ key }}" id="{{ key }}" >
                             {{ key|capfirst }}

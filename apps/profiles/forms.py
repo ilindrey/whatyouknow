@@ -22,7 +22,7 @@ class EditProfileForm(forms.ModelForm):
         fields = ('name', 'username', 'email', 'specialization', 'description')
 
 
-class FeedSettingsForm(forms.ModelForm):
+class EditFeedSettingsForm(forms.ModelForm):
     categories = forms.TypedMultipleChoiceField(required=False,
                                                 choices=CategoryTypes.get_list(),
                                                 coerce=lambda x: int(x),

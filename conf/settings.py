@@ -157,8 +157,8 @@ MEDIA_URL = '/{}/'.format(MEDIA_ROOT.name)
 AUTH_USER_MODEL = 'profiles.Profile'
 
 
-# redirect login
-
+# login
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 
 

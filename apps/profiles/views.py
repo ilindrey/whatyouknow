@@ -2,6 +2,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from taggit.models import Tag
 
@@ -9,7 +11,7 @@ from apps.blog.models import Post
 from apps.comments.models import Comment
 
 from .models import Profile
-from .forms import EditAvatarForm, EditProfileForm, FeedSettingsForm
+from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm
 
 
 class ProfileMixin:
@@ -18,10 +20,10 @@ class ProfileMixin:
     slug_url_kwarg = 'username'
 
 
-class ProfileEditMixin:
+class EditProfileMixin:
 
     def get_success_url(self):
-        return reverse('profile_edit', kwargs={'username': self.kwargs['username']})
+        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
 
 
 class ProfileView(generic.RedirectView):
@@ -33,11 +35,11 @@ class ProfileView(generic.RedirectView):
         return url
 
 
-class TabProfileView(ProfileMixin, generic.DetailView):
+class ProfileTabView(ProfileMixin, generic.DetailView):
     template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super(TabProfileView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['tab_header_list'] = {
             'posts': Post.objects.filter(user__username=self.kwargs['username']).count(),
             'comments': Comment.objects.filter(user__username=self.kwargs['username']).count()
@@ -46,7 +48,7 @@ class TabProfileView(ProfileMixin, generic.DetailView):
         return context
 
 
-class ProfileTabDataLoadListView(generic.ListView):
+class ProfileTabLoadDataListView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
@@ -63,32 +65,34 @@ class ProfileTabDataLoadListView(generic.ListView):
         tab = self.request.GET.get('tab')
         page = int(self.request.GET.get('page', 1))
 
-        base_tab_dir = 'profiles/detail/tabs/'
-        if tab == 'posts':
-            template = 'pt_post_base.html' if page == 1 else 'list/pt_post_list.html'
-        elif tab == 'comments':
-            template = 'pt_comment_base.html' if page == 1 else 'list/pt_comment_list.html'
+        if tab:
+            tab_dir = 'profiles/detail/tabs/' + tab + '/'
+            template_name = tab_dir + 'base.html' if page == 1 else tab_dir + 'list.html'
         else:
             raise ImproperlyConfigured(
                 "%(cls)s requires either a 'template_name' attribute "
                 "or a get_queryset() method that returns a QuerySet." % {
                     'cls': self.__class__.__name__, })
 
-        return base_tab_dir + template
+        return template_name
 
 
-class EditProfileView(ProfileMixin, ProfileEditMixin, generic.UpdateView):
-    form_class = EditProfileForm
+class SettingsView(LoginRequiredMixin, ProfileMixin, generic.DetailView):
     template_name = 'profiles/settings.html'
 
 
-class EditAvatarProfileView(ProfileMixin, ProfileEditMixin, generic.UpdateView):
+class EditProfileView(LoginRequiredMixin, ProfileMixin, EditProfileMixin, generic.UpdateView):
+    form_class = EditProfileForm
+    template_name = 'profiles/settings/forms/edit_profile.html'
+
+
+class EditAvatarView(LoginRequiredMixin, ProfileMixin, EditProfileMixin, generic.UpdateView):
     form_class = EditAvatarForm
     template_name = 'profiles/settings/forms/edit_avatar.html'
 
 
-class FeedSettingsProfileView(ProfileMixin, generic.UpdateView):
-    form_class = FeedSettingsForm
+class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
+    form_class = EditFeedSettingsForm
     template_name = 'profiles/settings/forms/edit_feed_settings.html'
 
     def get_initial(self):
@@ -103,7 +107,7 @@ class FeedSettingsProfileView(ProfileMixin, generic.UpdateView):
         return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
 
 
-class FeedSearchTags(generic.ListView):
+class FeedSearchTags(LoginRequiredMixin, generic.ListView):
     model = Tag
     paginate_by = 10
     ordering = 'name'
@@ -122,7 +126,7 @@ class FeedSearchTags(generic.ListView):
         return [{'name': '<i class="tag icon"></i>' + item['name']} for item in context['object_list']]
 
 
-class FeedLoadExcludedTags(generic.ListView):
+class FeedLoadExcludedTags(LoginRequiredMixin, generic.ListView):
     model = Profile
     template_name = 'profiles/settings/forms/includes/excluded_feed_tags.html'
 
@@ -130,17 +134,25 @@ class FeedLoadExcludedTags(generic.ListView):
         return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')
 
 
-class FeedDeleteExcludedTag(ProfileMixin, generic.DeleteView):
+class FeedDeleteExcludedTag(LoginRequiredMixin, ProfileMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
-
         self.object = self.get_object()
         success_url = self.get_success_url()
-
         tag = self.request.POST.get('tag')
         self.object.excluded_feed_tags.remove(tag)
-
         return HttpResponseRedirect(success_url)
 
     def get_success_url(self):
         return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
+
+
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'profiles/settings/forms/password_change_form.html'
+
+    def get_success_url(self):
+        return reverse('profile_password_change_done', kwargs={'username': self.kwargs['username']})
+
+
+class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    template_name = 'profiles/settings/password_change_done.html'

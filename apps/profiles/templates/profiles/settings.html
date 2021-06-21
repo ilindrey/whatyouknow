@@ -23,7 +23,6 @@
             </div>
         {% else %}
 
-
             <div class="row">
                 <div class="column">
                     <h4 class="ui horizontal divider header">
@@ -36,13 +35,16 @@
 
                 <div class="five wide column"
                      id="avatar_segment"
-                     data-edit-avatar-url="{% url 'profile_edit_avatar' profile.username %}"
+                     data-edit-avatar-url="{% url 'edit_avatar_profile' profile.username %}"
                 >
                     <!-- ajax load avatar form -->
                 </div>
 
-                <div class="eleven wide column">
-                    {% include 'profiles/settings/forms/edit_profile.html' %}
+                <div class="eleven wide column"
+                     id="profile_segment"
+                     data-edit-profile-url="{% url 'edit_profile' profile.username %}"
+                >
+                    <!-- ajax load profile form -->
                 </div>
 
             </div>
@@ -58,10 +60,27 @@
             <div class="row">
                 <div class="column"
                      id="feed_segment"
-                     data-edit-feed-settings-url="{% url 'profile_edit_feed_settings' profile.username %}"
+                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' profile.username %}"
                      data-search-tags-url="{% url 'profile_search_tags' profile.username %}"
                 >
                     <!-- ajax load feed settings form -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Change password
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="six wide column"
+                     id="password_change_segment"
+                     data-password-change-url="{% url 'profile_password_change' profile.username %}"
+                >
+                    <!-- ajax load password form -->
                 </div>
             </div>
 

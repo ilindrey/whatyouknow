@@ -3,6 +3,7 @@
 {% block params %}
     method="post"
     id="profile_form"
+    action="{% url 'edit_profile' profile.username %}"
 {% endblock %}
 
 {% block button %}
