@@ -24,7 +24,7 @@ $(() => {
             url: editAvatarUrl,
             success: function (responseText) {
                 $avatarSegment.html(responseText);
-                $editAvatarForm = $('#avatar_form');
+                $editAvatarForm = $('#edit_avatar_form');
                 $editAvatarForm.form();
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -39,7 +39,7 @@ $(() => {
             url: editProfileUrl,
             success: function (responseText) {
                 $profileSegment.html(responseText);
-                $editProfileForm = $('#profile_form');
+                $editProfileForm = $('#edit_profile_form');
                 $editProfileForm.form();
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -113,6 +113,7 @@ $(() => {
         let deferred = $.post(passwordChangeUrl, $(this).serialize());
         deferred.done(function (responseText) {
             updatePasswordChangeSegment(responseText);
+            $passwordChangeSegment.get(0).scrollIntoView({block: 'start'});
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -127,7 +128,6 @@ $(() => {
         {
             form.form();
         }
-        $passwordChangeSegment.first().scrollIntoView({block: 'start'});
     }
 
 

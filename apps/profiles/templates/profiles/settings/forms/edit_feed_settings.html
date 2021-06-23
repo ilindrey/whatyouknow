@@ -1,9 +1,6 @@
 {% extends 'core/forms/post.html' %}
 
-{% block params %}
-    method="post"
-    id="edit_feed_settings_form"
-{% endblock %}
+{% block form_id %}edit_feed_settings_form{% endblock %}
 
 {% block filler %}
     {% with form.categories as field %}

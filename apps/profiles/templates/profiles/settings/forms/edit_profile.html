@@ -1,8 +1,8 @@
 {% extends 'core/forms/post.html' %}
 
+{% block form_id %}edit_profile_form{% endblock %}
+
 {% block params %}
-    method="post"
-    id="profile_form"
     action="{% url 'edit_profile' profile.username %}"
 {% endblock %}
 

@@ -1,8 +1,8 @@
 {% extends 'core/forms/post.html' %}
 
+{% block form_id %}edit_avatar_form{% endblock %}
+
 {% block params %}
-    method="post"
     enctype="multipart/form-data"
-    id="avatar_form"
     action="{% url 'edit_avatar_profile' profile.username %}"
 {% endblock %}

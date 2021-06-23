@@ -1,8 +1,6 @@
 {% extends 'core/forms/base.html' %}
 
-{% block params %}
-    method="post"
-{% endblock %}
+{% block form_method %}post{% endblock %}
 
 {% block csrf_token %}
     {% csrf_token %}
