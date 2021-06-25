@@ -1,13 +1,13 @@
 {% extends 'registration/base.html' %}
 
 {% block auth_content %}
-    {% include 'registration/login/forms/login.html' %}
+    {% include 'registration/registration/forms/registration.html' %}
 {% endblock %}
 
 {% block script %}
     <script>
         $(document).ready(function () {
-            $('#login_form').form();
+            $('#registration_form').form();
         });
     </script>
 {% endblock %}

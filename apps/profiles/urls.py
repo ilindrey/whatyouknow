@@ -6,6 +6,7 @@ import apps.profiles.views as views
 
 urlpatterns = [
     # authentication and registration
+    path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 

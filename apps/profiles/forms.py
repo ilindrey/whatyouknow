@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import SetPasswordForm, UsernameField
 
 from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSearchInput
 from apps.blog.models import CategoryTypes
@@ -62,3 +63,22 @@ class EditFeedSettingsForm(forms.ModelForm):
         super().save(commit)
 
 
+class RegistrationForm(SetPasswordForm, forms.ModelForm):
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}))
+    email = forms.EmailField()
+
+    field_order = ('username', 'email', 'new_password1', 'new_password2')
+
+    class Meta:
+        model = Profile
+        fields = ('username', 'email', 'password')
+
+    def __init__(self, *args, **kwargs):
+        super(forms.ModelForm, self).__init__(*args, **kwargs)
+        SetPasswordForm.user = self.instance
+        del self.fields['password']
+
+    def save(self, commit=True):
+        """Save the new password."""
+        super().save(commit)
+        return self.instance

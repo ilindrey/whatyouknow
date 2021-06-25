@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.core.exceptions import ImproperlyConfigured
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views import generic
@@ -11,7 +12,7 @@ from apps.blog.models import Post
 from apps.comments.models import Comment
 
 from .models import Profile
-from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm
+from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm, RegistrationForm
 
 
 class ProfileMixin:
@@ -156,3 +157,22 @@ class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'profiles/settings/password_change_done.html'
+
+
+class RegistrationView(generic.CreateView):
+    model = Profile
+    form_class = RegistrationForm
+    template_name = 'registration/registration.html'
+
+    def get_success_url(self):
+        return reverse('index')
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs['user'] = None
+    #     return kwargs
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save()
+        login(self.request, self.object)
+        return HttpResponseRedirect(self.get_success_url())
