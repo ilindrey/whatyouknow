@@ -190,7 +190,7 @@ module.exports = function (callback) {
 
   gulp.task('run setup', function (callback) {
 
-    // If auto-install is switched on, we skip the conf section and simply reuse the conf from semantic.json
+    // If auto-install is switched on, we skip the configuration section and simply reuse the configuration from semantic.json
     if (install.shouldAutoInstall()) {
       answers = {
         overwrite   : 'yes',
@@ -415,7 +415,7 @@ module.exports = function (callback) {
       console.log('');
       console.log('');
 
-      // If auto-install is switched on, we skip the conf section and simply build the dependencies
+      // If auto-install is switched on, we skip the configuration section and simply build the dependencies
       if (install.shouldAutoInstall()) {
         gulp.series('build')(callback);
       } else {
