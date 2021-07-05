@@ -86,7 +86,8 @@
                     {% endfor %}
                 </div>
                 {% for key, value in tab_header_list.items %}
-                    <div class="ui bottom attached tab segment" data-tab="{{ key }}" id="tab_{{ key }}">
+                    <div class="ui bottom attached tab segment" data-tab="{{ key }}" data-is-first-load="true" id="tab_{{ key }}">
+                        {% include 'core/loader.html' %}
                     </div>
                 {% endfor %}
             </div>

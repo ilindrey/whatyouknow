@@ -1,9 +1,8 @@
 $(document).ready(function() {
-// $(window).on('load', function() {
 
     const infoCommentsTag = $('#info-comments');
     const commentListRowTag = $('#comment-list-row');
-    const loader = $('#loader');
+    const loader = $('#info-comments .loader').closest('.segment');
 
     const infoCommentsData = infoCommentsTag.data();
 
