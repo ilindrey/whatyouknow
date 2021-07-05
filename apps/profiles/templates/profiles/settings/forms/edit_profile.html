@@ -2,10 +2,6 @@
 
 {% block form_id %}edit_profile_form{% endblock %}
 
-{% block params %}
-    action="{% url 'edit_profile' profile.username %}"
-{% endblock %}
-
 {% block button %}
     {% include 'profiles/settings/forms/buttons/save_settings.html' %}
 {% endblock %}

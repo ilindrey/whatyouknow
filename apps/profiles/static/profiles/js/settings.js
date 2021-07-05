@@ -1,7 +1,5 @@
 $(() => {
-    let $editAvatarForm = null,
-        $editProfileForm = null,
-        $editFeedSettingsForm = null,
+    let $editFeedSettingsForm = null,
         $searchElem = null,
         $excludedFeedTagsSegment = null,
         loadExcludedFeedTagsUrl = null,
@@ -23,30 +21,34 @@ $(() => {
             type: 'get',
             url: editAvatarUrl,
             success: function (responseText) {
-                $avatarSegment.html(responseText);
-                $editAvatarForm = $('#edit_avatar_form');
-                $editAvatarForm.form();
+                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             }
         });
-
-
 
         $.ajax({
             type: 'get',
             url: editProfileUrl,
             success: function (responseText) {
-                $profileSegment.html(responseText);
-                $editProfileForm = $('#edit_profile_form');
-                $editProfileForm.form();
+                updateFormSegment(responseText, $profileSegment, '#edit_profile_form');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             }
         });
 
+        $.ajax({
+            type: 'get',
+            url: passwordChangeUrl,
+            success: function (responseText) {
+                updateFormSegment(responseText, $passwordChangeSegment, '#password_change_form');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                showErrorMessage(xhr, ajaxOptions, thrownError);
+            }
+        });
 
         $.ajax({
             type: 'get',
@@ -63,7 +65,8 @@ $(() => {
 
                 $('#id_categories .item .checkbox').map(function(index, item) {
                     $(item).checkbox({
-                        onChange: () => {
+                        onChange: function () {
+                            $searchElem.search('set value', null);
                             updateFeedSettings();
                         },
                     });
@@ -73,14 +76,16 @@ $(() => {
                     maxResults: 10,
                     apiSettings:{
                         data: {
-                            search: () => { return $searchElem.search('get value'); },
+                            search: function () { return $searchElem.search('get value'); },
                         },
                         url: searchTagsUrl,
                     },
                     fields: {
                         title: 'name'
                     },
-                    onSelect: () => {
+                    onSelect: function (result, response) {
+                        let query = result['name'].split("<i class=\"tag icon\"></i>").pop();
+                        $searchElem.search('set value', query);
                         updateFeedSettings();
                     },
                 });
@@ -94,125 +99,131 @@ $(() => {
         });
 
 
+
+    });
+
+
+    $(document).on('change', '#id_avatar', function (e) {
+        e.preventDefault();
+        avatarFormSubmit();
+    });
+
+    $(document).on('change', '#avatar-clear_id', function (e) {
+        e.preventDefault();
+        avatarFormSubmit();
+    });
+
+
+    function avatarFormSubmit()
+    {
+        let $editAvatarForm = $('#edit_avatar_form');
+        let data = new FormData($editAvatarForm.get(0));
+
         $.ajax({
-            type: 'get',
-            url: passwordChangeUrl,
+            type: 'post',
+            url: editAvatarUrl,
+            data: data,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
             success: function (responseText) {
-                updatePasswordChangeSegment(responseText);1
+                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             }
         });
+    };
 
+    $(document).on('submit', '#edit_profile_form', function (e) {
+        e.preventDefault();
+        formSubmit(editProfileUrl, $profileSegment, $(this));
     });
-
 
     $(document).on('submit', '#password_change_form', function (e) {
         e.preventDefault();
-        let deferred = $.post(passwordChangeUrl, $(this).serialize());
+        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this))
+        // $(this).closest('.segment').get(0).scrollIntoView({block: 'start'});
+    });
+
+    function formSubmit(url, segment, form)
+    {
+        let deferred = $.post(url, form.serialize());
         deferred.done(function (responseText) {
-            updatePasswordChangeSegment(responseText);
-            $passwordChangeSegment.get(0).scrollIntoView({block: 'start'});
+            updateFormSegment(responseText, segment, '#' + form.attr('id'));
+            showSuccessMessage('Settings updated!');
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
-    });
+    }
 
-    function updatePasswordChangeSegment(responseText)
+    function updateFormSegment(responseText, segment, form_id)
     {
-        $passwordChangeSegment.html(responseText);
-        let form = $passwordChangeSegment.find('#password_change_form');
+        segment.html(responseText);
+        let form = segment.find(form_id);
         if(form.length)
         {
             form.form();
         }
     }
 
-
-    $(document).on('change', '#id_avatar', () => {
-        if ($editAvatarForm)
-        {
-            $editAvatarForm.submit();
-        }
-    });
-
-    $(document).on('change', '#avatar-clear_id', () => {
-        if ($editAvatarForm)
-        {
-            $editAvatarForm.submit();
-        }
-    });
-
     $(document).on('click', '#tags .label .icon', function () {
-        $.ajax({
-            type: 'post',
-            url: deleteExcludedFeedTagUrl,
-            data: {
-                csrfmiddlewaretoken: $editFeedSettingsForm.find('input[name="csrfmiddlewaretoken"]').val(),
-                tag: $(this).closest('.label').data('tag-name')
-            },
-            success: function (responseText) {
-                $excludedFeedTagsSegment.html(responseText);
-                showSuccessMessage('Feed settings updated!');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+        let data = {
+            csrfmiddlewaretoken: $editFeedSettingsForm.find('input[name="csrfmiddlewaretoken"]').val(),
+            tag: $(this).closest('.label').data('tag-name')
+        };
+        let deferred = $.post(deleteExcludedFeedTagUrl, data);
+        deferred.done(function (responseText) {
+            $excludedFeedTagsSegment.html(responseText);
+            showSuccessMessage('Feed settings updated!');
+        });
+        deferred.fail(function (xhr, ajaxOptions, thrownError) {
+            showErrorMessage(xhr, ajaxOptions, thrownError);
         });
     });
 
 
     function updateFeedSettings()
     {
-        $.ajax({
-            type: 'post',
-            url: editFeedSettingsUrl,
-            data: $editFeedSettingsForm.serialize(),
-            success: function (responseText) {
-                $searchElem.search('set value', null);
-                $excludedFeedTagsSegment.html(responseText);
-                showSuccessMessage('Feed settings updated!');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+        let deferred = $.post(editFeedSettingsUrl, $editFeedSettingsForm.serialize());
+        deferred.done(function (responseText) {
+            $searchElem.search('set value', null);
+            $excludedFeedTagsSegment.html(responseText);
+            showSuccessMessage('Feed settings updated!');
+        });
+        deferred.fail(function (xhr, ajaxOptions, thrownError) {
+            showErrorMessage(xhr, ajaxOptions, thrownError);
         });
     }
 
     function loadExcludedFeedTags()
     {
-        $.ajax({
-            type: 'get',
-            url: loadExcludedFeedTagsUrl,
-            success: function (responseText) {
-                $excludedFeedTagsSegment.html(responseText);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+        let deferred = $.get(loadExcludedFeedTagsUrl)
+        deferred.done(function (responseText) {
+            $excludedFeedTagsSegment.html(responseText);
+        });
+        deferred.fail(function (xhr, ajaxOptions, thrownError) {
+            showErrorMessage(xhr, ajaxOptions, thrownError);
         });
     }
 
     function showSuccessMessage(text)
     {
-        $('body')
-            .toast({
-                class: 'success',
-                message: text
-            });
+        $('body').toast({
+            class: 'success',
+            message: text
+        });
         console.log(text);
     }
 
     function showErrorMessage(xhr, ajaxOptions, thrownError)
     {
         let error_message = xhr.status + ' ' + xhr.statusText;
-        $('body')
-            .toast({
-                class: 'error',
-                message: error_message
-            });
+        $('body').toast({
+            class: 'error',
+            message: error_message
+        });
         console.log(error_message);
     }
 })

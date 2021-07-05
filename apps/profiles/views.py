@@ -21,12 +21,6 @@ class ProfileMixin:
     slug_url_kwarg = 'username'
 
 
-class EditProfileMixin:
-
-    def get_success_url(self):
-        return reverse('profile_settings', kwargs={'username': self.kwargs['username']})
-
-
 class ProfileView(generic.RedirectView):
     pattern_name = 'profile_tab'
 
@@ -82,14 +76,20 @@ class SettingsView(LoginRequiredMixin, ProfileMixin, generic.DetailView):
     template_name = 'profiles/settings.html'
 
 
-class EditProfileView(LoginRequiredMixin, ProfileMixin, EditProfileMixin, generic.UpdateView):
+class EditProfileView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'profiles/settings/forms/edit_profile.html'
 
+    def get_success_url(self):
+        return reverse('edit_profile', kwargs={'username': self.kwargs['username']})
 
-class EditAvatarView(LoginRequiredMixin, ProfileMixin, EditProfileMixin, generic.UpdateView):
+
+class EditAvatarView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     form_class = EditAvatarForm
     template_name = 'profiles/settings/forms/edit_avatar.html'
+
+    def get_success_url(self):
+        return reverse('edit_avatar_profile', kwargs={'username': self.kwargs['username']})
 
 
 class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
@@ -166,10 +166,6 @@ class RegistrationView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('index')
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['user'] = None
-    #     return kwargs
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
