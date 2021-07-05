@@ -7,8 +7,18 @@ import apps.profiles.views as views
 urlpatterns = [
     # authentication and registration
     path('registration/', views.RegistrationView.as_view(), name='registration'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
+    path('login/', auth_views.LoginView.as_view(
+        template_name='reg/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(
+        next_page='index'), name='logout'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name='reg/password_reset.html'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
+        template_name='reg/password_reset_done.html'), name='password_reset_done'),
+    path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name='reg/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='reg/password_reset_complete.html'), name="password_reset_complete"),
 
     # profile
     path('<str:username>/', views.ProfileView.as_view(), name='profile'),
@@ -31,7 +41,7 @@ urlpatterns = [
          views.EditFeedSettingsView.as_view(), name='edit_feed_settings_profile'),
     path('<str:username>/settings/ajax/search_tags',
          views.FeedSearchTags.as_view(), name='profile_search_tags'),
-    path('<str:username>/settings/ajax/Load_excluded_feed_tags',
+    path('<str:username>/settings/ajax/load_excluded_feed_tags',
          views.FeedLoadExcludedTags.as_view(), name='profile_load_excluded_feed_tags'),
     path('<str:username>/settings/ajax/delete_excluded_feed_tag',
          views.FeedDeleteExcludedTag.as_view(), name='profile_delete_excluded_feed_tag'),

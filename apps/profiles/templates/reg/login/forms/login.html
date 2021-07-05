@@ -3,11 +3,11 @@
 {% block form_id %}login_form{% endblock %}
 
 {% block button %}
-    {% include 'registration/login/forms/buttons/login.html' %}
+    {% include 'reg/login/forms/buttons/login.html' %}
     <div class="ui text menu">
         <a class="item" href="{% url 'registration' %}">Create an account</a>
         <div class="right menu">
-            <a class="item">Forgot password?</a>
+            <a class="item" href="{% url 'password_reset' %}">Forgot password?</a>
         </div>
     </div>
 {% endblock %}

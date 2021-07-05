@@ -1,16 +1,21 @@
 $(document).ready(
     function () {
 
-        let blocks_id_name = ["roof", "content", "floor"];
+        let blockNameList = ["roof", "content", "floor"];
 
-        for (let name_id of blocks_id_name)
+        for (let blockName of blockNameList)
         {
-            let block_id = '#' + name_id;
-
-            if ($(block_id).children().length === 0)
+            let block = $('#' + blockName);
+            if (block.children().length === 0)
             {
-                $(block_id).closest('.row').remove();
+                block.closest('.row').remove();
             }
+        }
+
+        let authTitle = $('#auth_title');
+        if(authTitle.length !== 0 && !authTitle.text())
+        {
+            authTitle.closest('.row').remove();
         }
 
     }

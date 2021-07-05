@@ -1,0 +1,16 @@
+{% extends 'reg/base.html' %}
+{% load i18n %}
+
+{% block auth_title %}{% translate 'Registration' %}{% endblock %}
+
+{% block auth_content %}
+    {% include 'reg/registration/forms/registration.html' %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#registration_form').form();
+        });
+    </script>
+{% endblock %}

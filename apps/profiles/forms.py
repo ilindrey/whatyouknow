@@ -20,7 +20,7 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('name', 'username', 'email', 'specialization', 'description')
+        fields = ('username', 'email', 'name', 'specialization', 'description')
 
 
 class EditFeedSettingsForm(forms.ModelForm):

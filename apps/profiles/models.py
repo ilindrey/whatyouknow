@@ -20,7 +20,7 @@ class Profile(AbstractUser):
         _('avatar'),
         upload_to='profiles/avatars/',
         blank=True)
-    name = models.CharField(_('name'), max_length=300, blank=False)
+    name = models.CharField(_('name'), max_length=300, blank=True)
     first_name = None  # abstract model field, removed
     last_name = None  # abstract model field, removed
     email = models.EmailField(_('email address'),   # abstract blank is True, unique is not specified

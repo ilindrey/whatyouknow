@@ -19,6 +19,11 @@
         {% else %}
             <div class="three column row">
                 <div class="centered column">
+                    <h3 class="ui horizontal divider header" id="auth_title">{% block auth_title %}{% endblock %}</h3>
+                </div>
+            </div>
+            <div class="three column row">
+                <div class="centered column">
                     {% block auth_content %}
                     {% endblock %}
                 </div>

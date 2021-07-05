@@ -162,7 +162,7 @@ class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
 class RegistrationView(generic.CreateView):
     model = Profile
     form_class = RegistrationForm
-    template_name = 'registration/registration.html'
+    template_name = 'reg/registration.html'
 
     def get_success_url(self):
         return reverse('index')
