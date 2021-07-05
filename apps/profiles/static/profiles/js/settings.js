@@ -212,6 +212,7 @@ $(() => {
     {
         $('body').toast({
             class: 'success',
+            position: 'bottom right',
             message: text
         });
         console.log(text);
@@ -222,6 +223,7 @@ $(() => {
         let error_message = xhr.status + ' ' + xhr.statusText;
         $('body').toast({
             class: 'error',
+            position: 'bottom right',
             message: error_message
         });
         console.log(error_message);
