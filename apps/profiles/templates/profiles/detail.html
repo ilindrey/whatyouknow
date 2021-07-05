@@ -5,46 +5,32 @@
 {% block content %}
     <div class="ui stackable grid">
 
-        <div class="stretched row">
+        <div class="row">
 
-            <div class="left floated center aligned five wide column">
+            <div class="left floated center aligned three wide column">
                 <div class="ui basic fitted segment">
                     {% include 'profiles/avatar/card.html' %}
                 </div>
                 <div class="ui basic fitted segment">
-                    <div class="ui mini green statistic">
-                        <div class="value">
-                            +16136
-                        </div>
-                        <div class="label">
-                            <span class="ui green text">reputation</span>
-                        </div>
-                    </div>
+                                            <div class="ui mini green statistic">
+                                                <div class="value">
+                                                    +16136
+                                                </div>
+                                            </div>
                 </div>
             </div>
 
-            <div class="right floated left aligned eleven wide column">
+            <div class="right floated left aligned thirteen wide column">
 
                 <div class="ui basic fitted segment">
 
-                    <div class="ui two grid">
+                    <div class="ui grid">
                         <div class="row">
 
                             <div class="twelve wide column">
                                 <div class="ui basic fitted segment">
-                                    <div class="ui header">{{ object.name }}</div>
+                                    <h2 class="ui header">{{ object.username }}</h2>
                                 </div>
-
-                                <div class="ui basic fitted segment">
-                                    <div class="ui text">@{{ object.username }}</div>
-
-                                </div>
-                                {% if object.specialization %}
-                                    <div class="ui basic fitted segment">
-                                        <div class="ui text">{{ object.specialization }}</div>
-                                    </div>
-                                {% endif %}
-
                             </div>
 
                             <div class="right aligned four wide column">
@@ -58,9 +44,19 @@
 
                 </div>
 
-                <div class="ui basic fitted segment">
+                <div class="row">
+                    {% if object.name %}
+                        <div class="ui basic fitted segment">
+                            <div class="ui text">{{ object.name }}</div>
+                        </div>
+                    {% endif %}
+                    {% if object.specialization %}
+                        <div class="ui basic fitted segment">
+                            <div class="ui text">{{ object.specialization }}</div>
+                        </div>
+                    {% endif %}
                     {% if object.description %}
-                        <div class="row">
+                        <div class="ui basic fitted segment">
                             <div class="ui text">{{ object.description }}</div>
                         </div>
                     {% endif %}
