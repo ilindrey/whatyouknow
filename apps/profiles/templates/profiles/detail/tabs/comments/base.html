@@ -1,3 +1,9 @@
-<div class="ui link divided items" id="comment_list"  data-total-page="{{ page_obj.paginator.num_pages }}" data-current-page="{{ page_obj.number }}">
-    {% include 'profiles/detail/tabs/comments/list.html' %}
-</div>
+{% if object_list %}
+    <div class="ui link divided items" id="comment_list"  data-total-page="{{ page_obj.paginator.num_pages }}" data-current-page="{{ page_obj.number }}">
+        {% include 'profiles/detail/tabs/comments/list.html' %}
+    </div>
+{% else %}
+    <div class="ui basic segment">
+        <span class="ui text">You don't have comments.</span>
+    </div>
+{% endif %}

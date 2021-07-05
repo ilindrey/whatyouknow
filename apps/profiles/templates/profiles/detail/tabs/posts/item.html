@@ -1,13 +1,13 @@
 {% load thumbnail %}
 
 <div class="item">
-    <a class="image" href="{% url 'post_detail' post.pk %}">
-        <img src="{{ post.feed_cover|thumbnail_url:'item' }}">
+    <a class="image" href="{% url 'post_detail' object.pk %}">
+        <img src="{{ object.feed_cover|thumbnail_url:'item' }}">
     </a>
     <div class="content">
-        <a class="header" href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+        <a class="header" href="{% url 'post_detail' object.pk %}">{{ object.title }}</a>
         <div class="description">
-            {{ post.feed_article_preview }}
+            {{ object.feed_article_preview }}
         </div>
     </div>
 </div>
