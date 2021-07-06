@@ -98,8 +98,6 @@ $(() => {
             }
         });
 
-
-
     });
 
 
@@ -128,6 +126,7 @@ $(() => {
             enctype: 'multipart/form-data',
             success: function (responseText) {
                 updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form');
+                showSuccessMessage('Avatar updated!');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -143,7 +142,6 @@ $(() => {
     $(document).on('submit', '#password_change_form', function (e) {
         e.preventDefault();
         formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this))
-        // $(this).closest('.segment').get(0).scrollIntoView({block: 'start'});
     });
 
     function formSubmit(url, segment, form)
@@ -151,7 +149,7 @@ $(() => {
         let deferred = $.post(url, form.serialize());
         deferred.done(function (responseText) {
             updateFormSegment(responseText, segment, '#' + form.attr('id'));
-            showSuccessMessage('Settings updated!');
+            showSuccessMessage('Profile updated!');
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -206,26 +204,5 @@ $(() => {
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
-    }
-
-    function showSuccessMessage(text)
-    {
-        $('body').toast({
-            class: 'success',
-            position: 'bottom right',
-            message: text
-        });
-        console.log(text);
-    }
-
-    function showErrorMessage(xhr, ajaxOptions, thrownError)
-    {
-        let error_message = xhr.status + ' ' + xhr.statusText;
-        $('body').toast({
-            class: 'error',
-            position: 'bottom right',
-            message: error_message
-        });
-        console.log(error_message);
     }
 })
