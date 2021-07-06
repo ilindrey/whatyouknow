@@ -1,29 +1,32 @@
 {% load static %}
 
-<div class="ui medium centered circular image" id="avatar_file_input">
-    <div class="ui dimmer">
-        <div class="content">
-            <h2 class="ui inverted header">
-{#                {% if widget.is_initial %}#}
-                    {{ widget.initial_text }}
-{#                {% endif %}#}
-            </h2>
+<img class="ui small left floated circular image" src="{{ widget.avatar_img }}" id="avatar_img">
+<div class="ui popup" id="edit_avatar_menu">
 
-            <div class="ui small primary button" id="upload_avatar_button">
-                Upload
+    <div class="ui center aligned basic fitted segment">
+        {#        {% if widget.is_initial %}#}
+        <div class="ui header">{{ widget.initial_text }}</div>
+        {#        {% endif %}#}
+
+        <div class="ui horizontal list">
+
+            <div class="item">
+                <div class="ui small primary button" id="upload_avatar_button">
+                    Upload
+                </div>
+                <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} style="display: None;">
             </div>
-            <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} style="display: None;">
-
 
             {% if not widget.required and widget.value %}
-                <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_avatar_button" >
-                    Remove
+                <div class="item">
+                    <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_avatar_button" >
+                        Remove
+                    </div>
+                    <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %} style="display: None;">
                 </div>
-                <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %} style="display: None;">
             {% endif %}
 
         </div>
     </div>
-    <img src="{{ widget.avatar_img }}">
+
 </div>
-<script type="text/javascript" src="{% static 'widgets/avatar.js' %}"></script>

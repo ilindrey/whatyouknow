@@ -1,16 +1,36 @@
 $(document).ready(function () {
-    $('#avatar_file_input')
-        .dimmer({
-            on: 'hover'
-        });
+     initialAvatarMenu();
 });
 
-$('#upload_avatar_button').on('click', function ()
+$(document).ajaxComplete(function( event, xhr, settings ) {
+  if (xhr.statusText === 'OK' && xhr.responseText.search('avatar_img') > -1)
+  {
+    initialAvatarMenu();
+  }
+});
+
+$(document).on('ready', '#upload_avatar_button', function ()
+{
+    $('#avatar_img').popup({
+        popup: '#edit_avatar_menu',
+        position: 'top center',
+        inline     : true,
+        hoverable  : true,
+        setFluidWidth: true,
+        variation: 'wide',
+        delay: {
+            show: 300,
+            hide: 500
+        }
+    });
+});
+
+$(document).on('click', '#upload_avatar_button', function ()
 {
     $('#id_avatar').click();
 });
 
-$('#remove_avatar_button').on('click', function (e)
+$(document).on('click', '#remove_avatar_button', function (e)
 {
     e.preventDefault();
     $('body').modal({
@@ -29,3 +49,20 @@ $('#remove_avatar_button').on('click', function (e)
         }
     }).modal('show');
 });
+
+
+function initialAvatarMenu()
+{
+    $('#avatar_img').popup({
+        popup: '#edit_avatar_menu',
+        position: 'top center',
+        inline     : true,
+        hoverable  : true,
+        setFluidWidth: true,
+        variation: 'wide',
+        delay: {
+            show: 300,
+            hide: 500
+        }
+    });
+}

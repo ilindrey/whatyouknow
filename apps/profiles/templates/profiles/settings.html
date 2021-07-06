@@ -32,38 +32,20 @@
             </div>
 
             <div class="row">
-
-                <div class="five wide column"
+                <div class="ten wide column"
                      id="avatar_segment"
                      data-edit-avatar-url="{% url 'edit_avatar_profile' profile.username %}"
                 >
                     <!-- ajax load avatar form -->
                 </div>
+            </div>
 
-                <div class="eleven wide column"
+            <div class="row">
+                <div class="ten wide column"
                      id="profile_segment"
                      data-edit-profile-url="{% url 'edit_profile' profile.username %}"
                 >
                     <!-- ajax load profile form -->
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <h4 class="ui horizontal divider header">
-                        Your feed
-                    </h4>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column"
-                     id="feed_segment"
-                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' profile.username %}"
-                     data-search-tags-url="{% url 'profile_search_tags' profile.username %}"
-                >
-                    <!-- ajax load feed settings form -->
                 </div>
             </div>
 
@@ -84,6 +66,24 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Your feed
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column"
+                     id="feed_segment"
+                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' profile.username %}"
+                     data-search-tags-url="{% url 'profile_search_tags' profile.username %}"
+                >
+                    <!-- ajax load feed settings form -->
+                </div>
+            </div>
+
         {% endif %}
 
     </div>
@@ -91,4 +91,5 @@
 
 {% block script %}
     <script type="text/javascript" src="{% static 'profiles/js/settings.js' %}"></script>
+    <script type="text/javascript" src="{% static 'widgets/avatar.js' %}"></script>
 {% endblock %}
