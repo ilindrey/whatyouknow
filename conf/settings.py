@@ -40,21 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # packages
     'django_summernote',
     'taggit',
     'mptt',
     'easy_thumbnails',
-
-
     # project apps
     'apps.core',
     'apps.profiles',
     'apps.blog',
     'apps.comments',
     'apps.summernote',
-]
+    # rest API
+    'rest_framework',
+    'rest_framework.authtoken',
+    'taggit_serializer',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,7 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    ]
 
 ROOT_URLCONF = 'conf.urls'
 
@@ -80,10 +81,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+                ],
+            },
         },
-    },
-]
+    ]
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
@@ -95,8 +96,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
 
 
 # Password validation
@@ -105,17 +106,17 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+        },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
+        },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
+        },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+        },
+    ]
 
 
 # Internationalization
@@ -263,4 +264,19 @@ THUMBNAIL_ALIASES = {
                 'crop': 'smart',
                 },
         }
+    }
+
+
+# rest_framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+        ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15
     }

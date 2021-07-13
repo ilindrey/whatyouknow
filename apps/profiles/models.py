@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.templatetags.static import static
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from rest_framework.authtoken.models import Token
 
 from easy_thumbnails.signals import saved_file
 from easy_thumbnails.signal_handlers import generate_aliases_global
@@ -35,7 +39,7 @@ class Profile(AbstractUser):
     REQUIRED_FIELDS = ['name', 'username']
 
     def __str__(self):
-        return self.name + ' @' + self.username
+        return self.username
 
     def get_avatar(self, size):
         if self.avatar:
@@ -44,4 +48,11 @@ class Profile(AbstractUser):
             return static('profiles/image/avatar_placeholder.svg')
 
 
+@receiver(post_save, sender=Profile)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+
 saved_file.connect(generate_aliases_global)
+

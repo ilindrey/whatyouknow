@@ -20,6 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+api_patterns = [
+    path('', include('apps.profiles.api.urls')),
+]
+
 urlpatterns = [
     # apps
     path('', include('apps.core.urls')),
@@ -30,7 +34,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # others
     path('summernote/', include('django_summernote.urls')),
-]
+    # api
+    path('api/', include(api_patterns)),
+    ]
 
 
 if settings.DEBUG:

@@ -3,8 +3,10 @@ python-decouple
 python-dateutil
 django
 django-summernote
-django-taggit
 django-mptt
+django-taggit
+django-taggit-serializer
+djangorestframework
 easy_thumbnails
 faker
 factory_boy
