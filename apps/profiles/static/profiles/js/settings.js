@@ -4,6 +4,7 @@ $(() => {
         $excludedFeedTagsSegment = null,
         loadExcludedFeedTagsUrl = null,
         deleteExcludedFeedTagUrl = null,
+        $settingsContent = $('#settings_content'),
         $avatarSegment = $('#avatar_segment'),
         $profileSegment = $('#profile_segment'),
         $feedSegment = $('#feed_segment'),
@@ -125,8 +126,7 @@ $(() => {
             contentType: false,
             enctype: 'multipart/form-data',
             success: function (responseText) {
-                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form');
-                showSuccessMessage('Avatar updated!');
+                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form', 'Avatar updated!');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -136,34 +136,45 @@ $(() => {
 
     $(document).on('submit', '#edit_profile_form', function (e) {
         e.preventDefault();
-        formSubmit(editProfileUrl, $profileSegment, $(this));
+        formSubmit(editProfileUrl, $profileSegment, $(this), 'Profile updated!', true);
     });
 
     $(document).on('submit', '#password_change_form', function (e) {
         e.preventDefault();
-        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this))
+        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this), 'Password updated!')
     });
 
-    function formSubmit(url, segment, form)
+    function formSubmit(url, segment, form, successMessage = null, runActionsUpdateUsername = false)
     {
         let deferred = $.post(url, form.serialize());
         deferred.done(function (responseText) {
-            updateFormSegment(responseText, segment, '#' + form.attr('id'));
-            showSuccessMessage('Profile updated!');
+            let formID = '#' + form.attr('id');
+            updateFormSegment(responseText, segment, formID, successMessage, runActionsUpdateUsername);
+
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
     }
 
-    function updateFormSegment(responseText, segment, form_id)
+    function updateFormSegment(responseText, segment, formID, successMessage= null, runActionsUpdateUsername = false)
     {
         segment.html(responseText);
-        let form = segment.find(form_id);
-        if(form.length)
-        {
+
+        let form = segment.find(formID);
+        let isValid = form.find('.error').length === 0;
+
+        if (form.length)
             form.form();
-        }
+
+        if (!isValid)
+            return;
+
+        if (successMessage)
+            showSuccessMessage(successMessage);
+
+        if (runActionsUpdateUsername)
+            updateUrlsWhenUsernameChanged();
     }
 
     $(document).on('click', '#tags .label .icon', function () {
@@ -204,5 +215,22 @@ $(() => {
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
+    }
+
+    function updateUrlsWhenUsernameChanged()
+    {
+        const keyCurrentUsername = 'current-username';
+
+        let oldUsername = $settingsContent.data(keyCurrentUsername);
+        let newUsername = $('#edit_profile_form').find('#id_username').val();
+
+        if (oldUsername === newUsername)
+            return;
+
+        let newUrl = new URL(window.location);
+        newUrl.pathname = newUrl.pathname.replace(oldUsername, newUsername);
+        history.pushState(null, null, newUrl.href);
+
+        setTimeout(() => { location.reload(); }, 1000);
     }
 })

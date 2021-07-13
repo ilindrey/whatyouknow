@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="ui stackable grid">
+    <div class="ui stackable grid" id="settings_content" data-current-username="{{ profile.username }}">
 
         {% if not user.is_authenticated %}
             <div class="three column row">

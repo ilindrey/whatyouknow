@@ -81,7 +81,7 @@ class EditProfileView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     template_name = 'profiles/settings/forms/edit_profile.html'
 
     def get_success_url(self):
-        return reverse('edit_profile', kwargs={'username': self.kwargs['username']})
+        return reverse('edit_profile', kwargs={'username': self.object.username})
 
 
 class EditAvatarView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
@@ -89,7 +89,7 @@ class EditAvatarView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     template_name = 'profiles/settings/forms/edit_avatar.html'
 
     def get_success_url(self):
-        return reverse('edit_avatar_profile', kwargs={'username': self.kwargs['username']})
+        return reverse('edit_avatar_profile', kwargs={'username': self.object.username})
 
 
 class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
