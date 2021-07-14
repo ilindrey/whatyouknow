@@ -97784,7 +97784,7 @@ span.ui.error.text {
 }
 
 span.ui.info.text {
-  color: #31CCEC;
+  color: #4158D0;
 }
 
 span.ui.success.text {
@@ -98024,7 +98024,7 @@ span.ui.massive.text {
 }
 
 .ui.toast-container .toast-box > .attached.progress.info .bar.bar.bar {
-  background: #12a1bf;
+  background: #273a9e;
 }
 
 .ui.toast-container .toast-box > .attached.progress.warning .bar.bar.bar {
@@ -98366,7 +98366,7 @@ span.ui.massive.text {
 }
 
 .ui.toast.info {
-  background-color: #31CCEC;
+  background-color: #4158D0;
   color: rgba(255, 255, 255, 0.9);
 }
 

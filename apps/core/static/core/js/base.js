@@ -36,6 +36,11 @@ function showSuccessMessage(text)
     showMessage(text, 'success');
 }
 
+function showInfoMessage(text)
+{
+    showMessage(text, 'info');
+}
+
 function showErrorMessage(xhr, ajaxOptions, thrownError)
 {
     let text = xhr.status + ' ' + xhr.statusText;

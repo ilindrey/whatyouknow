@@ -231,6 +231,8 @@ $(() => {
         newUrl.pathname = newUrl.pathname.replace(oldUsername, newUsername);
         history.pushState(null, null, newUrl.href);
 
+        showInfoMessage('Wait for the page to reload...')
+
         setTimeout(() => { location.reload(); }, 1000);
     }
 })

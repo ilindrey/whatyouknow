@@ -151,7 +151,7 @@
   min-width: 0;
 }
 .ui.toast-container .toast-box > .attached.progress.info .bar.bar.bar {
-  background: #12a1bf;
+  background: #273a9e;
 }
 .ui.toast-container .toast-box > .attached.progress.warning .bar.bar.bar {
   background: #cf9b0d;
@@ -428,7 +428,7 @@
   margin: 0;
 }
 .ui.toast.info {
-  background-color: #31CCEC;
+  background-color: #4158D0;
   color: rgba(255, 255, 255, 0.9);
 }
 .ui.toast.warning {

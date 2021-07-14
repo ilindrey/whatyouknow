@@ -619,7 +619,8 @@
 @negativeTextColor       : #9F3A38;
 
 /* Info */
-@infoColor              : #31CCEC;
+//@infoColor              : #31CCEC;
+@infoColor              : @primaryColor;
 @infoBackgroundColor    : #F8FFFF;
 @infoBorderColor        : #A9D5DE;
 @infoHeaderColor        : #0E566C;
