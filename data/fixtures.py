@@ -1,6 +1,6 @@
+from random import randint
 from shutil import rmtree
 
-from django.conf import settings
 from django.core.files.storage import default_storage
 
 from .reference import ReferenceModel as rm
@@ -20,10 +20,10 @@ def make_objects(factor=1):
 
     clear_media_files()  # delete all media files
 
-    user_count = 1
-    post_count = 50
+    user_count = randint(1, factor)
+    post_count = randint(factor, user_count * factor)
 
-    post_comments_factor = 100
+    post_comments_factor = randint(post_count, post_count * factor)
 
     SuperUserFactory.create()
     print('Superuser was created.')
