@@ -1,7 +1,3 @@
-{% load static %}
-
 <div class="center item">
-    <a href="{% url 'index' %}" class="ui medium image">
-        <img class="ui centered image" src="{% static 'core/images/logo/logo-transp-bg.svg' %}">
-    </a>
+    {% include 'core/logo/menu.html' %}
 </div>

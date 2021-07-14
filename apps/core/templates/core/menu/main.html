@@ -1,9 +1,9 @@
 {% load static %}
 
 <div class="item">
-    <a href="{% url 'index' %}" class="ui medium image">
-        <img src="{% static 'core/images/logo/logo-transp-bg.svg' %}">
-    </a>
+    <div class="center item">
+        {% include 'core/logo/menu.html' %}
+    </div>
 </div>
 <div class="right menu">
 

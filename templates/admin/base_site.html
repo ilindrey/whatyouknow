@@ -2,8 +2,15 @@
 
 {% load static %}
 
-{% block extrastyle %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{% static "core/css/fonts.css" %}" />
-
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
 {% endblock %}
+
+{% block extrastyle %}
+    {% include 'core/logo/tab.html' %}
+    <link rel="stylesheet" type="text/css" href="{% static "core/css/fonts.css" %}" />
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
