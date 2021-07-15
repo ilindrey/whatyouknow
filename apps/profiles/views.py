@@ -108,7 +108,7 @@ class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView)
         return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
 
 
-class FeedSearchTags(LoginRequiredMixin, generic.ListView):
+class FeedSearchTagsView(LoginRequiredMixin, generic.ListView):
     model = Tag
     paginate_by = 10
     ordering = 'name'
@@ -127,7 +127,7 @@ class FeedSearchTags(LoginRequiredMixin, generic.ListView):
         return [{'name': '<i class="tag icon"></i>' + item['name']} for item in context['object_list']]
 
 
-class FeedLoadExcludedTags(LoginRequiredMixin, generic.ListView):
+class FeedLoadExcludedTagsView(LoginRequiredMixin, generic.ListView):
     model = Profile
     template_name = 'profiles/settings/forms/includes/excluded_feed_tags.html'
 
@@ -135,7 +135,7 @@ class FeedLoadExcludedTags(LoginRequiredMixin, generic.ListView):
         return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')
 
 
-class FeedDeleteExcludedTag(LoginRequiredMixin, ProfileMixin, generic.DeleteView):
+class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

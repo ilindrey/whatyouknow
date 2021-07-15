@@ -33,9 +33,10 @@ settings_patterns = [
         path('edit_profile', views.EditProfileView.as_view(), name='edit_profile'),
         path('edit_avatar_profile', views.EditAvatarView.as_view(), name='edit_avatar_profile'),
         path('edit_feed_settings_profile', views.EditFeedSettingsView.as_view(), name='edit_feed_settings_profile'),
-        path('search_tags', views.FeedSearchTags.as_view(), name='profile_search_tags'),
-        path('load_excluded_feed_tags', views.FeedLoadExcludedTags.as_view(), name='profile_load_excluded_feed_tags'),
-        path('delete_excluded_feed_tag', views.FeedDeleteExcludedTag.as_view(), name='profile_delete_excluded_feed_tag'),
+        path('search_tags', views.FeedSearchTagsView.as_view(), name='profile_search_tags'),
+        path('load_excluded_feed_tags', views.FeedLoadExcludedTagsView.as_view(), name='profile_load_excluded_feed_tags'),
+        path('delete_excluded_feed_tag', views.FeedDeleteExcludedTagView.as_view(),
+             name='profile_delete_excluded_feed_tag'),
         path('edit_password_change', views.PasswordChangeView.as_view(), name='profile_password_change'),
         path('password_change_done', views.PasswordChangeDoneView.as_view(), name='profile_password_change_done'),
         ]))
