@@ -19,10 +19,6 @@
             <i class="bookmark primary large icon"></i>
         </a>
 
-        <a class="item">
-            <i class="pencil primary large icon"></i>
-        </a>
-
         <div class="item">
 
             <div class="ui black icon top right labeled pointing dropdown" id="user_profile_menu">
@@ -34,37 +30,42 @@
 
                     <a class="item" href="{% url 'profile' user.username %}">
 
-                        <div class="ui list">
-                            <div class="item">
-                                {% include 'profiles/avatar/menu.html' %}
-                                <div class="content">
-                                    <span class="ui grey text">Singed in as </span>
-                                    <div class="ui fitted divider hidden"></div>
-                                    <span class="ui primary text">@{{ user.username }}</span>
-                                </div>
-                            </div>
+                        <div class="ui basic fitted segment">
+                            {% include 'profiles/avatar/menu.html' %}
+                            <span class="ui primary text">@{{ user.username }}</span>
                         </div>
 
                     </a>
 
+                    <div class="ui divider"></div>
+
                     <a class="item" href="{% url 'profile_tab' user.username 'posts' %}">
                         <i class="pencil icon"></i>
-                        <span>Your posts</span>
+                        <span class="ui text">Your posts</span>
                     </a>
 
                     <a class="item" href="{% url 'profile_tab' user.username 'comments' %}">
                         <i class="comments icon"></i>
-                        <span>Your comments</span>
+                        <span class="ui text">Your comments</span>
                     </a>
 
                     <a class="item" href="{% url 'profile_settings' user.username %}">
                         <i class="setting icon"></i>
-                        <span>Settings</span>
+                        <span class="ui text">Settings</span>
                     </a>
+
+                    <div class="ui divider"></div>
+
+                    <a class="item" href="{% url 'post_add' %}">
+                        <i class="pencil icon"></i>
+                        <span class="ui text">Write a post</span>
+                    </a>
+
+                    <div class="ui divider"></div>
 
                     <a class="item" href="{% url 'logout' %}">
                         <i class="sign out icon"></i>
-                        <span>Sign out</span>
+                        <span class="ui text">Sign out</span>
                     </a>
 
                 </div>
