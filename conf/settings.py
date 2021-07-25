@@ -162,6 +162,18 @@ AUTH_USER_MODEL = 'profiles.Profile'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 
+# sessions
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+# caches
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': 'default'
+#         }
+#     }
 
 # email
 
@@ -172,8 +184,12 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 
+# django-taggit
+TAGGIT_STRING_FROM_TAGS = 'apps.taggit.utils._edit_string_for_tags'
+
 # django-summernote
 
+SUMMERNOTE_THEME = 'bs3'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_CONFIG = {
     'summernote': {
@@ -185,7 +201,7 @@ SUMMERNOTE_CONFIG = {
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
                       'strikethrough', 'clear']],
-            ['fontname', ['fontname']],
+            # ['fontname', ['fontname']],
             ['color', ['color']],
             ['list', ['ul', 'ol']],
             ['para', ['paragraph']],

@@ -60,7 +60,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = SummernoteTextField()
     feed_cover = models.ImageField(upload_to='blog/feed_covers', blank=False)
-    feed_article_preview = SummernoteTextField(null=True, blank=True)
+    feed_article_preview = SummernoteTextField(blank=True)
     tags = TaggableManager()
 
     class Meta:

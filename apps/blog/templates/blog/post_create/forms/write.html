@@ -1,0 +1,9 @@
+{% extends 'core/forms/post.html' %}
+
+{% block id %}write_form{% endblock %}
+
+{% block params %} enctype="multipart/form-data"{% endblock %}
+
+{% block buttons %}
+    {% include 'blog/post_create/forms/buttons/look_preview.html' %}
+{% endblock %}

@@ -154,6 +154,18 @@
 
 
 /*******************************
+           Variations
+*******************************/
+
+.ui[class*="left floated"].container {
+  float: left;
+}
+.ui[class*="right floated"].container {
+  float: right;
+}
+
+
+/*******************************
          Site Overrides
 *******************************/
 

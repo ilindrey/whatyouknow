@@ -37,6 +37,7 @@
 @variationContainerAligned: true;
 @variationContainerJustified: true;
 @wyk_variationContainerAuth: true;
+@wyk_variationContainerFloated: true;
 
 /* Divider */
 @variationDividerInverted: true;
