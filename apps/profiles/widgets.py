@@ -13,7 +13,7 @@ class SemanticAvatarFileInput(ClearableFileInput):
 
         value = context['widget']['value']
         if value:
-            avatar_img = thumbnail_url(value, 'card')
+            avatar_img = thumbnail_url(value, 'small')
         else:
             avatar_img = static('profiles/image/avatar_placeholder.svg')
 

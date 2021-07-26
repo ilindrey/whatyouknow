@@ -193,7 +193,7 @@ SUMMERNOTE_THEME = 'bs3'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_CONFIG = {
     'summernote': {
-        # 'width': 1366,
+        'width': 700,
         # 'height': 720,
         # 'fontNames': ['Arial'],
         # 'fontNamesIgnoreCheck': ['Open Sans'],
@@ -261,7 +261,11 @@ THUMBNAIL_ALIASES = {
                 'size': (35, 35),
                 'crop': 'smart',
                 },
-        'card':  # semantic image size
+        'tiny': {
+            'size': (80, 80),
+            'crop': 'smart',
+            },
+        'small':  # semantic image size
             {
                 'size': (150, 150),
                 'crop': 'smart',

@@ -1,0 +1,83 @@
+<div class="ui grid">
+
+    <div class="row">
+        <div class="column">
+
+            <div class="ui fitted basic compact segment">
+                <div class="ui horizontal link list">
+                    <a class="item" href="{% url 'profile' object.user %}">
+                        {% include 'profiles/avatar/circular/tiny.html' %}
+                        <div class="content">
+                            <div class="ui header">{{ object.user.username }}</div>
+
+                            {% if object.user.specialization %}
+                                <span class="ui black text">{{ object.user.specialization }}</span>
+                            {% endif %}
+                        </div>
+
+                    </a>
+                    <div class="item">
+                        <div class="ui mini green statistic">
+                            <div class="value">
+                                +16136
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="two column row">
+
+        <div class="column">
+
+            <div class="ui fitted basic compact segment">
+                <div class="ui grey mini statistic">
+                    <div class="value">
+                        11336
+                    </div>
+                    <div class="label">
+                        <i class="ui grey fitted eye icon"></i>
+                        <span class="ui grey text">views</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column">
+
+            <div class="ui right floated fitted basic compact segment">
+                <div class="ui horizontal list">
+                    <a class="item">
+                        <span class="ui large black text">
+                            <i class="ui thumbs up link icon"></i>
+                            13
+                        </span>
+                    </a>
+                    <a class="item">
+                        <span class="ui large black text">
+                            <i class="ui thumbs down link icon"></i>
+                            2
+                        </span>
+                    </a>
+                    <a class="item">
+                        <span class="ui large black text">
+                            <i class="ui bookmark link icon"></i>
+                            7
+                        </span>
+                    </a>
+                    <a class="item">
+                        <span class="ui large black text">
+                            <i class="ui share link icon"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

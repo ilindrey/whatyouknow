@@ -51,21 +51,22 @@ class CategoryTypes(Flag):
 
 class Post(models.Model):
 
-    user = models.ForeignKey(
-        get_user_model(),
-        on_delete=models.PROTECT
-        )
-    publish = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     category = models.IntegerField(choices=CategoryTypes.get_list())
     title = models.CharField(max_length=200)
-    text = SummernoteTextField()
-    feed_cover = models.ImageField(upload_to='blog/feed_covers', blank=False)
+    feed_cover = models.ImageField(upload_to='blog/feed_covers')
     feed_article_preview = SummernoteTextField(blank=True)
+    text = SummernoteTextField()
+    draft = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
+    published = models.DateTimeField(auto_now=False, auto_now_add=False)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     tags = TaggableManager()
 
     class Meta:
         verbose_name_plural = 'Posts'
-        ordering = ('-publish', )
+        ordering = ('-published', )
 
     def __str__(self):
         return self.title

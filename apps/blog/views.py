@@ -1,20 +1,16 @@
-from django.core.files.uploadedfile import UploadedFile, InMemoryUploadedFile, TemporaryUploadedFile
 from django.shortcuts import reverse
-from django.views.generic import DetailView, ListView, TemplateView, FormView, CreateView
+from django.views.generic import DetailView, ListView, TemplateView, FormView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.cache import caches, cache
-from django.core.files.images import ImageFile
-from io import BytesIO
 
 from .models import Post, CategoryTypes
-from .forms import PostWriteForm
+from .forms import EditPostForm
 
 
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/post_list.html'
+    template_name = 'blog/post/list.html'
     paginate_by = 15
-    ordering = '-publish'
+    ordering = '-published'
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
@@ -24,50 +20,32 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'blog/post_detail.html'
+    template_name = 'blog/post/detail.html'
 
 
-class PostCreateView(TemplateView):
-    template_name = 'blog/post_create.html'
+class PostCreateView(LoginRequiredMixin, TemplateView):
+    template_name = 'blog/post/create.html'
 
 
-class PostWriteView(LoginRequiredMixin, FormView):
-    form_class = PostWriteForm
-    template_name = 'blog/post_create/write.html'
+class PostWriteView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = EditPostForm
+    template_name = 'blog/post/create/write.html'
 
-    def get_initial(self):
-        fields = list(self.form_class.Meta.fields)
-        fields.remove('feed_cover')
-        for field in fields:
-            self.initial[field] = self.request.session.get(field)
-        return super().get_initial()
 
-    def form_valid(self, form):
-
-        fields = form.fields.copy()
-        del fields['feed_cover']
-        for field in fields:
-            if field in 'tags':
-                tags = []
-                for tag in form.cleaned_data[field]:
-                    tags.append({'name': tag})
-                self.request.session[field] = tags
-            else:
-                self.request.session[field] = form.cleaned_data[field]
-        return super().form_valid(form)
+class PostEditView(LoginRequiredMixin, UpdateView):
+    model = Post
+    form_class = EditPostForm
+    template_name = 'blog/post/create/forms/edit_post.html'
 
     def get_success_url(self):
-        return reverse('post_preview')
+        return reverse('post_detail', kwargs={'pk', self.object.pk})
 
 
-class PostPreviewView(CreateView):
-    form_class = PostWriteForm
-    template_name = 'blog/post_create/preview.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        return context
+class PostPreviewView(DetailView):
+    model = Post
+    template_name = 'blog/post/create/preview.html'
 
 
 class PostDoneView(TemplateView):
-    template_name = 'blog/post_create/done.html'
+    template_name = 'blog/post/create/done.html'

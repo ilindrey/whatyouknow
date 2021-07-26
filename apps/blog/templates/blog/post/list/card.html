@@ -1,9 +1,9 @@
 {% load core comments thumbnail %}
 
-<a class="ui card" href="{% url 'post_detail' post.pk %}">
+<a class="ui card" href="{% url 'post_detail' object.pk %}">
 
     <div class="image">
-        <img src="{{ post.feed_cover|thumbnail_url:'default' }}">
+        <img src="{{ object.feed_cover|thumbnail_url:'default' }}">
     </div>
 
     <div class="content">
@@ -12,21 +12,18 @@
 
 
             <div class="item">
-                <div class="header">{{ post.title }}</div>
+                <div class="header">{{ object.title }}</div>
             </div>
 
             <div class="item">
                             <span class="ui grey text">
-                                {{ post.feed_article_preview|safe|truncatechars:100 }}
+                                {{ object.feed_article_preview|safe|truncatechars:100 }}
                             </span>
             </div>
 
             <div class="right floated item">
                 {% include 'profiles/avatar/author.html' %}
-                <div class="content">
-                    <div class="ui black text">{{ post.user.name }}</div>
-                    <span class="ui grey text">@{{ post.user.username }}</span>
-                </div>
+                <span class="ui black text">{{ object.user.username }}</span>
             </div>
 
         </div>
@@ -45,11 +42,11 @@
             </div>
             <div class="item">
                 <i class="ui comments icon"></i>
-                {% comments_count post %}
+                {% comments_count object %}
             </div>
 
         </div>
-        <div class="right floated item">{{ post.publish|datetime_format }}</div>
+        <div class="right floated item">{{ object.published|datetime_format }}</div>
     </div>
 
 </a>
