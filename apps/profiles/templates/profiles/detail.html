@@ -34,9 +34,11 @@
                             </div>
 
                             <div class="right aligned four wide column">
-                                <a class="ui primary icon button" href="{% url 'profile_settings' object.username %}">
-                                    <i class="setting icon"></i>
-                                </a>
+                                {% if user.username == object.username %}
+                                    <a class="ui primary icon button" href="{% url 'profile_settings' object.username %}">
+                                        <i class="setting icon"></i>
+                                    </a>
+                                {% endif %}
                             </div>
 
                         </div>
