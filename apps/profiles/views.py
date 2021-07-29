@@ -13,7 +13,7 @@ from apps.comments.models import Comment
 
 from .models import Profile
 from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm, RegistrationForm
-from .mixins import ProfileMixin
+from .mixins import CurrentAuthUserMixin, ProfileAuthMixin
 
 
 class ProfileView(generic.RedirectView):
@@ -24,7 +24,7 @@ class ProfileView(generic.RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
-class ProfileTabView(ProfileMixin, generic.DetailView):
+class ProfileTabView(ProfileAuthMixin, generic.DetailView):
     template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
@@ -37,11 +37,11 @@ class ProfileTabView(ProfileMixin, generic.DetailView):
         return context
 
 
-class ProfileTabLoadDataListView(generic.ListView):
+class ProfileTabLoadDataListView(CurrentAuthUserMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        tab = self.request.GET.get('tab')
+        tab = self.kwargs['tab']
         if tab == 'posts':
             return Post.objects.filter(user__username=self.kwargs['username'])
         elif tab == 'comments':
@@ -51,7 +51,7 @@ class ProfileTabLoadDataListView(generic.ListView):
 
     def get_template_names(self):
 
-        tab = self.request.GET.get('tab')
+        tab = self.kwargs['tab']
         page = int(self.request.GET.get('page', 1))
 
         if tab:
@@ -66,11 +66,11 @@ class ProfileTabLoadDataListView(generic.ListView):
         return template_name
 
 
-class SettingsView(LoginRequiredMixin, ProfileMixin, generic.DetailView):
+class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
     template_name = 'profiles/settings.html'
 
 
-class EditProfileView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
+class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'profiles/settings/forms/edit_profile.html'
 
@@ -78,7 +78,7 @@ class EditProfileView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
         return reverse('edit_profile', kwargs={'username': self.object.username})
 
 
-class EditAvatarView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
+class EditAvatarView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     form_class = EditAvatarForm
     template_name = 'profiles/settings/forms/edit_avatar.html'
 
@@ -86,7 +86,7 @@ class EditAvatarView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
         return reverse('edit_avatar_profile', kwargs={'username': self.object.username})
 
 
-class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
+class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     form_class = EditFeedSettingsForm
     template_name = 'profiles/settings/forms/edit_feed_settings.html'
 
@@ -102,7 +102,7 @@ class EditFeedSettingsView(LoginRequiredMixin, ProfileMixin, generic.UpdateView)
         return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
 
 
-class FeedSearchTagsView(LoginRequiredMixin, generic.ListView):
+class FeedSearchTagsView(LoginRequiredMixin, CurrentAuthUserMixin, generic.ListView):
     model = Tag
     paginate_by = 10
     ordering = 'name'
@@ -121,7 +121,7 @@ class FeedSearchTagsView(LoginRequiredMixin, generic.ListView):
         return [{'name': '<i class="tag icon"></i>' + item['name']} for item in context['object_list']]
 
 
-class FeedLoadExcludedTagsView(LoginRequiredMixin, generic.ListView):
+class FeedLoadExcludedTagsView(LoginRequiredMixin, CurrentAuthUserMixin, generic.ListView):
     model = Profile
     template_name = 'profiles/settings/forms/includes/excluded_feed_tags.html'
 
@@ -129,7 +129,7 @@ class FeedLoadExcludedTagsView(LoginRequiredMixin, generic.ListView):
         return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')
 
 
-class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileMixin, generic.DeleteView):
+class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileAuthMixin, generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -142,14 +142,14 @@ class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileMixin, generic.Delete
         return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
 
 
-class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+class PasswordChangeView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeView):
     template_name = 'profiles/settings/forms/password_change_form.html'
 
     def get_success_url(self):
         return reverse('profile_password_change_done', kwargs={'username': self.kwargs['username']})
 
 
-class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+class PasswordChangeDoneView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeDoneView):
     template_name = 'profiles/settings/password_change_done.html'
 
 

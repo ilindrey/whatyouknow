@@ -13,7 +13,7 @@
                     </span>
                 </div>
             </div>
-        {% elif user.username != object.username %}
+        {% elif not is_auth_user %}
             <div class="three column row">
                 <div class="center aligned centered column">
                     <span class="ui black text">

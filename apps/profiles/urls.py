@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 from django.contrib.auth import views as auth_views
 
@@ -21,7 +22,7 @@ password_reset_patterns = [
     ]
 
 tabs_patterns = [
-    path('<str:tab>/', ProfileTabView.as_view(), name='profile_tab'),
+    path('', ProfileTabView.as_view(), name='profile_tab'),
     path('ajax/', include([
         path('profile_tab_load_data', ProfileTabLoadDataListView.as_view(), name='profile_tab_load_data')
         ])),
@@ -51,7 +52,7 @@ urlpatterns = [
     # profile
     path('<str:username>/', include([
         path('', ProfileView.as_view(), name='profile'),
-        path('tabs/', include(tabs_patterns)),
         path('settings/', include(settings_patterns)),
+        path('<str:tab>/', include(tabs_patterns)),
         ])),
     ]

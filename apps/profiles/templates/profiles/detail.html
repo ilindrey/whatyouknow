@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="right aligned four wide column">
-                                {% if user.username == object.username %}
+                                {% if is_auth_user %}
                                     <a class="ui primary icon button" href="{% url 'profile_settings' object.username %}">
                                         <i class="setting icon"></i>
                                     </a>
@@ -72,7 +72,7 @@
             <div class="column">
                 <div class="ui tabular primary secondary pointing menu"
                      id="user_profile_tab_menu"
-                     data-url-ajax-profile-tab-load-data="{% url 'profile_tab_load_data' object.username %}"
+                     data-url-ajax-profile-tab-load-data="{% url 'profile_tab_load_data' object.username current_tab %}"
                      data-current-tab="{{ current_tab }}">
                     {% for key, value in tab_header_list.items %}
                         <a class="item" data-tab="{{ key }}" id="{{ key }}" >

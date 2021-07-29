@@ -4,8 +4,8 @@ $(document).ready(function () {
     const $tabMenuItems = $tabMenu.find('.item');
 
     const keyCurrentTab = 'current-tab';
-    const urlAjaxProfileTabLoadData =  $tabMenu.data('url-ajax-profile-tab-load-data');
     let currentTab = $tabMenu.data(keyCurrentTab);
+    let urlAjaxProfileTabLoadData =  $tabMenu.data('url-ajax-profile-tab-load-data');
 
     $tabMenuItems.tab('change tab', currentTab);
 
@@ -46,7 +46,7 @@ $(document).ready(function () {
                             type: 'get',
                             url: urlAjaxProfileTabLoadData,
                             data: {
-                                tab: tabName,
+                                // tab: tabName,
                                 page: nextPage,
                             },
                             beforeSend: function () {
@@ -76,13 +76,11 @@ $(document).ready(function () {
 
         onVisible: function (tabPath)
         {
-            // console.log(tabPath + ' onVisible');
-
             let newUrl = new URL(window.location);
-
             newUrl.pathname = newUrl.pathname.replace(currentTab, tabPath);
-
             history.pushState(null, null, newUrl.href);
+
+            urlAjaxProfileTabLoadData = urlAjaxProfileTabLoadData.replace(currentTab, tabPath);
 
             currentTab = tabPath;
             $tabMenu.data(keyCurrentTab, currentTab)
