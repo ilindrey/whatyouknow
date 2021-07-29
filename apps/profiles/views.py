@@ -13,12 +13,7 @@ from apps.comments.models import Comment
 
 from .models import Profile
 from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm, RegistrationForm
-
-
-class ProfileMixin:
-    model = Profile
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+from .mixins import ProfileMixin
 
 
 class ProfileView(generic.RedirectView):
@@ -26,8 +21,7 @@ class ProfileView(generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         kwargs['tab'] = 'posts'
-        url = super().get_redirect_url(*args, **kwargs)
-        return url
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class ProfileTabView(ProfileMixin, generic.DetailView):

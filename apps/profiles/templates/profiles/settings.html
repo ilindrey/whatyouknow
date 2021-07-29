@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="ui stackable grid" id="settings_content" data-current-username="{{ profile.username }}">
+    <div class="ui stackable grid" id="settings_content" data-current-username="{{ object.username }}">
 
         {% if not user.is_authenticated %}
             <div class="three column row">
@@ -13,7 +13,7 @@
                     </span>
                 </div>
             </div>
-        {% elif user.username != profile.username %}
+        {% elif user.username != object.username %}
             <div class="three column row">
                 <div class="center aligned centered column">
                     <span class="ui black text">
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="ten wide column"
                      id="avatar_segment"
-                     data-edit-avatar-url="{% url 'edit_avatar_profile' profile.username %}"
+                     data-edit-avatar-url="{% url 'edit_avatar_profile' object.username %}"
                 >
                     <!-- ajax load avatar form -->
                 </div>
@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="ten wide column"
                      id="profile_segment"
-                     data-edit-profile-url="{% url 'edit_profile' profile.username %}"
+                     data-edit-profile-url="{% url 'edit_profile' object.username %}"
                 >
                     <!-- ajax load profile form -->
                 </div>
@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="six wide column"
                      id="password_change_segment"
-                     data-password-change-url="{% url 'profile_password_change' profile.username %}"
+                     data-password-change-url="{% url 'profile_password_change' object.username %}"
                 >
                     <!-- ajax load password form -->
                 </div>
@@ -77,8 +77,8 @@
             <div class="row">
                 <div class="column"
                      id="feed_segment"
-                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' profile.username %}"
-                     data-search-tags-url="{% url 'profile_search_tags' profile.username %}"
+                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' object.username %}"
+                     data-search-tags-url="{% url 'profile_search_tags' object.username %}"
                 >
                     <!-- ajax load feed settings form -->
                 </div>
