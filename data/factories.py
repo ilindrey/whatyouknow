@@ -92,16 +92,21 @@ class PostCommentsFactory(factory.django.DjangoModelFactory):
     object_id = factory.SelfAttribute('content_object.pk')
     user = factory.Faker('random_element', elements=rm.USER.objects.filter(is_superuser=False))
     text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
-    date_posted = factory.Faker('date_time_between_dates',
-                                datetime_start=factory.SelfAttribute('..content_object.publish'),
-                                datetime_end=DATETIME_NOW,
-                                tzinfo=CURRENT_TZ)
+    # date_posted = factory.Faker('date_time_between_dates',
+    #                             datetime_start=factory.SelfAttribute('..content_object.timestamp'),
+    #                             datetime_end=now(),
+    #                             tzinfo=CURRENT_TZ)
+    # date_edited = factory.Maybe('is_comment_edited',
+    #                             yes_declaration=factory.Faker('date_time_between_dates',
+    #                                                           datetime_start=factory.SelfAttribute('..date_posted'),
+    #                                                           datetime_end=DATETIME_NOW,
+    #                                                           tzinfo=CURRENT_TZ),
+    #                             no_declaration=factory.SelfAttribute('date_posted'))
+    date_posted = factory.SelfAttribute('.content_object.timestamp')
     date_edited = factory.Maybe('is_comment_edited',
-                                yes_declaration=factory.Faker('date_time_between_dates',
-                                                              datetime_start=factory.SelfAttribute('..date_posted'),
-                                                              datetime_end=DATETIME_NOW,
-                                                              tzinfo=CURRENT_TZ),
+                                yes_declaration=factory.SelfAttribute('.date_posted'),
                                 no_declaration=factory.SelfAttribute('date_posted'))
+
 
     @factory.lazy_attribute
     def parent(self):

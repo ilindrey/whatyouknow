@@ -59,7 +59,7 @@ class Post(models.Model):
     text = SummernoteTextField()
     draft = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
-    published = models.DateTimeField(auto_now=False, auto_now_add=False)
+    published = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     tags = TaggableManager()
@@ -73,6 +73,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        if self.approved and self.published is None:
+            self.published = timezone.now()
+        super().save(*args, **kwargs)
 
 
 saved_file.connect(generate_aliases_global)

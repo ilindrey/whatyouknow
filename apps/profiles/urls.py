@@ -21,10 +21,22 @@ password_reset_patterns = [
          name="password_reset_complete"),
     ]
 
-tabs_patterns = [
-    path('', ProfileTabView.as_view(), name='profile_tab'),
+second_tabs_patterns = [
+    path('', ProfileSecondTabView.as_view(), name='profile_second_tab'),
     path('ajax/', include([
-        path('profile_tab_load_data', ProfileTabLoadDataListView.as_view(), name='profile_tab_load_data')
+        path('posts_all_tab_base_load_data', ProfilePostsAllTabBaseLoadDataListView.as_view(),
+             name='posts_all_tab_base_load_data'),
+        path('posts_all_tab_lazy_load_data', ProfilePostsAllTabLazyLoadDataListView.as_view(),
+             name='posts_all_tab_lazy_load_data'),
+        ]))
+    ]
+
+first_tabs_patterns = [
+    path('', ProfileFirstTabView.as_view(), name='profile_tab'),
+    path('<str:second_tab>/', include(second_tabs_patterns)),
+    path('ajax/', include([
+        # path('posts_tab_load_data', ProfilePostsTabLoadDataView.as_view(), name='posts_tab_load_data'),
+        path('comments_tab_load_data', ProfileCommentsTabLoadDataListView.as_view(), name='comments_tab_load_data'),
         ])),
     ]
 
@@ -51,8 +63,8 @@ urlpatterns = [
 
     # profile
     path('<str:username>/', include([
-        path('', ProfileView.as_view(), name='profile'),
+        path('', ProfileView.as_view(), name='profile_detail'),
         path('settings/', include(settings_patterns)),
-        path('<str:tab>/', include(tabs_patterns)),
+        path('<str:first_tab>/', include(first_tabs_patterns)),
         ])),
     ]

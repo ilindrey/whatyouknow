@@ -12,11 +12,11 @@
                     {% include 'profiles/avatar/detail.html' %}
                 </div>
                 <div class="ui basic fitted segment">
-                                            <div class="ui mini green statistic">
-                                                <div class="value">
-                                                    +16136
-                                                </div>
-                                            </div>
+                    <div class="ui mini green statistic">
+                        <div class="value">
+                            +16136
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -69,25 +69,14 @@
         </div>
 
         <div class="row">
-            <div class="column">
-                <div class="ui tabular primary secondary pointing menu"
-                     id="user_profile_tab_menu"
-                     data-url-ajax-profile-tab-load-data="{% url 'profile_tab_load_data' object.username current_tab %}"
-                     data-current-tab="{{ current_tab }}">
-                    {% for key, value in tab_header_list.items %}
-                        <a class="item" data-tab="{{ key }}" id="{{ key }}" >
-                            {{ key|capfirst }}
-                            {% if value > 0 %}
-                                ({{ value }})
-                            {% endif %}
-                        </a>
-                    {% endfor %}
-                </div>
-                {% for key, value in tab_header_list.items %}
-                    <div class="ui bottom attached tab segment" data-tab="{{ key }}" data-is-first-load="true" id="tab_{{ key }}">
-                        {% include 'core/loader.html' %}
-                    </div>
-                {% endfor %}
+            <div class="column"
+                 id="profile_tabs"
+                 data-current-tab-path="{{ first_tab }}{% if second_tab %}/{{ second_tab }}{% endif %}"
+                 data-current-profile-link="{{ current_profile_link }}"
+            >
+
+                {% include 'profiles/detail/tabs/stucture/base.html' %}
+
             </div>
         </div>
 

@@ -1,0 +1,9 @@
+{% if object_list %}
+    <div class="ui link divided items" id="posts_list"  data-total-page="{{ page_obj.paginator.num_pages }}" data-current-page="{{ page_obj.number }}">
+        {% include 'profiles/detail/tabs/content/posts/list.html' %}
+    </div>
+{% else %}
+    <div class="ui basic segment">
+        <span class="ui text">You don't have posts.</span>
+    </div>
+{% endif %}

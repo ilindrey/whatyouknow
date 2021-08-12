@@ -13,57 +13,126 @@ from apps.comments.models import Comment
 
 from .models import Profile
 from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm, RegistrationForm
-from .mixins import CurrentAuthUserMixin, ProfileAuthMixin
+from .mixins import CurrentAuthUserMixin, ProfileAuthMixin, ProfileTabStructureMixin, ProfileTabListMixin
 
 
-class ProfileView(generic.RedirectView):
-    pattern_name = 'profile_tab'
-
-    def get_redirect_url(self, *args, **kwargs):
-        kwargs['tab'] = 'posts'
-        return super().get_redirect_url(*args, **kwargs)
-
-
-class ProfileTabView(ProfileAuthMixin, generic.DetailView):
+class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView):
     template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tab_header_list'] = {
-            'posts': Post.objects.filter(user__username=self.kwargs['username']).count(),
-            'comments': Comment.objects.filter(user__username=self.kwargs['username']).count()
+
+        username = self.kwargs[self.slug_url_kwarg]
+        default_kwargs = {self.slug_url_kwarg: username}
+
+        # posts
+
+        tab_posts_kwargs = {**default_kwargs, 'first_tab': 'posts'}
+
+        tab_posts_all_kwargs = {**tab_posts_kwargs, 'second_tab': 'all'}
+        tab_posts_all_params = self.default_tab_params
+        tab_posts_all_params.update({
+            'count': Post.objects.filter(user__username=username).count(),
+            'is_lazy_load': True,
+            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_all_kwargs),
+            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_all_kwargs),
+        })
+
+        tab_posts_drafts_kwargs = {**tab_posts_kwargs, 'second_tab': 'drafts'}
+        tab_posts_drafts_params = self.default_tab_params
+        tab_posts_drafts_params.update({
+            'count': Post.objects.filter(user__username=username).count(),
+            'is_lazy_load': True,
+            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_drafts_kwargs),
+            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_drafts_kwargs),
+        })
+
+        tab_posts_declined_kwargs = {**tab_posts_kwargs, 'second_tab': 'declined'}
+        tab_posts_declined_params = self.default_tab_params
+        tab_posts_declined_params.update({
+            'count': Post.objects.filter(user__username=username).count(),
+            'is_lazy_load': True,
+            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_declined_kwargs),
+            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_declined_kwargs),
+        })
+
+        tab_posts_params = self.default_tab_params
+        tab_posts_params.update({
+            'count': Post.objects.filter(user__username=username).count(),
+            # 'link_load_data': reverse('posts_tab_load_data', kwargs=tab_posts_kwargs),
+            'is_descendant_menu': True,
+            'descendant_tab_list': {
+                'all': tab_posts_all_params,
+                'drafts': tab_posts_drafts_params,
+                'declined': tab_posts_declined_params,
             }
-        context['current_tab'] = self.kwargs['tab']
+        })
+
+        # comments
+
+        tab_comments_kwargs = {**default_kwargs, 'first_tab': 'comments'}
+        tab_comments_params = self.default_tab_params
+        tab_comments_params.update({
+            'count': Comment.objects.filter(user__username=username).count(),
+            'link_load_data': reverse('comments_tab_load_data', kwargs=tab_comments_kwargs),
+        })
+
+        tab_list = {
+            'posts': tab_posts_params,
+            'comments': tab_comments_params,
+        }
+
+        default_first_tab = 'posts'
+        default_second_tab = 'all'
+
+        first_tab = self.kwargs.get('first_tab', default_first_tab)
+        second_tab = self.kwargs.get('second_tab', default_second_tab)
+
+        first_tab_data = tab_list.get(first_tab)
+        if first_tab_data is None:
+            first_tab = default_first_tab
+        else:
+            descendant_tab_list = first_tab_data.get('descendant_tab_list')
+            if descendant_tab_list:
+                second_tab_data = descendant_tab_list.get(second_tab)
+                if second_tab_data is None:
+                    second_tab = default_second_tab
+            else:
+                second_tab = None
+
+        context['first_tab'] = first_tab
+        context['second_tab'] = second_tab
+        context['tab_list'] = tab_list
+        context['current_profile_link'] = reverse('profile_detail', kwargs=default_kwargs)
+
         return context
 
 
-class ProfileTabLoadDataListView(CurrentAuthUserMixin, generic.ListView):
-    paginate_by = 10
+class ProfileFirstTabView(ProfileView):
+    pass
 
-    def get_queryset(self):
-        tab = self.kwargs['tab']
-        if tab == 'posts':
-            return Post.objects.filter(user__username=self.kwargs['username'])
-        elif tab == 'comments':
-            return Comment.objects.filter(user__username=self.kwargs['username'])
-        else:
-            return None
+
+class ProfileSecondTabView(ProfileFirstTabView):
+    pass
+
+
+class ProfilePostsAllTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
+    model = Post
+    template_name = 'profiles/detail/tabs/content/posts/base.html'
+
+
+class ProfilePostsAllTabLazyLoadDataListView(ProfilePostsAllTabBaseLoadDataListView):
+    template_name = 'profiles/detail/tabs/content/posts/list.html'
+
+
+class ProfileCommentsTabLoadDataListView(ProfileTabListMixin, generic.ListView):
+    model = Comment
 
     def get_template_names(self):
-
-        tab = self.kwargs['tab']
         page = int(self.request.GET.get('page', 1))
-
-        if tab:
-            tab_dir = 'profiles/detail/tabs/' + tab + '/'
-            template_name = tab_dir + 'base.html' if page == 1 else tab_dir + 'list.html'
-        else:
-            raise ImproperlyConfigured(
-                "%(cls)s requires either a 'template_name' attribute "
-                "or a get_queryset() method that returns a QuerySet." % {
-                    'cls': self.__class__.__name__, })
-
-        return template_name
+        self.template_name = 'profiles/detail/tabs/content/comments/' + \
+            'base.html' if page == 1 else self.tab_dir + 'list.html'
+        return super().get_template_names()
 
 
 class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
@@ -75,7 +144,7 @@ class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     template_name = 'profiles/settings/forms/edit_profile.html'
 
     def get_success_url(self):
-        return reverse('edit_profile', kwargs={'username': self.object.username})
+        return reverse('edit_profile', kwargs={self.slug_url_kwarg: self.object.username})
 
 
 class EditAvatarView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
@@ -83,7 +152,7 @@ class EditAvatarView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     template_name = 'profiles/settings/forms/edit_avatar.html'
 
     def get_success_url(self):
-        return reverse('edit_avatar_profile', kwargs={'username': self.object.username})
+        return reverse('edit_avatar_profile', kwargs={self.slug_url_kwarg: self.object.username})
 
 
 class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
@@ -99,7 +168,7 @@ class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateV
         return super().get_initial()
 
     def get_success_url(self):
-        return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
+        return reverse('profile_load_excluded_feed_tags', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
 
 
 class FeedSearchTagsView(LoginRequiredMixin, CurrentAuthUserMixin, generic.ListView):
@@ -139,7 +208,7 @@ class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileAuthMixin, generic.De
         return HttpResponseRedirect(success_url)
 
     def get_success_url(self):
-        return reverse('profile_load_excluded_feed_tags', kwargs={'username': self.kwargs['username']})
+        return reverse('profile_load_excluded_feed_tags', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
 
 
 class PasswordChangeView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeView):

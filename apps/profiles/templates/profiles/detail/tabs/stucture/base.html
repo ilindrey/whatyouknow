@@ -1,0 +1,67 @@
+<div class="ui tabular primary secondary pointing menu">
+    {% for key, value in tab_list.items %}
+        <a class="item"
+           id="{{ key }}"
+           data-tab="{{ key }}"
+        >
+            {{ key|capfirst }}
+            {% if value.count > 0 %}
+                ({{ value.count }})
+            {% endif %}
+
+        </a>
+    {% endfor %}
+</div>
+
+{% for key, value in tab_list.items %}
+    <div class="ui top attached tab basic segment"
+         id="tab_{{ key }}"
+         data-tab="{{ key }}"
+         data-is-first-load="false"
+         data-link-load-data="{{ value.link_load_data }}"
+         data-link-lazy-load="{{ value.link_lazy_load }}"
+         data-is-lazy-load="{{ value.is_lazy_load|lower }}"
+         data-is-descendant-menu="{{ value.is_descendant_menu|lower }}"
+         data-step-context="{{ value.step_context }}"
+    >
+
+        {% if value.descendant_tab_list %}
+
+            <div class="ui tabular primary secondary menu">
+
+                {% for descendant_key, descendant_value in value.descendant_tab_list.items %}
+                    <a class="item"
+                       id="{{ key }}_{{ descendant_key }}"
+                       data-tab="{{ key }}/{{ descendant_key }}"
+                    >
+                        {{ descendant_key|capfirst }}
+                        {% if descendant_value.count > 0 %}
+                            ({{ descendant_value.count }})
+                        {% endif %}
+
+                    </a>
+                {% endfor %}
+
+            </div>
+
+            {% for descendant_key, descendant_value in value.descendant_tab_list.items %}
+
+                <div class="ui top attached tab basic segment"
+                     id="tab_{{ key }}_{{ descendant_key }}"
+                     data-tab="{{ key }}/{{ descendant_key }}"
+                     data-is-first-load="false"
+                     data-link-load-data="{{ descendant_value.link_load_data }}"
+                     data-link-lazy-load="{{ descendant_value.link_lazy_load }}"
+                     data-is-lazy-load="{{ descendant_value.is_lazy_load|lower }}"
+                     data-is-descendant-menu="{{ descendant_value.is_descendant_menu|lower }}"
+                     data-step-context="{{ descendant_value.step_context }}"
+                >
+                    {% include 'core/loader.html' %}
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
+        {% include 'core/loader.html' %}
+    </div>
+{% endfor %}

@@ -19,3 +19,23 @@ class ProfileAuthMixin(CurrentAuthUserMixin):
     slug_url_kwarg = 'username'
 
 
+class ProfileTabStructureMixin:
+
+    @property
+    def default_tab_params(self):
+        return {
+            'count': None,
+            'is_lazy_load': False,
+            'link_load_data': None,
+            'link_lazy_load': None,
+            'is_descendant_menu': False,
+            'descendant_tab_list': None,
+            'step_context': '.ui.items',
+            }
+
+
+class ProfileTabListMixin(ProfileTabStructureMixin):
+    paginate_by = 10
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user__username=self.kwargs[ProfileAuthMixin.slug_url_kwarg])
