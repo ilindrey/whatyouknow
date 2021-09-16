@@ -1,0 +1,94 @@
+{% extends 'core/container.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="ui stackable grid" id="settings_content" data-current-username="{{ object.username }}">
+
+        {% if not user.is_authenticated %}
+            <div class="three column row">
+                <div class="center aligned centered column">
+                    <span class="ui black text">
+                        You are not signed in.
+                    </span>
+                </div>
+            </div>
+        {% elif not is_auth_user %}
+            <div class="three column row">
+                <div class="center aligned centered column">
+                    <span class="ui black text">
+                        You do not have access to this page.
+                    </span>
+                </div>
+            </div>
+        {% else %}
+
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Your profile
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="ten wide column"
+                     id="avatar_segment"
+                     data-edit-avatar-url="{% url 'edit_avatar_profile' object.username %}"
+                >
+                    <!-- ajax load avatar form -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="ten wide column"
+                     id="profile_segment"
+                     data-edit-profile-url="{% url 'edit_profile' object.username %}"
+                >
+                    <!-- ajax load profile form -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Change password
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="six wide column"
+                     id="password_change_segment"
+                     data-password-change-url="{% url 'profile_password_change' object.username %}"
+                >
+                    <!-- ajax load password form -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui horizontal divider header">
+                        Your feed
+                    </h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column"
+                     id="feed_segment"
+                     data-edit-feed-settings-url="{% url 'edit_feed_settings_profile' object.username %}"
+                     data-search-tags-url="{% url 'profile_search_tags' object.username %}"
+                >
+                    <!-- ajax load feed settings form -->
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'profiles/js/settings.js' %}"></script>
+    <script type="text/javascript" src="{% static 'widgets/avatar.js' %}"></script>
+{% endblock %}

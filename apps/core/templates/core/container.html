@@ -1,0 +1,33 @@
+{% load static %}
+
+<div class="ui grid">
+
+    <div class="row">
+        <div class="column" id="roof">
+            {% block roof %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column" id="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column" id="floor">
+            {% block floor %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="{% static 'core/js/container.js' %}"></script>
+{% block script %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'reg/container.html' %}
+{% load i18n %}
+
+{% block auth_title %}{% translate 'Log in' %}{% endblock %}
+
+{% block auth_content %}
+    {% include 'reg/login/forms/login.html' %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#login_form').form();
+        });
+    </script>
+{% endblock %}

@@ -3,33 +3,3 @@
 {% block menu %}
     {% include 'core/menu/simple.html' %}
 {% endblock %}
-
-{% block content %}
-
-    <div class="ui stackable grid">
-
-        {% if user.is_authenticated %}
-            <div class="three column row">
-                <div class="center aligned centered column">
-                    <span class="ui black text">
-                        You are already signed in.
-                    </span>
-                </div>
-            </div>
-        {% else %}
-            <div class="three column row">
-                <div class="centered column">
-                    <h3 class="ui horizontal divider header" id="auth_title">{% block auth_title %}{% endblock %}</h3>
-                </div>
-            </div>
-            <div class="three column row">
-                <div class="centered column">
-                    {% block auth_content %}
-                    {% endblock %}
-                </div>
-            </div>
-        {% endif %}
-
-    </div>
-
-{% endblock %}
