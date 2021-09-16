@@ -20,10 +20,15 @@ def make_objects(factor=1):
 
     clear_media_files()  # delete all media files
 
-    user_count = randint(1, factor)
-    post_count = randint(factor, user_count * factor)
+    # user_count = randint(1, factor)
+    # post_count = randint(factor, user_count * factor)
+    #
+    # post_comments_factor = randint(post_count, post_count * factor)
 
-    post_comments_factor = randint(post_count, post_count * factor)
+    user_count = 1
+    post_count = 100
+
+    post_comments_factor = 10
 
     SuperUserFactory.create()
     print('Superuser was created.')

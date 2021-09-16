@@ -59,10 +59,6 @@ class PostFactory(factory.django.DjangoModelFactory):
 
     user = factory.Faker('random_element', elements=rm.USER.objects.filter(is_superuser=False))
     category = factory.LazyFunction(CategoryTypes.get_random_index)
-    publish = factory.Faker('date_time_between_dates',
-                            datetime_start=datetime(2019, 1, 1),
-                            datetime_end=DATETIME_NOW,
-                            tzinfo=CURRENT_TZ)
     title = factory.Faker('sentence')
     feed_cover = factory.django.FileField(
         filename=factory.LazyAttribute(
@@ -71,6 +67,10 @@ class PostFactory(factory.django.DjangoModelFactory):
             lambda o: get_image_file_data(min_width=360, min_height=250)))
     feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
     text = factory.LazyFunction(get_post_text)
+    draft = factory.LazyAttribute(lambda o: randrange(10) == 0)
+    approved = factory.Maybe(factory.SelfAttribute('draft'),
+                             yes_declaration=False,
+                             no_declaration=factory.LazyAttribute(lambda o: randrange(10) != 0))
 
     @factory.post_generation
     def post_tags(self, create, extracted, **kwargs):
