@@ -1,3 +1,7 @@
-<div class="ui{% block button_class %}{% endblock %} primary submit button" id="{% block id %}submit_button{% endblock %}">
-    {% block name %}Sumbit{% endblock %}
-</div>
+{% extends 'core/forms/buttons/base.html' %}
+
+{% block button_class %} primary submit{% endblock %}
+
+{% block id %}submit_button{% endblock %}"
+
+{% block name %}Submit{% endblock %}
