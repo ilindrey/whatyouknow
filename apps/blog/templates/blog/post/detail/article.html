@@ -8,7 +8,7 @@
 
                 <div class="item">
                     <div class="ui horizontal link list" >
-                        <a class="item" href="{% url 'profile' object.user %}">
+                        <a class="item" href="{% url 'profile_detail' object.user %}">
                             {% include 'profiles/avatar/author.html' %}
 {#                            <span class="ui black text">{{ object.user.username }}</span>#}
                             <div class="content">
@@ -17,7 +17,7 @@
                             </div>
                         </a>
                         <div class="disabled item">
-                            <span class="ui grey text">{{  object.published|datetime_format }}</span>
+                            <span class="ui grey text">{{  object.timestamp|datetime_format }}{# need pablished #}</span>
                         </div>
 
                     </div>

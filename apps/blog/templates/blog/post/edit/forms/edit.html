@@ -1,0 +1,5 @@
+{% extends 'core/forms/post.html' %}
+
+{% block id %}edit_post_form{% endblock %}
+
+{% block params %} enctype="multipart/form-data" action="{{ post_write_url }}"{% endblock %}

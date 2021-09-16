@@ -1,0 +1,21 @@
+{% extends 'core/container.html' %}
+{% load comments %}
+
+{% block content %}
+
+    <div class="ui text left floated container">
+
+        {% include 'blog/post/detail/article.html' %}
+
+        <div class="ui section divider"></div>
+
+        {% include 'blog/post/detail/info.html' %}
+
+        <div class="ui hidden divider"></div>
+
+        {% render_comments object %}
+
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,33 @@
+{% extends 'core/container.html' %}
+
+{% block content %}
+
+<div class="ui grid left floated text container"
+     id="step_content"
+{#     data-post-write-url="{{ post_write_url }}"#}
+        data-cur-url="{{ cur_url }}"
+>
+
+    <div class="row">
+        <div class="column">
+
+            {% block step %}
+
+            {% endblock %}
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+
+            {% block actions %}
+
+            {% endblock %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

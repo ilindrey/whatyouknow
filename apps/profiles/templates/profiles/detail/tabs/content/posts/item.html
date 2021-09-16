@@ -9,5 +9,11 @@
         <div class="description">
             {{ object.feed_article_preview }}
         </div>
+        <div class="extra">
+            <a class="ui right floated basic primary button" href="{% url 'post_edit' object.pk %}">
+                <i class="pencil icon"></i>
+                Edit
+            </a>
+        </div>
     </div>
 </div>

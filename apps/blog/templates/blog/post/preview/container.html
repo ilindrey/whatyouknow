@@ -1,0 +1,14 @@
+{% extends 'blog/post/edit/container/base.html' %}
+{% load static %}
+
+{% block step %}
+    {% include 'blog/post/detail/article.html' %}
+{% endblock %}
+
+{% block actions %}
+    {% include 'blog/post/preview/menu/preview.html' %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'blog/post/js/preview.js' %}"></script>
+{% endblock %}

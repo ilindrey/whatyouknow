@@ -1,9 +1,9 @@
 from django.shortcuts import reverse
-from django.views.generic import DetailView, ListView, TemplateView, FormView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post, CategoryTypes
-from .forms import EditPostForm
+from .mixins import PostCreateEditFormMixin
 
 
 class PostListView(ListView):
@@ -23,29 +23,60 @@ class PostDetailView(DetailView):
     template_name = 'blog/post/detail.html'
 
 
-class PostCreateView(LoginRequiredMixin, TemplateView):
-    template_name = 'blog/post/create.html'
+class PostCreateView(PostCreateEditFormMixin, CreateView):
+    template_name = 'blog/post/edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['post_write_url'] = reverse('post_create_load_data')
+        context['cur_url'] = reverse('post_create')
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-class PostWriteView(LoginRequiredMixin, CreateView):
+class PostEditView(PostCreateEditFormMixin, UpdateView):
+    template_name = 'blog/post/edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['post_write_url'] = reverse('post_edit_load_data', kwargs=self.kwargs)
+        context['cur_url'] = reverse('post_edit', kwargs=self.kwargs)
+        return context
+
+
+class PostPreviewView(LoginRequiredMixin, DetailView):
     model = Post
-    form_class = EditPostForm
-    template_name = 'blog/post/create/write.html'
+    template_name = 'blog/post/preview.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['cur_url'] = reverse('post_preview', kwargs=self.kwargs)
+        return context
 
 
-class PostEditView(LoginRequiredMixin, UpdateView):
-    model = Post
-    form_class = EditPostForm
-    template_name = 'blog/post/create/forms/edit_post.html'
+class PostDoneView(LoginRequiredMixin, TemplateView):
+    template_name = 'blog/post/done.html'
 
-    def get_success_url(self):
-        return reverse('post_detail', kwargs={'pk', self.object.pk})
-
-
-class PostPreviewView(DetailView):
-    model = Post
-    template_name = 'blog/post/create/preview.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['cur_url'] = reverse('post_done', kwargs=self.kwargs)
+        return context
 
 
-class PostDoneView(TemplateView):
-    template_name = 'blog/post/create/done.html'
+class PostCreateContainerView(PostCreateView):
+    template_name = 'blog/post/edit/container.html'
+
+
+class PostEditContainerView(PostEditView):
+    template_name = 'blog/post/edit/container.html'
+
+
+class PostPreviewContainerView(PostPreviewView):
+    template_name = 'blog/post/preview/container.html'
+
+
+class PostDoneContainerView(PostDoneView):
+    template_name = 'blog/post/done/container.html'
