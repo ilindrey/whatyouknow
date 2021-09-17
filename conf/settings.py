@@ -194,7 +194,7 @@ SUMMERNOTE_THEME = 'bs3'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_CONFIG = {
     'summernote': {
-        'width': 700,
+        'width': 672,
         # 'height': 720,
         # 'fontNames': ['Arial'],
         # 'fontNamesIgnoreCheck': ['Open Sans'],
