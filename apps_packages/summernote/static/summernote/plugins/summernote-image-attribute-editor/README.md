@@ -9,6 +9,7 @@ Adds a button to the image popover to edit title, alt, caption and resize along 
 Include the following code after Summernote:
 
 ```html
+
 <script src="summernote-image-attributes.js"></script>
 <script src="lang/[language-COUNTRY].js"></script>
 ```

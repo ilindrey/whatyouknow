@@ -45,12 +45,13 @@ INSTALLED_APPS = [
     'taggit',
     'mptt',
     'easy_thumbnails',
+    # packages customization apps
+    'apps_packages.summernote',
     # project apps
     'apps.core',
     'apps.profiles',
     'apps.blog',
     'apps.comments',
-    'apps.summernote',
     # rest API
     'rest_framework',
     'rest_framework.authtoken',
@@ -185,7 +186,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 
 # django-taggit
-TAGGIT_STRING_FROM_TAGS = 'apps.taggit.utils._edit_string_for_tags'
+TAGGIT_STRING_FROM_TAGS = 'apps_packages.taggit.utils._edit_string_for_tags'
 
 # django-summernote
 
