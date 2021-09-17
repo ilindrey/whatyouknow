@@ -1,14 +1,46 @@
-{% extends 'blog/post/edit/container/base.html' %}
+{% extends 'blog/post/edit/containers/base.html' %}
 {% load static %}
 
 {% block step %}
-    {% include 'blog/post/detail/article.html' %}
+
+    <div class="ui grid">
+
+        <div class="row">
+            <div class="column">
+                <h4 class="ui horizontal divider header">
+                    Card
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                {% include 'blog/post/list/card.html' %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <h4 class="ui horizontal divider header">
+                    Article
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                {% include 'blog/post/detail/article.html' %}
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
 
 {% block actions %}
     {% include 'blog/post/preview/menu/preview.html' %}
 {% endblock %}
 
-{% block script %}
+{% block descendants_script %}
     <script type="text/javascript" src="{% static 'blog/post/js/preview.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'core/forms/buttons/subsidiary.html' %}
+
+{% block id %}back_to_editing{% endblock %}
+
+{% block params %} data-action-url="{% url 'post_edit_container' object.pk %}"{% endblock %}
+
+{% block name %}Back to editing{% endblock %}

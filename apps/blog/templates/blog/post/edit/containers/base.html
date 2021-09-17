@@ -1,4 +1,5 @@
 {% extends 'core/container.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -30,4 +31,11 @@
 
 </div>
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'blog/post/js/write.js' %}"></script>
+    {% block descendants_script %}
+    
+    {% endblock %}
 {% endblock %}

@@ -10,16 +10,19 @@
                     <div class="ui horizontal link list" >
                         <a class="item" href="{% url 'profile_detail' object.user %}">
                             {% include 'profiles/avatar/author.html' %}
-{#                            <span class="ui black text">{{ object.user.username }}</span>#}
                             <div class="content">
                                 <div class="ui header">{{ object.user.username }}</div>
-{#                                <span class="ui grey text">@{{ object.user.username }}</span>#}
                             </div>
                         </a>
                         <div class="disabled item">
-                            <span class="ui grey text">{{  object.timestamp|datetime_format }}{# need pablished #}</span>
+                            <span class="ui grey text">
+                                {% if object.published %}
+                                    {{ object.published|datetime_format }}
+                                {% else %}
+                                    {{ object.timestamp|datetime_format }}
+                                {% endif %}
+                            </span>
                         </div>
-
                     </div>
                 </div>
 

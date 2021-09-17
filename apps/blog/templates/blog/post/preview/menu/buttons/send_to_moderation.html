@@ -1,0 +1,7 @@
+{% extends 'core/forms/buttons/submit.html' %}
+
+{% block id %}send_to_moderation{% endblock %}
+
+{% block params %} data-action-url="{% url 'post_done_container' object.pk %}"{% endblock %}
+
+{% block name %}Send to moderation{% endblock %}

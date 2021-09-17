@@ -9,12 +9,10 @@ class PostCreateEditFormMixin(LoginRequiredMixin):
     model = Post
     form_class = EditPostForm
 
-    # def get_context_data(self):
-
     def get_success_url(self):
-        preview = bool(self.request.POST.get('preview'))
+        preview = eval(self.request.POST.get('preview').capitalize())
         kwargs = {'pk': self.object.pk}
         if preview:
-            return reverse('post_preview_load_data', kwargs=kwargs)
+            return reverse('post_preview_container', kwargs=kwargs)
         else:
-            return reverse('post_edit_load_data', kwargs=kwargs)
+            return reverse('post_edit_container', kwargs=kwargs)

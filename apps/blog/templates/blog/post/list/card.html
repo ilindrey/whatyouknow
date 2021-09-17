@@ -32,9 +32,9 @@
     <div class="extra">
         <div class="ui horizontal list">
             <div class="item">
-                            <span class="ui green text">
-                                <i class="green plus icon"></i>
-                            133</span>
+                <span class="ui green text">
+                    <i class="green plus icon"></i>
+                133</span>
             </div>
             <div class="item">
                 <i class="ui bookmark icon"></i>
@@ -46,7 +46,13 @@
             </div>
 
         </div>
-        <div class="right floated item">{{ object.published|datetime_format }}</div>
+        <div class="right floated item">
+            {% if object.published %}
+                {{ object.published|datetime_format }}
+            {% else %}
+                {{ object.timestamp|datetime_format }}
+            {% endif %}
+        </div>
     </div>
 
 </a>

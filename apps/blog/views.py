@@ -28,7 +28,7 @@ class PostCreateView(PostCreateEditFormMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['post_write_url'] = reverse('post_create_load_data')
+        context['post_write_url'] = reverse('post_create_container')
         context['cur_url'] = reverse('post_create')
         return context
 
@@ -42,7 +42,7 @@ class PostEditView(PostCreateEditFormMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['post_write_url'] = reverse('post_edit_load_data', kwargs=self.kwargs)
+        context['post_write_url'] = reverse('post_edit_container', kwargs=self.kwargs)
         context['cur_url'] = reverse('post_edit', kwargs=self.kwargs)
         return context
 
@@ -57,7 +57,7 @@ class PostPreviewView(LoginRequiredMixin, DetailView):
         return context
 
 
-class PostDoneView(LoginRequiredMixin, TemplateView):
+class PostDoneView(LoginRequiredMixin, TemplateView):  # set status in moderation
     template_name = 'blog/post/done.html'
 
     def get_context_data(self, **kwargs):

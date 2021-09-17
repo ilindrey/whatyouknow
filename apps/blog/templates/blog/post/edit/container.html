@@ -1,4 +1,4 @@
-{% extends 'blog/post/edit/container/base.html' %}
+{% extends 'blog/post/edit/containers/base.html' %}
 {% load static %}
 
 {% block step %}
@@ -9,6 +9,6 @@
     {% include 'blog/post/edit/menu/edit.html' %}
 {% endblock %}
 
-{% block script %}
+{% block descendants_script %}
     <script type="text/javascript" src="{% static 'blog/post/js/edit.js' %}"></script>
 {% endblock %}
