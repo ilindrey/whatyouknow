@@ -104,6 +104,7 @@ $(() => {
 
     $(document).on('change', '#id_avatar', function (e) {
         e.preventDefault();
+        $('#image_img').width(150).height(150);
         avatarFormSubmit();
     });
 

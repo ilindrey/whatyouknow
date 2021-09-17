@@ -1,17 +1,20 @@
 {% load static %}
 
-<img class="ui small left floated circular image" src="{{ widget.avatar_img }}" id="avatar_img">
-<div class="ui popup" id="edit_avatar_menu">
+<img id="image_img"
+     class="ui {% if widget.img_size %}{{ widget.img_size }} {% endif %}{% if widget.img_extra_class %}{{ widget.img_extra_class }} {% endif %}{% if widget.img_type %}{{ widget.img_type }} {% endif %}image"
+     src="{{ widget.image_img }}"
+>
+<div class="ui popup" id="edit_image_menu">
 
     <div class="ui center aligned basic fitted segment">
-        {#        {% if widget.is_initial %}#}
-        <div class="ui header">{{ widget.initial_text }}</div>
-        {#        {% endif %}#}
+        {% if widget.is_initial %}
+            <div class="ui header">{{ widget.initial_text }}</div>
+        {% endif %}
 
         <div class="ui horizontal list">
 
             <div class="item">
-                <div class="ui small primary button" id="upload_avatar_button">
+                <div class="ui small primary button" id="upload_image_button">
                     Upload
                 </div>
                 <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} style="display: None;">
@@ -19,7 +22,7 @@
 
             {% if not widget.required and widget.value %}
                 <div class="item">
-                    <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_avatar_button" >
+                    <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_image_button" >
                         Remove
                     </div>
                     <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %} style="display: None;">

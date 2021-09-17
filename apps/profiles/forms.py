@@ -1,15 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm, UsernameField
 
-from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSearchInput
+from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSearchInput, SemanticImageFileInput
 from apps.blog.models import CategoryTypes
 
 from .models import Profile
-from .widgets import SemanticAvatarFileInput
 
 
 class EditAvatarForm(forms.ModelForm):
-    avatar = forms.ImageField(label='', required=False, widget=SemanticAvatarFileInput)
+    avatar = forms.ImageField(label='',
+                              required=False,
+                              widget=SemanticImageFileInput(
+                                  placeholder='profiles/image/avatar_placeholder.svg',
+                                  thumbnail_size='small',
+                                  img_size='small',
+                                  img_type='circular',
+                                  ))
 
     class Meta:
         model = Profile

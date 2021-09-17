@@ -5,8 +5,7 @@
 
 <div class="ui grid left floated text container"
      id="step_content"
-{#     data-post-write-url="{{ post_write_url }}"#}
-        data-cur-url="{{ cur_url }}"
+     data-cur-url="{{ cur_url }}"
 >
 
     <div class="row">
@@ -34,8 +33,6 @@
 {% endblock %}
 
 {% block script %}
+    <script type="text/javascript" src="{% static 'widgets/js/image_file_input.js' %}"></script>
     <script type="text/javascript" src="{% static 'blog/post/js/write.js' %}"></script>
-{#    {% block descendants_script %}#}
-{#    #}
-{#    {% endblock %}#}
 {% endblock %}
