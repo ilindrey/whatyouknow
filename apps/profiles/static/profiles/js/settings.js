@@ -1,9 +1,5 @@
 $(() => {
     let $editFeedSettingsForm = null,
-        $searchElem = null,
-        $excludedFeedTagsSegment = null,
-        loadExcludedFeedTagsUrl = null,
-        deleteExcludedFeedTagUrl = null,
         $settingsContent = $('#settings_content'),
         $avatarSegment = $('#avatar_segment'),
         $profileSegment = $('#profile_segment'),
@@ -12,7 +8,6 @@ $(() => {
         editAvatarUrl = $avatarSegment.data('edit-avatar-url'),
         editProfileUrl = $profileSegment.data('edit-profile-url'),
         editFeedSettingsUrl = $feedSegment.data('edit-feed-settings-url'),
-        searchTagsUrl = $feedSegment.data('search-tags-url'),
         passwordChangeUrl = $passwordChangeSegment.data('password-change-url');
 
 
@@ -55,44 +50,9 @@ $(() => {
             type: 'get',
             url: editFeedSettingsUrl,
             success: function (responseText) {
-
                 $feedSegment.html(responseText);
                 $editFeedSettingsForm = $('#edit_feed_settings_form');
                 $editFeedSettingsForm.form();
-                $searchElem = $('#id_search_tags_brain');
-                $excludedFeedTagsSegment = $('#excluded_feed_tags_segment');
-                loadExcludedFeedTagsUrl = $excludedFeedTagsSegment.data('load-excluded-feed-tags-url');
-                deleteExcludedFeedTagUrl = $excludedFeedTagsSegment.data('delete-excluded-feed-tag-url');
-
-                $('#id_categories .item .checkbox').map(function(index, item) {
-                    $(item).checkbox({
-                        onChange: function () {
-                            $searchElem.search('set value', null);
-                            updateFeedSettings();
-                        },
-                    });
-                });
-
-                $searchElem.search({
-                    maxResults: 10,
-                    apiSettings:{
-                        data: {
-                            search: function () { return $searchElem.search('get value'); },
-                        },
-                        url: searchTagsUrl,
-                    },
-                    fields: {
-                        title: 'name'
-                    },
-                    onSelect: function (result, response) {
-                        let query = result['name'].split("<i class=\"tag icon\"></i>").pop();
-                        $searchElem.search('set value', query);
-                        updateFeedSettings();
-                    },
-                });
-
-                loadExcludedFeedTags();
-
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -142,7 +102,13 @@ $(() => {
 
     $(document).on('submit', '#password_change_form', function (e) {
         e.preventDefault();
-        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this), 'Password updated!')
+        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this), 'Feed settings updated!')
+    });
+
+
+    $(document).on('submit', '#edit_feed_settings_form', function (e) {
+        e.preventDefault();
+        formSubmit(editFeedSettingsUrl, $feedSegment, $(this), 'Password updated!')
     });
 
     function formSubmit(url, segment, form, successMessage = null, runActionsUpdateUsername = false)
@@ -176,46 +142,6 @@ $(() => {
 
         if (runActionsUpdateUsername)
             updateUrlsWhenUsernameChanged();
-    }
-
-    $(document).on('click', '#tags .label .icon', function () {
-        let data = {
-            csrfmiddlewaretoken: $editFeedSettingsForm.find('input[name="csrfmiddlewaretoken"]').val(),
-            tag: $(this).closest('.label').data('tag-name')
-        };
-        let deferred = $.post(deleteExcludedFeedTagUrl, data);
-        deferred.done(function (responseText) {
-            $excludedFeedTagsSegment.html(responseText);
-            showSuccessMessage('Feed settings updated!');
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
-    });
-
-
-    function updateFeedSettings()
-    {
-        let deferred = $.post(editFeedSettingsUrl, $editFeedSettingsForm.serialize());
-        deferred.done(function (responseText) {
-            $searchElem.search('set value', null);
-            $excludedFeedTagsSegment.html(responseText);
-            showSuccessMessage('Feed settings updated!');
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
-    }
-
-    function loadExcludedFeedTags()
-    {
-        let deferred = $.get(loadExcludedFeedTagsUrl)
-        deferred.done(function (responseText) {
-            $excludedFeedTagsSegment.html(responseText);
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
     }
 
     function updateUrlsWhenUsernameChanged()

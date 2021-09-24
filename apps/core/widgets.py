@@ -1,7 +1,9 @@
-from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput
+from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput, HiddenInput
 from django.templatetags.static import static
 
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
+from taggit.forms import TagWidget
+from taggit.models import Tag
 
 
 class SemanticSearchInput(TextInput):
@@ -17,6 +19,36 @@ class SemanticSearchInput(TextInput):
             self.attrs['class'] += ' prompt'
 
 
+class SemanticTagMultipleSearchSelectionDropdownWidgetInput(TagWidget):
+    template_name = 'widgets/tag_multiple_search_selection_dropdown.html'
+    model = Tag
+
+    class Media:
+        js = ('widgets/js/tag_multiple_search_selection_dropdown.js', )
+
+    def __init__(self, attrs=None, model=None, default_text='Search tags...', allow_additions=False, clearable=True):
+        super().__init__(attrs)
+        self.model = model or self.model
+        self.default_text = default_text
+        self.allow_additions = allow_additions
+        self.clearable = clearable
+
+    def get_tag_list(self):
+        queryset = self.model._default_manager.all()
+        return [{'icon': 'tag', 'value': obj.name, 'name': obj.name, 'text': obj.name} for obj in queryset]
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget'].update({
+            'default_text': self.default_text,
+            'allow_additions': self.allow_additions,
+            'clearable': self.clearable,
+            'tag_list': self.get_tag_list(),
+            'autocomplete': False,
+            })
+        return context
+
+
 class SemanticCheckboxSelectMultiple(CheckboxSelectMultiple):
     template_name = 'widgets/checkbox_select.html'
     option_template_name = 'widgets/checkbox_option.html'
@@ -30,7 +62,7 @@ class SemanticCheckboxSelectMultiple(CheckboxSelectMultiple):
         context = super().get_context(name, value, attrs)
         context['widget'].update({
             'inline': self.inline,
-            'type_checkbox': self.type_checkbox
+            'type_checkbox': self.type_checkbox,
             })
         return context
 

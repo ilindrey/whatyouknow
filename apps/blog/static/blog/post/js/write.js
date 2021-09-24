@@ -6,10 +6,12 @@ $(() => {
         keyActionUrl = 'action-url';
 
     let $content = null,
+        $stepContent = null,
         $writeForm = null;
 
     $(document).ready(function () {
         $content = $(keyContent);
+        $stepContent = $content.find(keyStepContent);
         initWriteForm();
     });
 
@@ -50,9 +52,9 @@ $(() => {
             contentType: false,
             enctype: 'multipart/form-data',
             success: function (responseText) {
-                // let $content = $(keyContent);
                 if ($content) {
                     $content.html(responseText);
+                    $stepContent = $content.find(keyStepContent);
                     if (!preview) {
                         initWriteForm();
                     }
@@ -69,10 +71,10 @@ $(() => {
         const actionUrl = button.data(keyActionUrl);
         let deferred = $.get(actionUrl);
         deferred.done(function (responseText) {
-            // let $content = $(keyContent);
             if ($content)
             {
                 $content.html(responseText);
+                $stepContent = $content.find(keyStepContent);
                 if(!sendToModeration)
                 {
                     initWriteForm();
@@ -86,13 +88,16 @@ $(() => {
     }
 
     function initWriteForm() {
-        $writeForm = $(keyWriteForm);
-        if ($writeForm)
-            $writeForm.form();
+        if ($stepContent) {
+            $writeForm = $stepContent.find(keyWriteForm);
+            if ($writeForm)
+            {
+                $writeForm.form();
+            }
+        }
     }
 
     function setCurrentUrl() {
-        let $stepContent = $(keyStepContent);
         if ($stepContent) {
             const curUrl = $stepContent.data(keyCurUrl);
             if (curUrl) {

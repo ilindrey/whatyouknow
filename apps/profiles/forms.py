@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm, UsernameField
+from taggit.forms import TagField
 
-from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSearchInput, SemanticImageFileInput
+from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticTagMultipleSearchSelectionDropdownWidgetInput, SemanticImageFileInput
 from apps.blog.models import CategoryTypes
 
 from .models import Profile
@@ -35,11 +36,11 @@ class EditFeedSettingsForm(forms.ModelForm):
                                                 coerce=lambda x: int(x),
                                                 widget=SemanticCheckboxSelectMultiple(inline=True,
                                                                                       type_checkbox='toggle'))
-    search_tags = forms.CharField(label='Exclude tags',
+    excluded_feed_tags = TagField(label='Exclude tags',
                                   required=False,
-                                  widget=SemanticSearchInput(attrs={
-                                      'placeholder': 'Search tag...',
-                                      }))
+                                  widget=SemanticTagMultipleSearchSelectionDropdownWidgetInput())
+
+    field_order = ('categories', 'excluded_feed_tags')
 
     class Meta:
         model = Profile
@@ -47,7 +48,7 @@ class EditFeedSettingsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        keep_fields = ['categories', 'search_tags']
+        keep_fields = ['categories', 'excluded_feed_tags']
         for key in list(self.fields):
             if key not in keep_fields:
                 del self.fields[key]
@@ -60,11 +61,6 @@ class EditFeedSettingsForm(forms.ModelForm):
             self.instance.settings['feed_categories'] = self.cleaned_data['categories']
         else:
             del self.instance.settings['feed_categories']
-
-        # search_tags
-        tag = self.cleaned_data['search_tags']
-        if tag:
-            self.instance.excluded_feed_tags.add(tag)
 
         super().save(commit)
 

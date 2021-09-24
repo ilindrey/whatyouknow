@@ -185,9 +185,6 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 
-# django-taggit
-TAGGIT_STRING_FROM_TAGS = 'apps_packages.taggit.utils._edit_string_for_tags'
-
 # django-summernote
 
 SUMMERNOTE_THEME = 'bs3'

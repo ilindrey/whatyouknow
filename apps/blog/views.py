@@ -1,5 +1,5 @@
 from django.shortcuts import reverse
-from django.views.generic import DetailView, ListView, TemplateView, RedirectView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post, CategoryTypes

@@ -1,0 +1,21 @@
+
+<div class="ui{% if widget.clearable %} clearable{% endif %} multiple selection search tags dropdown"
+     id="tags_selection"
+     data-name-tags-input="{{ widget.name }}"
+     data-allow-additions="{% if widget.allow_additions %}{{ widget.allow_additions|lower }}{% else %}false{% endif %}"
+     data-clearable="{% if widget.clearable %}{{ widget.clearable|lower }}{% else %}false{% endif %}"
+>
+    {% include "django/forms/widgets/input.html" %}
+    <div class="default text">{% if widget.default_text %}{{ widget.default_text }}{% endif %}</div>
+    <div class="menu">
+        {% for tag in widget.tag_list %}
+            <div class="item"
+                 {% if tag.value %}data-value="{{ tag.value }}"{% endif %}
+                 {% if tag.text %}data-text="{{ tag.text }}"{% endif %}
+            >
+                {% if tag.icon %}<i class="{{ tag.icon }} icon"></i>{% endif %}
+                {{ tag.text }}
+            </div>
+        {% endfor %}
+    </div>
+</div>

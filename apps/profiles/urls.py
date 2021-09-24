@@ -1,5 +1,4 @@
 from django.urls import path, include
-from django.views.generic import RedirectView
 
 from django.contrib.auth import views as auth_views
 
@@ -44,11 +43,8 @@ settings_patterns = [
     path('', SettingsView.as_view(), name='profile_settings'),
     path('ajax/', include([
         path('edit_profile', EditProfileView.as_view(), name='edit_profile'),
-        path('edit_acccccvatar_profile', EditAvatarView.as_view(), name='edit_avatar_profile'),
+        path('edit_avatar_profile', EditAvatarView.as_view(), name='edit_avatar_profile'),
         path('edit_feed_settings_profile', EditFeedSettingsView.as_view(), name='edit_feed_settings_profile'),
-        path('search_tags', FeedSearchTagsView.as_view(), name='profile_search_tags'),
-        path('load_excluded_feed_tags', FeedLoadExcludedTagsView.as_view(), name='profile_load_excluded_feed_tags'),
-        path('delete_excluded_feed_tag', FeedDeleteExcludedTagView.as_view(), name='profile_delete_excluded_feed_tag'),
         path('edit_password_change', PasswordChangeView.as_view(), name='profile_password_change'),
         path('password_change_done', PasswordChangeDoneView.as_view(), name='profile_password_change_done'),
         ]))

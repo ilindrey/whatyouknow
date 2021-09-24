@@ -1,12 +1,9 @@
 from django.contrib.auth import login
-from django.core.exceptions import ImproperlyConfigured
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from taggit.models import Tag
 
 from apps.blog.models import Post
 from apps.comments.models import Comment
@@ -168,47 +165,7 @@ class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateV
         return super().get_initial()
 
     def get_success_url(self):
-        return reverse('profile_load_excluded_feed_tags', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
-
-
-class FeedSearchTagsView(LoginRequiredMixin, CurrentAuthUserMixin, generic.ListView):
-    model = Tag
-    paginate_by = 10
-    ordering = 'name'
-
-    def get_queryset(self):
-        search = self.request.GET.get('search')
-        return super().get_queryset().filter(name__startswith=search).values('name')
-
-    def render_to_response(self, context, **response_kwargs):
-        tag_list = self.get_tag_list(context)
-        json = {"results": tag_list}
-        return JsonResponse(data=json, status=200)
-
-    @staticmethod
-    def get_tag_list(context):
-        return [{'name': '<i class="tag icon"></i>' + item['name']} for item in context['object_list']]
-
-
-class FeedLoadExcludedTagsView(LoginRequiredMixin, CurrentAuthUserMixin, generic.ListView):
-    model = Profile
-    template_name = 'profiles/settings/forms/includes/excluded_feed_tags.html'
-
-    def get_queryset(self):
-        return self.model.objects.get(username=self.kwargs['username']).excluded_feed_tags.all().order_by('name')
-
-
-class FeedDeleteExcludedTagView(LoginRequiredMixin, ProfileAuthMixin, generic.DeleteView):
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        tag = self.request.POST.get('tag')
-        self.object.excluded_feed_tags.remove(tag)
-        return HttpResponseRedirect(success_url)
-
-    def get_success_url(self):
-        return reverse('profile_load_excluded_feed_tags', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
+        return reverse('edit_feed_settings_profile', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
 
 
 class PasswordChangeView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeView):

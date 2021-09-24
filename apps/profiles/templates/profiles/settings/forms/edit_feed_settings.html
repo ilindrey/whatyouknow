@@ -6,17 +6,10 @@
     {% with form.categories as field %}
         {% include 'core/forms/field.html' %}
     {% endwith %}
-    {% with form.search_tags as field %}
-        {% include 'profiles/settings/forms/fields/search_tags.html' %}
-    {% endwith %}
     {% with form.excluded_feed_tags as field %}
-        {% include 'core/forms/field.html' %}
+        {% include 'profiles/settings/forms/fields/excluded_feed_tags.html' %}
     {% endwith %}
-    <div class="ui vertical basic segment"
-         id="excluded_feed_tags_segment"
-         data-load-excluded-feed-tags-url="{% url 'profile_load_excluded_feed_tags' profile.username %}"
-         data-delete-excluded-feed-tag-url="{% url 'profile_delete_excluded_feed_tag' profile.username %}"
-    >
-        <!-- ajax load tag list -->
-    </div>
+    {% block buttons %}
+        {% include 'profiles/settings/forms/buttons/save_settings.html' %}
+    {% endblock %}
 {% endblock %}
