@@ -71,6 +71,9 @@ class SemanticImageFileInput(ClearableFileInput):
     initial_text = 'Change image'
     template_name = 'widgets/image_file_input.html'
 
+    class Media:
+        js = ('widgets/js/image_file_input.js', )
+
     def __init__(self,
                  attrs=None,
                  placeholder='widgets/images/image_file_input_placeholder.svg',
