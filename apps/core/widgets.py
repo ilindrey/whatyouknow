@@ -1,7 +1,7 @@
 from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput, HiddenInput
 from django.templatetags.static import static
 
-from easy_thumbnails.templatetags.thumbnail import thumbnail_url
+from easy_thumbnails.templatetags.thumbnail import thumbnail_url, get_thumbnailer
 from taggit.forms import TagWidget
 from taggit.models import Tag
 
@@ -82,7 +82,7 @@ class SemanticImageFileInput(ClearableFileInput):
                  img_type=None,  # circular
                  img_extra_class=None):
         super().__init__(attrs)
-        self.placeholder = placeholder
+        self.placeholder = static(placeholder)
         self.thumbnail_size = thumbnail_size
         self.img_size = img_size
         self.img_type = img_type
@@ -94,19 +94,21 @@ class SemanticImageFileInput(ClearableFileInput):
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
 
-        image_img = None
+        img_url = None
         value = context['widget']['value']
         if value:
-            image_img = thumbnail_url(value, self.thumbnail_size)
+            img_url = thumbnail_url(value, self.thumbnail_size)
 
-        if not image_img:
-            image_img = static(self.placeholder)
+        if not img_url:
+            img_url = self.placeholder
 
         context['widget'].update({
-            'image_img': image_img,
-            'is_initial': self.is_initial(self.initial_text),
+            'img_url': img_url,
             'img_size': self.img_size,
             'img_type': self.img_type,
             'img_extra_class': self.img_extra_class,
+            'is_initial': self.is_initial(self.initial_text),
+            'placeholder': self.placeholder,
             })
         return context
+

@@ -1,8 +1,10 @@
 {% load static %}
 
-<img id="image_img"
+<img id="image_element"
      class="ui {% if widget.img_size %}{{ widget.img_size }} {% endif %}{% if widget.img_extra_class %}{{ widget.img_extra_class }} {% endif %}{% if widget.img_type %}{{ widget.img_type }} {% endif %}image"
-     src="{{ widget.image_img }}"
+     src="{{ widget.img_url }}"
+     data-placeholder="{{ widget.placeholder }}"
+     data-required="{{ widget.required|lower }}"
 >
 <div class="ui popup" id="edit_image_menu">
 
@@ -20,7 +22,7 @@
                 <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %} style="display: None;">
             </div>
 
-            {% if not widget.required and widget.value %}
+            {% if not widget.required %}
                 <div class="item">
                     <div class="ui {% if widget.attrs.disabled %}disabled{% endif %} small button" id="remove_image_button" >
                         Remove
