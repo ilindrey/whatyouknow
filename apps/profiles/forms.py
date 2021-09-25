@@ -2,13 +2,14 @@ from django import forms
 from django.contrib.auth.forms import SetPasswordForm, UsernameField
 from taggit.forms import TagField
 
-from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticTagMultipleSearchSelectionDropdownWidgetInput, SemanticImageFileInput
+from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticTagMultipleSearchSelectionDropdownWidgetInput\
+    , SemanticImageFileInput
 from apps.blog.models import CategoryTypes
 
 from .models import Profile
 
 
-class EditAvatarForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
     avatar = forms.ImageField(label='',
                               required=False,
                               widget=SemanticImageFileInput(
@@ -20,21 +21,14 @@ class EditAvatarForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('avatar', )
-
-
-class EditProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = Profile
-        fields = ('username', 'email', 'name', 'specialization', 'description')
+        fields = ('avatar', 'username', 'email', 'name', 'specialization', 'description')
 
 
 class EditFeedSettingsForm(forms.ModelForm):
     categories = forms.TypedMultipleChoiceField(required=False,
                                                 choices=CategoryTypes.get_list(),
                                                 coerce=lambda x: int(x),
-                                                widget=SemanticCheckboxSelectMultiple(inline=True,
+                                                widget=SemanticCheckboxSelectMultiple(inline=False,
                                                                                       type_checkbox='toggle'))
     excluded_feed_tags = TagField(label='Exclude tags',
                                   required=False,

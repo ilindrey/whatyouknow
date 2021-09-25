@@ -1,122 +1,89 @@
-$(() => {
-    let $editFeedSettingsForm = null,
-        $settingsContent = $('#settings_content'),
-        $avatarSegment = $('#avatar_segment'),
-        $profileSegment = $('#profile_segment'),
-        $feedSegment = $('#feed_segment'),
-        $passwordChangeSegment = $('#password_change_segment'),
-        editAvatarUrl = $avatarSegment.data('edit-avatar-url'),
-        editProfileUrl = $profileSegment.data('edit-profile-url'),
-        editFeedSettingsUrl = $feedSegment.data('edit-feed-settings-url'),
-        passwordChangeUrl = $passwordChangeSegment.data('password-change-url');
+safeWrap();
+
+function safeWrap() {
+
+    let $currentForm = null,
+        $profileMenu = null,
+        $profileMenuItems = null,
+        $profileSettingsSegment = null,
+        currentUrl = null;
+
+    const keyProfileMenu = '#profile_menu',
+        keyProfileMenuItems = keyProfileMenu + ' .item',
+        keyProfileSettingsSegment = '#profile_settings_segment',
+        keyCurrentUsername = 'current-username';
 
 
     $(document).ready(function () {
+        $profileMenu = $(keyProfileMenu);
+        $profileSettingsSegment = $(keyProfileSettingsSegment);
+        $profileMenuItems = $(keyProfileMenuItems);
 
-        $.ajax({
-            type: 'get',
-            url: editAvatarUrl,
-            success: function (responseText) {
-                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
-        });
-
-        $.ajax({
-            type: 'get',
-            url: editProfileUrl,
-            success: function (responseText) {
-                updateFormSegment(responseText, $profileSegment, '#edit_profile_form');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
-        });
-
-        $.ajax({
-            type: 'get',
-            url: passwordChangeUrl,
-            success: function (responseText) {
-                updateFormSegment(responseText, $passwordChangeSegment, '#password_change_form');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
-        });
-
-        $.ajax({
-            type: 'get',
-            url: editFeedSettingsUrl,
-            success: function (responseText) {
-                $feedSegment.html(responseText);
-                $editFeedSettingsForm = $('#edit_feed_settings_form');
-                $editFeedSettingsForm.form();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
-        });
-
+        $profileMenuItems.get(0).click();
     });
 
+    $(document).on('click', keyProfileMenuItems, function (e) {
 
-    $(document).on('change', '#id_avatar', function (e) {
         e.preventDefault();
-        $('#image_img').width(150).height(150);
-        avatarFormSubmit();
-    });
 
-    $(document).on('change', '#avatar-clear_id', function (e) {
-        e.preventDefault();
-        avatarFormSubmit();
-    });
+        let item, deferred;
 
+        item = $(this);
+        setActiveItem(item);
 
-    function avatarFormSubmit()
-    {
-        let $editAvatarForm = $('#edit_avatar_form');
-        let data = new FormData($editAvatarForm.get(0));
+        currentUrl = item.data('current-url');
 
-        $.ajax({
-            type: 'post',
-            url: editAvatarUrl,
-            data: data,
-            processData: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-            success: function (responseText) {
-                updateFormSegment(responseText, $avatarSegment, '#edit_avatar_form', 'Avatar updated!');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+        deferred = $.get(currentUrl);
+        deferred.done(function (responseText) {
+            updateSegment(responseText);
         });
-    };
+        deferred.fail(function (xhr, ajaxOptions, thrownError) {
+            showErrorMessage(xhr, ajaxOptions, thrownError);
+        });
+
+    });
 
     $(document).on('submit', '#edit_profile_form', function (e) {
         e.preventDefault();
-        formSubmit(editProfileUrl, $profileSegment, $(this), 'Profile updated!', true);
+        profileSubmit();
     });
 
     $(document).on('submit', '#password_change_form', function (e) {
         e.preventDefault();
-        formSubmit(passwordChangeUrl, $passwordChangeSegment, $(this), 'Feed settings updated!')
+        formSubmit('Feed settings updated!')
     });
 
 
     $(document).on('submit', '#edit_feed_settings_form', function (e) {
         e.preventDefault();
-        formSubmit(editFeedSettingsUrl, $feedSegment, $(this), 'Password updated!')
+        formSubmit('Password updated!')
     });
 
-    function formSubmit(url, segment, form, successMessage = null, runActionsUpdateUsername = false)
+    function profileSubmit()
     {
-        let deferred = $.post(url, form.serialize());
+        let data = new FormData($currentForm.get(0));
+
+        $.ajax({
+            type: 'post',
+            url: currentUrl,
+            data: data,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            success: function (responseText) {
+                updateSegment(responseText, 'Profile updated!', true);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                showErrorMessage(xhr, ajaxOptions, thrownError);
+            }
+        });
+    }
+
+    function formSubmit(successMessage = null)
+    {
+        let deferred = $.post(currentUrl, $currentForm.serialize());
         deferred.done(function (responseText) {
-            let formID = '#' + form.attr('id');
-            updateFormSegment(responseText, segment, formID, successMessage, runActionsUpdateUsername);
+            updateSegment(responseText, successMessage, false);
 
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
@@ -124,15 +91,15 @@ $(() => {
         });
     }
 
-    function updateFormSegment(responseText, segment, formID, successMessage= null, runActionsUpdateUsername = false)
+    function updateSegment(responseText, successMessage= null, runActionsUpdateUsername = false)
     {
-        segment.html(responseText);
+        $profileSettingsSegment.html(responseText);
 
-        let form = segment.find(formID);
-        let isValid = form.find('.error').length === 0;
+        $currentForm = $profileSettingsSegment.find('.ui.form');
+        let isValid = $currentForm.find('.error').length === 0;
 
-        if (form.length)
-            form.form();
+        if ($currentForm.length)
+            $currentForm.form();
 
         if (!isValid)
             return;
@@ -146,10 +113,8 @@ $(() => {
 
     function updateUrlsWhenUsernameChanged()
     {
-        const keyCurrentUsername = 'current-username';
-
-        let oldUsername = $settingsContent.data(keyCurrentUsername);
-        let newUsername = $('#edit_profile_form').find('#id_username').val();
+        let oldUsername = $profileMenu.data(keyCurrentUsername);
+        let newUsername = $currentForm.find('#id_username').val();
 
         if (oldUsername === newUsername)
             return;
@@ -162,4 +127,13 @@ $(() => {
 
         setTimeout(() => { location.reload(); }, 1000);
     }
-})
+
+    function setActiveItem(currentItem)
+    {
+        $profileMenuItems.map(function (index, item)
+        {
+            $(item).removeClass('active');
+        });
+        currentItem.addClass('active');
+    }
+}

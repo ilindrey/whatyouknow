@@ -2,14 +2,6 @@
 
 {% block id %}edit_feed_settings_form{% endblock %}
 
-{% block filler %}
-    {% with form.categories as field %}
-        {% include 'core/forms/field.html' %}
-    {% endwith %}
-    {% with form.excluded_feed_tags as field %}
-        {% include 'profiles/settings/forms/fields/excluded_feed_tags.html' %}
-    {% endwith %}
-    {% block buttons %}
-        {% include 'profiles/settings/forms/buttons/save_settings.html' %}
-    {% endblock %}
+{% block buttons %}
+    {% include 'profiles/settings/forms/buttons/save_settings.html' %}
 {% endblock %}

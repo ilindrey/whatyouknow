@@ -43,7 +43,6 @@ settings_patterns = [
     path('', SettingsView.as_view(), name='profile_settings'),
     path('ajax/', include([
         path('edit_profile', EditProfileView.as_view(), name='edit_profile'),
-        path('edit_avatar_profile', EditAvatarView.as_view(), name='edit_avatar_profile'),
         path('edit_feed_settings_profile', EditFeedSettingsView.as_view(), name='edit_feed_settings_profile'),
         path('edit_password_change', PasswordChangeView.as_view(), name='profile_password_change'),
         path('password_change_done', PasswordChangeDoneView.as_view(), name='profile_password_change_done'),

@@ -9,7 +9,7 @@ from apps.blog.models import Post
 from apps.comments.models import Comment
 
 from .models import Profile
-from .forms import EditAvatarForm, EditProfileForm, EditFeedSettingsForm, RegistrationForm
+from .forms import EditProfileForm, EditFeedSettingsForm, RegistrationForm
 from .mixins import CurrentAuthUserMixin, ProfileAuthMixin, ProfileTabStructureMixin, ProfileTabListMixin
 
 
@@ -142,14 +142,6 @@ class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse('edit_profile', kwargs={self.slug_url_kwarg: self.object.username})
-
-
-class EditAvatarView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
-    form_class = EditAvatarForm
-    template_name = 'profiles/settings/forms/edit_avatar.html'
-
-    def get_success_url(self):
-        return reverse('edit_avatar_profile', kwargs={self.slug_url_kwarg: self.object.username})
 
 
 class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):

@@ -2,6 +2,10 @@
 
 {% block id %}edit_profile_form{% endblock %}
 
+{% block params %}
+    enctype="multipart/form-data"
+{% endblock %}
+
 {% block buttons %}
     {% include 'profiles/settings/forms/buttons/save_settings.html' %}
 {% endblock %}
