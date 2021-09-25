@@ -32,7 +32,6 @@ $(document).ready(function () {
 
             const linkLoadData = $tab.data(keyLinkLoadData);
             const linkLazyLoad = $tab.data(keyLinkLazyLoad);
-            const isFirstLoad = $tab.data(keyIsFirstLoad);
             const isLazyLoad = $tab.data(keyIsLazyLoad)
             const stepContext =  $tab.data(keyStepContext);
             const isDescendantMenu = $tab.data(keyIsDescendantMenu);
@@ -43,74 +42,70 @@ $(document).ready(function () {
             if (isDescendantMenu)
                 return;
 
-            if(!isFirstLoad)
-            {
-                $.ajax({
-                    type: 'get',
-                    url: linkLoadData,
-                    beforeSend: function () {
-                        loader.show();
-                    },
-                    success: function (responseText) {
-                        $tab.data(keyIsFirstLoad, true);
-                        $tab.prepend(responseText);
-                        if (isLazyLoad)
-                        {
-                            let $tabStepContext =  $tab.find(stepContext);
-
-                            $tab.visibility({
-
-                                once: false,
-
-                                observeChanges: true,
-
-                                onBottomVisible: function() {
-
-                                    const currentPage = $tabStepContext.data(keyCurrentPage);
-                                    const totalPage = $tabStepContext.data(keyTotalPage);
-                                    const nextPage =  currentPage + 1;
-
-                                    if (nextPage > totalPage)
-                                    {
-                                        $tab.visibility('disable callbacks');
-                                    }
-                                    else
-                                    {
-                                        $.ajax({
-                                            type: 'get',
-                                            url: linkLazyLoad,
-                                            data: {
-                                                'page': nextPage,
-                                            },
-                                            beforeSend: function () {
-                                                loader.show();
-                                            },
-                                            success: function (responseText) {
-                                                $tabStepContext.append(responseText);
-                                                $tabStepContext.data(keyCurrentPage, nextPage);
-                                            },
-                                            error: function (xhr, ajaxOptions, thrownError) {
-                                                showErrorMessage(xhr, ajaxOptions, thrownError);
-                                            },
-                                            complete: function ()
-                                            {
-                                                loader.hide();
-                                            }
-                                        });
-                                    }
-                                },
-                            });
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        showErrorMessage(xhr, ajaxOptions, thrownError);
-                    },
-                    complete: function ()
+            $.ajax({
+                type: 'get',
+                url: linkLoadData,
+                beforeSend: function () {
+                    loader.show();
+                },
+                success: function (responseText) {
+                    $tab.prepend(responseText);
+                    if (isLazyLoad)
                     {
-                        loader.hide();
+                        let $tabStepContext =  $tab.find(stepContext);
+
+                        $tab.visibility({
+
+                            once: false,
+
+                            observeChanges: true,
+
+                            onBottomVisible: function() {
+
+                                const currentPage = $tabStepContext.data(keyCurrentPage);
+                                const totalPage = $tabStepContext.data(keyTotalPage);
+                                const nextPage =  currentPage + 1;
+
+                                if (nextPage > totalPage)
+                                {
+                                    $tab.visibility('disable callbacks');
+                                }
+                                else
+                                {
+                                    $.ajax({
+                                        type: 'get',
+                                        url: linkLazyLoad,
+                                        data: {
+                                            'page': nextPage,
+                                        },
+                                        beforeSend: function () {
+                                            loader.show();
+                                        },
+                                        success: function (responseText) {
+                                            $tabStepContext.append(responseText);
+                                            $tabStepContext.data(keyCurrentPage, nextPage);
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            showErrorMessage(xhr, ajaxOptions, thrownError);
+                                        },
+                                        complete: function ()
+                                        {
+                                            loader.hide();
+                                        }
+                                    });
+                                }
+                            },
+                        });
                     }
-                });
-            }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    showErrorMessage(xhr, ajaxOptions, thrownError);
+                },
+                complete: function ()
+                {
+                    loader.hide();
+                }
+            });
         },
 
 
@@ -140,7 +135,7 @@ $(document).ready(function () {
     });
 
 
-    $tabMenu.tab('change tab', currentTabPath);
+    $tabMenu.first().tab('change tab', currentTabPath);
 
     // $('#' + currentTabPath.replace('/', '_')).tab('change tab', currentTabPath);
 
