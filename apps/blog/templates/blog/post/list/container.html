@@ -17,43 +17,29 @@
         {% endfor %}
     </div>
 
-    <div class="ui tiny compact menu">
-        <a class="item">
-            Day
-        </a>
-        <a class="primary active item">
-            Week
-        </a>
-        <a class="item">
-            Month
-        </a>
-        <a class="item">
-            Year
-        </a>
+    <div class="ui selection compact dropdown">
+      <input type="hidden" name="time" value="All">
+      <i class="dropdown icon"></i>
+      <div class="default text">All time</div>
+      <div class="menu">
+        <div class="item">Day</div>
+        <div class="item">Week</div>
+        <div class="item">Month</div>
+        <div class="item">Year</div>
+      </div>
     </div>
 
-    <div class="ui tiny compact menu">
-        <a class="primary active item">
-            Any rating
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>10
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>25
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>50
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>75
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>80
-        </a>
-        <a class="item">
-            <i class="grey greater than equal icon"></i>90
-        </a>
+    <div class="ui selection compact dropdown">
+      <input type="hidden" name="rating" value="Any">
+      <i class="dropdown icon"></i>
+      <div class="default text">Any rating</div>
+      <div class="menu">
+        <div class="item">10</div>
+        <div class="item">25</div>
+        <div class="item">50</div>
+        <div class="item">75</div>
+        <div class="item">90</div>
+      </div>
     </div>
 
 {% endblock %}
@@ -71,7 +57,15 @@
 
 {% endblock %}
 
-
 {% block floor %}
     {% include 'core/pagination.html' %}
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $('.ui.dropdown').dropdown({
+        clearable: true
+    });
+</script>
 {% endblock %}
