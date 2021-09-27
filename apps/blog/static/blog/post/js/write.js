@@ -1,4 +1,8 @@
-$(() => {
+
+safeWrap();
+
+function safeWrap()
+{
     const keyContent = '#content',
         keyStepContent = '#step_content',
         keyWriteForm = '#edit_post_form',
@@ -106,4 +110,4 @@ $(() => {
             }
         }
     }
-});
+}

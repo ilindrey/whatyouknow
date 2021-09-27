@@ -1,7 +1,7 @@
-from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput, HiddenInput
+from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput
 from django.templatetags.static import static
 
-from easy_thumbnails.templatetags.thumbnail import thumbnail_url, get_thumbnailer
+from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 from taggit.forms import TagWidget
 from taggit.models import Tag
 
@@ -79,7 +79,7 @@ class SemanticImageFileInput(ClearableFileInput):
                  placeholder='widgets/images/image_file_input_placeholder.svg',
                  thumbnail_size='default',
                  img_size='medium',
-                 img_type=None,  # circular
+                 img_type=None,  # circular or rounded
                  img_extra_class=None):
         super().__init__(attrs)
         self.placeholder = static(placeholder)

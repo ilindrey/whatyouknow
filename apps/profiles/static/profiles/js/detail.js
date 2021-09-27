@@ -1,142 +1,130 @@
-const keyTab = 'tab';
-const keyCurrentTabPath = 'current-tab-path';
-const keyCurrentProfileLink = 'current-profile-link';
-const keyIsDescendantMenu = 'is-descendant-menu';
-const keyLinkLoadData = 'link-load-data';
-const keyLinkLazyLoad = 'link-lazy-load';
-const keyIsFirstLoad = 'is-first-load';
-const keyIsLazyLoad = 'is-lazy-load';
-const keyStepContext = 'step-context';
-const keyCurrentPage = 'current-page';
-const keyTotalPage = 'total-page';
 
+safeWrap();
 
-$(document).ready(function () {
+function safeWrap() {
 
-    const $profileTabs = $('#profile_tabs');
+    const keyTab = 'tab',
+        keyCurrentTabPath = 'current-tab-path',
+        keyCurrentProfileLink = 'current-profile-link',
+        keyIsDescendantMenu = 'is-descendant-menu',
+        keyLinkLoadData = 'link-load-data',
+        keyLinkLazyLoad = 'link-lazy-load',
+        keyIsLazyLoad = 'is-lazy-load',
+        keyStepContext = 'step-context',
+        keyCurrentPage = 'current-page',
+        keyTotalPage = 'total-page';
 
-    const currentProfileLink = $profileTabs.data(keyCurrentProfileLink);
-    let currentTabPath = $profileTabs.data(keyCurrentTabPath);
+    $(document).ready(function ()
+    {
+        const $profileTabs = $('#profile_tabs');
 
-    const $tabMenu = $('.menu .item');
+        const currentProfileLink = $profileTabs.data(keyCurrentProfileLink);
+        let currentTabPath = $profileTabs.data(keyCurrentTabPath);
 
-    $tabMenu.tab('change tab', currentTabPath);
-    let newUrl = new URL(window.location.origin + currentProfileLink + currentTabPath + '/');
-    history.pushState(null, null, newUrl.href);
+        const $tabMenu = $('.menu .item');
 
-    $tabMenu.tab({
+        $tabMenu.tab('change tab', currentTabPath);
+        let newUrl = new URL(window.location.origin + currentProfileLink + currentTabPath + '/');
+        history.pushState(null, null, newUrl.href);
 
-        onFirstLoad: function (tabPath, parameterArray, historyEvent)
-        {
-            let $tab = $(this);
+        $tabMenu.tab({
 
-            const linkLoadData = $tab.data(keyLinkLoadData);
-            const linkLazyLoad = $tab.data(keyLinkLazyLoad);
-            const isLazyLoad = $tab.data(keyIsLazyLoad)
-            const stepContext =  $tab.data(keyStepContext);
-            const isDescendantMenu = $tab.data(keyIsDescendantMenu);
+            onFirstLoad: function (tabPath, parameterArray, historyEvent) {
+                let $tab = $(this);
 
-            let loader = $tab.find('.loader').closest('.segment');
-            loader.hide();
+                const linkLoadData = $tab.data(keyLinkLoadData);
+                const linkLazyLoad = $tab.data(keyLinkLazyLoad);
+                const isLazyLoad = $tab.data(keyIsLazyLoad)
+                const stepContext = $tab.data(keyStepContext);
+                const isDescendantMenu = $tab.data(keyIsDescendantMenu);
 
-            if (isDescendantMenu)
-                return;
+                let loader = $tab.find('.loader').closest('.segment');
+                loader.hide();
 
-            $.ajax({
-                type: 'get',
-                url: linkLoadData,
-                beforeSend: function () {
-                    loader.show();
-                },
-                success: function (responseText) {
-                    $tab.prepend(responseText);
-                    if (isLazyLoad)
-                    {
-                        let $tabStepContext =  $tab.find(stepContext);
+                if (isDescendantMenu)
+                    return;
 
-                        $tab.visibility({
+                $.ajax({
+                    type: 'get',
+                    url: linkLoadData,
+                    beforeSend: function () {
+                        loader.show();
+                    },
+                    success: function (responseText) {
+                        $tab.prepend(responseText);
+                        if (isLazyLoad) {
+                            let $tabStepContext = $tab.find(stepContext);
 
-                            once: false,
+                            $tab.visibility({
 
-                            observeChanges: true,
+                                once: false,
 
-                            onBottomVisible: function() {
+                                observeChanges: true,
 
-                                const currentPage = $tabStepContext.data(keyCurrentPage);
-                                const totalPage = $tabStepContext.data(keyTotalPage);
-                                const nextPage =  currentPage + 1;
+                                onBottomVisible: function () {
 
-                                if (nextPage > totalPage)
-                                {
-                                    $tab.visibility('disable callbacks');
-                                }
-                                else
-                                {
-                                    $.ajax({
-                                        type: 'get',
-                                        url: linkLazyLoad,
-                                        data: {
-                                            'page': nextPage,
-                                        },
-                                        beforeSend: function () {
-                                            loader.show();
-                                        },
-                                        success: function (responseText) {
-                                            $tabStepContext.append(responseText);
-                                            $tabStepContext.data(keyCurrentPage, nextPage);
-                                        },
-                                        error: function (xhr, ajaxOptions, thrownError) {
-                                            showErrorMessage(xhr, ajaxOptions, thrownError);
-                                        },
-                                        complete: function ()
-                                        {
-                                            loader.hide();
-                                        }
-                                    });
-                                }
-                            },
-                        });
+                                    const currentPage = $tabStepContext.data(keyCurrentPage);
+                                    const totalPage = $tabStepContext.data(keyTotalPage);
+                                    const nextPage = currentPage + 1;
+
+                                    if (nextPage > totalPage) {
+                                        $tab.visibility('disable callbacks');
+                                    } else {
+                                        $.ajax({
+                                            type: 'get',
+                                            url: linkLazyLoad,
+                                            data: {
+                                                'page': nextPage,
+                                            },
+                                            beforeSend: function () {
+                                                loader.show();
+                                            },
+                                            success: function (responseText) {
+                                                $tabStepContext.append(responseText);
+                                                $tabStepContext.data(keyCurrentPage, nextPage);
+                                            },
+                                            error: function (xhr, ajaxOptions, thrownError) {
+                                                showErrorMessage(xhr, ajaxOptions, thrownError);
+                                            },
+                                            complete: function () {
+                                                loader.hide();
+                                            }
+                                        });
+                                    }
+                                },
+                            });
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        showErrorMessage(xhr, ajaxOptions, thrownError);
+                    },
+                    complete: function () {
+                        loader.hide();
                     }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    showErrorMessage(xhr, ajaxOptions, thrownError);
-                },
-                complete: function ()
-                {
-                    loader.hide();
+                });
+            },
+
+            onVisible: function (tabPath) {
+                let $tab = $(this);
+                let urlTabPath = ''
+
+                const isDescendantMenu = $tab.data(keyIsDescendantMenu);
+                if (isDescendantMenu) {
+                    let descendantTab = $tab.find('.menu .item').get(0);
+                    urlTabPath = $(descendantTab).data(keyTab);
+                } else {
+                    urlTabPath = tabPath;
                 }
-            });
-        },
 
+                let newUrl = new URL(window.location.origin + currentProfileLink + urlTabPath + '/');
 
-        onVisible: function (tabPath)
-        {
-            let $tab = $(this);
-            let urlTabPath = ''
+                history.pushState(null, null, newUrl.href);
 
-            const isDescendantMenu = $tab.data(keyIsDescendantMenu);
-            if(isDescendantMenu)
-            {
-                let descendantTab = $tab.find('.menu .item').get(0);
-                urlTabPath = $(descendantTab).data(keyTab);
-            }
-            else
-            {
-                urlTabPath = tabPath;
-            }
+                currentTabPath = urlTabPath
+                $profileTabs.data(keyCurrentTabPath, currentTabPath);
+            },
+        });
 
-            let newUrl = new URL(window.location.origin + currentProfileLink + urlTabPath + '/');
-
-            history.pushState(null, null, newUrl.href);
-
-            currentTabPath = urlTabPath
-            $profileTabs.data(keyCurrentTabPath, currentTabPath);
-        },
+        $tabMenu.first().tab('change tab', currentTabPath);
     });
-
-
-    $tabMenu.first().tab('change tab', currentTabPath);
-
-    // $('#' + currentTabPath.replace('/', '_')).tab('change tab', currentTabPath);
-
-});
+}å
