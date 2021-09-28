@@ -2,12 +2,14 @@ safeWrap();
 
 function safeWrap()
 {
+    const keyInitial = 'tag_input_dropdown';
+
     $(document).ready(function () {
         initialDropdown();
     });
 
     $(document).ajaxComplete(function( event, xhr, settings ) {
-        if (xhr.statusText === 'OK' && xhr.responseText.includes('tags_selection'))
+        if (xhr.statusText === 'OK' && xhr.responseText.includes(keyInitial))
         {
             initialDropdown();
         }
@@ -17,7 +19,7 @@ function safeWrap()
     {
         const separator = ', ',
             quotes = '\"',
-            $element = $('#tags_selection'),
+            $element = $('#' + keyInitial),
             keyNameTagsInput = 'name-tags-input',
             keyAllowAdditions = 'allow-additions',
             keyClearable = 'clearable';
@@ -81,7 +83,6 @@ function safeWrap()
                     }
 
                     arrayOfInputValue.map(function(item, index) {
-
                         let value = item;
                         let arrayOfItem = item.split(' ');
                         if (arrayOfItem.length > 1)

@@ -1,9 +1,11 @@
-from django.forms.widgets import TextInput, CheckboxSelectMultiple, ClearableFileInput
+from django.forms.widgets import TextInput, SelectMultiple, CheckboxSelectMultiple, ClearableFileInput
 from django.templatetags.static import static
 
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 from taggit.forms import TagWidget
 from taggit.models import Tag
+
+from .utils import js_bool_format
 
 
 class SemanticSearchInput(TextInput):
@@ -19,12 +21,12 @@ class SemanticSearchInput(TextInput):
             self.attrs['class'] += ' prompt'
 
 
-class SemanticTagMultipleSearchSelectionDropdownWidgetInput(TagWidget):
-    template_name = 'widgets/tag_multiple_search_selection_dropdown.html'
+class SemanticTagDropdownWidgetInput(TagWidget):
+    template_name = 'widgets/tag_dropdown_input.html'
     model = Tag
 
     class Media:
-        js = ('widgets/js/tag_multiple_search_selection_dropdown.js', )
+        js = ('widgets/js/tag_dropdown_input.js', )
 
     def __init__(self, attrs=None, model=None, default_text='Search tags...', allow_additions=False, clearable=True):
         super().__init__(attrs)
@@ -47,6 +49,26 @@ class SemanticTagMultipleSearchSelectionDropdownWidgetInput(TagWidget):
             'autocomplete': False,
             })
         return context
+
+
+class SemanticSelectMultipleDropdown(SelectMultiple):
+
+    class Media:
+        js = ('widgets/js/select_dropdown.js', )
+
+    def __init__(self, attrs=None, search=True, clearable=True, placeholder='Search...'):
+        params = {
+            'semantic': 'dropdown',
+            'data-search': js_bool_format(search),
+            'data-allow-additions': js_bool_format(False),
+            'data-clearable': js_bool_format(clearable),
+            'data-placeholder': placeholder
+            }
+        if attrs:
+            attrs.updata(params)
+        else:
+            attrs = params
+        super().__init__(attrs)
 
 
 class SemanticCheckboxSelectMultiple(CheckboxSelectMultiple):
@@ -76,17 +98,17 @@ class SemanticImageFileInput(ClearableFileInput):
 
     def __init__(self,
                  attrs=None,
-                 placeholder='widgets/images/image_file_input_placeholder.svg',
-                 thumbnail_size='default',
                  img_size='medium',
                  img_type=None,  # circular or rounded
-                 img_extra_class=None):
+                 img_extra_class=None,
+                 thumbnail_size='default',
+                 placeholder='widgets/images/image_file_input_placeholder.svg'):
         super().__init__(attrs)
-        self.placeholder = static(placeholder)
-        self.thumbnail_size = thumbnail_size
         self.img_size = img_size
         self.img_type = img_type
         self.img_extra_class = img_extra_class
+        self.thumbnail_size = thumbnail_size
+        self.placeholder = static(placeholder)
 
     def is_initial(self, value):
         return bool(value)

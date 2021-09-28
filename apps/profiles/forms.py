@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm, UsernameField
-from taggit.forms import TagField
 
-from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticTagMultipleSearchSelectionDropdownWidgetInput\
-    , SemanticImageFileInput
+from taggit.models import Tag
+
+from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSelectMultipleDropdown, SemanticImageFileInput
 from apps.blog.models import CategoryTypes
 
 from .models import Profile
@@ -30,9 +30,11 @@ class EditFeedSettingsForm(forms.ModelForm):
                                                 coerce=lambda x: int(x),
                                                 widget=SemanticCheckboxSelectMultiple(inline=False,
                                                                                       type_checkbox='toggle'))
-    excluded_feed_tags = TagField(label='Exclude tags',
-                                  required=False,
-                                  widget=SemanticTagMultipleSearchSelectionDropdownWidgetInput())
+    excluded_feed_tags = forms.ModelMultipleChoiceField(label='Exclude tags',
+                                                        queryset=Tag.objects.all().order_by('name'),
+                                                        required=False,
+                                                        widget=SemanticSelectMultipleDropdown(
+                                                            placeholder='Search tags...'))
 
     field_order = ('categories', 'excluded_feed_tags')
 
