@@ -11,7 +11,7 @@ register = template.Library()
 
 @register.filter
 def datetime_format(value):
-    month = now() - relativedelta(month=+1)
+    month = now() - relativedelta(months=+1)
     if value < month:
         return date(value, r'M d, Y \a\t h:i A')
     else:
