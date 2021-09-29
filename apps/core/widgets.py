@@ -1,4 +1,4 @@
-from django.forms.widgets import TextInput, SelectMultiple, CheckboxSelectMultiple, ClearableFileInput
+from django.forms.widgets import TextInput, Select, SelectMultiple, CheckboxSelectMultiple, ClearableFileInput
 from django.templatetags.static import static
 
 from easy_thumbnails.templatetags.thumbnail import thumbnail_url
@@ -51,7 +51,7 @@ class SemanticTagDropdownWidgetInput(TagWidget):
         return context
 
 
-class SemanticSelectMultipleDropdown(SelectMultiple):
+class SemanticSelectDropdown(Select):
 
     class Media:
         js = ('widgets/js/select_dropdown.js', )
@@ -69,6 +69,10 @@ class SemanticSelectMultipleDropdown(SelectMultiple):
         else:
             attrs = params
         super().__init__(attrs)
+
+
+class SemanticSelectMultipleDropdown(SemanticSelectDropdown, SelectMultiple):
+    pass
 
 
 class SemanticCheckboxSelectMultiple(CheckboxSelectMultiple):
