@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ImageField
+from django import forms
 
 from taggit.forms import TagField
 
@@ -7,8 +7,8 @@ from apps.core.widgets import SemanticImageFileInput, SemanticTagDropdownWidgetI
 from .models import Post
 
 
-class EditPostForm(ModelForm):
-    feed_cover = ImageField(required=True, widget=SemanticImageFileInput)
+class EditPostForm(forms.ModelForm):
+    feed_cover = forms.ImageField(required=True, widget=SemanticImageFileInput)
     tags = TagField(widget=SemanticTagDropdownWidgetInput(allow_additions=True))
 
     class Meta:
