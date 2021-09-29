@@ -28,5 +28,8 @@ urlpatterns = [
         path('', PostDetailView.as_view(), name='post_detail'),
         path('', include(post_edit_patterns)),
         ])),
+    path('ajax/', include([
+        path('post_list_load_data', PostListLoadDataView.as_view(), name='post_list_load_data'),
+        path('post_list_container', PostListContainerView.as_view(), name='post_list_container'),
+        ])),
     ]
-

@@ -1,4 +1,13 @@
 
+
+const isEmptyValue = (value) => {
+    if (value === '' || value === null || value === undefined) {
+        return true
+    } else {
+        return false
+    }
+}
+
 function showMessage(text, class_message='success')
 {
     $('body').toast({
@@ -23,4 +32,13 @@ function showErrorMessage(xhr, ajaxOptions, thrownError)
 {
     let text = xhr.status + ' ' + xhr.statusText;
     showMessage(text, 'error');
+}
+
+function setMenuActiveItem(menuItems, currentItem)
+{
+    menuItems.map(function (index, item)
+    {
+        $(item).removeClass('active');
+    });
+    currentItem.addClass('active');
 }

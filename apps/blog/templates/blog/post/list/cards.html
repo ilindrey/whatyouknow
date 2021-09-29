@@ -1,0 +1,9 @@
+{% if object_list %}
+    <div class="ui three link cropped stackable cards">
+        {% for object in object_list %}
+            {% include 'blog/post/list/card.html' %}
+        {% endfor %}
+    </div>
+{% else %}
+    <span class="ui text">Unfortunately, we could not find anything for your request.</span>
+{% endif %}

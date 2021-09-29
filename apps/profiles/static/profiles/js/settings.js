@@ -30,7 +30,7 @@ function safeWrap() {
         let item, deferred;
 
         item = $(this);
-        setActiveItem(item);
+        setMenuActiveItem($profileMenuItems, item);
 
         currentUrl = item.data('current-url');
 
@@ -41,7 +41,6 @@ function safeWrap() {
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
-
     });
 
     $(document).on('submit', '#edit_profile_form', function (e) {
@@ -127,14 +126,5 @@ function safeWrap() {
         showInfoMessage('Wait for the page to reload...')
 
         setTimeout(() => { location.reload(); }, 1000);
-    }
-
-    function setActiveItem(currentItem)
-    {
-        $profileMenuItems.map(function (index, item)
-        {
-            $(item).removeClass('active');
-        });
-        currentItem.addClass('active');
     }
 }

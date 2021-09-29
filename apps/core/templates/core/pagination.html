@@ -11,13 +11,13 @@
                 <div class="row">
                     <div class="ui basic labels">
                         {% if page_obj.has_previous %}
-                            <a class="ui label" href="?page={{ page_obj.previous_page_number }}">
+                            <a class="ui label" href="?page={{ page_obj.previous_page_number }}" id="previous_page">
                                 <i class="arrow left icon"></i>
                                 Previous
                             </a>
                         {% endif %}
                         {% if page_obj.has_next %}
-                            <a class="ui label" href="?page={{ page_obj.next_page_number }}">
+                            <a class="ui label" href="?page={{ page_obj.next_page_number }}" id="next_page">
                                 Next
                                 <i class="arrow right icon"></i>
                             </a>
@@ -28,7 +28,7 @@
 
             <div class="row">
 
-                <div class="ui left floated tiny pagination menu">
+                <div class="ui left floated tiny pagination menu" id="pagination_menu">
 
                     {% if page_obj.has_previous and page_obj.number|add:-5 >= 1 %}
                         <a class="item" href="?page={{ 1 }}">
@@ -40,7 +40,7 @@
                     {% for n in page_obj.paginator.page_range %}
 
                         {% if n == page_obj.number %}
-                            <a class="active item" href="?page={{ page_obj.number }}">
+                            <a class="active item" href="?page={{ page_obj.number }}" id="current_page">
                                 {{ page_obj.number }}
                             </a>
                         {% elif page_obj.number <= 5 and n <= 5 %}

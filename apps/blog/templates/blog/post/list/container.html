@@ -1,71 +1,14 @@
 {% extends 'core/container.html' %}
+{% load static %}
 
 {% block roof %}
-
-    <div class="ui primary secondary pointing menu">
-        <a class="item">
-            My choices
-        </a>
-        <a class="active item">
-            All posts
-        </a>
-
-        {% for index, name in categories %}
-            <a class="item">
-                {{ name }}
-            </a>
-        {% endfor %}
-    </div>
-
-    <div class="ui selection compact dropdown">
-      <input type="hidden" name="time" value="All">
-      <i class="dropdown icon"></i>
-      <div class="default text">All time</div>
-      <div class="menu">
-        <div class="item">Day</div>
-        <div class="item">Week</div>
-        <div class="item">Month</div>
-        <div class="item">Year</div>
-      </div>
-    </div>
-
-    <div class="ui selection compact dropdown">
-      <input type="hidden" name="rating" value="Any">
-      <i class="dropdown icon"></i>
-      <div class="default text">Any rating</div>
-      <div class="menu">
-        <div class="item">10</div>
-        <div class="item">25</div>
-        <div class="item">50</div>
-        <div class="item">75</div>
-        <div class="item">90</div>
-      </div>
-    </div>
-
+    {% include 'blog/post/list/control_panel.html' %}
 {% endblock %}
-
 
 {% block content %}
-
-    <div class="ui three link cropped stackable cards">
-
-        {% for object in object_list %}
-            {% include 'blog/post/list/card.html' %}
-        {% endfor %}
-
-    </div>
-
+    {% include 'blog/post/list/roll.html' %}
 {% endblock %}
-
-{% block floor %}
-    {% include 'core/pagination.html' %}
-{% endblock %}
-
 
 {% block script %}
-<script>
-    $('.ui.dropdown').dropdown({
-        clearable: true
-    });
-</script>
+    <script type="text/javascript" src="{% static 'blog/post/js/list.js' %}"></script>
 {% endblock %}
