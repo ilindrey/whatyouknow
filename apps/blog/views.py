@@ -28,7 +28,7 @@ class PostListLoadDataView(ListView):
                 if self.request.user.is_authenticated:
                     categories = self.request.user.settings['feed_categories']
             elif category_param in 'all':
-                categories = CategoryTypes.get_list_index()
+                categories = CategoryTypes.list('index')
             else:
                 categories.append(int(category_param))
             filters['category__in'] = categories
@@ -60,7 +60,7 @@ class PostListContainerView(PostListLoadDataView):
 
     @staticmethod
     def get_category_list():
-        category_list = CategoryTypes.get_list()
+        category_list = CategoryTypes.choices()
         category_list.insert(0, ('all', 'All posts'))
         category_list.insert(0, ('my', 'My feed'))
         return category_list

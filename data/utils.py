@@ -177,7 +177,7 @@ def get_post_text():
 
 def get_tags(category):
 
-    category_name = CategoryTypes.get_name(category)
+    category_name = CategoryTypes.get_key_by_index(category, 'full_name')
 
     with open(settings.BASE_DIR / 'data/assets/tags.json', 'r') as file:
         data = json_load(file)

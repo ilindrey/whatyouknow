@@ -1,4 +1,4 @@
-from enum import Flag
+from enum import Enum
 from random import choice as random_choice
 
 from django.db import models
@@ -12,47 +12,51 @@ from easy_thumbnails.signals import saved_file
 from easy_thumbnails.signal_handlers import generate_aliases_global
 
 
-class CategoryTypes(Flag):
-    DEVELOPMENT = (0, "Development")
-    ADMINISTRATING = (1, "Administrating")
-    DESIGN = (2, "Design")
-    MANAGEMENT = (3, "Management")
-    MARKETING = (4, "Marketing")
-    POPULAR_SCIENCE = (5, "Popular Science")
+class CategoryTypes(Enum):
+    DEVELOPMENT = {'index': 0, 'short_name': 'Develop', 'full_name': 'Development'}
+    ADMINISTRATING = {'index': 1, 'short_name': 'Admin', 'full_name': 'Administrating'}
+    DESIGN = {'index': 2, 'short_name': 'Design', 'full_name': 'Design'}
+    MANAGEMENT = {'index': 3, 'short_name': 'Management', 'full_name': 'Management'}
+    MARKETING = {'index': 4, 'short_name': 'Marketing', 'full_name': 'Marketing'}
+    POPULAR_SCIENCE = {'index': 5, 'short_name': 'PopSci', 'full_name': 'Popular Science'}
 
     @classmethod
-    def get_name(cls, index):
-        return cls.get_list()[index][1]
+    def get(cls, *args):
+        if args:
+            l = []
+            for key in cls:
+                d = {}
+                for a in args:
+                    d[a] = key.value[a]
+                l.append(d)
+            return l
+        else:
+            return [key.value for key in cls]
 
     @classmethod
-    def get_list(cls):
-        return [key.value for key in cls]
+    def list(cls, key):
+        return [value[key] for value in cls.get(key)]
 
     @classmethod
-    def get_list_index(cls):
-        return [key.value[0] for key in cls]
+    def get_key_by_index(cls, index, key):
+        l = cls.get('index', key)
+        for value in l:
+            if value['index'] == index:
+                return value[key]
 
     @classmethod
-    def get_list_name(cls):
-        return [key.value[1] for key in cls]
+    def choices(cls):
+        return [(value['index'], value['full_name']) for value in cls.get('index', 'full_name')]
 
     @classmethod
-    def get_random(cls):
-        return random_choice(cls.get_list())
-
-    @classmethod
-    def get_random_index(cls):
-        return cls.get_random()[0]
-
-    @classmethod
-    def get_random_name(cls):
-        return cls.get_random()[1]
+    def get_random_choices(cls):
+        return random_choice(cls.choices())
 
 
 class Post(models.Model):
 
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
-    category = models.IntegerField(choices=CategoryTypes.get_list())
+    category = models.IntegerField(choices=CategoryTypes.choices())
     title = models.CharField(max_length=200)
     feed_cover = models.ImageField(upload_to='blog/feed_covers')
     feed_article_preview = SummernoteTextField(blank=True)

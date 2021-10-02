@@ -58,7 +58,7 @@ class PostFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('user', 'category', 'title')
 
     user = factory.Faker('random_element', elements=rm.USER.objects.filter(is_superuser=False))
-    category = factory.LazyFunction(CategoryTypes.get_random_index)
+    category = factory.LazyFunction(CategoryTypes.get_random_choices()[0])
     title = factory.Faker('sentence')
     feed_cover = factory.django.FileField(
         filename=factory.LazyAttribute(

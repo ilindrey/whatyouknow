@@ -16,7 +16,7 @@ from taggit.managers import TaggableManager
 
 def default_settings():
     from apps.blog.models import CategoryTypes
-    return {'feed_categories': CategoryTypes.get_list_index()}
+    return {'feed_categories': CategoryTypes.list('index')}
 
 
 class Profile(AbstractUser):

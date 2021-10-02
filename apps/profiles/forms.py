@@ -26,7 +26,7 @@ class EditProfileForm(forms.ModelForm):
 
 class EditFeedSettingsForm(forms.ModelForm):
     categories = forms.TypedMultipleChoiceField(required=False,
-                                                choices=CategoryTypes.get_list(),
+                                                choices=CategoryTypes.choices(),
                                                 coerce=lambda x: int(x),
                                                 widget=SemanticCheckboxSelectMultiple(inline=False,
                                                                                       type_checkbox='toggle'))
