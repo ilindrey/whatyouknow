@@ -3,6 +3,30 @@ from django.urls import path, include
 from .views import *
 
 
+post_ajax_list_patterns = [
+    path('post_list_load_data', PostListLoadDataView.as_view(), name='post_list_load_data'),
+    path('post_list_container', PostListContainerView.as_view(), name='post_list_container'),
+    ]
+
+post_list_patterns = [
+    path('', PostRedirectDefaultListCategoryView.as_view(), name='post_list'),
+    path('<str:category>/', include([
+        path('', PostListView.as_view(), name='post_list_category'),
+        path('ajax/', include(post_ajax_list_patterns)),
+        path('<int:page>/', include([
+            path('', PostListView.as_view(), name='post_list_category_page'),
+            path('ajax/', include(post_ajax_list_patterns)),
+            ])),
+        ])),
+    ]
+
+post_create_patterns = [
+    path('', PostCreateView.as_view(), name='post_create'),
+    path('ajax/', include([
+        path('create_container', PostCreateContainerView.as_view(), name='post_create_container'),
+        ]))
+    ]
+
 post_edit_patterns = [
     path('edit/', PostEditView.as_view(), name='post_edit'),
     path('preview/', PostPreviewView.as_view(), name='post_preview'),
@@ -14,22 +38,11 @@ post_edit_patterns = [
         ])),
     ]
 
-post_create_patterns = [
-    path('', PostCreateView.as_view(), name='post_create'),
-    path('ajax/', include([
-        path('create_container', PostCreateContainerView.as_view(), name='post_create_container'),
-        ]))
-    ]
-
 urlpatterns = [
-    path('', PostListView.as_view(), name='post_list'),
     path('create/', include(post_create_patterns)),
     path('<int:pk>/', include([
         path('', PostDetailView.as_view(), name='post_detail'),
         path('', include(post_edit_patterns)),
         ])),
-    path('ajax/', include([
-        path('post_list_load_data', PostListLoadDataView.as_view(), name='post_list_load_data'),
-        path('post_list_container', PostListContainerView.as_view(), name='post_list_container'),
-        ])),
+    path('', include(post_list_patterns)),
     ]

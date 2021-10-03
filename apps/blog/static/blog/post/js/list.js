@@ -3,33 +3,41 @@ safeWrap();
 
 function safeWrap()
 {
-    const keyCategories = 'categories',
+    const charID = '#',
+        keyCategories = 'categories',
         keyPeriod = 'period',
         keyRating = 'rating',
         keyControlPanel = 'control_panel',
-        idCategories = '#' + keyCategories,
-        idPeriod = '#' + keyPeriod,
-        idRating = '#' + keyRating,
-        idControlPanel = '#' + keyControlPanel,
+        keyRoll = 'roll',
+        idCategories = charID + keyCategories,
+        idPeriod = charID + keyPeriod,
+        idRating = charID + keyRating,
+        idControlPanel = charID + keyControlPanel,
+        idRoll = charID + keyRoll,
         keyCategoriesItems = idCategories + ' .item',
-        keyLoadDataUrl = 'load-data-url';
+        keyBasePostsUrl = 'base-posts-url',
+        keyAjaxSuffix = 'ajax-suffix';
 
     let $categoriesMenu = null,
         $categoriesMenuItems = null,
         $periodDropdown = null,
         $ratingDropdown = null,
         $controlPanel = null,
-        loadDataURL = null;
+        $roll = null,
+        basePostsURL = null,
+        ajaxSuffix = null;
 
     $(document).ready(function ()
     {
         $controlPanel = $(idControlPanel);
+        $roll = $(idRoll);
 
         $categoriesMenu = $controlPanel.find(idCategories);
         $periodDropdown = $controlPanel.find(idPeriod);
         $ratingDropdown = $controlPanel.find(idRating);
 
-        loadDataURL = $controlPanel.data(keyLoadDataUrl);
+        basePostsURL = $controlPanel.data(keyBasePostsUrl);
+        ajaxSuffix = $controlPanel.data(keyAjaxSuffix);
 
         let dropdown_params_default = {clearable: true};
 
@@ -79,7 +87,7 @@ function safeWrap()
         }
         else
         {
-            $periodDropdown.dropdown('restore default value');
+            $periodDropdown.dropdown('clear');
         }
 
         if(rating_param)
@@ -88,9 +96,11 @@ function safeWrap()
         }
         else
         {
-            $ratingDropdown.dropdown('restore default value');
+            $ratingDropdown.dropdown('clear');
         }
 
+        $periodDropdown.closest('.ui.dropdown').hide();
+        // $ratingDropdown.closest('.ui.dropdown').hide();
     });
 
     $(document).on('click', keyCategoriesItems, function (e) {
@@ -99,11 +109,8 @@ function safeWrap()
         let $item = $(this);
         setMenuActiveItem($categoriesMenuItems, $item);
 
-        let paramKey, paramValue;
-        paramKey = 'category';
-        paramValue = $item.data('value');
-
-        updateContent(paramKey, paramValue);
+        setCurrentPathnameURL();
+        updateContent();
     });
 
     $(document).on('click', '#previous_page', function (e)
@@ -122,49 +129,91 @@ function safeWrap()
         paginationHandler(e, this);
     });
 
-    function dropdownOnChangeHandler(key,value, text, $choice)
+    function dropdownOnChangeHandler(key, value, text, $choice)
     {
-        console.log(value + ' | ' + text + ' | ' + $choice)
-
         let paramKey, paramValue;
         paramKey = key;
         paramValue = $choice ? value : null;
 
-        updateContent(paramKey, paramValue);
+        if(key === keyRating)
+        {
+            if(isEmptyValue(paramValue))
+            {
+                $periodDropdown.closest('.ui.dropdown').hide();
+                $periodDropdown.dropdown('clear');
+                changeGetParamURL(keyPeriod, null);
+            }
+            else
+            {
+                $periodDropdown.closest('.ui.dropdown').show();
+            }
+        }
+
+        changeGetParamURL(paramKey, paramValue);
+        updateContent();
     }
 
     function paginationHandler(e, element)
     {
         e.preventDefault();
 
-        let paramKey, paramValue;
-        paramKey = 'page';
-        paramValue = element.href.split('=')[1];
+        let page = element.href.split('=')[1];
 
-        updateContent(paramKey, paramValue);
+        setCurrentPathnameURL(page);
+        updateContent();
     }
 
-    function updateContent(paramKey = String, paramValue)
+    function updateContent()
     {
-        let locationURL, loadDataURLWithParams, deferred;
+        let locationURL, loadDataURL;
 
-        locationURL = getLocationURL(paramKey, paramValue);
-        loadDataURLWithParams = loadDataURL + locationURL.search;
+        locationURL = new URL(window.location.href);
+        loadDataURL = locationURL.pathname + ajaxSuffix + locationURL.search;
 
-        deferred = $.get(loadDataURLWithParams);
-        deferred.done(function (responseText) {
-            $('#content').html(responseText);
-            history.replaceState(null, null, locationURL.href);
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
+        $.ajax({
+            type: 'get',
+            url: loadDataURL,
+            beforeSend: function(jqXHR, settings)
+            {
+                $roll.addClass('loading');
+            },
+            success: function (responseText) {
+                $roll.html(responseText);
+                // history.replaceState(null, null, locationURL.href);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                showErrorMessage(xhr, ajaxOptions, thrownError);
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                $roll.removeClass('loading');
+            },
         });
     }
 
-    function getLocationURL(paramKey = String, paramValue)
+    function setCurrentPathnameURL(page = 1)
+    {
+        const slash = '/';
+        let newURL, baseURL, category;
+
+        newURL = new URL(window.location.href);
+        baseURL = new URL(window.location.origin + basePostsURL);
+
+        category = $categoriesMenuItems.filter('.active').data('value');
+        newURL.pathname = baseURL.pathname + category + slash
+
+        if(page != 1)
+             newURL.pathname += page + slash
+
+        history.replaceState(null, null, newURL.href);
+    }
+
+    function changeGetParamURL(paramKey = String, paramValue)
     {
         if (!paramKey)
             return null;
+
+        setCurrentPathnameURL(1);
 
         let newURL = new URL(window.location.href);
 
@@ -172,8 +221,8 @@ function safeWrap()
         {
             if(paramKey === 'tags')
             {
-                let list = newURL.searchParams.getAll(paramKey)
-                let tag_exists = list.find(item => item === paramValue)
+                let list = newURL.searchParams.getAll(paramKey);
+                let tag_exists = list.find(item => item === paramValue);
                 if (!tag_exists)
                 {
                     newURL.searchParams.append(paramKey, paramValue);
@@ -189,26 +238,6 @@ function safeWrap()
             newURL.searchParams.delete(paramKey);
         }
 
-        if(paramKey !== 'page')
-        {
-            newURL.searchParams.delete('page');
-        }
-
-        if(paramKey === 'category' && paramValue == 'my')
-        {
-            newURL.searchParams.delete(paramKey);
-        }
-
-        let pathnameLastChar = newURL.pathname.slice(-1);
-        if(newURL.search && pathnameLastChar === '/')
-        {
-              newURL.pathname = newURL.pathname.slice(0, -1);
-        }
-        else if(!newURL.search && pathnameLastChar !== '/')
-        {
-            newURL.pathname += '/';
-        }
-
-        return newURL;
+        history.replaceState(null, null, newURL.href);
     }
 }
