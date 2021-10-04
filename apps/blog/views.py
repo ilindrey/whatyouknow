@@ -28,26 +28,22 @@ class PostListLoadDataView(ListView):
 
     def get_queryset(self):
         filters = {}
+        excludes = {}
 
         param = self.kwargs.get('category', 'feed')
         if param:
             if param in 'feed':
                 if self.request.user.is_authenticated:
                     filters['category__in'] = self.request.user.settings['feed_categories']
-                else:
-                    filters['category__in'] = CategoryTypes.list('index')
-            elif param in 'all':
-                filters['category__in'] = CategoryTypes.list('index')
-            else:
+                    excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
+            elif param not in 'all':
                 category = None
                 for cd in self.category_list:
                     if cd['short_name_lower'] == param:
                         category = cd['index']
                         break
                 if category is None:
-                    raise Http404(_('Invalid category (%(category_param)s)') % {
-                        'category_param': param,
-                        })
+                    raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
                 filters['category'] = int(category)
 
         param = self.request.GET.get('period')
@@ -65,7 +61,7 @@ class PostListLoadDataView(ListView):
         if param:
             pass
 
-        queryset = self.model.objects.filter(**filters).order_by(self.ordering)
+        queryset = self.model.objects.filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
 
     def get(self, request, *args, **kwargs):
