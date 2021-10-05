@@ -1,0 +1,5 @@
+{% extends 'core/forms/structure/post.html' %}
+
+{% block id %}search_form{% endblock %}
+
+{% block params %}action="{% url 'search_dropdown_results' %}"{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'core/containers/base.html' %}
+{% load static %}
+
+{% block roof %}
+    {% include 'core/forms/search.html' %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'core/js/search.js' %}"></script>
+{% endblock %}
