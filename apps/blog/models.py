@@ -13,12 +13,42 @@ from easy_thumbnails.signal_handlers import generate_aliases_global
 
 
 class CategoryTypes(Enum):
-    DEVELOPMENT = {'index': 0, 'short_name': 'Develop', 'full_name': 'Development'}
-    ADMINISTRATING = {'index': 1, 'short_name': 'Admin', 'full_name': 'Administrating'}
-    DESIGN = {'index': 2, 'short_name': 'Design', 'full_name': 'Design'}
-    MANAGEMENT = {'index': 3, 'short_name': 'Management', 'full_name': 'Management'}
-    MARKETING = {'index': 4, 'short_name': 'Marketing', 'full_name': 'Marketing'}
-    POPULAR_SCIENCE = {'index': 5, 'short_name': 'PopSci', 'full_name': 'Popular Science'}
+    DEVELOPMENT = {
+        'index': 0,
+        'short_name': 'Develop',
+        'short_name_lower': 'develop',
+        'full_name': 'Development'
+        }
+    ADMINISTRATING = {
+        'index': 1,
+        'short_name': 'Admin',
+        'short_name_lower': 'admin',
+        'full_name': 'Administrating'
+        }
+    DESIGN = {
+        'index': 2,
+        'short_name': 'Design',
+        'short_name_lower': 'design',
+        'full_name': 'Design'
+        }
+    MANAGEMENT = {
+        'index': 3,
+        'short_name': 'Management',
+        'short_name_lower': 'management',
+        'full_name': 'Management'
+        }
+    MARKETING = {
+        'index': 4,
+        'short_name': 'Marketing',
+        'short_name_lower': 'marketing',
+        'full_name': 'Marketing'
+        }
+    POPULAR_SCIENCE = {
+        'index': 5,
+        'short_name': 'PopSci',
+        'short_name_lower': 'popsci',
+        'full_name': 'Popular Science'
+        }
 
     @classmethod
     def get(cls, *args):
@@ -38,11 +68,24 @@ class CategoryTypes(Enum):
         return [value[key] for value in cls.get(key)]
 
     @classmethod
-    def get_key_by_index(cls, index, key):
-        l = cls.get('index', key)
-        for value in l:
-            if value['index'] == index:
-                return value[key]
+    def get_value(cls, target, key=None):
+        l = cls.get()
+        if key is None:
+            for d in l:
+                for key in d:
+                    if d[key] == target:
+                        return d
+        else:
+            for d in l:
+                if d[key] == target:
+                    return d
+
+    @classmethod
+    def get_values(cls, *args, key=None):
+        l = []
+        for a in args:
+            l.append(cls.get_value(a, key))
+        return l
 
     @classmethod
     def choices(cls):

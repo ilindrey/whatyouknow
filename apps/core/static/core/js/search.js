@@ -5,7 +5,10 @@ function safeWrap()
 {
     $(document).ready(
         function () {
-            let $search = $('#id_query_search');
+            let $controlPanel = $('#control_panel');
+            let $roll = $('#roll');
+            let $search = $controlPanel.find('#id_query_search');
+            let $selections = $controlPanel.find('#selections');
             let $form = $search.closest('.ui.form');
             $search.search({
                     maxResults: 10,
@@ -13,10 +16,11 @@ function safeWrap()
                         data: {
                             query: () => { return $search.search('get value'); },
                         },
-                        url: $form.get(0).action,
+                        url: $controlPanel.data('search-suitable-results-url'),
                     },
                     fields: {
                         icon: 'icon',
+                        value: 'value',
                         title: 'title',
                         type: 'type'
                     },
@@ -24,6 +28,49 @@ function safeWrap()
                     onSelect: function(result, response) {
                         console.log(result);
                         console.log(response);
+                        console.log(result.type);
+                        const multiple = result.type !== 'text';
+                        changeGetParamLocationURL(result.type, result.value, multiple);
+                        $search.search('get value', null);
+
+                        $.ajax({
+                            type: 'get',
+                            url: $controlPanel.data('search-selections-url') + window.location.search,
+                            beforeSend: function(jqXHR, settings)
+                            {
+                                $selections.addClass('loading');
+                            },
+                            success: function (responseText) {
+                                $selections.html(responseText);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                showErrorMessage(xhr, ajaxOptions, thrownError);
+                            },
+                            complete: function (jqXHR, textStatus)
+                            {
+                                $selections.removeClass('loading');
+                            },
+                        });
+
+
+                        $.ajax({
+                            type: 'get',
+                            url: $controlPanel.data('post-list-load-data-url') + window.location.search,
+                            beforeSend: function(jqXHR, settings)
+                            {
+                                $roll.addClass('loading');
+                            },
+                            success: function (responseText) {
+                                $roll.html(responseText);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                showErrorMessage(xhr, ajaxOptions, thrownError);
+                            },
+                            complete: function (jqXHR, textStatus)
+                            {
+                                $roll.removeClass('loading');
+                            },
+                        });
                     },
                     templates: {
                         custom: function(response, fields, preserveHTML) { // based on standard

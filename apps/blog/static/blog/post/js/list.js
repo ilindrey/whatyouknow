@@ -15,7 +15,7 @@ function safeWrap()
         idControlPanel = charID + keyControlPanel,
         idRoll = charID + keyRoll,
         keyCategoriesItems = idCategories + ' .item',
-        keyBasePostsUrl = 'base-posts-url',
+        keyBasePathnameUrl = 'base-pathname-url',
         keyAjaxSuffix = 'ajax-suffix';
 
     let $categoriesMenu = null,
@@ -24,7 +24,7 @@ function safeWrap()
         $ratingDropdown = null,
         $controlPanel = null,
         $roll = null,
-        basePostsURL = null,
+        basePathnameURL = null,
         ajaxSuffix = null;
 
     $(document).ready(function ()
@@ -36,23 +36,23 @@ function safeWrap()
         $periodDropdown = $controlPanel.find(idPeriod);
         $ratingDropdown = $controlPanel.find(idRating);
 
-        basePostsURL = $controlPanel.data(keyBasePostsUrl);
+        basePathnameURL = $controlPanel.data(keyBasePathnameUrl);
         ajaxSuffix = $controlPanel.data(keyAjaxSuffix);
 
-        let dropdown_params_default = {clearable: true};
-
-        $periodDropdown.dropdown(Object.assign(dropdown_params_default, {
+        $periodDropdown.dropdown({
+            clearable: true,
             onChange: function (value, text, $choice)
             {
                 dropdownOnChangeHandler(keyPeriod, value, text, $choice);
             }
-        }));
-        $ratingDropdown.dropdown(Object.assign(dropdown_params_default, {
+        });
+        $ratingDropdown.dropdown({
+            clearable: true,
             onChange: function (value, text, $choice)
             {
                 dropdownOnChangeHandler(keyRating, value, text, $choice);
             }
-        }));
+        });
 
         let locationURL, category_param, period_param, rating_param;
 
@@ -109,7 +109,7 @@ function safeWrap()
         let $item = $(this);
         setMenuActiveItem($categoriesMenuItems, $item);
 
-        setCurrentPathnameURL();
+        changePathnameLocationURLOverride();
         updateContent();
     });
 
@@ -141,7 +141,8 @@ function safeWrap()
             {
                 $periodDropdown.closest('.ui.dropdown').hide();
                 $periodDropdown.dropdown('clear');
-                changeGetParamURL(keyPeriod, null);
+
+                changeGetParamLocationURLOverride(keyPeriod, null);
             }
             else
             {
@@ -149,7 +150,8 @@ function safeWrap()
             }
         }
 
-        changeGetParamURL(paramKey, paramValue);
+
+        changeGetParamLocationURLOverride(paramKey, paramValue);
         updateContent();
     }
 
@@ -159,7 +161,7 @@ function safeWrap()
 
         let page = element.href.split('=')[1];
 
-        setCurrentPathnameURL(page);
+        changePathnameLocationURLOverride(page);
         updateContent();
     }
 
@@ -179,7 +181,6 @@ function safeWrap()
             },
             success: function (responseText) {
                 $roll.html(responseText);
-                // history.replaceState(null, null, locationURL.href);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
@@ -191,53 +192,15 @@ function safeWrap()
         });
     }
 
-    function setCurrentPathnameURL(page = 1)
+    function changePathnameLocationURLOverride(page=1)
     {
-        const slash = '/';
-        let newURL, baseURL, category;
-
-        newURL = new URL(window.location.href);
-        baseURL = new URL(window.location.origin + basePostsURL);
-
-        category = $categoriesMenuItems.filter('.active').data('value');
-        newURL.pathname = baseURL.pathname + category + slash
-
-        if(page != 1)
-             newURL.pathname += page + slash
-
-        history.replaceState(null, null, newURL.href);
+        let category = $categoriesMenuItems.filter('.active').data('value');
+        changePathnameLocationURL(basePathnameURL, page, category);
     }
 
-    function changeGetParamURL(paramKey = String, paramValue)
+    function changeGetParamLocationURLOverride(paramKey, paramValue, multiple)
     {
-        if (!paramKey)
-            return null;
-
-        setCurrentPathnameURL(1);
-
-        let newURL = new URL(window.location.href);
-
-        if(!isEmptyValue(paramValue))
-        {
-            if(paramKey === 'tags')
-            {
-                let list = newURL.searchParams.getAll(paramKey);
-                let tag_exists = list.find(item => item === paramValue);
-                if (!tag_exists)
-                {
-                    newURL.searchParams.append(paramKey, paramValue);
-                }
-            }
-            else
-            {
-                newURL.searchParams.set(paramKey, paramValue);
-            }
-        }
-        else
-        {
-            newURL.searchParams.delete(paramKey);
-        }
-
-        history.replaceState(null, null, newURL.href);
+        changePathnameLocationURLOverride(1);
+        return changeGetParamLocationURL(paramKey, paramValue, multiple);
     }
 }

@@ -9,7 +9,7 @@ from .forms import SearchForm
 
 
 class IndexView(RedirectView):
-    pattern_name = 'post_list'
+    pattern_name = 'post_list_default'
 
 
 class SearchView(FormView):
@@ -21,41 +21,44 @@ class SearchContainerView(SearchView):
     template_name = 'core/search/container.html'
 
 
-class SearchDropdownResultsView(TemplateView):
+class SearchSuitableResultsListView(TemplateView):
     filtering_by = 10
 
     def get_result_list(self, context):
         query = self.request.GET.get('query')
 
-        categories = CategoryTypes.list('full_name')
+        categories = CategoryTypes.get('short_name_lower', 'full_name')
         posts = Post.objects.filter(title__startswith=query).order_by('title') \
                     .values_list('title', flat=True)[:self.filtering_by]
         tags = Tag.objects.filter(name__startswith=query).order_by('name') \
                     .values_list('name', flat=True)[:self.filtering_by]
 
-        result_list = []
+        j = []
         for value in categories:
-            result_list.append({
+            j.append({
                 'icon': 'stream',
-                'title': value,
+                'value': value['short_name_lower'],
+                'title': value['full_name'],
                 'type': 'category'
                 })
 
         for value in posts:
-            result_list.append({
+            j.append({
                 'icon': '',
+                'value': value,
                 'title': value,
-                'type': 'query'
+                'type': 'text'
                 })
 
         for value in tags:
-            result_list.append({
+            j.append({
                 'icon': 'tag',
+                'value': value,
                 'title': value,
                 'type': 'tag'
                 })
 
-        s = sorted(result_list, key=lambda x: x['title'].lower())
+        s = sorted(j, key=lambda x: x['title'].lower())
         l = list(filter(lambda item: item['title'].lower().startswith(query.lower()), s))
         return l[:self.filtering_by]
 
@@ -63,3 +66,22 @@ class SearchDropdownResultsView(TemplateView):
         result_list = self.get_result_list(context)
         json = {"results": result_list}
         return JsonResponse(data=json, status=200)
+
+
+class SearchSelectionsView(TemplateView):
+    template_name = 'core/search/selections.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        text = self.request.GET.get('text')
+        tag_list = self.request.GET.getlist('tag')
+        category_list = self.request.GET.getlist('category')
+
+        context.update({
+            'text': text,
+            'category_list': CategoryTypes.get_values(*category_list, key='short_name_lower'),
+            'tag_list': tag_list,
+            })
+        return context
+

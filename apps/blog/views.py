@@ -11,8 +11,8 @@ from .models import Post, CategoryTypes
 from .mixins import PostCreateEditFormMixin
 
 
-class PostRedirectDefaultListCategoryView(RedirectView):
-    pattern_name = 'post_list_category'
+class PostRedirectDefaultCategoryListView(RedirectView):
+    pattern_name = 'post_list'
 
     def get_redirect_url(self, *args, **kwargs):
         kwargs['category'] = 'feed'
@@ -26,11 +26,17 @@ class PostListLoadDataView(ListView):
     paginate_by = 15
     ordering = '-timestamp'
 
+    def get(self, request, *args, **kwargs):
+        self.category_list = self.get_category_list()
+        self.period_list = self.get_period_list()
+        self.rating_list = self.get_rating_list()
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         filters = {}
         excludes = {}
 
-        param = self.kwargs.get('category', 'feed')
+        param = self.kwargs.get('category') or self.request.GET.get('category') or 'all'
         if param:
             if param in 'feed':
                 if self.request.user.is_authenticated:
@@ -39,7 +45,7 @@ class PostListLoadDataView(ListView):
             elif param not in 'all':
                 category = None
                 for cd in self.category_list:
-                    if cd['short_name_lower'] == param:
+                    if param == cd['short_name_lower']:
                         category = cd['index']
                         break
                 if category is None:
@@ -64,12 +70,6 @@ class PostListLoadDataView(ListView):
         queryset = self.model.objects.filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
 
-    def get(self, request, *args, **kwargs):
-        self.category_list = self.get_category_list()
-        self.period_list = self.get_period_list()
-        self.rating_list = self.get_rating_list()
-        return super().get(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -82,8 +82,6 @@ class PostListLoadDataView(ListView):
     @staticmethod
     def get_category_list():
         cl = CategoryTypes.get()
-        for cd in cl:
-            cd['short_name_lower'] = cd['short_name'].lower()
         cl.insert(0, {'index': -1, 'short_name': 'All', 'short_name_lower': 'all', 'full_name': 'All posts'})
         cl.insert(0, {'index': -2, 'short_name': 'Feed', 'short_name_lower': 'feed', 'full_name': 'My feed'})
         return cl
@@ -109,7 +107,7 @@ class PostListContainerView(PostListLoadDataView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'base_posts_url': reverse('post_list'),
+            'base_pathname_url': reverse('post_list_default'),
             'ajax_suffix': 'ajax/post_list_load_data'
             })
         return context

@@ -1,0 +1,20 @@
+<div class="ui stackable grid"
+     id="control_panel"
+     data-search-suitable-results-url="{% url 'search_suitable_results' %}"
+     data-search-selections-url="{% url 'search_selections' %}"
+     data-post-list-load-data-url="{% url 'post_list_load_data' %}"
+>
+    <div class="row">
+        <div class="column">
+            <div class="ui fitted basic segment">
+                {% include 'core/forms/search.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="ui fitted basic segment" id="selections">
+            </div>
+        </div>
+    </div>
+</div>

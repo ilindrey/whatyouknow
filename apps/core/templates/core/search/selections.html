@@ -1,0 +1,20 @@
+{% if text or category_list or tag_list %}
+    <div class="ui basic labels">
+        {% if text %}
+            <a class="ui primary label" data-type="text" data-value="text">
+{#                <i class="pen nib icon"></i>{{ text }}<i class="close icon"></i>#}
+                <span class="ui text">search: </span>{{ text }} <i class="icon close"></i>
+            </a>
+        {% endif %}
+        {% for category in category_list %}
+            <a class="ui primary label" data-type="category" data-value="{{ category.short_name_lower }}">
+                <i class="stream icon"></i>{{ category.full_name }}<i class="close icon"></i>
+            </a>
+        {% endfor %}
+        {% for tag in tag_list %}
+            <a class="ui primary label" data-type="category" data-value="{{ tag }}">
+                <i class="tag icon"></i>{{ tag }}<i class="close icon"></i>
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}
