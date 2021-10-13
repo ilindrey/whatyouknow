@@ -1,8 +1,8 @@
 
 <div id="control_panel"
      class="ui basic fitted segment"
-     data-base-pathname-url="{{ base_pathname_url }}"
-     data-ajax-suffix="{{ ajax_suffix }}"
+     data-base-pathname-url="{% url 'post_list_default'  %}"
+     data-post-list-load-data-url="{% url 'post_list_load_data' %}"
 >
 
     <div class="ui primary secondary pointing menu" id="categories">

@@ -4,112 +4,139 @@ safeWrap();
 function safeWrap()
 {
     const charID = '#',
-        keyCategories = 'categories',
-        keyPeriod = 'period',
-        keyRating = 'rating',
         keyControlPanel = 'control_panel',
         keyRoll = 'roll',
-        idCategories = charID + keyCategories,
-        idPeriod = charID + keyPeriod,
-        idRating = charID + keyRating,
+        keyCategories = 'categories',
+        keyRating = 'rating',
+        keyPeriod = 'period',
         idControlPanel = charID + keyControlPanel,
         idRoll = charID + keyRoll,
+        idCategories = charID + keyCategories,
+        idRating = charID + keyRating,
+        idPeriod = charID + keyPeriod,
         keyCategoriesItems = idCategories + ' .item',
         keyBasePathnameUrl = 'base-pathname-url',
-        keyAjaxSuffix = 'ajax-suffix';
+        keyPostListLoadDataUrl = 'post-list-load-data-url';
+        // keyAjaxSuffix = 'ajax-suffix';
 
-    let $categoriesMenu = null,
+    let $controlPanel = null,
+        $roll = null,
+        $categoriesMenu = null,
         $categoriesMenuItems = null,
         $periodDropdown = null,
         $ratingDropdown = null,
-        $controlPanel = null,
-        $roll = null,
+        isCategoryMenu = false,
+        isPeriodDropdown = false,
+        isRatingDropdown = false,
         basePathnameURL = null,
-        ajaxSuffix = null;
+        postListLoadDataURL = null;
+        // ajaxSuffix = null;
+
+
+    const currentCategory = () => {
+        if (isCategoryMenu && $categoriesMenuItems && $categoriesMenuItems.length) {
+            return $categoriesMenuItems.filter('.active').data('value')
+        } else {
+            return null
+        }
+    }
 
     $(document).ready(function ()
     {
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
 
-        $categoriesMenu = $controlPanel.find(idCategories);
-        $periodDropdown = $controlPanel.find(idPeriod);
-        $ratingDropdown = $controlPanel.find(idRating);
-
         basePathnameURL = $controlPanel.data(keyBasePathnameUrl);
-        ajaxSuffix = $controlPanel.data(keyAjaxSuffix);
+        postListLoadDataURL = $controlPanel.data(keyPostListLoadDataUrl);
 
-        $periodDropdown.dropdown({
-            clearable: true,
-            onChange: function (value, text, $choice)
-            {
-                dropdownOnChangeHandler(keyPeriod, value, text, $choice);
-            }
-        });
-        $ratingDropdown.dropdown({
-            clearable: true,
-            onChange: function (value, text, $choice)
-            {
-                dropdownOnChangeHandler(keyRating, value, text, $choice);
-            }
-        });
+        $categoriesMenu = $controlPanel.find(idCategories);
+        $ratingDropdown = $controlPanel.find(idRating);
+        $periodDropdown = $controlPanel.find(idPeriod);
 
-        let locationURL, category_param, period_param, rating_param;
+        isCategoryMenu = $categoriesMenu.length > 0;
+        isRatingDropdown = $ratingDropdown.length > 0;
+        isPeriodDropdown = $periodDropdown.length > 0;
+
+        let locationURL, category_param, rating_param, period_param;
 
         locationURL = new URL(window.location.href);
 
-        category_param = locationURL.searchParams.get('category');
-        period_param = locationURL.searchParams.get('period');
-        rating_param = locationURL.searchParams.get('rating');
-
-        $categoriesMenuItems = $(keyCategoriesItems);
-
-        if(category_param)
+        if(isRatingDropdown)
         {
-            $categoriesMenuItems.map(function (index, item)
-            {
-                let $item = $(this);
-                if($item.data('value') == category_param)
+            $ratingDropdown.dropdown({
+                clearable: true,
+                onChange: function (value, text, $choice)
                 {
-                    $item.click();
-                    return;
+                    dropdownOnChangeHandler(keyRating, value, text, $choice);
                 }
             });
-        }
-        else
-        {
-            $categoriesMenuItems.get(0).click();
-        }
-
-        if(period_param)
-        {
-            $periodDropdown.dropdown('set selected', period_param);
-        }
-        else
-        {
-            $periodDropdown.dropdown('clear');
+            rating_param = locationURL.searchParams.get('rating');
+            if(rating_param)
+            {
+                $ratingDropdown.dropdown('set selected', rating_param);
+            }
+            else
+            {
+                $ratingDropdown.dropdown('clear');
+            }
+            // $ratingDropdown.closest('.ui.dropdown').hide();
         }
 
-        if(rating_param)
+        if(isPeriodDropdown)
         {
-            $ratingDropdown.dropdown('set selected', rating_param);
-        }
-        else
-        {
-            $ratingDropdown.dropdown('clear');
+            $periodDropdown.dropdown({
+                clearable: true,
+                onChange: function (value, text, $choice)
+                {
+                    dropdownOnChangeHandler(keyPeriod, value, text, $choice);
+                }
+            });
+            period_param = locationURL.searchParams.get('period');
+            if(period_param)
+            {
+                $periodDropdown.dropdown('set selected', period_param);
+            }
+            else
+            {
+                $periodDropdown.dropdown('clear')
+                $periodDropdown.closest('.ui.dropdown').hide();
+            }
         }
 
-        $periodDropdown.closest('.ui.dropdown').hide();
-        // $ratingDropdown.closest('.ui.dropdown').hide();
+        if(isCategoryMenu)
+        {
+            category_param = locationURL.searchParams.get('category');
+
+            $categoriesMenuItems = $(keyCategoriesItems);
+
+            if(category_param)
+            {
+                $categoriesMenuItems.map(function (index, item)
+                {
+                    let $item = $(this);
+                    if($item.data('value') == category_param)
+                    {
+                        $item.click();
+                        return;
+                    }
+                });
+            }
+            else
+            {
+                $categoriesMenuItems.get(0).click();
+            }
+        }
     });
 
     $(document).on('click', keyCategoriesItems, function (e) {
+        if(!isCategoryMenu)
+            return;
+
         e.preventDefault();
 
         let $item = $(this);
         setMenuActiveItem($categoriesMenuItems, $item);
 
-        changePathnameLocationURLOverride();
         updateContent();
     });
 
@@ -142,7 +169,7 @@ function safeWrap()
                 $periodDropdown.closest('.ui.dropdown').hide();
                 $periodDropdown.dropdown('clear');
 
-                changeGetParamLocationURLOverride(keyPeriod, null);
+                changeGetParamLocationURLOverride(keyPeriod, null, false, false);
             }
             else
             {
@@ -152,7 +179,6 @@ function safeWrap()
 
 
         changeGetParamLocationURLOverride(paramKey, paramValue);
-        updateContent();
     }
 
     function paginationHandler(e, element)
@@ -161,20 +187,31 @@ function safeWrap()
 
         let page = element.href.split('=')[1];
 
-        changePathnameLocationURLOverride(page);
-        updateContent();
+        updateContent(page);
     }
 
-    function updateContent()
+    function updateContent(page= 1)
     {
-        let locationURL, loadDataURL;
+        changePathnameLocationURLOverride(page)
 
+        let params, category, locationURL;
+        params = {};
+        category = currentCategory();
         locationURL = new URL(window.location.href);
-        loadDataURL = locationURL.pathname + ajaxSuffix + locationURL.search;
+
+        if (category)
+        {
+            params.category = category;
+        }
+        if(page)
+        {
+            params.page = page;
+        }
 
         $.ajax({
             type: 'get',
-            url: loadDataURL,
+            url: postListLoadDataURL + locationURL.search,
+            data: params,
             beforeSend: function(jqXHR, settings)
             {
                 $roll.addClass('loading');
@@ -194,13 +231,19 @@ function safeWrap()
 
     function changePathnameLocationURLOverride(page=1)
     {
-        let category = $categoriesMenuItems.filter('.active').data('value');
-        changePathnameLocationURL(basePathnameURL, page, category);
+        changePathnameLocationURL(basePathnameURL, page, currentCategory());
     }
 
-    function changeGetParamLocationURLOverride(paramKey, paramValue, multiple)
+    function changeGetParamLocationURLOverride(paramKey, paramValue, multiple= false, runUpdateContext= true)
     {
-        changePathnameLocationURLOverride(1);
-        return changeGetParamLocationURL(paramKey, paramValue, multiple);
+        changeGetParamLocationURL(paramKey, paramValue, multiple);
+        if(runUpdateContext)
+        {
+            updateContent(1);
+        }
+        else
+        {
+            changePathnameLocationURLOverride(1);
+        }
     }
 }

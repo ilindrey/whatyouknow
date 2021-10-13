@@ -11,14 +11,22 @@ from .utils import js_bool_format
 class SemanticSearchInput(TextInput):
     template_name = 'widgets/search.html'
 
-    def __init__(self, attrs=None):
+    def __init__(self, attrs=None, extra_class=None):
         super().__init__(attrs)
+        self.extra_class = extra_class
         if self.attrs is None:
             self.attrs = {'class': 'prompt'}
         elif 'class' not in self.attrs:
             self.attrs['class'] = 'prompt'
         elif 'prompt' not in self.attrs['class']:
             self.attrs['class'] += ' prompt'
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget'].update({
+            'extra_class': self.extra_class,
+            })
+        return context
 
 
 class SemanticTagDropdownWidgetInput(TagWidget):

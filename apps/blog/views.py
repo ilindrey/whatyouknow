@@ -26,46 +26,48 @@ class PostListLoadDataView(ListView):
     paginate_by = 15
     ordering = '-timestamp'
 
-    def get(self, request, *args, **kwargs):
-        self.category_list = self.get_category_list()
-        self.period_list = self.get_period_list()
-        self.rating_list = self.get_rating_list()
-        return super().get(request, *args, **kwargs)
-
     def get_queryset(self):
         filters = {}
         excludes = {}
 
-        param = self.kwargs.get('category') or self.request.GET.get('category') or 'all'
+        param = self.kwargs.get('category') or self.request.GET.getlist('category') or 'all'
         if param:
-            if param in 'feed':
+            if isinstance(param, str):
+                param = [param]
+            if 'all' in param:
+                pass
+            elif 'feed' in param:
                 if self.request.user.is_authenticated:
                     filters['category__in'] = self.request.user.settings['feed_categories']
                     excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
-            elif param not in 'all':
-                category = None
-                for cd in self.category_list:
-                    if param == cd['short_name_lower']:
-                        category = cd['index']
-                        break
-                if category is None:
+            else:
+                category_list = CategoryTypes.get_values(*param, key='short_name_lower')
+                if category_list is None:
                     raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
-                filters['category'] = int(category)
+                filters['category__in'] = [category['index'] for category in category_list]
+
+        param = self.request.GET.getlist('tag')
+        if param:
+            filters['tags__name__in'] = param
 
         param = self.request.GET.get('period')
         if param:
-            if param in 'day':
+            if 'day' in param:
                 filters['timestamp__gte'] = now() - relativedelta(days=+1)
-            elif param in 'week':
+            elif 'week' in param:
                 filters['timestamp__gte'] = now() - relativedelta(weeks=+1)
-            elif param in 'month':
+            elif 'month' in param:
                 filters['timestamp__gte'] = now() - relativedelta(months=+1)
-            elif param in 'month':
+            elif 'year' in param:
                 filters['timestamp__gte'] = now() - relativedelta(years=+1)
 
         param = self.request.GET.get('rating')
         if param:
             pass
+
+        param = self.request.GET.get('text')
+        if param:
+            filters['title__startswith'] = param
 
         queryset = self.model.objects.filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
@@ -73,9 +75,9 @@ class PostListLoadDataView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'category_list': self.category_list,
-            'period_list': self.period_list,
-            'rating_list': self.rating_list,
+            'category_list': self.get_category_list(),
+            'rating_list': self.get_rating_list(),
+            'period_list': self.get_period_list(),
             })
         return context
 
@@ -103,14 +105,6 @@ class PostListLoadDataView(ListView):
 
 class PostListContainerView(PostListLoadDataView):
     template_name = 'blog/post/list/container.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'base_pathname_url': reverse('post_list_default'),
-            'ajax_suffix': 'ajax/post_list_load_data'
-            })
-        return context
 
 
 class PostListView(PostListContainerView):
