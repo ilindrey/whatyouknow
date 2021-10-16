@@ -1,5 +1,5 @@
 
-function changePathnameLocationURL(basePathname='', page = 1, suffix='')
+function changePathnameLocationURL(basePathname= '', page = 1, suffix= null)
 {
     const slash = '/';
     let newURL, baseURL;
@@ -21,7 +21,7 @@ function changePathnameLocationURL(basePathname='', page = 1, suffix='')
     history.replaceState(null, null, newURL.href);
 }
 
-function changeGetParamLocationURL(paramKey = String, paramValue, multiple = false)
+function changeGetParamLocationURL(paramKey = '', paramValue, multiple = false)
 {
     if (!paramKey)
         return null;
@@ -53,7 +53,7 @@ function changeGetParamLocationURL(paramKey = String, paramValue, multiple = fal
     history.replaceState(null, null, newURL.href);
 }
 
-function deleteGetParamLocationURL(paramKey = String, paramValue, multiple = false)
+function deleteGetParamLocationURL(paramKey = '', paramValue, multiple = false)
 {
     if (!paramKey)
         return null;

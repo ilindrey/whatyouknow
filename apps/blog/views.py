@@ -46,10 +46,6 @@ class PostListLoadDataView(ListView):
                     raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
                 filters['category__in'] = [category['index'] for category in category_list]
 
-        param = self.request.GET.getlist('tag')
-        if param:
-            filters['tags__name__in'] = param
-
         param = self.request.GET.get('period')
         if param:
             if 'day' in param:
@@ -65,6 +61,10 @@ class PostListLoadDataView(ListView):
         if param:
             pass
 
+        param = self.request.GET.getlist('tag')
+        if param:
+            filters['tags__name__in'] = param
+
         param = self.request.GET.get('text')
         if param:
             filters['title__startswith'] = param
@@ -72,12 +72,17 @@ class PostListLoadDataView(ListView):
         queryset = self.model.objects.filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
 
+
+class PostListContainerView(PostListLoadDataView):
+    template_name = 'blog/post/list/container.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
             'category_list': self.get_category_list(),
             'rating_list': self.get_rating_list(),
             'period_list': self.get_period_list(),
+            'cur_category': self.kwargs.get('category', 'feed'),
             })
         return context
 
@@ -101,10 +106,6 @@ class PostListLoadDataView(ListView):
                 (50, 50),
                 (75, 75),
                 (85, 85)]
-
-
-class PostListContainerView(PostListLoadDataView):
-    template_name = 'blog/post/list/container.html'
 
 
 class PostListView(PostListContainerView):

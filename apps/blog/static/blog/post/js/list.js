@@ -16,10 +16,12 @@ function safeWrap()
         idPeriod = charID + keyPeriod,
         keyCategoriesItems = idCategories + ' .item',
         keyBasePathnameUrl = 'base-pathname-url',
-        keyPostListLoadDataUrl = 'post-list-load-data-url';
-        // keyAjaxSuffix = 'ajax-suffix';
+        keyPostListLoadDataUrl = 'post-list-load-data-url',
+        keyCurrentCategory = 'current-category',
+        keyCurrentPage = 'current-page';
 
-    let $controlPanel = null,
+    let initialization = false,
+        $controlPanel = null,
         $roll = null,
         $categoriesMenu = null,
         $categoriesMenuItems = null,
@@ -30,21 +32,18 @@ function safeWrap()
         isRatingDropdown = false,
         basePathnameURL = null,
         postListLoadDataURL = null;
-        // ajaxSuffix = null;
-
-
-    const currentCategory = () => {
-        if (isCategoryMenu && $categoriesMenuItems && $categoriesMenuItems.length) {
-            return $categoriesMenuItems.filter('.active').data('value')
-        } else {
-            return null
-        }
-    }
 
     $(document).ready(function ()
     {
+        initialization = true;
+
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
+
+        const currentPage = $roll.data(keyCurrentPage);
+        if(!currentPage) {
+            $roll.data(keyCurrentPage, 1);
+        }
 
         basePathnameURL = $controlPanel.data(keyBasePathnameUrl);
         postListLoadDataURL = $controlPanel.data(keyPostListLoadDataUrl);
@@ -98,34 +97,35 @@ function safeWrap()
             }
             else
             {
-                $periodDropdown.dropdown('clear')
-                $periodDropdown.closest('.ui.dropdown').hide();
+                $periodDropdown.dropdown('clear');
             }
         }
 
         if(isCategoryMenu)
         {
-            category_param = locationURL.searchParams.get('category');
+            category_param = locationURL.searchParams.get('category') || $controlPanel.data(keyCurrentCategory);
 
             $categoriesMenuItems = $(keyCategoriesItems);
 
             if(category_param)
             {
-                $categoriesMenuItems.map(function (index, item)
+                for (let i = 0; i < $categoriesMenuItems.length; i++)
                 {
-                    let $item = $(this);
+                    let $item = $($categoriesMenuItems[i]);
                     if($item.data('value') == category_param)
                     {
                         $item.click();
-                        return;
+                        break;
                     }
-                });
+                }
             }
             else
             {
                 $categoriesMenuItems.get(0).click();
             }
         }
+
+        initialization = false;
     });
 
     $(document).on('click', keyCategoriesItems, function (e) {
@@ -136,6 +136,12 @@ function safeWrap()
 
         let $item = $(this);
         setMenuActiveItem($categoriesMenuItems, $item);
+
+        if(!initialization)
+        {
+            $roll.data(keyCurrentPage, 1);
+            $controlPanel.data(keyCurrentCategory, $item.data('value'));
+        }
 
         updateContent();
     });
@@ -169,7 +175,8 @@ function safeWrap()
                 $periodDropdown.closest('.ui.dropdown').hide();
                 $periodDropdown.dropdown('clear');
 
-                changeGetParamLocationURLOverride(keyPeriod, null, false, false);
+                if(!initialization)
+                    changeGetParamLocationURLOverride(keyPeriod, null, false, false);
             }
             else
             {
@@ -178,34 +185,38 @@ function safeWrap()
         }
 
 
-        changeGetParamLocationURLOverride(paramKey, paramValue);
+        if(!initialization)
+            changeGetParamLocationURLOverride(paramKey, paramValue);
     }
 
     function paginationHandler(e, element)
     {
         e.preventDefault();
 
-        let page = element.href.split('=')[1];
+        const page = element.href.split('=')[1];
+        $roll.data(keyCurrentPage, page);
 
-        updateContent(page);
+        updateContent();
     }
 
-    function updateContent(page= 1)
+    function updateContent()
     {
-        changePathnameLocationURLOverride(page)
+        let currentCategory, currentPage, params,  locationURL;
 
-        let params, category, locationURL;
+        currentPage = $roll.data(keyCurrentPage);
+        currentCategory = $controlPanel.data(keyCurrentCategory);
+
+        if(!initialization)
+            changePathnameLocationURL(basePathnameURL, currentPage, currentCategory);
+
         params = {};
-        category = currentCategory();
         locationURL = new URL(window.location.href);
 
-        if (category)
-        {
-            params.category = category;
+        if(currentPage) {
+            params.page = currentPage;
         }
-        if(page)
-        {
-            params.page = page;
+        if (currentCategory) {
+            params.category = currentCategory;
         }
 
         $.ajax({
@@ -229,21 +240,20 @@ function safeWrap()
         });
     }
 
-    function changePathnameLocationURLOverride(page=1)
-    {
-        changePathnameLocationURL(basePathnameURL, page, currentCategory());
-    }
-
     function changeGetParamLocationURLOverride(paramKey, paramValue, multiple= false, runUpdateContext= true)
     {
         changeGetParamLocationURL(paramKey, paramValue, multiple);
+        if(!initialization)
+            $roll.data(keyCurrentPage, 1);
         if(runUpdateContext)
         {
-            updateContent(1);
+            updateContent();
         }
         else
         {
-            changePathnameLocationURLOverride(1);
+            const currentPage = $roll.data(keyCurrentPage);
+            const currentCategory = $controlPanel.data(keyCurrentCategory);
+            changePathnameLocationURL(basePathnameURL, currentPage, currentCategory);
         }
     }
 }

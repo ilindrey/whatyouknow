@@ -16,9 +16,11 @@ function safeWrap()
         idSearchElem = charID + keySearchElem,
         keyBasePathnameUrl = 'base-pathname-url',
         keyPostListLoadDataUrl = 'post-list-load-data-url',
-        keySearchSelectionsUrl = 'search-selections-url';
+        keySearchSelectionsUrl = 'search-selections-url',
+        keyCurrentPage = 'current-page';
 
-    let $controlPanel = null,
+    let initialization = false,
+        $controlPanel = null,
         $selections = null,
         $roll = null,
         $searchForm = null,
@@ -28,6 +30,8 @@ function safeWrap()
         searchSelectionsURL = null;
 
     $(document).ready(function () {
+
+        initialization = true;
 
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
@@ -127,7 +131,9 @@ function safeWrap()
         $searchForm.form();
 
         if(window.location.search)
-            updateContent();
+            updateContent()
+
+        initialization = false;
     });
 
     $(document).on('submit', idSearchForm, function (e) {
@@ -160,7 +166,10 @@ function safeWrap()
 
     function updateContent()
     {
-        changePathnameLocationURL(basePathnameURL, 1);
+        if(!initialization) {
+            $roll.data(keyCurrentPage, 1);
+            changePathnameLocationURL(basePathnameURL, $roll.data(keyCurrentPage));
+        }
 
         let search = window.location.search;
         if(search)
@@ -168,25 +177,28 @@ function safeWrap()
             $.ajax({
                 type: 'get',
                 url: searchSelectionsURL + search,
-                beforeSend: function(jqXHR, settings)
-                {
-                    $selections.addClass('loading');
-                },
+                // beforeSend: function(jqXHR, settings)
+                // {
+                    // $selections.addClass('loading');
+                // },
                 success: function (responseText) {
                     $selections.html(responseText);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     showErrorMessage(xhr, ajaxOptions, thrownError);
                 },
-                complete: function (jqXHR, textStatus)
-                {
-                    $selections.removeClass('loading');
-                },
+                // complete: function (jqXHR, textStatus)
+                // {
+                    // $selections.removeClass('loading');
+                // },
             });
 
             $.ajax({
                 type: 'get',
                 url: postListLoadDataURL + search,
+                data: {
+                        page: $roll.data(keyCurrentPage),
+                    },
                 beforeSend: function(jqXHR, settings)
                 {
                     $roll.addClass('loading');

@@ -6,18 +6,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="ui fitted basic segment" id="roll">
+    <div class="ui basic fitted segment" id="roll" data-current-page="{{ cur_page }}">
     </div>
-{#    <div class="ui basic segment" id="search_results_area" data-search-selection-results-url="{% url 'search_selection_results' %}">#}
-{#        <div class="ui container">#}
-{#        </div>#}
-{#    </div>#}
 {% endblock %}
-{##}
-{#{% block floor %}#}
-{#    <div class="ui fitted basic segment" id="roll">#}
-{#    </div>#}
-{#{% endblock %}#}
 
 {% block script %}
     <script type="text/javascript" src="{% static 'core/js/urls.js' %}"></script>
