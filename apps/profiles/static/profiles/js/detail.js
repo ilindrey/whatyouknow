@@ -25,7 +25,7 @@ function safeWrap() {
 
         $tabMenu.tab('change tab', currentTabPath);
         let newUrl = new URL(window.location.origin + currentProfileLink + currentTabPath + '/');
-        history.pushState(null, null, newUrl.href);
+        history.replaceState(null, null, newUrl.href);
 
         $tabMenu.tab({
 
@@ -118,7 +118,7 @@ function safeWrap() {
 
                 let newUrl = new URL(window.location.origin + currentProfileLink + urlTabPath + '/');
 
-                history.pushState(null, null, newUrl.href);
+                history.replaceState(null, null, newUrl.href);
 
                 currentTabPath = urlTabPath
                 $profileTabs.data(keyCurrentTabPath, currentTabPath);
@@ -127,4 +127,4 @@ function safeWrap() {
 
         $tabMenu.first().tab('change tab', currentTabPath);
     });
-}å
+}
