@@ -6,7 +6,7 @@ function safeWrap()
     $(document).ready(
         function () {
 
-            let blockNameList = ["roof", "content", "floor"];
+            let blockNameList = ["roof", "content"];
 
             for (let blockName of blockNameList)
             {

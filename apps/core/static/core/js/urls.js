@@ -1,32 +1,45 @@
 
-function changePathnameLocationURL(basePathname= '', page = 1, suffix= null)
+const slash = '/';
+
+function setSlash(value)
 {
-    const slash = '/';
-    let newURL, baseURL;
-
-    newURL = new URL(window.location.href);
-    baseURL = new URL(window.location.origin + basePathname);
-
-    newURL.pathname = baseURL.pathname;
-
-    if(suffix)
-        newURL.pathname += suffix;
-
-    if(newURL.pathname.slice(-1) !== slash)
-        newURL.pathname += slash;
-
-    if(page != 1)
-         newURL.pathname += page + slash;
-
-    history.replaceState(null, null, newURL.href);
+    if(value.slice(-1) !== slash)
+        value += slash;
 }
 
-function changeGetParamLocationURL(paramKey = '', paramValue, multiple = false)
+function checkSlashes(value)
+{
+    if(value.slice(0, 1) === slash)
+        value = value.slice(1, value.length);
+    if(value.slice(-1) !== slash)
+        value += slash;
+    return value;
+}
+
+function getURL(url = null, page = null, ...theArgs)
+{
+    let newURL = new URL(url ? url : location.href);
+
+    newURL.pathname = '';
+    for (let i = 0; i < theArgs.length; i++)
+    {
+        let value = theArgs[i];
+        if(value)
+            newURL.pathname += checkSlashes(theArgs[i]);
+    }
+
+    if(page && page > 1)
+        newURL.pathname += page + slash;
+
+    return newURL;
+}
+
+function changeParamsURL(paramKey = '', paramValue, multiple = false, startingURL = location.href)
 {
     if (!paramKey)
         return null;
 
-    let newURL = new URL(window.location.href);
+    let newURL = new URL(startingURL);
 
     if(!isEmptyValue(paramValue))
     {
@@ -50,23 +63,34 @@ function changeGetParamLocationURL(paramKey = '', paramValue, multiple = false)
             newURL.searchParams.delete(paramKey);
     }
 
-    history.replaceState(null, null, newURL.href);
+    return newURL;
 }
 
-function deleteGetParamLocationURL(paramKey = '', paramValue, multiple = false)
+function setParamURL(paramKey = '', paramValue, startingURL = location.href)
+{
+    return changeParamsURL(paramKey, paramValue, false, startingURL);
+}
+
+function appendParamURL(paramKey = '', paramValue, startingURL = location.href)
+{
+    return changeParamsURL(paramKey, paramValue, true, startingURL);
+}
+
+function deleteParamURL(paramKey = '', paramValue, startingURL = location.href)
 {
     if (!paramKey)
         return null;
 
-    let newURL = new URL(window.location.href);
+    let newURL = new URL(startingURL);
 
-    if(multiple === true)
+    let list = newURL.searchParams.getAll(paramKey);
+    if (list.length > 1)
     {
-        let list = newURL.searchParams.getAll(paramKey);
         const index = list.indexOf(paramValue);
-        if (index > -1) {
+        if (list.indexOf(paramValue) > -1) {
             list.splice(index, 1);
         }
+
         newURL.searchParams.delete(paramKey);
         list.map(function(item, index) {
                     newURL.searchParams.append(paramKey, item);
@@ -77,5 +101,6 @@ function deleteGetParamLocationURL(paramKey = '', paramValue, multiple = false)
         newURL.searchParams.delete(paramKey);
     }
 
-    history.replaceState(null, null, newURL.href);
+    return newURL;
 }
+

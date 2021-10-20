@@ -32,15 +32,14 @@
 
                 <div class="item">
 
-                    <div class="ui horizontal link list">
+                    <div class="ui horizontal link list" id="tags">
 
                         {% for tag in object.tags.all %}
-
                             <div class="item">
                                 {% if forloop.last %}
-                                    <a>{{ tag.name }}</a>
+                                    <a href="{% url 'search' %}" data-value="{{ tag.name }}">{{ tag.name }}</a>
                                 {% else %}
-                                    <a style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>
+                                    <a href="{% url 'search' %}" data-value="{{ tag.name }}" style="margin-right: 0;">{{ tag.name }}</a><span style="margin-right: 0;">,</span>
                                 {% endif %}
                             </div>
                         {% endfor %}

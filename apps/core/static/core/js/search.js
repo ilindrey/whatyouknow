@@ -61,9 +61,10 @@ function safeWrap()
                 },
                 type: 'custom',
                 onSelect: function(result, response) {
-                    const multiple = result.type !== 'text';
-                    changeGetParamLocationURL(result.type, result.value, multiple);
                     $searchElem.search('set value', null);
+                    const multiple = result.type !== 'text';
+                    const url = changeParamsURL(result.type, result.value, multiple);
+                    history.replaceState(null, null, url.href);
                     updateContent();
                 },
                 templates: {
@@ -140,9 +141,10 @@ function safeWrap()
 
         e.preventDefault();
 
-        let value = $searchElem.search('get value');
-        changeGetParamLocationURL('text', value, false);
         $searchElem.search('hide results');
+        const value = $searchElem.search('get value');
+        const url = setParamURL('text', value);
+        history.replaceState(null, null, url.href);
         updateContent();
     });
 
@@ -150,25 +152,23 @@ function safeWrap()
 
         e.preventDefault();
 
-        let $icon, $label, type, value;
+        let $icon, $label;
 
         $icon = $(this);
         $label = $icon.closest('.label');
 
-        type = $label.data('type');
-        value = $label.data('value');
-
-        const multiple = type !== 'text';
-        deleteGetParamLocationURL(type, value, multiple);
-
+        const url = deleteParamURL($label.data('type'), $label.data('value'));
+        history.replaceState(null, null, url.href)
         updateContent();
     });
 
     function updateContent()
     {
         if(!initialization) {
-            $roll.data(keyCurrentPage, 1);
-            changePathnameLocationURL(basePathnameURL, $roll.data(keyCurrentPage));
+            const currentPage = 1;
+            const url = getURL(null, currentPage, basePathnameURL);
+            $roll.data(keyCurrentPage, currentPage);
+            history.replaceState(null, null, url.href);
         }
 
         let search = window.location.search;

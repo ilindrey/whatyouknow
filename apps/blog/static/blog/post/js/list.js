@@ -176,7 +176,7 @@ function safeWrap()
                 $periodDropdown.dropdown('clear');
 
                 if(!initialization)
-                    changeGetParamLocationURLOverride(keyPeriod, null, false, false);
+                    changeParamURL(keyPeriod, null, false);
             }
             else
             {
@@ -186,7 +186,7 @@ function safeWrap()
 
 
         if(!initialization)
-            changeGetParamLocationURLOverride(paramKey, paramValue);
+            changeParamURL(paramKey, paramValue);
     }
 
     function paginationHandler(e, element)
@@ -207,7 +207,10 @@ function safeWrap()
         currentCategory = $controlPanel.data(keyCurrentCategory);
 
         if(!initialization)
-            changePathnameLocationURL(basePathnameURL, currentPage, currentCategory);
+        {
+            const url = getURL(null, currentPage, basePathnameURL, currentCategory);
+            history.replaceState(null, null, url.href);
+        }
 
         params = {};
         locationURL = new URL(window.location.href);
@@ -240,9 +243,10 @@ function safeWrap()
         });
     }
 
-    function changeGetParamLocationURLOverride(paramKey, paramValue, multiple= false, runUpdateContext= true)
+    function changeParamURL(paramKey, paramValue, runUpdateContext= true)
     {
-        changeGetParamLocationURL(paramKey, paramValue, multiple);
+        const url = setParamURL(paramKey, paramValue);
+        history.replaceState(null, null, url.href);
         if(!initialization)
             $roll.data(keyCurrentPage, 1);
         if(runUpdateContext)
@@ -253,7 +257,8 @@ function safeWrap()
         {
             const currentPage = $roll.data(keyCurrentPage);
             const currentCategory = $controlPanel.data(keyCurrentCategory);
-            changePathnameLocationURL(basePathnameURL, currentPage, currentCategory);
+            const url = getURL(null, currentPage, basePathnameURL, currentCategory);
+            history.replaceState(null, null, url);
         }
     }
 }
