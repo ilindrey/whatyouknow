@@ -1,0 +1,10 @@
+{% extends 'core/forms/structure/post.html' %}
+
+{% block id %}edit_comment_form{% endblock %}
+
+{% block params %}{% if action_url %}action="{{ action_url }}"{% endif %} {% if action_type %}data-action-type="{{ action_type }}"{% endif %} {% if target_id %}data-target-id={{ target_id }}{% endif %}{% endblock %}
+
+{% block buttons %}
+    {% include 'comments/forms/buttons/send.html' %}
+    {% include 'comments/forms/buttons/cancel.html' %}
+{% endblock %}

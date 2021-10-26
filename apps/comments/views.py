@@ -1,26 +1,31 @@
-from django.apps import apps
 from django.views import generic
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Comment
+from .mixins import ContentTypeObjectCommentMixin, CreateUpdateCommentMixin
 
 
-class MultipleObjectCommentsMixin:
-
-    def get_queryset(self):
-        app_label = self.request.GET.get('app_label')
-        model_name = self.request.GET.get('model_name')
-        model_pk = self.request.GET.get('model_pk')
-
-        obj = apps.get_model(app_label, model_name).objects.get(pk=model_pk)
-
-        return Comment.objects.filter(content_type=ContentType.objects.get_for_model(obj._meta.model),
-                                      object_id=obj.pk)
-
-
-class CommentList(MultipleObjectCommentsMixin, generic.ListView):
+class CommentListView(ContentTypeObjectCommentMixin, generic.ListView):
+    model = Comment
     template_name = 'comments/list.html'
 
     def get_queryset(self):
-        return super().get_queryset()
+        return super().get_queryset()\
+            .filter(content_type=ContentType.objects.get_for_model(self.content_type_object._meta.model),
+                    object_id=self.content_type_object.pk)
 
+
+class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, generic.CreateView):
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.content_type = ContentType.objects.get_for_model(self.content_type_object._meta.model)
+        form.instance.object_id = self.content_type_object.pk
+        if 'reply' in self.request.POST.get('action_type'):
+            form.instance.parent_id = self.request.POST.get('target_id')
+        return super().form_valid(form)
+
+
+class EditCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, generic.UpdateView):
+    pass

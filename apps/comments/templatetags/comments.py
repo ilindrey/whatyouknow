@@ -8,8 +8,8 @@ from apps.comments.models import Comment
 register = template.Library()
 
 
-@register.inclusion_tag('comments/base.html')
-def render_comments(obj):
+@register.inclusion_tag('comments/base.html', takes_context=True)
+def render_comments(context, obj):
     if not obj_is_model(obj):
         return
     obj_data = {
@@ -20,7 +20,8 @@ def render_comments(obj):
     obj_comment_count = comments_count(obj)
     return {
         'obj': obj_data,
-        'comments_count': obj_comment_count
+        'comments_count': obj_comment_count,
+        'user': context['request'].user
         }
 
 

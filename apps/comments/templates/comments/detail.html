@@ -1,15 +1,15 @@
 {% load core %}
 
-<div class="comment" id="comment_{{ node.id }}" data-node-id="{{ node.id }}" data-parent-id="{{ node.parent_id }}">
+<div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}"{% endif %}>
     <a class="avatar">
         {% include 'profiles/avatar/comment.html' %}
     </a>
     <div class="content">
         <a class="author">
-            @{{ node.user.username }}
+            {{ node.user.username }}
         </a>
         <div class="metadata">
-            <a href="{{ node.get_absolute_url }}">
+            <a href="{{ node.get_absolute_url }}" class="href">
 {#            <a name="#comment_{{ node.id }}" href="{{ node.get_absolute_url }}">#}
                 <i class="grey linkify icon"></i>
             </a>
@@ -20,31 +20,23 @@
                     <span>(edited)</span>
                 {% endif %}
             </span>
-            <span>id - {{ node.id }}</span>
-            <span>parent_id - {{ node.parent_id }}</span>
+{#            <span>id - {{ node.id }}</span>#}
+{#            <span>parent_id - {{ node.parent_id }}</span>#}
         </div>
         <div class="text">
             {{ node.text|safe }}
         </div>
-        <div class="actions">
-{#            {% if is_parent %}#}
-{#                {% with count_answers=node.get_descendant_count %}#}
-{#                    {% if count_answers %}#}
-{#                        <a class="answers" data-is-show="false">#}
-{#                            <span class="ui text">#}
-{#                                Show {% if count_answers > 1 %} {{ count_answers }} {% endif %} answer{{ count_answers|pluralize }}#}
-{#                            </span>#}
-{#                            <i class="dropdown icon"></i>#}
-{#                        </a>#}
-{#                    {% endif %}#}
-{#                {% endwith %}#}
-{#            {% endif %}#}
-            <a class="reply">
+        <div class="actions" >
+            {% if user.is_authenticated %}
+            <a class="reply" data-action-url="{% url 'comment_create'%}">
                 Reply
             </a>
-            <a class="edit">
-                Edit
-            </a>
+                {% if node.user == user %}
+                    <a class="edit" data-action-url="{% url 'comment_edit' node.id %}">
+                        Edit
+                    </a>
+                {% endif %}
+            {% endif  %}
             <a class="like"><i class="thumbs up link icon"></i>13</a>
             <a class="dislike"><i class="thumbs down link icon"></i>2</a>
         </div>

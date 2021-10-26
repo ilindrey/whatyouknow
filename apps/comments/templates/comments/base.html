@@ -8,11 +8,21 @@
      data-url-comment-list="{% url 'comment_list' %}"
 >
 
-    <div class="row">
-        <div class="column">
+    <div class="two column row">
+        <div class="left aligned column">
             <h2 class="ui header">
                 {% if comments_count > 1 %} {{ comments_count }} {% endif %} comment{{ comments_count|default_if_none:0|pluralize }}
             </h2>
+        </div>
+        <div class="right aligned column">
+        {% if user.is_authenticated %}
+            <div class="ui primary basic compact button"
+                 id="add_comment"
+                 data-action-url="{% url 'comment_create' %}">
+                <i class="comment medical icon"></i>
+                Add a comment
+            </div>
+        {% endif %}
         </div>
     </div>
 
@@ -28,6 +38,4 @@
 
 
 </div>
-
-{#<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>#}
 <script type="text/javascript" src="{% static 'comments/js/comments.js' %}"></script>

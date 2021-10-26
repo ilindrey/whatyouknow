@@ -1,7 +1,6 @@
 <form class="ui form{% if form.non_field_errors %} error{% endif %}" method="{% block form_method %}get{% endblock %}" id="{% block id %}{% endblock %}" {% block params %}{% endblock %}>
 
-    {% block csrf_token %}
-    {% endblock %}
+    {% block csrf_token %}{% endblock %}
 
     {% if form.non_field_errors %}
         <div class="ui error message">
