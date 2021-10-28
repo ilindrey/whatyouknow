@@ -41,11 +41,12 @@ first_tabs_patterns = [
 
 settings_patterns = [
     path('', SettingsView.as_view(), name='profile_settings'),
+    path('<str:tab>/', SettingsView.as_view(), name='profile_settings_tab'),
     path('ajax/', include([
         path('edit_profile', EditProfileView.as_view(), name='edit_profile'),
-        path('edit_feed_settings_profile', EditFeedSettingsView.as_view(), name='edit_feed_settings_profile'),
-        path('edit_password_change', PasswordChangeView.as_view(), name='profile_password_change'),
-        path('password_change_done', PasswordChangeDoneView.as_view(), name='profile_password_change_done'),
+        path('edit_feed', EditFeedView.as_view(), name='edit_feed'),
+        path('password_change', PasswordChangeView.as_view(), name='password_change'),
+        path('load_password_change_done', PasswordChangeDoneView.as_view(), name='password_change_done'),
         ]))
     ]
 

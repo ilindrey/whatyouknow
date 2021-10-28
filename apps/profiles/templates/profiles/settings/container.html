@@ -27,21 +27,23 @@
                     <div id="profile_menu"
                          class="ui vertical fluid menu"
                          data-current-username="{{ object.username }}"
+                         data-current-tab="{{ cur_tab }}"
+                         data-base-pathname-url="{% url 'profile_settings' object.username %}"
                     >
-                        <dif class="item" data-current-url="{% url 'edit_profile' object.username %}">
+                        <dif class="item" data-current-url="{% url 'edit_profile' object.username %}" data-value="profile">
                             Your profile
                         </dif>
-                        <dif class="item" data-current-url="{% url 'profile_password_change' object.username %}">
+                        <dif class="item" data-current-url="{% url 'password_change' object.username %}" data-value="password">
                             Change password
                         </dif>
-                        <dif class="item" data-current-url="{% url 'edit_feed_settings_profile' object.username %}">
+                        <dif class="item" data-current-url="{% url 'edit_feed' object.username %}" data-value="feed">
                             Feed settings
                         </dif>
                     </div>
                 </div>
                 <div class="twelve wide column">
-                    <div class="ui segment" id="profile_settings_segment">
-                        <!-- ajax load -->
+                    <div class="ui segment" id="interaction_area">
+                        <!-- ajax load content -->
                     </div>
                 </div>
             </div>

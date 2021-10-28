@@ -1,7 +1,8 @@
 from django.contrib.auth import login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.views import generic
 from django.urls import reverse
+from django.utils.translation import gettext as _
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -85,6 +86,12 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         first_tab = self.kwargs.get('first_tab', default_first_tab)
         second_tab = self.kwargs.get('second_tab', default_second_tab)
 
+        if first_tab == 'settings':
+            raise Http404(_('Invalid profile setting page (%(first_tab)s): %(second_tab)s') % {
+                'first_tab': first_tab,
+                'second_tab': second_tab
+            })
+
         first_tab_data = tab_list.get(first_tab)
         if first_tab_data is None:
             first_tab = default_first_tab
@@ -135,6 +142,20 @@ class ProfileCommentsTabLoadDataListView(ProfileTabListMixin, generic.ListView):
 class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
     template_name = 'profiles/settings.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tab = self.kwargs.get('tab', 'profile')
+        if tab not in self.get_tab_list():
+            raise Http404(_('Invalid profile setting tab: (%(tab)s)') % {
+                'first_tab': tab,
+                })
+        context['cur_tab'] = tab
+        return context
+
+    @staticmethod
+    def get_tab_list():
+        return ['profile', 'password', 'feed']
+
 
 class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     form_class = EditProfileForm
@@ -144,7 +165,7 @@ class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
         return reverse('edit_profile', kwargs={self.slug_url_kwarg: self.object.username})
 
 
-class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
+class EditFeedView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
     form_class = EditFeedSettingsForm
     template_name = 'profiles/settings/forms/edit_feed_settings.html'
 
@@ -157,14 +178,14 @@ class EditFeedSettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateV
         return super().get_initial()
 
     def get_success_url(self):
-        return reverse('edit_feed_settings_profile', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
+        return reverse('edit_feed', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
 
 
 class PasswordChangeView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeView):
     template_name = 'profiles/settings/forms/password_change_form.html'
 
     def get_success_url(self):
-        return reverse('profile_password_change_done', kwargs={'username': self.kwargs['username']})
+        return reverse('password_change_done', kwargs={'username': self.kwargs['username']})
 
 
 class PasswordChangeDoneView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeDoneView):

@@ -3,36 +3,64 @@ safeWrap();
 
 function safeWrap() {
 
-    let $currentForm = null,
-        $profileMenu = null,
-        $profileMenuItems = null,
-        $profileSettingsSegment = null,
-        currentUrl = null;
+    let $currentForm,
+        $profileMenu,
+        $profileMenuItems,
+        $profileSettingsSegment,
+        basePathnameURL,
+        currentUrl,
+        currentTab;
 
-    const keyProfileMenu = '#profile_menu',
-        keyProfileMenuItems = keyProfileMenu + ' .item',
-        keyProfileSettingsSegment = '#profile_settings_segment',
-        keyCurrentUsername = 'current-username';
+    const idProfileMenu = '#profile_menu',
+        idProfileSettingsSegment = '#interaction_area',
+        keyProfileMenuItems = idProfileMenu + ' .item',
+        keyCurrentUsername = 'current-username',
+        keyCurrentTab = 'current-tab',
+        keyBasePathnameUrl = 'base-pathname-url';
 
 
     $(document).ready(function () {
-        $profileMenu = $(keyProfileMenu);
-        $profileSettingsSegment = $(keyProfileSettingsSegment);
+
+        $profileMenu = $(idProfileMenu);
+        $profileSettingsSegment = $(idProfileSettingsSegment);
         $profileMenuItems = $(keyProfileMenuItems);
 
-        $profileMenuItems.get(0).click();
+        basePathnameURL = $profileMenu.data(keyBasePathnameUrl);
+        currentTab = $profileMenu.data(keyCurrentTab);
+
+        if(currentTab)
+        {
+            for (let i = 0; i < $profileMenuItems.length; i++)
+            {
+                let $item = $($profileMenuItems[i]);
+                if($item.data('value') == currentTab)
+                {
+                    $item.click();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $profileMenuItems.get(0).click();
+        }
     });
 
     $(document).on('click', keyProfileMenuItems, function (e) {
 
         e.preventDefault();
 
-        let item, deferred;
+        let $item, deferred;
 
-        item = $(this);
-        setMenuActiveItem($profileMenuItems, item);
+        $item = $(this);
+        setMenuActiveItem($profileMenuItems, $item);
 
-        currentUrl = item.data('current-url');
+        currentTab = $item.data('value');
+        currentUrl = $item.data('current-url');
+
+        $profileMenu.data(keyCurrentTab, currentTab);
+        const url = getURL(null, null, basePathnameURL, currentTab);
+        history.replaceState(null, null, url.href);
 
         deferred = $.get(currentUrl);
         deferred.done(function (responseText) {
