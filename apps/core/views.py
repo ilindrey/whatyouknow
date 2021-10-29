@@ -65,7 +65,8 @@ class SearchSuitableResultsListView(TemplateView):
                 'type': 'tag'
                 })
 
-        s = sorted(j, key=lambda x: x['title'].lower())
+        j_rd = [dict(t) for t in {tuple(d.items()) for d in j}]  # remove duplicates
+        s = sorted(j_rd, key=lambda x: x['title'].lower())
         l = list(filter(lambda item: item['title'].lower().startswith(query.lower()), s))
         return l[:self.max_results]
 
