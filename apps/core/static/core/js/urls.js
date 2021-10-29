@@ -34,6 +34,18 @@ function getURL(url = null, page = null, ...theArgs)
     return newURL;
 }
 
+function getParam(key, url = location.href)
+{
+    let u = new URL(url);
+    return u.searchParams.get(key);
+}
+
+function getParams(key, url = location.href)
+{
+    let u = new URL(url);
+    return u.searchParams.getAll(key);
+}
+
 function changeParamsURL(paramKey = '', paramValue, multiple = false, startingURL = location.href)
 {
     if (!paramKey)

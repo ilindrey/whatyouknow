@@ -136,7 +136,12 @@ function safeWrap()
         $searchForm.form();
 
         if(location.search)
+        {
+            const param = getParam('text');
+            if (!isEmptyValue(param))
+                $searchElem.search('set value', param);
             updateContent();
+        }
 
         initialization = false;
     });
