@@ -20,14 +20,15 @@ function safeWrap()
         keyCurrentPage = 'current-page';
 
     let initialization = false,
-        $controlPanel = null,
-        $selections = null,
-        $roll = null,
-        $searchForm = null,
-        $searchElem = null,
-        basePathnameURL = null,
-        postListLoadDataURL = null,
-        searchSelectionsURL = null;
+        $controlPanel,
+        $selections,
+        $roll,
+        $searchForm,
+        $searchElem,
+        $loader,
+        basePathnameURL,
+        postListLoadDataURL,
+        searchSelectionsURL;
 
     $(document).ready(function () {
 
@@ -35,11 +36,14 @@ function safeWrap()
 
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
+        $loader = $('.loader').closest('.ui.segment');
 
         $searchForm = $controlPanel.find(idSearchForm);
         $selections = $controlPanel.find(idSelections);
 
         $searchElem = $searchForm.find(idSearchElem);
+
+        hideLoader();
 
         basePathnameURL = $controlPanel.data(keyBasePathnameUrl);
         postListLoadDataURL = $controlPanel.data(keyPostListLoadDataUrl);
@@ -131,8 +135,8 @@ function safeWrap()
 
         $searchForm.form();
 
-        if(window.location.search)
-            updateContent()
+        if(location.search)
+            updateContent();
 
         initialization = false;
     });
@@ -171,37 +175,36 @@ function safeWrap()
             history.replaceState(null, null, url.href);
         }
 
-        let search = window.location.search;
-        if(search)
+        if(location.search)
         {
             $.ajax({
                 type: 'get',
-                url: searchSelectionsURL + search,
-                // beforeSend: function(jqXHR, settings)
-                // {
-                    // $selections.addClass('loading');
-                // },
+                url: searchSelectionsURL + location.search,
+                beforeSend: function(jqXHR, settings)
+                {
+                    showLoader();
+                },
                 success: function (responseText) {
                     $selections.html(responseText);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     showErrorMessage(xhr, ajaxOptions, thrownError);
                 },
-                // complete: function (jqXHR, textStatus)
-                // {
-                    // $selections.removeClass('loading');
-                // },
+                complete: function (jqXHR, textStatus)
+                {
+                    hideLoader();
+                },
             });
 
             $.ajax({
                 type: 'get',
-                url: postListLoadDataURL + search,
+                url: postListLoadDataURL + location.search,
                 data: {
                         page: $roll.data(keyCurrentPage),
                     },
                 beforeSend: function(jqXHR, settings)
                 {
-                    $roll.addClass('loading');
+                    showLoader();
                 },
                 success: function (responseText) {
                     $roll.html(responseText);
@@ -211,7 +214,7 @@ function safeWrap()
                 },
                 complete: function (jqXHR, textStatus)
                 {
-                    $roll.removeClass('loading');
+                    hideLoader();
                 },
             });
         }
@@ -219,6 +222,18 @@ function safeWrap()
         {
             $selections.html('');
             $roll.html('');
+            hideLoader();
         }
+    }
+
+    function showLoader()
+    {
+        $roll.html('');
+        $loader.show();
+    }
+
+    function hideLoader()
+    {
+        $loader.hide();
     }
 }

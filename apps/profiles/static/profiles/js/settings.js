@@ -6,13 +6,14 @@ function safeWrap() {
     let $currentForm,
         $profileMenu,
         $profileMenuItems,
-        $profileSettingsSegment,
+        $profileInteractionArea,
+        $loader,
         basePathnameURL,
         currentUrl,
         currentTab;
 
     const idProfileMenu = '#profile_menu',
-        idProfileSettingsSegment = '#interaction_area',
+        idInteractionArea = '#interaction_area',
         keyProfileMenuItems = idProfileMenu + ' .item',
         keyCurrentUsername = 'current-username',
         keyCurrentTab = 'current-tab',
@@ -22,8 +23,11 @@ function safeWrap() {
     $(document).ready(function () {
 
         $profileMenu = $(idProfileMenu);
-        $profileSettingsSegment = $(idProfileSettingsSegment);
+        $profileInteractionArea = $(idInteractionArea);
         $profileMenuItems = $(keyProfileMenuItems);
+        $loader = $('.loader').closest('.ui.segment');
+
+        hideLoader();
 
         basePathnameURL = $profileMenu.data(keyBasePathnameUrl);
         currentTab = $profileMenu.data(keyCurrentTab);
@@ -62,6 +66,7 @@ function safeWrap() {
         const url = getURL(null, null, basePathnameURL, currentTab);
         history.replaceState(null, null, url.href);
 
+        showLoader();
         deferred = $.get(currentUrl);
         deferred.done(function (responseText) {
             updateSegment(responseText);
@@ -69,6 +74,7 @@ function safeWrap() {
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
+        hideLoader();
     });
 
     $(document).on('submit', '#edit_profile_form', function (e) {
@@ -98,33 +104,42 @@ function safeWrap() {
             processData: false,
             contentType: false,
             enctype: 'multipart/form-data',
+            beforeSend: function(jqXHR, settings)
+            {
+                showLoader();
+            },
             success: function (responseText) {
                 updateSegment(responseText, 'Profile updated!', true);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                hideLoader();
+            },
         });
     }
 
     function formSubmit(successMessage = null)
     {
+        showLoader();
         let deferred = $.post(currentUrl, $currentForm.serialize());
         deferred.done(function (responseText) {
             updateSegment(responseText, successMessage, false);
-
         });
         deferred.fail(function (xhr, ajaxOptions, thrownError) {
             showErrorMessage(xhr, ajaxOptions, thrownError);
         });
+        hideLoader();
     }
 
     function updateSegment(responseText, successMessage= null, runActionsUpdateUsername = false)
     {
-        $profileSettingsSegment.html(responseText);
+        $profileInteractionArea.html(responseText);
 
-        $currentForm = $profileSettingsSegment.find('.ui.form');
-        let isValid = $currentForm.find('.error').length === 0;
+        $currentForm = $profileInteractionArea.find('.ui.form');
+        const isValid = $currentForm.find('.error').length === 0;
 
         if ($currentForm.length)
             $currentForm.form();
@@ -137,6 +152,17 @@ function safeWrap() {
 
         if (runActionsUpdateUsername)
             updateUrlsWhenUsernameChanged();
+    }
+
+    function showLoader()
+    {
+        $profileInteractionArea.html('');
+        $loader.show();
+    }
+
+    function hideLoader()
+    {
+        $loader.hide();
     }
 
     function updateUrlsWhenUsernameChanged()

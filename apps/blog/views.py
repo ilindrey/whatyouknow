@@ -22,7 +22,7 @@ class PostRedirectDefaultCategoryListView(RedirectView):
 class PostListLoadDataView(ListView):
     allow_empty = True
     model = Post
-    template_name = 'blog/post/list/roll.html'
+    template_name = 'blog/post/list/roll_out.html'
     paginate_by = 15
     ordering = '-timestamp'
 
@@ -83,6 +83,7 @@ class PostListContainerView(PostListLoadDataView):
             'rating_list': self.get_rating_list(),
             'period_list': self.get_period_list(),
             'cur_category': self.kwargs.get('category', 'feed'),
+            'cur_page': context['page_obj'].number
             })
         return context
 

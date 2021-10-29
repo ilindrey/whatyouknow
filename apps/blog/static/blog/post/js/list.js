@@ -21,17 +21,18 @@ function safeWrap()
         keyCurrentPage = 'current-page';
 
     let initialization = false,
-        $controlPanel = null,
-        $roll = null,
-        $categoriesMenu = null,
-        $categoriesMenuItems = null,
-        $periodDropdown = null,
-        $ratingDropdown = null,
         isCategoryMenu = false,
         isPeriodDropdown = false,
         isRatingDropdown = false,
-        basePathnameURL = null,
-        postListLoadDataURL = null;
+        $loader,
+        $controlPanel,
+        $roll,
+        $categoriesMenu,
+        $categoriesMenuItems,
+        $periodDropdown,
+        $ratingDropdown,
+        basePathnameURL,
+        postListLoadDataURL;
 
     $(document).ready(function ()
     {
@@ -39,6 +40,9 @@ function safeWrap()
 
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
+        $loader = $('.loader').closest('.ui.segment');
+
+        $loader.hide();
 
         const currentPage = $roll.data(keyCurrentPage);
         if(!currentPage) {
@@ -228,7 +232,8 @@ function safeWrap()
             data: params,
             beforeSend: function(jqXHR, settings)
             {
-                $roll.addClass('loading');
+                $roll.html('');
+                $loader.show();
             },
             success: function (responseText) {
                 $roll.html(responseText);
@@ -238,7 +243,7 @@ function safeWrap()
             },
             complete: function (jqXHR, textStatus)
             {
-                $roll.removeClass('loading');
+                $loader.hide();
             },
         });
     }
