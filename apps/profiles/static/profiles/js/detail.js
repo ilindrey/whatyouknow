@@ -4,8 +4,8 @@ safeWrap();
 function safeWrap() {
 
     const keyTab = 'tab',
+        keyBasePathnameUrl = 'base-pathname-url',
         keyCurrentTabPath = 'current-tab-path',
-        keyCurrentProfileLink = 'current-profile-link',
         keyIsDescendantMenu = 'is-descendant-menu',
         keyLinkLoadData = 'link-load-data',
         keyLinkLazyLoad = 'link-lazy-load',
@@ -18,14 +18,14 @@ function safeWrap() {
     {
         const $profileTabs = $('#profile_tabs');
 
-        const currentProfileLink = $profileTabs.data(keyCurrentProfileLink);
+        const basePathnameUrl = $profileTabs.data(keyBasePathnameUrl);
         let currentTabPath = $profileTabs.data(keyCurrentTabPath);
 
         const $tabMenu = $('.menu .item');
 
         $tabMenu.tab('change tab', currentTabPath);
-        let newUrl = new URL(window.location.origin + currentProfileLink + currentTabPath + '/');
-        history.replaceState(null, null, newUrl.href);
+        const url = getURL(null, null, basePathnameUrl, currentTabPath);
+        history.replaceState(null, null, url.href);
 
         $tabMenu.tab({
 
@@ -109,19 +109,21 @@ function safeWrap() {
                 let urlTabPath = ''
 
                 const isDescendantMenu = $tab.data(keyIsDescendantMenu);
-                if (isDescendantMenu) {
+                if (isDescendantMenu)
+                {
                     let descendantTab = $tab.find('.menu .item').get(0);
                     urlTabPath = $(descendantTab).data(keyTab);
-                } else {
+                }
+                else
+                {
                     urlTabPath = tabPath;
                 }
 
-                let newUrl = new URL(window.location.origin + currentProfileLink + urlTabPath + '/');
-
-                history.replaceState(null, null, newUrl.href);
-
                 currentTabPath = urlTabPath
                 $profileTabs.data(keyCurrentTabPath, currentTabPath);
+
+                const url = getURL(null, null, basePathnameUrl, currentTabPath);
+                history.replaceState(null, null, url.href);
             },
         });
 

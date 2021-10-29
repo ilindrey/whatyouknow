@@ -70,8 +70,8 @@
         <div class="row">
             <div class="column"
                  id="profile_tabs"
+                 data-base-pathname-url="{{ base_pathname_url }}"
                  data-current-tab-path="{{ first_tab }}{% if second_tab %}/{{ second_tab }}{% endif %}"
-                 data-current-profile-link="{{ current_profile_link }}"
             >
 
                 {% include 'profiles/detail/tabs/stucture/base.html' %}

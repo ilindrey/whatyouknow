@@ -107,7 +107,7 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         context['first_tab'] = first_tab
         context['second_tab'] = second_tab
         context['tab_list'] = tab_list
-        context['current_profile_link'] = reverse('profile_detail', kwargs=default_kwargs)
+        context['base_pathname_url'] = reverse('profile_detail', kwargs=default_kwargs)
 
         return context
 
