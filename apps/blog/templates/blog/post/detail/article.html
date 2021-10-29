@@ -2,11 +2,8 @@
 
 <div class="ui grid">
 
-    <div class="row">
-        <div class="column">
-            <div class="ui list">
-
-                <div class="item">
+        <div class="row">
+            <div class="left aligned ten wide column">
                     <div class="ui horizontal link list" >
                         <a class="item" href="{% url 'profile_detail' object.user %}">
                             {% include 'profiles/avatar/author.html' %}
@@ -24,7 +21,38 @@
                             </span>
                         </div>
                     </div>
+            </div>
+            {% if user.is_authenticated and user == object.user %}
+                <div class="right aligned six wide column">
+                    {% include 'blog/post/detail/buttons/edit_post.html' %}
                 </div>
+            {% endif %}
+        </div>
+
+    <div class="row">
+        <div class="column">
+
+            <div class="ui list">
+
+{#                <div class="item">#}
+{#                    <div class="ui horizontal link list" >#}
+{#                        <a class="item" href="{% url 'profile_detail' object.user %}">#}
+{#                            {% include 'profiles/avatar/author.html' %}#}
+{#                            <div class="content">#}
+{#                                <div class="ui header">{{ object.user.username }}</div>#}
+{#                            </div>#}
+{#                        </a>#}
+{#                        <div class="disabled item">#}
+{#                            <span class="ui grey text">#}
+{#                                {% if object.published %}#}
+{#                                    {{ object.published|datetime_format }}#}
+{#                                {% else %}#}
+{#                                    {{ object.timestamp|datetime_format }}#}
+{#                                {% endif %}#}
+{#                            </span>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
 
                 <div class="item">
                     <h2 class="ui header">{{ object.title }}</h2>
@@ -48,6 +76,7 @@
 
                 </div>
             </div>
+
         </div>
     </div>
 
