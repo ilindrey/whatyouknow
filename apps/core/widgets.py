@@ -36,16 +36,19 @@ class SemanticTagDropdownWidgetInput(TagWidget):
     class Media:
         js = ('widgets/js/tag_dropdown_input.js', )
 
-    def __init__(self, attrs=None, model=None, default_text='Search tags...', allow_additions=False, clearable=True):
+    def __init__(self, attrs=None, model=None, allow_additions=False, clearable=True, show_icon=False, icon='tag',
+                 default_text='Search tags...'):
         super().__init__(attrs)
         self.model = model or self.model
         self.default_text = default_text
         self.allow_additions = allow_additions
         self.clearable = clearable
+        self.show_icon = show_icon
+        self.icon = icon
 
     def get_tag_list(self):
         queryset = self.model._default_manager.all()
-        return [{'icon': 'tag', 'value': obj.name, 'name': obj.name, 'text': obj.name} for obj in queryset]
+        return [{'icon': self.icon if self.show_icon else None, 'value': obj.name, 'name': obj.name, 'text': obj.name} for obj in queryset]
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
