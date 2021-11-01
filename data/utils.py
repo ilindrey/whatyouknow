@@ -1,3 +1,4 @@
+import os
 from json import load as json_load
 from requests import get as requests_get
 from random import choice, randint
@@ -179,7 +180,8 @@ def get_tags(index_category):
 
     category_name = CategoryTypes.get_value(index_category, 'index')['full_name']
 
-    with open(settings.BASE_DIR / 'data/assets/tags.json', 'r') as file:
+    # with open(settings.BASE_DIR / 'data/assets/tags.json', 'r') as file:  # Django >=3.0
+    with open(os.path.join(settings.BASE_DIR, 'data/assets/tags.json'), 'r') as file:  # Django 2.2
         data = json_load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
     i = 0

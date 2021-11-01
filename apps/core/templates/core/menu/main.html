@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <div class="item">
     {% include 'core/logo/menu/common.html' %}
@@ -80,13 +80,13 @@
 
         <div class="item">
             <a class="ui primary basic button" href="{% url 'login' %}">
-                Log in
+                {% trans 'Log in' %}
             </a>
         </div>
 
         <div class="item">
             <a class="ui primary button" href="{% url 'registration' %}">
-                Sing up
+                {% trans 'Sing up' %}
             </a>
         </div>
 

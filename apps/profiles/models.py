@@ -16,7 +16,13 @@ from taggit.managers import TaggableManager
 
 def default_settings():
     from apps.blog.models import CategoryTypes
-    return {'feed_categories': CategoryTypes.list('index')}
+
+    # Django >=3.1
+    # return {'feed_categories': CategoryTypes.list('index')}
+
+    # Django 2.2
+    from json import dumps
+    return dumps({'feed_categories': CategoryTypes.list('index')})
 
 
 class Profile(AbstractUser):
@@ -27,13 +33,14 @@ class Profile(AbstractUser):
     name = models.CharField(_('name'), max_length=300, blank=True)
     first_name = None  # abstract model field, removed
     last_name = None  # abstract model field, removed
-    email = models.EmailField(_('email address'),   # abstract blank is True, unique is not specified
+    email = models.EmailField(_('email address'),   # abstract model field. Blank is True, unique is not specified
                               unique=True,
                               blank=False)
     specialization = models.CharField(_('specialization'), max_length=100, blank=True)
     description = models.TextField(_('description'), max_length=1000, blank=True)
     excluded_feed_tags = TaggableManager()
-    settings = models.JSONField(_('settings'), default=default_settings, blank=True)
+    # settings = models.JSONField(_('settings'), default=default_settings, blank=True)  # Django >=3.1
+    settings = models.TextField(_('settings'), default=default_settings, blank=True)  # Django 2.2
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'username']

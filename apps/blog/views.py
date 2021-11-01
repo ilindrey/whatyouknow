@@ -38,8 +38,17 @@ class PostListLoadDataView(ListView):
                 pass
             elif 'feed' in param:
                 if self.request.user.is_authenticated:
-                    filters['category__in'] = self.request.user.settings['feed_categories']
+
+                    # Django >=3.0
+                    # filters['category__in'] = self.request.user.settings['feed_categories']
+                    # excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
+
+                    # Django 2.2
+                    from json import loads
+                    d = loads(self.request.user.settings)
+                    filters['category__in'] = d['feed_categories']
                     excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
+
             else:
                 category_list = CategoryTypes.get_values(*param, key='short_name_lower')
                 if category_list is None:

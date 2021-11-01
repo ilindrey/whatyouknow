@@ -1,15 +1,15 @@
 {% extends 'reg/container.html' %}
 {% load i18n %}
 
-{% block auth_title %}{% translate 'Password reset' %}{% endblock %}
+{% block auth_title %}{% trans 'Password reset' %}{% endblock %}
 
 {% block auth_content %}
     <div class="ui list">
         <div class="item">
-            <span class="ui text">{% translate 'We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.' %}</span>
+            <span class="ui text">{% trans 'We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.' %}</span>
         </div>
         <div class="item">
-            <span class="ui text">{% translate 'If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.' %}</span>
+            <span class="ui text">{% trans 'If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.' %}</span>
         </div>
     </div>
 {% endblock %}

@@ -2,10 +2,11 @@ pillow
 python-decouple
 python-dateutil
 django
-django-summernote
+django-moderation
 django-mptt
 django-taggit
 django-taggit-serializer
+django-summernote
 djangorestframework
 easy_thumbnails
 faker

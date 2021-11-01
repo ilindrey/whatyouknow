@@ -1,9 +1,9 @@
 {% extends 'reg/container.html' %}
 {% load i18n %}
 
-{% block auth_title %}{% translate 'Password reset' %}{% endblock %}
+{% block auth_title %}{% trans 'Password reset' %}{% endblock %}
 
 {% block auth_content %}
-    <span class="ui text">{% translate "Your password has been set.  You may go ahead and log in now." %}</span>
-    <span class="ui text"><a href="{{ login_url }}">{% translate 'Log in' %}</a></span>
+    <span class="ui text">{% trans "Your password has been set.  You may go ahead and log in now." %}</span>
+    <span class="ui text"><a href="{{ login_url }}">{% trans 'Log in' %}</a></span>
 {% endblock %}

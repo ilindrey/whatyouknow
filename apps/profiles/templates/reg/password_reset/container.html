@@ -1,7 +1,7 @@
 {% extends 'reg/container.html' %}
 {% load i18n %}
 
-{% block auth_title %}{% translate 'Password reset' %}{% endblock %}
+{% block auth_title %}{% trans 'Password reset' %}{% endblock %}
 
 {% block auth_content %}
     {% include 'reg/password_reset/forms/password_reset.html' %}

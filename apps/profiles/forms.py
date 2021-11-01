@@ -51,12 +51,24 @@ class EditFeedSettingsForm(forms.ModelForm):
 
     def save(self, commit=True):
 
+        # Django >=3.1
+        # # categories
+        # categories = self.cleaned_data['categories']
+        # if categories:
+        #     self.instance.settings['feed_categories'] = self.cleaned_data['categories']
+        # else:
+        #     del self.instance.settings['feed_categories']
+
+        # Django 2.2
         # categories
+        from json import loads, dumps
+        j = loads(self.instance.settings)
         categories = self.cleaned_data['categories']
         if categories:
-            self.instance.settings['feed_categories'] = self.cleaned_data['categories']
+            j['feed_categories'] = self.cleaned_data['categories']
         else:
-            del self.instance.settings['feed_categories']
+            del j['feed_categories']
+        self.instance.settings = dumps(j)
 
         super().save(commit)
 

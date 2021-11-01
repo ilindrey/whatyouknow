@@ -10,12 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+# from pathlib import Path  # Django >=3.0
+import os  # Django 2.2
 
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # packages
-    'django_summernote',
-    'taggit',
+    'moderation',
     'mptt',
+    'taggit',
     'easy_thumbnails',
+    'django_summernote',
     # packages customization apps
     'apps_packages.summernote',
     # project apps
@@ -73,8 +77,8 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        # 'DIRS': [BASE_DIR / 'templates'],   # Django >=3.0
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Django 2.2
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,7 +100,8 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',  # Django >=3.0
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # Django 2.2
         }
     }
 
@@ -143,14 +148,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'static'
-STATIC_URL = '/{}/'.format(STATIC_ROOT.name)
+# Django >=3.0
+# STATIC_ROOT = BASE_DIR / 'static'
+# STATIC_URL = '/{}/'.format(STATIC_ROOT.name)
+
+# Django 2.2
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
 
 
 # Media files
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/{}/'.format(MEDIA_ROOT.name)
+# Django >=3.0
+# MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = '/{}/'.format(MEDIA_ROOT.name)
+
+# Django 2.2
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # User model
@@ -166,6 +181,10 @@ LOGIN_REDIRECT_URL = 'index'
 # sessions
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+# django.contrib.sites
+
+SITE_ID = 1
 
 # caches
 
