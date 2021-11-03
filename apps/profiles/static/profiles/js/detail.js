@@ -4,12 +4,13 @@ safeWrap();
 function safeWrap() {
 
     const keyTab = 'tab',
+        keyIsDescendantMenu = 'is-descendant-menu',
+        keyIsLazyLoad = 'is-lazy-load',
+        keyIsFirstLoad = 'is-first-load',
         keyBasePathnameUrl = 'base-pathname-url',
         keyCurrentTabPath = 'current-tab-path',
-        keyIsDescendantMenu = 'is-descendant-menu',
         keyLinkLoadData = 'link-load-data',
         keyLinkLazyLoad = 'link-lazy-load',
-        keyIsLazyLoad = 'is-lazy-load',
         keyStepContext = 'step-context',
         keyCurrentPage = 'current-page',
         keyTotalPage = 'total-page';
@@ -32,14 +33,18 @@ function safeWrap() {
             onFirstLoad: function (tabPath, parameterArray, historyEvent) {
                 let $tab = $(this);
 
-                const linkLoadData = $tab.data(keyLinkLoadData);
-                const linkLazyLoad = $tab.data(keyLinkLazyLoad);
-                const isLazyLoad = $tab.data(keyIsLazyLoad)
                 const stepContext = $tab.data(keyStepContext);
                 const isDescendantMenu = $tab.data(keyIsDescendantMenu);
+                const isFirstLoad = $tab.data(keyIsFirstLoad);
+                const isLazyLoad = $tab.data(keyIsLazyLoad);
+                const linkLoadData = $tab.data(keyLinkLoadData);
+                const linkLazyLoad = $tab.data(keyLinkLazyLoad);
 
                 let loader = $tab.find('.loader').closest('.segment');
                 loader.hide();
+
+                if(isFirstLoad)
+                    return;
 
                 if (isDescendantMenu)
                     return;
@@ -52,6 +57,7 @@ function safeWrap() {
                     },
                     success: function (responseText) {
                         $tab.prepend(responseText);
+                        $tab.data(keyIsFirstLoad, true);
                         if (isLazyLoad) {
                             let $tabStepContext = $tab.find(stepContext);
 
@@ -63,8 +69,11 @@ function safeWrap() {
 
                                 onBottomVisible: function () {
 
-                                    const currentPage = $tabStepContext.data(keyCurrentPage);
-                                    const totalPage = $tabStepContext.data(keyTotalPage);
+                                    const cp = $tabStepContext.data(keyCurrentPage);
+                                    const tp = $tabStepContext.data(keyTotalPage);
+
+                                    const currentPage  = cp ? cp : 1;
+                                    const totalPage = tp ? tp : 1;
                                     const nextPage = currentPage + 1;
 
                                     if (nextPage > totalPage) {
@@ -129,4 +138,9 @@ function safeWrap() {
 
         $tabMenu.first().tab('change tab', currentTabPath);
     });
+
+    function ajaxLoad($tab, $context)
+    {
+
+    }
 }

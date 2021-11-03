@@ -17,11 +17,12 @@
     <div class="ui top attached tab basic segment"
          id="tab_{{ key }}"
          data-tab="{{ key }}"
-         data-link-load-data="{{ value.link_load_data }}"
-         data-link-lazy-load="{{ value.link_lazy_load }}"
-         data-is-lazy-load="{{ value.is_lazy_load|lower }}"
-         data-is-descendant-menu="{{ value.is_descendant_menu|lower }}"
-         data-step-context="{{ value.step_context }}"
+         data-is-first-load="false"
+         {% if value.link_load_data %}data-link-load-data="{{ value.link_load_data }}"{% endif %}
+         {% if value.link_lazy_load  %}data-link-lazy-load="{{ value.link_lazy_load }}"{% endif %}
+         {% if value.is_lazy_load %}data-is-lazy-load="{{ value.is_lazy_load|lower }}"{% endif %}
+         {% if value.is_descendant_menu %}data-is-descendant-menu="{{ value.is_descendant_menu|lower }}"{% endif %}
+         {% if value.step_context %}data-step-context="{{ value.step_context }}"{% endif %}
     >
 
         {% if value.descendant_tab_list %}
@@ -37,7 +38,6 @@
                         {% if descendant_value.count > 0 %}
                             ({{ descendant_value.count }})
                         {% endif %}
-
                     </a>
                 {% endfor %}
 
@@ -49,18 +49,21 @@
                      id="tab_{{ key }}_{{ descendant_key }}"
                      data-tab="{{ key }}/{{ descendant_key }}"
                      data-is-first-load="false"
-                     data-link-load-data="{{ descendant_value.link_load_data }}"
-                     data-link-lazy-load="{{ descendant_value.link_lazy_load }}"
-                     data-is-lazy-load="{{ descendant_value.is_lazy_load|lower }}"
-                     data-is-descendant-menu="{{ descendant_value.is_descendant_menu|lower }}"
-                     data-step-context="{{ descendant_value.step_context }}"
+                     {% if descendant_value.link_load_data %}data-link-load-data="{{ descendant_value.link_load_data }}"{% endif %}
+                     {% if descendant_value.link_lazy_load  %}data-link-lazy-load="{{ descendant_value.link_lazy_load }}"{% endif %}
+                     {% if descendant_value.is_lazy_load %}data-is-lazy-load="{{ descendant_value.is_lazy_load|lower }}"{% endif %}
+                     {% if descendant_value.is_descendant_menu %}data-is-descendant-menu="{{ descendant_value.is_descendant_menu|lower }}"{% endif %}
+                     {% if descendant_value.step_context %}data-step-context="{{ descendant_value.step_context }}"{% endif %}
                 >
                     {% include 'core/loader.html' %}
                 </div>
+
             {% endfor %}
 
         {% endif %}
 
         {% include 'core/loader.html' %}
+
     </div>
+
 {% endfor %}
