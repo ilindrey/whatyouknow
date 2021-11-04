@@ -93,12 +93,12 @@ def get_post_text():
     if gen_unordered_list:
         generation_list += ['unordered_list', ]
 
-    i = 0
-    length = randint(10, 50)
     previous_gen_type = ''
     subheader_current_iteration = 0
     current_header_contains_text = False
-    while i < length:
+
+    length = randint(10, 50)
+    for i in range(length):
 
         if i == 0 and gen_image_first:
             current_gen_type = 'image'
@@ -171,7 +171,6 @@ def get_post_text():
 
         text += value_with_html_template
         previous_gen_type = current_gen_type
-        i += 1
 
     return text
 
@@ -184,10 +183,10 @@ def get_tags(index_category):
     with open(os.path.join(settings.BASE_DIR, 'data/assets/tags.json'), 'r') as file:  # Django 2.2
         data = json_load(file)
         tag_set = data[category_name.lower().replace(' ', '_')]
-    i = 0
-    length = randint(1, 7)
+
     tag_list = []
-    while i <= length:
+    length = randint(1, 7)
+    for i in range(length):
         tag_list.append(choice(tag_set))
-        i += 1
+
     return tag_list
