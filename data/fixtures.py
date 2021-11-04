@@ -2,7 +2,6 @@ from shutil import rmtree
 
 from django.core.files.storage import default_storage
 
-from moderation.models import ModeratedObject
 from easy_thumbnails.models import Source, Thumbnail, ThumbnailDimensions
 from taggit.models import Tag, TaggedItem
 
@@ -11,8 +10,6 @@ from .factories import SuperUserFactory, ProfileFactory, PostFactory, PostCommen
 
 
 def make_objects(factor=1):
-
-    ModeratedObject.objects.all().delete()
 
     rm.COMMENT.objects.all().delete()
     print_cleared_model(rm.COMMENT)

@@ -2,7 +2,6 @@ pillow
 python-decouple
 python-dateutil
 django
-django-moderation
 django-mptt
 django-taggit
 django-taggit-serializer

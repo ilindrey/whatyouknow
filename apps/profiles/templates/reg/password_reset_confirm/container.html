@@ -1,13 +1,13 @@
 {% extends 'reg/container.html' %}
 {% load i18n %}
 
-{% block auth_title %}{% trans 'Password reset confirmation' %}{% endblock %}
+{% block auth_title %}{% translate 'Password reset confirmation' %}{% endblock %}
 
 {% block auth_content %}
     {% if validlink %}
         {% include 'reg/password_reset_confirm/forms/password_reset_confirm.html' %}
     {% else %}
-        <span class="ui text">{% trans "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset." %}</span>
+        <span class="ui text">{% translate "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset." %}</span>
     {% endif %}
 {% endblock %}
 

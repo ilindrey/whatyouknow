@@ -130,12 +130,12 @@ class ProfilePostsAllTabLazyLoadDataListView(ProfilePostsAllTabBaseLoadDataListV
 
 
 class ProfilePostsDraftsTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
-    queryset = Post.unmoderated_objects.all()
+    model = Post
     template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
 class ProfilePostsDraftsTabLazyLoadDataListView(ProfilePostsDraftsTabBaseLoadDataListView):
-    queryset = Post.unmoderated_objects.all()
+    model = Post
     template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
@@ -181,15 +181,7 @@ class EditFeedView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
 
     def get_initial(self):
         if 'feed_categories' in self.object.settings:
-
-            # Django >=3.1
-            # categories = self.object.settings['feed_categories']
-
-            # Django 2.2
-            from json import loads
-            j = loads(self.object.settings)
-            categories = j['feed_categories']
-
+            categories = self.object.settings['feed_categories']
         else:
             categories = []
         self.initial = {'categories': categories}
