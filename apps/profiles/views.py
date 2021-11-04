@@ -20,6 +20,18 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        default_first_tab = 'posts'
+        default_second_tab = 'all'
+
+        first_tab = self.kwargs.get('first_tab', default_first_tab)
+        second_tab = self.kwargs.get('second_tab', default_second_tab)
+
+        if first_tab == 'settings':
+            raise Http404(_('Invalid profile setting page (%(first_tab)s): %(second_tab)s') % {
+                'first_tab': first_tab,
+                'second_tab': second_tab
+            })
+
         username = self.kwargs[self.slug_url_kwarg]
         default_kwargs = {self.slug_url_kwarg: username}
 
@@ -80,18 +92,6 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
             'comments': tab_comments_params,
         }
 
-        default_first_tab = 'posts'
-        default_second_tab = 'all'
-
-        first_tab = self.kwargs.get('first_tab', default_first_tab)
-        second_tab = self.kwargs.get('second_tab', default_second_tab)
-
-        if first_tab == 'settings':
-            raise Http404(_('Invalid profile setting page (%(first_tab)s): %(second_tab)s') % {
-                'first_tab': first_tab,
-                'second_tab': second_tab
-            })
-
         first_tab_data = tab_list.get(first_tab)
         if first_tab_data is None:
             first_tab = default_first_tab
@@ -127,6 +127,16 @@ class ProfilePostsAllTabBaseLoadDataListView(ProfileTabListMixin, generic.ListVi
 
 class ProfilePostsAllTabLazyLoadDataListView(ProfilePostsAllTabBaseLoadDataListView):
     template_name = 'profiles/detail/tabs/content/posts/list.html'
+
+
+class ProfilePostsDraftsTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
+    queryset = Post.unmoderated_objects.all()
+    template_name = 'profiles/detail/tabs/content/posts/base.html'
+
+
+class ProfilePostsDraftsTabLazyLoadDataListView(ProfilePostsDraftsTabBaseLoadDataListView):
+    queryset = Post.unmoderated_objects.all()
+    template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
 class ProfileCommentsTabLoadDataListView(ProfileTabListMixin, generic.ListView):
