@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.profiles',
     'apps.blog',
     'apps.comments',
+    'apps.moderation',
     # rest API
     'rest_framework',
     'rest_framework.authtoken',
