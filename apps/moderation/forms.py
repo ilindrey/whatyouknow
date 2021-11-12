@@ -1,9 +1,14 @@
-from django.forms import ModelForm, RadioSelect
-from .mixins import ModeratedObjectMixin
+from django.forms import ModelForm, RadioSelect, ChoiceField
+from .mixins import ModeratedObjectMixin, STATE_CHOICES
 
 
 class ModeratedObjectForm(ModelForm):
+    # state = ChoiceField(choices=STATE_CHOICES, widget=RadioSelect)
+
     class Meta:
         model = ModeratedObjectMixin
         fields = '__all__'
-        widgets = {'status': RadioSelect}
+        widgets = {
+            # 'state': RadioSelect,
+            'approval': RadioSelect
+            }
