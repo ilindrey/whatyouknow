@@ -6,19 +6,11 @@
 
             $(document).ready(function () {
 
-                let $stateElement = $('.form-row.field-state');
                 let $approvalElement = $('.form-row.field-approval');
                 let $reasonElement = $('.form-row.field-reason');
 
-                if($stateElement.find('div.readonly').text() == 'Draft')
-                {
-                    $approvalElement.hide();
-                    $reasonElement.hide();
-                }
-                else
-                {
-                    $approvalElement.find('input:checked').click();
-                }
+                $reasonElement.hide();
+                $approvalElement.find('input:checked').click();
             });
 
             $(document).on('click', '#id_approval input', function (e) {

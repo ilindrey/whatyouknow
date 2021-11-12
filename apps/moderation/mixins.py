@@ -19,7 +19,7 @@ APPROVAL_CHOICES = [
 
 class ModeratedObjectMixin(models.Model):
     state = models.PositiveIntegerField(choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
-                                        null=False, blank=False)
+                                        null=False, blank=False, editable=False)
     approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
     reason = models.TextField(null=True, blank=True)
 
@@ -32,7 +32,7 @@ class ModeratedObjectMixin(models.Model):
             self.approval = None
             self.reason = None
         else:
-            self.state = MODERATION_MODERATED_STATE if self.approval else MODERATION_PENDING_STATE
+            self.state = MODERATION_MODERATED_STATE if self.approval is not None else MODERATION_PENDING_STATE
             self.reason = self.reason if self.approval == MODERATION_APPROVAL_REJECTED else None
 
         super().save(*args, **kwargs)
