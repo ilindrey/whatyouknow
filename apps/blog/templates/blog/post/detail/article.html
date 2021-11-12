@@ -16,7 +16,7 @@
                                 {% if object.published %}
                                     {{ object.published|datetime_format }}
                                 {% else %}
-                                    {{ object.timestamp|datetime_format }}
+                                    {{ object.created|datetime_format }}
                                 {% endif %}
                             </span>
                         </div>

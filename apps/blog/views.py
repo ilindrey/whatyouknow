@@ -24,7 +24,7 @@ class PostListLoadDataView(ListView):
     model = Post
     template_name = 'blog/post/list/roll_out.html'
     paginate_by = 15
-    ordering = '-timestamp'
+    ordering = '-created'
 
     def get_queryset(self):
         filters = {}
@@ -49,13 +49,13 @@ class PostListLoadDataView(ListView):
         param = self.request.GET.get('period')
         if param:
             if 'day' in param:
-                filters['timestamp__gte'] = now() - relativedelta(days=+1)
+                filters['created__gte'] = now() - relativedelta(days=+1)
             elif 'week' in param:
-                filters['timestamp__gte'] = now() - relativedelta(weeks=+1)
+                filters['created__gte'] = now() - relativedelta(weeks=+1)
             elif 'month' in param:
-                filters['timestamp__gte'] = now() - relativedelta(months=+1)
+                filters['created__gte'] = now() - relativedelta(months=+1)
             elif 'year' in param:
-                filters['timestamp__gte'] = now() - relativedelta(years=+1)
+                filters['created__gte'] = now() - relativedelta(years=+1)
 
         param = self.request.GET.get('rating')
         if param:
