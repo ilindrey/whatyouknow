@@ -69,7 +69,7 @@ class PostListLoadDataView(ListView):
         if param:
             filters['title__startswith'] = param
 
-        queryset = self.model.objects.filter(**filters).exclude(**excludes).order_by(self.ordering)
+        queryset = self.model.objects.approved().filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
 
 

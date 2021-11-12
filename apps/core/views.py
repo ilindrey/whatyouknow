@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.views.generic import RedirectView, FormView, ListView, TemplateView
+from django.views.generic import RedirectView, FormView, TemplateView
 
 from taggit.models import Tag
 
@@ -35,7 +35,7 @@ class SearchSuitableResultsListView(TemplateView):
         query = self.request.GET.get('query')
 
         categories = CategoryTypes.get('short_name_lower', 'full_name')
-        posts = Post.objects.filter(title__startswith=query).order_by('title') \
+        posts = Post.objects.approved().filter(title__startswith=query).order_by('title') \
                     .values_list('title', flat=True)[:self.max_results]
         tags = Tag.objects.filter(name__startswith=query).order_by('name') \
                     .values_list('name', flat=True)[:self.max_results]

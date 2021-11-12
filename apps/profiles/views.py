@@ -51,19 +51,19 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         tab_posts_drafts_kwargs = {**tab_posts_kwargs, 'second_tab': 'drafts'}
         tab_posts_drafts_params = self.default_tab_params
         tab_posts_drafts_params.update({
-            'count': Post.objects.filter(user__username=username).count(),
+            'count': Post.objects.drafts().filter(user__username=username).count(),
             'is_lazy_load': True,
-            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_drafts_kwargs),
-            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_drafts_kwargs),
+            'link_load_data': reverse('posts_drafts_tab_base_load_data', kwargs=tab_posts_drafts_kwargs),
+            'link_lazy_load': reverse('posts_drafts_tab_lazy_load_data', kwargs=tab_posts_drafts_kwargs),
         })
 
-        tab_posts_declined_kwargs = {**tab_posts_kwargs, 'second_tab': 'declined'}
-        tab_posts_declined_params = self.default_tab_params
-        tab_posts_declined_params.update({
-            'count': Post.objects.filter(user__username=username).count(),
+        tab_posts_rejected_kwargs = {**tab_posts_kwargs, 'second_tab': 'rejected'}
+        tab_posts_rejected_params = self.default_tab_params
+        tab_posts_rejected_params.update({
+            'count': Post.objects.rejected().filter(user__username=username).count(),
             'is_lazy_load': True,
-            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_declined_kwargs),
-            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_declined_kwargs),
+            'link_load_data': reverse('posts_rejected_tab_base_load_data', kwargs=tab_posts_rejected_kwargs),
+            'link_lazy_load': reverse('posts_rejected_tab_lazy_load_data', kwargs=tab_posts_rejected_kwargs),
         })
 
         tab_posts_params = self.default_tab_params
@@ -74,7 +74,7 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
             'descendant_tab_list': {
                 'all': tab_posts_all_params,
                 'drafts': tab_posts_drafts_params,
-                'declined': tab_posts_declined_params,
+                'rejected': tab_posts_rejected_params,
             }
         })
 
@@ -130,12 +130,20 @@ class ProfilePostsAllTabLazyLoadDataListView(ProfilePostsAllTabBaseLoadDataListV
 
 
 class ProfilePostsDraftsTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
-    model = Post
+    queryset = Post.objects.drafts()
     template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
 class ProfilePostsDraftsTabLazyLoadDataListView(ProfilePostsDraftsTabBaseLoadDataListView):
-    model = Post
+    template_name = 'profiles/detail/tabs/content/posts/base.html'
+
+
+class ProfilePostsRejectedTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
+    queryset = Post.objects.rejected()
+    template_name = 'profiles/detail/tabs/content/posts/base.html'
+
+
+class ProfilePostsRejectedTabLazyLoadDataListView(ProfilePostsRejectedTabBaseLoadDataListView):
     template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 

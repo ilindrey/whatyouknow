@@ -27,6 +27,14 @@ second_tabs_patterns = [
              name='posts_all_tab_base_load_data'),
         path('posts_all_tab_lazy_load_data', ProfilePostsAllTabLazyLoadDataListView.as_view(),
              name='posts_all_tab_lazy_load_data'),
+        path('posts_drafts_tab_base_load_data', ProfilePostsDraftsTabBaseLoadDataListView.as_view(),
+             name='posts_drafts_tab_base_load_data'),
+        path('posts_drafts_tab_lazy_load_data', ProfilePostsDraftsTabLazyLoadDataListView.as_view(),
+             name='posts_drafts_tab_lazy_load_data'),
+        path('posts_rejected_tab_base_load_data', ProfilePostsRejectedTabBaseLoadDataListView.as_view(),
+             name='posts_rejected_tab_base_load_data'),
+        path('posts_rejected_tab_lazy_load_data', ProfilePostsRejectedTabLazyLoadDataListView.as_view(),
+             name='posts_rejected_tab_lazy_load_data'),
         ]))
     ]
 

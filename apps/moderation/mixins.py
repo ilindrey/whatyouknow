@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from .managers import ModeratedManager
 from .constants import (MODERATION_DRAFT_STATE, MODERATION_PENDING_STATE, MODERATION_MODERATED_STATE,
                         MODERATION_APPROVAL_REJECTED, MODERATION_APPROVAL_APPROVED)
 
@@ -22,6 +23,8 @@ class ModeratedObjectMixin(models.Model):
                                         null=False, blank=False, editable=False)
     approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
     reason = models.TextField(null=True, blank=True)
+
+    objects = ModeratedManager()
 
     class Meta:
         abstract = True
