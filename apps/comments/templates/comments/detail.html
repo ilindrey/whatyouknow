@@ -14,9 +14,8 @@
                 <i class="grey linkify icon"></i>
             </a>
             <span>
-{#                {{ node.date_posted|datetime_format }}#}
-                {{ node.date_posted }}
-                {% if node.is_edited %}
+                {{ node.created|datetime_format }}
+                {% if node.created != node.updated %}
                     <span>(edited)</span>
                 {% endif %}
             </span>
@@ -41,7 +40,7 @@
             <a class="dislike"><i class="thumbs down link icon"></i>2</a>
         </div>
     </div>
-    {% if not node.is_leaf_node %}
+    {% if not node.is_leaf_node and children %}
         <div class="ui comments">
             {{ children }}
         </div>

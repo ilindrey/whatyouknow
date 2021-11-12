@@ -20,5 +20,3 @@ class ModeratedManager(Manager):
 
     def approved(self):
         return self.get_queryset().filter(state=MODERATION_MODERATED_STATE, approval=MODERATION_APPROVAL_APPROVED)
-
-

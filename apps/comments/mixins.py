@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 
 from .models import Comment
@@ -8,11 +9,13 @@ from .forms import EditCommentForm
 class ContentTypeObjectCommentMixin:
 
     def get(self, request, *args, **kwargs):
-        self.content_type_object = self.get_content_type_object()
+        self.ct_object = self.get_content_type_object()
+        self.content_type = ContentType.objects.get_for_model(self.ct_object._meta.model)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        self.content_type_object = self.get_content_type_object()
+        self.ct_object = self.get_content_type_object()
+        self.content_type = ContentType.objects.get_for_model(self.ct_object._meta.model)
         return super().post(request, *args, **kwargs)
 
     def get_content_type_object(self):
@@ -22,9 +25,9 @@ class ContentTypeObjectCommentMixin:
         return apps.get_model(app_label, model_name).objects.get(pk=model_pk)
 
     def get_query_string(self):
-        app_label = self.content_type_object._meta.app_label
-        model_name = self.content_type_object._meta.model_name
-        model_pk = self.content_type_object.pk
+        app_label = self.ct_object._meta.app_label
+        model_name = self.ct_object._meta.model_name
+        model_pk = self.ct_object.pk
         return f'?app_label={app_label}&model_name={model_name}&model_pk={model_pk}'
 
 
