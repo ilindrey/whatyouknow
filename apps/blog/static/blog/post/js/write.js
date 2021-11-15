@@ -21,13 +21,13 @@ function safeWrap()
 
     $(document).on('click', '#save_as_draft_button', function (e) {
         e.preventDefault();
-        sendWriteForm(false);
+        sendWriteForm(true);
     });
 
 
     $(document).on('click', '#look_at_preview_button', function (e) {
         e.preventDefault();
-        sendWriteForm(true);
+        sendWriteForm(false);
     });
 
 
@@ -42,11 +42,10 @@ function safeWrap()
         runAction($(this), true);
     });
 
-    function sendWriteForm(preview = false) {
+    function sendWriteForm(save_as_draft = false) {
         let form = $writeForm.get(0);
         let data = new FormData(form);
-        data.append('preview', preview);
-        data.append('draft', true);
+        data.append('save_as_draft', save_as_draft);
 
         $.ajax({
             type: 'post',
@@ -59,7 +58,7 @@ function safeWrap()
                 if ($content) {
                     $content.html(responseText);
                     $stepContent = $content.find(keyStepContent);
-                    if (!preview) {
+                    if (save_as_draft) {
                         initWriteForm();
                     }
                     setCurrentUrl();
@@ -73,7 +72,7 @@ function safeWrap()
 
     function runAction(button, sendToModeration = false) {
         const actionUrl = button.data(keyActionUrl);
-        let deferred = $.get(actionUrl);
+        let deferred = $.get(actionUrl, {'send_to_moderation': sendToModeration});
         deferred.done(function (responseText) {
             if ($content)
             {
@@ -105,8 +104,8 @@ function safeWrap()
         if ($stepContent) {
             const curUrl = $stepContent.data(keyCurUrl);
             if (curUrl) {
-                let newUrl = new URL(window.location.origin + curUrl);
-                history.replaceState(null, null, newUrl.href);
+                const url = getURL(null, null, curUrl);
+                history.replaceState(null, null, url.href);
             }
         }
     }

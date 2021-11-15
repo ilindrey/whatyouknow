@@ -1,12 +1,6 @@
 
 const slash = '/';
 
-function setSlash(value)
-{
-    if(value.slice(-1) !== slash)
-        value += slash;
-}
-
 function checkSlashes(value)
 {
     if(value.slice(0, 1) === slash)
