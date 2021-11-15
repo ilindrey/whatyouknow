@@ -1,4 +1,7 @@
+
+from django.urls import reverse
 from django.db import models
+from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -31,3 +34,7 @@ class Comment(TimeStampsMixin, BaseModeratedObject, MPTTModel):
 
     def get_absolute_url(self):
         return self.content_object.get_absolute_url() + '?comment=' + str(self.pk)
+
+    def get_admin_url(self):
+        url = admin_urlname(self._meta, 'change')
+        return reverse(url, args=(self.pk,))

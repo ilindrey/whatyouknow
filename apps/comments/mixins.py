@@ -39,11 +39,11 @@ class CreateUpdateCommentMixin(ContentTypeObjectCommentMixin):
     def get_success_url(self):
         return reverse('comment_list') + self.get_query_string()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context.update({
             'action_url': self.request.GET.get('action_url') or self.request.POST.get('action_url'),
             'action_type': self.request.GET.get('action_type') or self.request.POST.get('action_type'),
-            'target_id': self.request.GET.get('target_id') or self.request.POST.get('target_id')
+            'target_id': self.request.GET.get('target_id') or self.request.POST.get('target_id'),
             })
         return context

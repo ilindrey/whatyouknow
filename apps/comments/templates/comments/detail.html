@@ -1,4 +1,4 @@
-{% load core %}
+{% load core admin_urls %}
 
 <div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}"{% endif %}>
     {% if node.is_approved or node.user == user or user.is_superuser or user.is_staff %}
@@ -11,17 +11,19 @@
             </a>
             <div class="metadata">
                 <a href="{{ node.get_absolute_url }}" class="href">
-    {#            <a name="#comment_{{ node.id }}" href="{{ node.get_absolute_url }}">#}
                     <i class="grey linkify icon"></i>
                 </a>
+                {% if user.is_superuser or user.is_staff %}
+                    <a href="{{ node.get_admin_url }}">
+                        <i class="grey gavel icon"></i>
+                    </a>
+                {% endif %}
                 <span>
                     {{ node.created|datetime_format }}
                     {% if node.created != node.updated %}
                         <span>(edited)</span>
                     {% endif %}
                 </span>
-    {#            <span>id - {{ node.id }}</span>#}
-    {#            <span>parent_id - {{ node.parent_id }}</span>#}
                 {% if node.user == user or user.is_superuser or user.is_staff %}
                     {% if node.is_pending %}
                         <span class="ui primary basic label">Pending</span>
@@ -33,6 +35,8 @@
                         <span class="ui red basic label">Rejected</span>
                     {% endif %}
                 {% endif%}
+    {#            <span>id - {{ node.id }}</span>#}
+    {#            <span>parent_id - {{ node.parent_id }}</span>#}
             </div>
             <div class="text">
                 {{ node.text|safe }}
