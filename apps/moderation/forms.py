@@ -2,7 +2,7 @@ from django.forms import ModelForm, RadioSelect, BooleanField
 from django.utils.translation import ugettext_lazy as _
 
 from .constants import MODERATION_DRAFT_STATE, MODERATION_PENDING_STATE
-from .mixins import ModeratedObjectMixin
+from .models import BaseModeratedObject
 
 
 class ModeratedObjectForm(ModelForm):
@@ -22,7 +22,7 @@ class ModeratedObjectForm(ModelForm):
         return super().save(commit)
 
     class Meta:
-        model = ModeratedObjectMixin
+        model = BaseModeratedObject
         fields = '__all__'
         widgets = {
             'approval': RadioSelect

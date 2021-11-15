@@ -7,10 +7,11 @@ from django_summernote.fields import SummernoteTextField
 from mptt.models import MPTTModel, TreeForeignKey
 
 from ..core.mixins import TimeStampsMixin
-from ..moderation.mixins import ModeratedObjectMixin
+from ..moderation.managers import ModeratedTreeManager
+from ..moderation.models import BaseModeratedObject
 
 
-class Comment(TimeStampsMixin, ModeratedObjectMixin, MPTTModel):
+class Comment(TimeStampsMixin, BaseModeratedObject, MPTTModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, blank=False, null=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -23,7 +24,7 @@ class Comment(TimeStampsMixin, ModeratedObjectMixin, MPTTModel):
                             related_name='children',
                             editable=False)
 
-    # objects = ModeratedTreeManager()
+    objects = ModeratedTreeManager()
 
     class MPTTMeta:
         order_insertion_by = ['created']

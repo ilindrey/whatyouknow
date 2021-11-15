@@ -2,7 +2,6 @@ from enum import Enum
 from random import choice as random_choice
 
 from django.db import models
-from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
@@ -11,8 +10,8 @@ from taggit.managers import TaggableManager
 from easy_thumbnails.signals import saved_file
 from easy_thumbnails.signal_handlers import generate_aliases_global
 
-from apps.core.mixins import TimeStampsMixin
-from apps.moderation.mixins import ModeratedObjectMixin
+from ..core.mixins import TimeStampsMixin
+from ..moderation.models import BaseModeratedObject
 
 
 class CategoryTypes(Enum):
@@ -99,7 +98,7 @@ class CategoryTypes(Enum):
         return random_choice(cls.choices())
 
 
-class Post(TimeStampsMixin, ModeratedObjectMixin, models.Model):
+class Post(TimeStampsMixin, BaseModeratedObject, models.Model):
 
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     category = models.IntegerField(choices=CategoryTypes.choices())

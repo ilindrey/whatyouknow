@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .forms import ModeratedObjectForm
-from .mixins import ModeratedObjectMixin
+from .models import BaseModeratedObject
 from .constants import MODERATION_DRAFT_STATE
 
 
@@ -11,7 +11,7 @@ class ModeratedObjectAdmin(admin.ModelAdmin):
     def get_fields(self, request, obj=None, **kwargs):
 
         fields = super().get_fields(request, obj, **kwargs)
-        model_fields = ModeratedObjectMixin._meta.fields
+        model_fields = BaseModeratedObject._meta.fields
 
         # if the object is not saved as a draft, we will remove the ability to save as draft
         if obj and obj.state != MODERATION_DRAFT_STATE:
