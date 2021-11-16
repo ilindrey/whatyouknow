@@ -4,4 +4,4 @@
 
 {% block params %} data-action-url="{% url 'post_done_container' object.pk %}"{% endblock %}
 
-{% block name %}{% if is_approve %}Done{% else %}Send to moderation{% endif %}{% endblock %}
+{% block name %}{% if object.is_approved %}Done{% else %}Send to moderation{% endif %}{% endblock %}

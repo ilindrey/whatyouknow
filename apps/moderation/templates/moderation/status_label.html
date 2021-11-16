@@ -1,0 +1,9 @@
+{% if object.is_pending %}
+<span class="ui primary basic label">Pending</span>
+{% endif %}
+{% if object.is_draft %}
+<span class="ui green basic label">Draft</span>
+{% endif %}
+{% if object.is_rejected %}
+<span class="ui red basic label">Rejected</span>
+{% endif %}

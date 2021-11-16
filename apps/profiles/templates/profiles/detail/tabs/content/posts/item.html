@@ -6,6 +6,9 @@
     </a>
     <div class="content">
         <a class="header" href="{% url 'post_detail' object.pk %}">{{ object.title }}</a>
+         <div class="meta">
+            {% include 'moderation/status_label.html' %}
+        </div>
         <div class="description">
             {{ object.feed_article_preview }}
         </div>

@@ -25,15 +25,9 @@
                     {% endif %}
                 </span>
                 {% if node.user == user or user.is_superuser or user.is_staff %}
-                    {% if node.is_pending %}
-                        <span class="ui primary basic label">Pending</span>
-                    {% endif %}
-                    {% if node.is_draft %}
-                        <span class="ui green basic label">Draft</span>
-                    {% endif %}
-                    {% if node.is_rejected %}
-                        <span class="ui red basic label">Rejected</span>
-                    {% endif %}
+                    {% with object=node %}
+                        {% include 'moderation/status_label.html' %}
+                    {% endwith %}
                 {% endif%}
     {#            <span>id - {{ node.id }}</span>#}
     {#            <span>parent_id - {{ node.parent_id }}</span>#}

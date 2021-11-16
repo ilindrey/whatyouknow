@@ -14,7 +14,7 @@ class CommentListView(ContentTypeObjectCommentMixin, ListView):
     def get_queryset(self):
         return super().get_queryset()\
             .filter(content_type=self.content_type,
-                    object_id=self.ct_object.pk).extra_fields_status_moderation()
+                    object_id=self.ct_object.pk)
 
 
 class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, CreateView):

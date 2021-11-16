@@ -24,6 +24,12 @@ class BaseModeratedObject(models.Model):
     approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
     reason = models.TextField(null=True, blank=True)
 
+    is_draft = models.BooleanField(default=False, null=False, editable=False)
+    is_pending = models.BooleanField(default=False, null=False, editable=False)
+    is_moderated = models.BooleanField(default=False, null=False, editable=False)
+    is_approved = models.BooleanField(default=False, null=False, editable=False)
+    is_rejected = models.BooleanField(default=False, null=False, editable=False)
+
     objects = ModeratedManager()
 
     class Meta:
@@ -31,11 +37,17 @@ class BaseModeratedObject(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.state == MODERATION_DRAFT_STATE:
-            self.approval = None
+        self.is_draft = self.state == MODERATION_DRAFT_STATE
+        self.is_pending = self.state == MODERATION_PENDING_STATE
+        self.is_moderated = self.state == MODERATION_MODERATED_STATE and self.approval is not None
+
+        self.is_approved = self.is_moderated and self.approval == MODERATION_APPROVAL_APPROVED
+        self.is_rejected = self.is_moderated and self.approval == MODERATION_APPROVAL_REJECTED
+
+        if not self.is_rejected:
             self.reason = None
-        else:
-            self.state = MODERATION_MODERATED_STATE if self.approval is not None else MODERATION_PENDING_STATE
-            self.reason = self.reason if self.approval == MODERATION_APPROVAL_REJECTED else None
+
+        if not self.is_moderated:
+            self.approval = None
 
         super().save(*args, **kwargs)
