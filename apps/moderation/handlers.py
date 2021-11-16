@@ -9,6 +9,7 @@ def save_as_draft(sender, instance, **kwargs):
 
 def save_as_pending(sender, instance, **kwargs):
     instance.state = MODERATION_PENDING_STATE
+    instance.approval = None
 
 
 def save_as_approved(sender, instance, **kwargs):

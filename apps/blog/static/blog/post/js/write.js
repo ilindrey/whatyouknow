@@ -7,6 +7,7 @@ function safeWrap()
         keyStepContent = '#step_content',
         keyWriteForm = '#edit_post_form',
         keyCurUrl = 'cur-url',
+        keyCurAction = 'cur-action',
         keyActionUrl = 'action-url';
 
     let $content = null,
@@ -16,36 +17,39 @@ function safeWrap()
     $(document).ready(function () {
         $content = $(keyContent);
         $stepContent = $content.find(keyStepContent);
-        initWriteForm();
+        const curAction = $stepContent.data(keyCurAction);
+        if(curAction === 'create' || curAction === 'edit') {
+            initWriteForm();
+        }
     });
 
     $(document).on('click', '#save_as_draft_button', function (e) {
         e.preventDefault();
-        sendWriteForm(true);
+        sendWriteForm('edit');
     });
 
 
     $(document).on('click', '#look_at_preview_button', function (e) {
         e.preventDefault();
-        sendWriteForm(false);
+        sendWriteForm('preview');
     });
 
 
     $(document).on('click', '#back_to_editing', function (e) {
         e.preventDefault();
-        runAction($(this), false);
+        runAction($(this), 'edit');
     });
 
 
-    $(document).on('click', '#send_to_moderation', function (e) {
+    $(document).on('click', '#done', function (e) {
         e.preventDefault();
-        runAction($(this), true);
+        runAction($(this), 'done');
     });
 
-    function sendWriteForm(save_as_draft = false) {
+    function sendWriteForm(nextAction) {
         let form = $writeForm.get(0);
         let data = new FormData(form);
-        data.append('save_as_draft', save_as_draft);
+        data.append('next_action', nextAction);
 
         $.ajax({
             type: 'post',
@@ -58,7 +62,7 @@ function safeWrap()
                 if ($content) {
                     $content.html(responseText);
                     $stepContent = $content.find(keyStepContent);
-                    if (save_as_draft) {
+                    if (nextAction === 'edit') {
                         initWriteForm();
                     }
                     setCurrentUrl();
@@ -70,15 +74,15 @@ function safeWrap()
         });
     }
 
-    function runAction(button, sendToModeration = false) {
+    function runAction(button, nextAction) {
         const actionUrl = button.data(keyActionUrl);
-        let deferred = $.get(actionUrl, {'send_to_moderation': sendToModeration});
+        let deferred = $.get(actionUrl, {'next_action': nextAction});
         deferred.done(function (responseText) {
             if ($content)
             {
                 $content.html(responseText);
                 $stepContent = $content.find(keyStepContent);
-                if(!sendToModeration)
+                if(nextAction === 'edit')
                 {
                     initWriteForm();
                 }

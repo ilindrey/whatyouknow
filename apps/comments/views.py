@@ -25,7 +25,7 @@ class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, CreateView
         form.instance.object_id = self.ct_object.pk
         if 'reply' in self.request.POST.get('action_type'):
             form.instance.parent_id = self.request.POST.get('target_id')
-        pre_save.connect(save_as_approved, sender=self.model)
+        pre_save.connect(save_as_approved)
         return super().form_valid(form)
 
 

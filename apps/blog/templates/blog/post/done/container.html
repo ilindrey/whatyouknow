@@ -1,9 +1,13 @@
 {% extends 'blog/post/edit/containers/base.html' %}
 
 {% block step %}
-    <span class="ui info text">Your post is on moderation. It will be posted when our moderation team reviews it.</span>
+    {% if is_approved %}
+        <span class="ui info text">Changes saved successfully.</span>
+    {% else %}
+        <span class="ui info text">Your post is on moderation. It will be posted when our moderation team reviews it.</span>
+    {% endif %}
 {% endblock %}
 
-{#{% block actions %}#}
-{##}
-{#{% endblock %}#}
+{% block actions %}
+    <a class="ui primary submit button" href="{% url 'index' %}">Go back to the main page</a>
+{% endblock %}

@@ -1,12 +1,15 @@
 from django.http import Http404
 from django.shortcuts import reverse
-from django.views.generic import TemplateView, DetailView, ListView, CreateView, UpdateView, RedirectView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
+from django.db.models.signals import pre_save, post_save
 
 from dateutil.relativedelta import relativedelta
 
+from ..moderation.handlers import save_as_approved, save_as_pending
+from ..moderation.constants import (MODERATION_MODERATED_STATE, MODERATION_APPROVAL_APPROVED)
 from .models import Post, CategoryTypes
 from .mixins import PostCreateEditFormMixin
 
@@ -123,13 +126,12 @@ class PostCreateView(PostCreateEditFormMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['post_write_url'] = reverse('post_create_container')
-        context['cur_url'] = reverse('post_create')
+        context.update({
+            'post_write_url': reverse('post_create_container'),
+            'cur_url': reverse('post_create'),
+            'cur_action': 'create',
+            })
         return context
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
 
 
 class PostEditView(PostCreateEditFormMixin, UpdateView):
@@ -137,8 +139,11 @@ class PostEditView(PostCreateEditFormMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['post_write_url'] = reverse('post_edit_container', kwargs=self.kwargs)
-        context['cur_url'] = reverse('post_edit', kwargs=self.kwargs)
+        context.update({
+            'post_write_url': reverse('post_edit_container', kwargs=self.kwargs),
+            'cur_url': reverse('post_edit', kwargs=self.kwargs),
+            'cur_action': 'edit',
+            })
         return context
 
 
@@ -148,17 +153,37 @@ class PostPreviewView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['cur_url'] = reverse('post_preview', kwargs=self.kwargs)
+        context.update({
+            'cur_url': reverse('post_preview', kwargs=self.kwargs),
+            'cur_action': 'preview',
+            'is_approved': (self.object.state == MODERATION_MODERATED_STATE
+                            and self.object.approval == MODERATION_APPROVAL_APPROVED)
+            })
         return context
 
 
-class PostDoneView(LoginRequiredMixin, TemplateView):  # set status in moderation
+class PostDoneView(LoginRequiredMixin, DetailView):
+    model = Post
     template_name = 'blog/post/done.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['cur_url'] = reverse('post_done', kwargs=self.kwargs)
+        context.update({
+            'cur_url': reverse('post_done', kwargs=self.kwargs),
+            'cur_action': 'done',
+            })
         return context
+
+    def get(self, request, *args, **kwargs):
+        render_to_response = super().get(request, *args, **kwargs)
+
+        if self.object.state == MODERATION_MODERATED_STATE \
+                and self.object.approval == MODERATION_APPROVAL_APPROVED:
+            pre_save.connect(save_as_approved)
+        else:
+            pre_save.connect(save_as_pending)
+        self.object.save()
+        return render_to_response
 
 
 class PostCreateContainerView(PostCreateView):
