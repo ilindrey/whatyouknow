@@ -20,31 +20,22 @@ password_reset_patterns = [
          name="password_reset_complete"),
     ]
 
+tab_list_patterns = [
+    path('posts_tab_base_load_data', ProfilePostsTabBaseLoadDataListView.as_view(), name='posts_tab_base_load_data'),
+    path('posts_tab_lazy_load_data', ProfilePostsTabLazyLoadDataListView.as_view(), name='posts_tab_lazy_load_data'),
+    path('comments_tab_base_load_data', ProfileCommentsTabLoadDataListView.as_view(), name='comments_tab_base_load_data'),
+    path('comments_tab_lazy_load_data', ProfileCommentsTabLazyDataListView.as_view(), name='comments_tab_lazy_load_data'),
+    ]
+
 second_tabs_patterns = [
     path('', ProfileSecondTabView.as_view(), name='profile_second_tab'),
-    path('ajax/', include([
-        path('posts_all_tab_base_load_data', ProfilePostsAllTabBaseLoadDataListView.as_view(),
-             name='posts_all_tab_base_load_data'),
-        path('posts_all_tab_lazy_load_data', ProfilePostsAllTabLazyLoadDataListView.as_view(),
-             name='posts_all_tab_lazy_load_data'),
-        path('posts_drafts_tab_base_load_data', ProfilePostsDraftsTabBaseLoadDataListView.as_view(),
-             name='posts_drafts_tab_base_load_data'),
-        path('posts_drafts_tab_lazy_load_data', ProfilePostsDraftsTabLazyLoadDataListView.as_view(),
-             name='posts_drafts_tab_lazy_load_data'),
-        path('posts_rejected_tab_base_load_data', ProfilePostsRejectedTabBaseLoadDataListView.as_view(),
-             name='posts_rejected_tab_base_load_data'),
-        path('posts_rejected_tab_lazy_load_data', ProfilePostsRejectedTabLazyLoadDataListView.as_view(),
-             name='posts_rejected_tab_lazy_load_data'),
-        ]))
+    path('ajax/', include(tab_list_patterns))
     ]
 
 first_tabs_patterns = [
     path('', ProfileFirstTabView.as_view(), name='profile_tab'),
     path('<str:second_tab>/', include(second_tabs_patterns)),
-    path('ajax/', include([
-        # path('posts_tab_load_data', ProfilePostsTabLoadDataView.as_view(), name='posts_tab_load_data'),
-        path('comments_tab_load_data', ProfileCommentsTabLoadDataListView.as_view(), name='comments_tab_load_data'),
-        ])),
+    path('ajax/', include(tab_list_patterns)),
     ]
 
 settings_patterns = [

@@ -36,55 +36,23 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         default_kwargs = {self.slug_url_kwarg: username}
 
         # posts
-
         tab_posts_kwargs = {**default_kwargs, 'first_tab': 'posts'}
-
-        tab_posts_all_kwargs = {**tab_posts_kwargs, 'second_tab': 'all'}
-        tab_posts_all_params = self.default_tab_params
-        tab_posts_all_params.update({
-            'count': Post.objects.filter(user__username=username).count(),
-            'is_lazy_load': True,
-            'link_load_data': reverse('posts_all_tab_base_load_data', kwargs=tab_posts_all_kwargs),
-            'link_lazy_load': reverse('posts_all_tab_lazy_load_data', kwargs=tab_posts_all_kwargs),
-        })
-
-        tab_posts_drafts_kwargs = {**tab_posts_kwargs, 'second_tab': 'drafts'}
-        tab_posts_drafts_params = self.default_tab_params
-        tab_posts_drafts_params.update({
-            'count': Post.objects.drafts().filter(user__username=username).count(),
-            'is_lazy_load': True,
-            'link_load_data': reverse('posts_drafts_tab_base_load_data', kwargs=tab_posts_drafts_kwargs),
-            'link_lazy_load': reverse('posts_drafts_tab_lazy_load_data', kwargs=tab_posts_drafts_kwargs),
-        })
-
-        tab_posts_rejected_kwargs = {**tab_posts_kwargs, 'second_tab': 'rejected'}
-        tab_posts_rejected_params = self.default_tab_params
-        tab_posts_rejected_params.update({
-            'count': Post.objects.rejected().filter(user__username=username).count(),
-            'is_lazy_load': True,
-            'link_load_data': reverse('posts_rejected_tab_base_load_data', kwargs=tab_posts_rejected_kwargs),
-            'link_lazy_load': reverse('posts_rejected_tab_lazy_load_data', kwargs=tab_posts_rejected_kwargs),
-        })
-
         tab_posts_params = self.default_tab_params
         tab_posts_params.update({
             'count': Post.objects.filter(user__username=username).count(),
-            # 'link_load_data': reverse('posts_tab_load_data', kwargs=tab_posts_kwargs),
-            'is_descendant_menu': True,
-            'descendant_tab_list': {
-                'all': tab_posts_all_params,
-                'drafts': tab_posts_drafts_params,
-                'rejected': tab_posts_rejected_params,
-            }
+            'is_lazy_load': True,
+            'link_load_data': reverse('posts_tab_base_load_data', kwargs=tab_posts_kwargs),
+            'link_lazy_load': reverse('posts_tab_lazy_load_data', kwargs=tab_posts_kwargs),
         })
 
         # comments
-
         tab_comments_kwargs = {**default_kwargs, 'first_tab': 'comments'}
         tab_comments_params = self.default_tab_params
         tab_comments_params.update({
             'count': Comment.objects.filter(user__username=username).count(),
-            'link_load_data': reverse('comments_tab_load_data', kwargs=tab_comments_kwargs),
+            'is_lazy_load': True,
+            'link_load_data': reverse('comments_tab_base_load_data', kwargs=tab_comments_kwargs),
+            'link_lazy_load': reverse('comments_tab_lazy_load_data', kwargs=tab_comments_kwargs),
         })
 
         tab_list = {
@@ -120,41 +88,23 @@ class ProfileSecondTabView(ProfileFirstTabView):
     pass
 
 
-class ProfilePostsAllTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
+class ProfilePostsTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
     model = Post
     template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
-class ProfilePostsAllTabLazyLoadDataListView(ProfilePostsAllTabBaseLoadDataListView):
+class ProfilePostsTabLazyLoadDataListView(ProfilePostsTabBaseLoadDataListView):
     template_name = 'profiles/detail/tabs/content/posts/list.html'
-
-
-class ProfilePostsDraftsTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
-    queryset = Post.objects.drafts()
-    template_name = 'profiles/detail/tabs/content/posts/base.html'
-
-
-class ProfilePostsDraftsTabLazyLoadDataListView(ProfilePostsDraftsTabBaseLoadDataListView):
-    template_name = 'profiles/detail/tabs/content/posts/base.html'
-
-
-class ProfilePostsRejectedTabBaseLoadDataListView(ProfileTabListMixin, generic.ListView):
-    queryset = Post.objects.rejected()
-    template_name = 'profiles/detail/tabs/content/posts/base.html'
-
-
-class ProfilePostsRejectedTabLazyLoadDataListView(ProfilePostsRejectedTabBaseLoadDataListView):
-    template_name = 'profiles/detail/tabs/content/posts/base.html'
 
 
 class ProfileCommentsTabLoadDataListView(ProfileTabListMixin, generic.ListView):
     model = Comment
+    template_name = 'profiles/detail/tabs/content/comments/base.html'
 
-    def get_template_names(self):
-        page = int(self.request.GET.get('page', 1))
-        self.template_name = 'profiles/detail/tabs/content/comments/' + \
-            'base.html' if page == 1 else self.tab_dir + 'list.html'
-        return super().get_template_names()
+
+class ProfileCommentsTabLazyDataListView(ProfileCommentsTabLoadDataListView):
+    model = Comment
+    template_name = 'profiles/detail/tabs/content/comments/list.html'
 
 
 class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
