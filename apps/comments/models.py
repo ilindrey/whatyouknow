@@ -9,17 +9,18 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django_summernote.fields import SummernoteTextField
 from mptt.models import MPTTModel, TreeForeignKey
 
+from apps_packages.summernote.validators import SummernoteMinValueValidator
 from ..core.mixins import TimeStampsMixin
 from ..moderation.managers import ModeratedTreeManager
 from ..moderation.models import BaseModeratedObject
 
 
 class Comment(TimeStampsMixin, BaseModeratedObject, MPTTModel):
-    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, blank=False, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, editable=False)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    text = SummernoteTextField()
+    text = SummernoteTextField(validators=[SummernoteMinValueValidator(3)])
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
                             null=True,
