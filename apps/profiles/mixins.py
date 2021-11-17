@@ -34,8 +34,12 @@ class ProfileTabStructureMixin:
             }
 
 
-class ProfileTabListMixin(ProfileTabStructureMixin):
+class ProfileTabListMixin(ProfileAuthMixin):
     paginate_by = 10
 
     def get_queryset(self):
-        return super().get_queryset().filter(user__username=self.kwargs[ProfileAuthMixin.slug_url_kwarg])
+        if self.is_auth_user:
+            self.queryset = self.model._default_manager.all()
+        else:
+            self.queryset = self.model._default_manager.approved()
+        return super().get_queryset().filter(user__username=self.kwargs[self.slug_url_kwarg])

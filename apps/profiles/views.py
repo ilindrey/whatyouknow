@@ -39,7 +39,7 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         tab_posts_kwargs = {**default_kwargs, 'first_tab': 'posts'}
         tab_posts_params = self.default_tab_params
         tab_posts_params.update({
-            'count': Post.objects.filter(user__username=username).count(),
+            'count': ProfilePostsTabBaseLoadDataListView(request=self.request, kwargs=self.kwargs).get_queryset().count(),
             'is_lazy_load': True,
             'link_load_data': reverse('posts_tab_base_load_data', kwargs=tab_posts_kwargs),
             'link_lazy_load': reverse('posts_tab_lazy_load_data', kwargs=tab_posts_kwargs),
@@ -49,7 +49,7 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         tab_comments_kwargs = {**default_kwargs, 'first_tab': 'comments'}
         tab_comments_params = self.default_tab_params
         tab_comments_params.update({
-            'count': Comment.objects.filter(user__username=username).count(),
+            'count': ProfileCommentsTabLoadDataListView(request=self.request, kwargs=self.kwargs).get_queryset().count(),
             'is_lazy_load': True,
             'link_load_data': reverse('comments_tab_base_load_data', kwargs=tab_comments_kwargs),
             'link_lazy_load': reverse('comments_tab_lazy_load_data', kwargs=tab_comments_kwargs),
@@ -115,7 +115,7 @@ class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
         tab = self.kwargs.get('tab', 'profile')
         if tab not in self.get_tab_list():
             raise Http404(_('Invalid profile setting tab: (%(tab)s)') % {
-                'first_tab': tab,
+                'tab': tab,
                 })
         context['cur_tab'] = tab
         return context
