@@ -1,8 +1,9 @@
+{% load moderation %}
 <div class="item">
     <div class="content">
         <a class="header" href="{{ object.get_absolute_url }}">{{ object.content_object }}</a>
         <div class="meta">
-            {% include 'moderation/status_label.html' %}
+            {% status_moderation %}
         </div>
         <div class="description">
             {{ object.text|safe }}

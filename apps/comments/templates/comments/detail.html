@@ -1,4 +1,4 @@
-{% load core admin_urls %}
+{% load core moderation %}
 
 <div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}"{% endif %}>
     {% if node.is_approved or node.user == user or user.is_superuser or user.is_staff %}
@@ -25,9 +25,7 @@
                     {% endif %}
                 </span>
                 {% if node.user == user or user.is_superuser or user.is_staff %}
-                    {% with object=node %}
-                        {% include 'moderation/status_label.html' %}
-                    {% endwith %}
+                    {% status_moderation node %}
                 {% endif%}
     {#            <span>id - {{ node.id }}</span>#}
     {#            <span>parent_id - {{ node.parent_id }}</span>#}

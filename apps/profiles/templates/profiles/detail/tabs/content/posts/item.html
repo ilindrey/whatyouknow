@@ -1,4 +1,4 @@
-{% load thumbnail %}
+{% load thumbnail moderation %}
 
 <div class="item">
     <a class="image" href="{% url 'post_detail' object.pk %}">
@@ -7,7 +7,7 @@
     <div class="content">
         <a class="header" href="{% url 'post_detail' object.pk %}">{{ object.title }}</a>
          <div class="meta">
-            {% include 'moderation/status_label.html' %}
+            {% status_moderation %}
         </div>
         <div class="description">
             {{ object.feed_article_preview }}

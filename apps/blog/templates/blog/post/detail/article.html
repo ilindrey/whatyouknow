@@ -1,4 +1,4 @@
-{% load core %}
+{% load core moderation %}
 
 <div class="ui grid">
         <div class="row">
@@ -20,8 +20,8 @@
                             </span>
                         </div>
                         {% if cur_action != 'preview' and user.is_authenticated and user == object.user %}
-                            <div class="disabled item">
-                                {% include 'moderation/status_label.html' %}
+                            <div class="item">
+                                {% status_moderation %}
                             </div>
                         {% endif %}
                     </div>

@@ -1,9 +1,7 @@
-{% if object.is_pending %}
-<span class="ui primary basic label">Pending</span>
-{% endif %}
-{% if object.is_draft %}
-<span class="ui green basic label">Draft</span>
-{% endif %}
-{% if object.is_rejected %}
-<span class="ui red basic label">Rejected</span>
+{% if object.is_draft or object.is_pending or object.is_rejected %}
+    <span class="ui {% if object.is_draft %}green{% elif object.is_pending %}primary{% elif object.is_rejected %}red{% endif %} basic label"
+          data-content="{% if object.is_draft %}This {{ representation_object_name }} was saved as a draft.{% elif object.is_pending %}This {{ representation_object_name }} is pending moderation.{% elif object.is_rejected %}This {{ representation_object_name }} rejected by moderator. Reason: {{ object.reason }}{% endif %}"
+          onmouseover="$(this).popup('show');"
+          onmouseout="$(this).popup('hide');"
+    >{% if object.is_draft %}Draft{% elif object.is_pending %}Pending{% elif object.is_rejected %}Rejected{% endif %}</span>
 {% endif %}
