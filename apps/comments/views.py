@@ -1,10 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models.signals import pre_save
 
 from .models import Comment
 from .mixins import ContentTypeObjectCommentMixin, CreateUpdateCommentMixin
-from ..moderation.handlers import save_as_approved
 
 
 class CommentListView(ContentTypeObjectCommentMixin, ListView):
@@ -25,8 +24,9 @@ class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, CreateView
         form.instance.object_id = self.ct_object.pk
         if 'reply' in self.request.POST.get('action_type'):
             form.instance.parent_id = self.request.POST.get('target_id')
-        pre_save.connect(save_as_approved)
-        return super().form_valid(form)
+        self.object = form.save()
+        self.object.save_as_approved()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class EditCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, UpdateView):

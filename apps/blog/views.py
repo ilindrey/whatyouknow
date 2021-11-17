@@ -4,11 +4,9 @@ from django.views.generic import DetailView, ListView, CreateView, UpdateView, R
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
-from django.db.models.signals import pre_save
 
 from dateutil.relativedelta import relativedelta
 
-from ..moderation.handlers import save_as_approved, save_as_pending
 from .models import Post, CategoryTypes
 from .mixins import PostCreateEditFormMixin
 
@@ -173,11 +171,8 @@ class PostDoneView(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         render_to_response = super().get(request, *args, **kwargs)
-        if self.object.is_approved:
-            pre_save.connect(save_as_approved)
-        else:
-            pre_save.connect(save_as_pending)
-        self.object.save()
+        if not self.object.is_approved:
+            self.object.save_as_pending()
         return render_to_response
 
 

@@ -37,9 +37,19 @@ class BaseModeratedObject(models.Model):
 
     def save(self, *args, **kwargs):
 
+        if self.pk is None:
+            self.state = MODERATION_DRAFT_STATE
+        elif self.approval is not None:
+            self.state = MODERATION_MODERATED_STATE
+        else:
+            if self.state in (MODERATION_PENDING_STATE, MODERATION_MODERATED_STATE):
+                self.state = MODERATION_PENDING_STATE
+            else:
+                self.state = MODERATION_DRAFT_STATE
+
         self.is_draft = self.state == MODERATION_DRAFT_STATE
         self.is_pending = self.state == MODERATION_PENDING_STATE
-        self.is_moderated = self.state == MODERATION_MODERATED_STATE and self.approval is not None
+        self.is_moderated = self.state == MODERATION_MODERATED_STATE
 
         self.is_approved = self.is_moderated and self.approval == MODERATION_APPROVAL_APPROVED
         self.is_rejected = self.is_moderated and self.approval == MODERATION_APPROVAL_REJECTED
@@ -51,3 +61,24 @@ class BaseModeratedObject(models.Model):
             self.approval = None
 
         super().save(*args, **kwargs)
+
+    def save_as_draft(self, *args, **kwargs):
+        self.state = MODERATION_DRAFT_STATE
+        self.approval = None
+        self.save(*args, **kwargs)
+
+    def save_as_pending(self,*args, **kwargs):
+        self.state = MODERATION_PENDING_STATE
+        self.approval = None
+        self.save(*args, **kwargs)
+
+    def save_as_approved(self, *args, **kwargs):
+        self.state = MODERATION_MODERATED_STATE
+        self.approval = MODERATION_APPROVAL_APPROVED
+        self.save(*args, **kwargs)
+
+    def save_as_rejected(self, reason=None, *args, **kwargs):
+        self.state = MODERATION_MODERATED_STATE
+        self.approval = MODERATION_APPROVAL_REJECTED
+        self.reason = reason
+        self.save(*args, **kwargs)
