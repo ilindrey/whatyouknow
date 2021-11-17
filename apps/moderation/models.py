@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -34,6 +35,11 @@ class BaseModeratedObject(models.Model):
 
     class Meta:
         abstract = True
+
+    def clean(self):
+        if self.approval == MODERATION_APPROVAL_REJECTED and not self.reason:
+            raise ValidationError(message=_('Enter a reason.'), code='invalid', params={'value': self.reason})
+        super().clean()
 
     def save(self, *args, **kwargs):
 
@@ -82,3 +88,4 @@ class BaseModeratedObject(models.Model):
         self.approval = MODERATION_APPROVAL_REJECTED
         self.reason = reason
         self.save(*args, **kwargs)
+
