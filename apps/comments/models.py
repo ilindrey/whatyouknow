@@ -10,17 +10,16 @@ from django_summernote.fields import SummernoteTextField
 from mptt.models import MPTTModel, TreeForeignKey
 
 from apps_packages.summernote.validators import SummernoteMinValueValidator
-from ..core.mixins import TimeStampsMixin
 from ..moderation.managers import ModeratedTreeManager
 from ..moderation.models import BaseModeratedObject
 
 
-class Comment(TimeStampsMixin, BaseModeratedObject, MPTTModel):
+class Comment(BaseModeratedObject, MPTTModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, editable=False)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    text = SummernoteTextField(validators=[SummernoteMinValueValidator(3)])
+    text = SummernoteTextField(validators=[SummernoteMinValueValidator(10)])
     parent = TreeForeignKey('self',
                             on_delete=models.CASCADE,
                             null=True,
@@ -31,7 +30,7 @@ class Comment(TimeStampsMixin, BaseModeratedObject, MPTTModel):
     objects = ModeratedTreeManager()
 
     class MPTTMeta:
-        order_insertion_by = ['created']
+        order_insertion_by = ['date_created']
 
     def get_absolute_url(self):
         return self.content_object.get_absolute_url() + '?comment=' + str(self.pk)

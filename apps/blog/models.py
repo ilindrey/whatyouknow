@@ -12,7 +12,6 @@ from easy_thumbnails.signal_handlers import generate_aliases_global
 
 from apps_packages.summernote.validators import SummernoteMinValueValidator
 
-from ..core.mixins import TimeStampsMixin
 from ..moderation.models import BaseModeratedObject
 
 
@@ -100,20 +99,19 @@ class CategoryTypes(Enum):
         return random_choice(cls.choices())
 
 
-class Post(TimeStampsMixin, BaseModeratedObject, models.Model):
+class Post(BaseModeratedObject, models.Model):
 
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, editable=False)
     category = models.IntegerField(choices=CategoryTypes.choices())
     title = models.CharField(max_length=200)
     feed_cover = models.ImageField(upload_to='blog/feed_covers')
     feed_article_preview = SummernoteTextField(blank=True)
-    text = SummernoteTextField(validators=[SummernoteMinValueValidator(300)])
-    published = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    text = SummernoteTextField(validators=[SummernoteMinValueValidator(500)])
     tags = TaggableManager()
 
     class Meta:
         verbose_name_plural = 'Posts'
-        ordering = ('-created', )
+        ordering = ('-date_created', )
 
     def __str__(self):
         return self.title

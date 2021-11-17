@@ -24,7 +24,7 @@ class PostListLoadDataView(ListView):
     model = Post
     template_name = 'blog/post/list/roll_out.html'
     paginate_by = 15
-    ordering = '-created'
+    ordering = '-date_published'
 
     def get_queryset(self):
         filters = {}
@@ -48,14 +48,15 @@ class PostListLoadDataView(ListView):
 
         param = self.request.GET.get('period')
         if param:
+            key = 'date_published__gte'
             if 'day' in param:
-                filters['created__gte'] = now() - relativedelta(days=+1)
+                filters[key] = now() - relativedelta(days=+1)
             elif 'week' in param:
-                filters['created__gte'] = now() - relativedelta(weeks=+1)
+                filters[key] = now() - relativedelta(weeks=+1)
             elif 'month' in param:
-                filters['created__gte'] = now() - relativedelta(months=+1)
+                filters[key] = now() - relativedelta(months=+1)
             elif 'year' in param:
-                filters['created__gte'] = now() - relativedelta(years=+1)
+                filters[key] = now() - relativedelta(years=+1)
 
         param = self.request.GET.get('rating')
         if param:
@@ -69,7 +70,7 @@ class PostListLoadDataView(ListView):
         if param:
             filters['title__startswith'] = param
 
-        queryset = self.model.objects.approved().filter(**filters).exclude(**excludes).order_by(self.ordering)
+        queryset = self.model.objects.published().filter(**filters).exclude(**excludes).order_by(self.ordering)
         return queryset
 
 
@@ -129,6 +130,10 @@ class PostCreateView(PostCreateEditFormMixin, CreateView):
             'cur_action': 'create',
             })
         return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class PostEditView(PostCreateEditFormMixin, UpdateView):

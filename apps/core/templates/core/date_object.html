@@ -1,0 +1,6 @@
+{% load core %}
+{% if object.published and object.date_published %}
+    {{ object.date_published|datetime_format }}
+{% else %}
+    {{ object.date_created|datetime_format }}
+{% endif %}

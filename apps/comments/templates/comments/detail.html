@@ -1,4 +1,4 @@
-{% load core moderation %}
+{% load moderation %}
 
 <div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}"{% endif %}>
     {% if node.is_approved or node.user == user or user.is_superuser or user.is_staff %}
@@ -19,8 +19,10 @@
                     </a>
                 {% endif %}
                 <span>
-                    {{ node.created|datetime_format }}
-                    {% if node.created != node.updated %}
+                    {% with object=node %}
+                        {% include 'core/date_object.html' %}
+                    {% endwith %}
+                    {% if node.date_created != node.date_updated %}
                         <span>(edited)</span>
                     {% endif %}
                 </span>

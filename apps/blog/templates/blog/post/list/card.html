@@ -1,4 +1,4 @@
-{% load core comments thumbnail %}
+{% load comments thumbnail %}
 
 <a class="ui card" href="{% url 'post_detail' object.pk %}">
 
@@ -47,11 +47,7 @@
 
         </div>
         <div class="right floated item">
-            {% if object.published %}
-                {{ object.published|datetime_format }}
-            {% else %}
-                {{ object.created|datetime_format }}
-            {% endif %}
+            {% include 'core/date_object.html' %}
         </div>
     </div>
 

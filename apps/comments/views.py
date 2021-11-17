@@ -11,7 +11,7 @@ class CommentListView(ContentTypeObjectCommentMixin, ListView):
     template_name = 'comments/list.html'
 
     def get_queryset(self):
-        return super().get_queryset()\
+        return super().get_queryset().published()\
             .filter(content_type=self.content_type,
                     object_id=self.ct_object.pk)
 
@@ -25,7 +25,8 @@ class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, CreateView
         if 'reply' in self.request.POST.get('action_type'):
             form.instance.parent_id = self.request.POST.get('target_id')
         self.object = form.save()
-        self.object.save_as_approved()
+        if self.object:
+            self.object.save_as_published()
         return HttpResponseRedirect(self.get_success_url())
 
 

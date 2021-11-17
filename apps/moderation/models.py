@@ -1,5 +1,6 @@
-from django.core.exceptions import ValidationError
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import ModeratedManager
@@ -23,7 +24,12 @@ class BaseModeratedObject(models.Model):
     state = models.PositiveIntegerField(choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
                                         null=False, blank=False, editable=False)
     approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
+    published = models.BooleanField(_('publish'), default=False, blank=True)
     reason = models.TextField(null=True, blank=True)
+
+    date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    date_published = models.DateTimeField(null=True, blank=True, editable=False)
 
     is_draft = models.BooleanField(default=False, null=False, editable=False)
     is_pending = models.BooleanField(default=False, null=False, editable=False)
@@ -37,7 +43,8 @@ class BaseModeratedObject(models.Model):
         abstract = True
 
     def clean(self):
-        if self.approval == MODERATION_APPROVAL_REJECTED and not self.reason:
+        if (self.approval == MODERATION_APPROVAL_APPROVED and not self.published and not self.reason) \
+                or (self.approval == MODERATION_APPROVAL_REJECTED and not self.reason):
             raise ValidationError(message=_('Enter a reason.'), code='invalid', params={'value': self.reason})
         super().clean()
 
@@ -60,11 +67,17 @@ class BaseModeratedObject(models.Model):
         self.is_approved = self.is_moderated and self.approval == MODERATION_APPROVAL_APPROVED
         self.is_rejected = self.is_moderated and self.approval == MODERATION_APPROVAL_REJECTED
 
-        if not self.is_rejected:
-            self.reason = None
-
         if not self.is_moderated:
             self.approval = None
+
+        if not self.is_approved:
+            self.published = False
+
+        if not self.is_rejected and not (self.is_approved and not self.published):
+            self.reason = None
+
+        if self.is_approved and self.published and self.date_published is None:
+            self.date_published = now()
 
         super().save(*args, **kwargs)
 
@@ -87,5 +100,11 @@ class BaseModeratedObject(models.Model):
         self.state = MODERATION_MODERATED_STATE
         self.approval = MODERATION_APPROVAL_REJECTED
         self.reason = reason
+        self.save(*args, **kwargs)
+
+    def save_as_published(self, *args, **kwargs):
+        self.state = MODERATION_MODERATED_STATE
+        self.approval = MODERATION_APPROVAL_APPROVED
+        self.published = True
         self.save(*args, **kwargs)
 

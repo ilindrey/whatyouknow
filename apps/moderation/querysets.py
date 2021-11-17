@@ -1,5 +1,5 @@
 
-from django.db.models import QuerySet, BooleanField, Q, Case, When, Value
+from django.db.models import QuerySet
 from mptt.querysets import TreeQuerySet
 
 from .constants import (MODERATION_DRAFT_STATE, MODERATION_PENDING_STATE, MODERATION_MODERATED_STATE,
@@ -27,6 +27,10 @@ class ModeratedQuerySetMixin:
     def approved(self):
         clone = self._chain()
         return clone.filter(state=MODERATION_MODERATED_STATE, approval=MODERATION_APPROVAL_APPROVED)
+
+    def published(self):
+        clone = self._chain()
+        return clone.filter(state=MODERATION_MODERATED_STATE, approval=MODERATION_APPROVAL_APPROVED, published=True)
 
 
 class ModeratedQuerySet(ModeratedQuerySetMixin, QuerySet):

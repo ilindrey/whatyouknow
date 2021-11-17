@@ -1,4 +1,4 @@
-{% load core moderation %}
+{% load moderation %}
 
 <div class="ui grid">
         <div class="row">
@@ -12,11 +12,7 @@
                         </a>
                         <div class="disabled item">
                             <span class="ui grey text">
-                                {% if object.published %}
-                                    {{ object.published|datetime_format }}
-                                {% else %}
-                                    {{ object.created|datetime_format }}
-                                {% endif %}
+                                {% include 'core/date_object.html' %}
                             </span>
                         </div>
                         {% if cur_action != 'preview' and user.is_authenticated and user == object.user %}

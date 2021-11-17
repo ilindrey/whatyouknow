@@ -40,6 +40,8 @@ class ProfileTabListMixin(ProfileAuthMixin):
     def get_queryset(self):
         if self.is_auth_user:
             self.queryset = self.model._default_manager.all()
+            self.ordering = '-date_created'
         else:
-            self.queryset = self.model._default_manager.approved()
+            self.queryset = self.model._default_manager.published()
+            self.ordering = '-date_published'
         return super().get_queryset().filter(user__username=self.kwargs[self.slug_url_kwarg])

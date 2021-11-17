@@ -2,31 +2,86 @@
 {
     window.addEventListener("load", function() {
 
-        django.jQuery(function ($) { // stuff
+        django.jQuery(function ($) {
+
+            let $approvalElement, $publishedElement, $reasonElement, initialization;
 
             $(document).ready(function () {
+                initialization = true;
 
-                let $approvalElement = $('.form-row.field-approval');
-                let $reasonElement = $('.form-row.field-reason');
+                $approvalElement = $('.form-row.field-approval');
+                $publishedElement = $('.form-row.field-published');
+                $reasonElement = $('.form-row.field-reason');
 
-                $reasonElement.hide();
-                $approvalElement.find('input:checked').click();
+                $approvalElement.find('input:checked').change();
+
+                initialization = false;
             });
 
-            $(document).on('click', '#id_approval input', function (e) {
-                let $currentElement = $(this);
-                let $reasonElement = $('.form-row.field-reason');
+            $(document).on('change', '.form-row.field-approval input', function (e) {
 
-                let value = $currentElement.val();
+                let $element = $(this);
+                let value = $element.val();
 
-                if (value == 1) {
-                    $reasonElement.show();
-                } else {
-                    $reasonElement.hide();
+                if (value.length > 0)
+                {
+                    if(value == 0)
+                    {
+                        if(!initialization)
+                        {
+                            $publishedElement.prop('checked', true);
+                        }
+                        $publishedElement.show();
+                        $publishedElement.find('input').change();
+                    }
+                    else if (value == 1)
+                    {
+                        if(!initialization)
+                        {
+                            $publishedElement.prop('checked', false);
+                        }
+                        $publishedElement.hide();
+                        $publishedElement.find('input').change();
+                        $reasonElement.show();
+                    }
+                    else
+                    {
+                        hideAllElements();
+                    }
+                }
+                else
+                {
+                    hideAllElements();
                 }
             });
 
+            $(document).on('change', '.form-row.field-published input', function (e) {
+
+                let $element = $(this);
+
+                let isVisible = $element.is(":visible");
+                let value = $element.prop('checked');
+
+                if(isVisible && value === true)
+                {
+                    $reasonElement.hide();
+                }
+                else
+                {
+                    $reasonElement.show();
+                }
+            })
+
+            function hideAllElements()
+            {
+                $publishedElement.prop('checked', false);
+                $publishedElement.hide();
+                $reasonElement.hide();
+                $publishedElement.click();
+            }
+
         });
+
 
     });
 }
