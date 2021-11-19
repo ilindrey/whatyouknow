@@ -119,6 +119,7 @@ function safeWrap()
                     if($item.data('value') == category_param)
                     {
                         $item.click();
+                        setLocationURL();
                         break;
                     }
                 }
@@ -205,16 +206,13 @@ function safeWrap()
 
     function updateContent()
     {
+        if(!initialization)
+            setLocationURL();
+
         let currentCategory, currentPage, params,  locationURL;
 
         currentPage = $roll.data(keyCurrentPage);
         currentCategory = $controlPanel.data(keyCurrentCategory);
-
-        if(!initialization)
-        {
-            const url = getURL(null, currentPage, basePathnameURL, currentCategory);
-            history.replaceState(null, null, url.href);
-        }
 
         params = {};
         locationURL = new URL(window.location.href);
@@ -260,10 +258,15 @@ function safeWrap()
         }
         else
         {
-            const currentPage = $roll.data(keyCurrentPage);
-            const currentCategory = $controlPanel.data(keyCurrentCategory);
-            const url = getURL(null, currentPage, basePathnameURL, currentCategory);
-            history.replaceState(null, null, url);
+            setLocationURL();
         }
+    }
+
+    function setLocationURL()
+    {
+        const currentPage = $roll.data(keyCurrentPage);
+        const currentCategory = $controlPanel.data(keyCurrentCategory);
+        const url = getURL(null, currentPage, basePathnameURL, currentCategory);
+        history.replaceState(null, null, url);
     }
 }

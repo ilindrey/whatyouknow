@@ -87,8 +87,10 @@ class CategoryTypes(Enum):
     def get_values(cls, *args, key=None):
         l = []
         for a in args:
-            l.append(cls.get_value(a, key))
-        return l
+            value = cls.get_value(a, key)
+            if value is not None:
+                l.append(value)
+        return l if l else None
 
     @classmethod
     def choices(cls):

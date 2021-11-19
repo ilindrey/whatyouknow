@@ -35,29 +35,35 @@ class PostListLoadDataView(ListView):
         if param:
             if isinstance(param, str):
                 param = [param]
-            if 'all' in param:
-                pass
-            elif 'feed' in param:
-                if self.request.user.is_authenticated:
-                    filters['category__in'] = self.request.user.settings['feed_categories']
-                    excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
-            else:
-                category_list = CategoryTypes.get_values(*param, key='short_name_lower')
-                if category_list is None:
-                    raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
-                filters['category__in'] = [category['index'] for category in category_list]
+            match param:
+                case ['all']:
+                    pass
+                case ['feed']:
+                    if self.request.user.is_authenticated:
+                        filters['category__in'] = self.request.user.settings['feed_categories']
+                        excludes['tags__name__in'] = self.request.user.excluded_feed_tags.names()
+                case _:
+                    category_list = CategoryTypes.get_values(*param, key='short_name_lower')
+                    if category_list is not None:
+                        filters['category__in'] = [category['index'] for category in category_list]
+                    elif 'category' in self.kwargs.keys():  # set default tab in category menu on main page
+                        param = ['feed']
+                        self.kwargs['category'] = param[0]
+                    else:
+                        raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
 
         param = self.request.GET.get('period')
         if param:
             key = 'date_published__gte'
-            if 'day' in param:
-                filters[key] = now() - relativedelta(days=+1)
-            elif 'week' in param:
-                filters[key] = now() - relativedelta(weeks=+1)
-            elif 'month' in param:
-                filters[key] = now() - relativedelta(months=+1)
-            elif 'year' in param:
-                filters[key] = now() - relativedelta(years=+1)
+            match param:
+                case 'day':
+                    filters[key] = now() - relativedelta(days=+1)
+                case 'week':
+                    filters[key] = now() - relativedelta(weeks=+1)
+                case 'month':
+                    filters[key] = now() - relativedelta(months=+1)
+                case 'year':
+                    filters[key] = now() - relativedelta(years=+1)
 
         param = self.request.GET.get('rating')
         if param:
