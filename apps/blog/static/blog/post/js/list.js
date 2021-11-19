@@ -40,9 +40,9 @@ function safeWrap()
 
         $controlPanel = $(idControlPanel);
         $roll = $(idRoll);
-        $loader = $('.loader').closest('.ui.segment');
+        $loader = $('.loader').closest('.segment');
 
-        $loader.hide();
+        hideLoader();
 
         const currentPage = $roll.data(keyCurrentPage);
         if(!currentPage) {
@@ -230,8 +230,7 @@ function safeWrap()
             data: params,
             beforeSend: function(jqXHR, settings)
             {
-                $roll.html('');
-                $loader.show();
+                showLoader();
             },
             success: function (responseText) {
                 $roll.html(responseText);
@@ -241,7 +240,7 @@ function safeWrap()
             },
             complete: function (jqXHR, textStatus)
             {
-                $loader.hide();
+                hideLoader();
             },
         });
     }
@@ -268,5 +267,17 @@ function safeWrap()
         const currentCategory = $controlPanel.data(keyCurrentCategory);
         const url = getURL(null, currentPage, basePathnameURL, currentCategory);
         history.replaceState(null, null, url);
+    }
+
+    function showLoader()
+    {
+        $roll.html('');
+        $loader.show();
+    }
+
+    function hideLoader()
+    {
+
+        $loader.hide();
     }
 }

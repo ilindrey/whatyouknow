@@ -10,13 +10,19 @@ function safeWrap()
         keyCurAction = 'cur-action',
         keyActionUrl = 'action-url';
 
-    let $content = null,
-        $stepContent = null,
-        $writeForm = null;
+    let $content,
+        $stepContent,
+        $writeForm,
+        $loader;
 
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
         $content = $(keyContent);
+        $loader = $content.find('.loader').closest('.segment');
         $stepContent = $content.find(keyStepContent);
+
+        hideLoader();
+
         const curAction = $stepContent.data(keyCurAction);
         if(curAction === 'create' || curAction === 'edit') {
             initWriteForm();
@@ -58,40 +64,62 @@ function safeWrap()
             processData: false,
             contentType: false,
             enctype: 'multipart/form-data',
-            success: function (responseText) {
-                if ($content) {
-                    $content.html(responseText);
-                    $stepContent = $content.find(keyStepContent);
-                    if (nextAction === 'edit') {
-                        initWriteForm();
-                    }
-                    setCurrentUrl();
-                }
+            beforeSend: function(jqXHR, settings)
+            {
+                showLoader();
             },
-            error: function (xhr, ajaxOptions, thrownError) {
+            success: function (responseText)
+            {
+                loadingStepContent(responseText, nextAction);
+            },
+            error: function (xhr, ajaxOptions, thrownError)
+            {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
-            }
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                hideLoader();
+            },
         });
     }
 
-    function runAction(button, nextAction) {
-        const actionUrl = button.data(keyActionUrl);
-        let deferred = $.get(actionUrl, {'next_action': nextAction});
-        deferred.done(function (responseText) {
-            if ($content)
+    function runAction(button, nextAction)
+    {
+        $.ajax({
+            type: 'get',
+            url: button.data(keyActionUrl),
+            data: {
+                'next_action': nextAction
+            },
+            beforeSend: function(jqXHR, settings)
             {
-                $content.html(responseText);
-                $stepContent = $content.find(keyStepContent);
-                if(nextAction === 'edit')
-                {
-                    initWriteForm();
-                }
-                setCurrentUrl();
+                showLoader();
+            },
+            success: function (responseText)
+            {
+                loadingStepContent(responseText);
+            },
+            error: function (xhr, ajaxOptions, thrownError)
+            {
+                showErrorMessage(xhr, ajaxOptions, thrownError);
+            },
+            complete: function (jqXHR, textStatus)
+            {
+                hideLoader();
+            },
+        });
+    }
+
+    function loadingStepContent(responseText, nextAction)
+    {
+        if ($content) {
+            $content.html(responseText);
+            $stepContent = $content.find(keyStepContent);
+            if (nextAction === 'edit') {
+                initWriteForm();
             }
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
+            setCurrentUrl();
+        }
     }
 
     function initWriteForm() {
@@ -112,5 +140,16 @@ function safeWrap()
                 history.replaceState(null, null, url.href);
             }
         }
+    }
+
+    function showLoader()
+    {
+        $stepContent.html('');
+        $loader.show();
+    }
+
+    function hideLoader()
+    {
+        $loader.hide();
     }
 }

@@ -20,7 +20,7 @@ function safeWrap() {
         $infoComments = $(idInfoComments);
         $commentListRow = $(idCommentsListRow);
 
-        $loader = $infoComments.find('.loader').closest('.segment');
+        $loader = $infoComments.find('.loader').closest('.segment').show();
 
         infoCommentsData = $infoComments.data();
 
@@ -32,14 +32,13 @@ function safeWrap() {
             url: urls.urlCommentList,
             data: objParams,
             beforeSend: function () {
-                $commentListRow.html('');
-                $loader.show();
+                showLoader();
             },
             success: function (responseText) {
                 $commentListRow.html(responseText);
             },
             complete: function () {
-                $loader.hide();
+                hideLoader();
 
                 const keyCommentParams = 'comment';
                 const url = new URL(window.location);
@@ -217,4 +216,15 @@ function safeWrap() {
             'urlCommentList': infoCommentsData.urlCommentList,
         };
     };
+
+    function showLoader()
+    {
+        $commentListRow.html('');
+        $loader.show();
+    }
+
+    function hideLoader()
+    {
+        $loader.hide();
+    }
 }
