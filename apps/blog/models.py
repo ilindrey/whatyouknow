@@ -105,7 +105,7 @@ class Post(BaseModeratedObject, models.Model):
     category = models.IntegerField(choices=CategoryTypes.choices())
     title = models.CharField(max_length=200)
     feed_cover = models.ImageField(upload_to='blog/feed_covers')
-    feed_article_preview = SummernoteTextField(blank=True)
+    feed_article_preview = SummernoteTextField(null=True, blank=True)
     text = SummernoteTextField(validators=[SummernoteMinValueValidator(500)])
     tags = TaggableManager()
 
@@ -118,6 +118,11 @@ class Post(BaseModeratedObject, models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        if not self.feed_article_preview:
+            self.feed_article_preview = None
+        super().save(*args, **kwargs)
 
 
 saved_file.connect(generate_aliases_global)
