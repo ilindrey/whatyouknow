@@ -14,6 +14,9 @@
                             <span class="ui grey text">
                                 {% include 'core/date_object.html' %}
                             </span>
+                            {% if object.edited_by_user %}
+                                <span class="ui grey text">(edited)</span>
+                            {% endif %}
                         </div>
                         {% if cur_action != 'preview' and user.is_authenticated and user == object.user %}
                             <div class="item">

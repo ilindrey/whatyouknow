@@ -37,6 +37,8 @@ class BaseModeratedObject(models.Model):
     is_approved = models.BooleanField(default=False, null=False, editable=False)
     is_rejected = models.BooleanField(default=False, null=False, editable=False)
 
+    edited_by_user = models.BooleanField(default=False, null=False, editable=False)
+
     objects = ModeratedManager()
 
     class Meta:

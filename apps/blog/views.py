@@ -7,6 +7,7 @@ from django.utils.translation import gettext as _
 
 from dateutil.relativedelta import relativedelta
 
+from ..moderation.mixins import SetEditedByUserMixin
 from .models import Post, CategoryTypes
 from .mixins import PostCreateEditFormMixin
 
@@ -136,7 +137,7 @@ class PostCreateView(PostCreateEditFormMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostEditView(PostCreateEditFormMixin, UpdateView):
+class PostEditView(PostCreateEditFormMixin, SetEditedByUserMixin, UpdateView):
     template_name = 'blog/post/edit.html'
 
     def get_context_data(self, **kwargs):

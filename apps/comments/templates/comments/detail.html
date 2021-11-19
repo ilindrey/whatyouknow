@@ -22,7 +22,7 @@
                     {% with object=node %}
                         {% include 'core/date_object.html' %}
                     {% endwith %}
-                    {% if node.date_created != node.date_updated %}
+                    {% if node.edited_by_user %}
                         <span>(edited)</span>
                     {% endif %}
                 </span>

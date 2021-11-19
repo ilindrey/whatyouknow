@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from ..moderation.mixins import SetEditedByUserMixin
 from .models import Comment
 from .mixins import ContentTypeObjectCommentMixin, CreateUpdateCommentMixin
 
@@ -30,5 +31,5 @@ class CreateCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, CreateView
         return HttpResponseRedirect(self.get_success_url())
 
 
-class EditCommentView(CreateUpdateCommentMixin, LoginRequiredMixin, UpdateView):
+class EditCommentView(CreateUpdateCommentMixin, SetEditedByUserMixin, LoginRequiredMixin, UpdateView):
     pass
