@@ -15,11 +15,13 @@
                 <div class="header">{{ object.title }}</div>
             </div>
 
+            {% if object.feed_article_preview %}
             <div class="item">
-                            <span class="ui grey text">
-                                {{ object.feed_article_preview|safe|truncatechars:100 }}
-                            </span>
+                <span class="ui grey text">
+                    {{ object.feed_article_preview|safe|truncatechars:100 }}
+                </span>
             </div>
+            {% endif %}
 
             <div class="right floated item">
                 {% include 'profiles/avatar/author.html' %}
