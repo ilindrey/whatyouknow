@@ -24,6 +24,9 @@ class ModeratedObjectForm(ModelForm):
     class Meta:
         model = BaseModeratedObject
         fields = '__all__'
+        labels = {
+            'published': _('Publish')
+            }
         widgets = {
             'approval': RadioSelect
             }

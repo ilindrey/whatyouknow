@@ -24,7 +24,7 @@ class BaseModeratedObject(models.Model):
     state = models.PositiveIntegerField(choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
                                         null=False, blank=False, editable=False)
     approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
-    published = models.BooleanField(_('publish'), default=False, blank=True)
+    published = models.BooleanField(_('Published'), default=False, blank=True)
     reason = models.TextField(null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -52,9 +52,7 @@ class BaseModeratedObject(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.pk is None:
-            self.state = MODERATION_DRAFT_STATE
-        elif self.approval is not None:
+        if self.approval is not None and self.pk is not None:
             self.state = MODERATION_MODERATED_STATE
         else:
             if self.state in (MODERATION_PENDING_STATE, MODERATION_MODERATED_STATE):
