@@ -49,7 +49,7 @@ function safeWrap() {
                     if (comment.length) {
                         comment[0].scrollIntoView({block: 'start'});
                         const url = deleteParamURL(keyCommentParams);
-                        history.pushState(null, null, url.href);
+                        history.replaceState(null, null, url.href);
                     }
                 }
             }
