@@ -28,9 +28,11 @@ class ModeratedQuerySetMixin:
         clone = self._chain()
         return clone.filter(state=MODERATION_MODERATED_STATE, approval=MODERATION_APPROVAL_APPROVED)
 
+    def not_published(self):
+        return self.approved().filter(published=False)
+
     def published(self):
-        clone = self._chain()
-        return clone.filter(state=MODERATION_MODERATED_STATE, approval=MODERATION_APPROVAL_APPROVED, published=True)
+        return self.approved().filter(published=True)
 
 
 class ModeratedQuerySet(ModeratedQuerySetMixin, QuerySet):

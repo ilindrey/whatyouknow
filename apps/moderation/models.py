@@ -84,21 +84,26 @@ class BaseModeratedObject(models.Model):
     def save_as_draft(self, *args, **kwargs):
         self.state = MODERATION_DRAFT_STATE
         self.approval = None
+        self.published = False
         self.save(*args, **kwargs)
 
     def save_as_pending(self,*args, **kwargs):
         self.state = MODERATION_PENDING_STATE
         self.approval = None
+        self.published = False
         self.save(*args, **kwargs)
 
-    def save_as_approved(self, *args, **kwargs):
-        self.state = MODERATION_MODERATED_STATE
-        self.approval = MODERATION_APPROVAL_APPROVED
-        self.save(*args, **kwargs)
-
-    def save_as_rejected(self, reason=None, *args, **kwargs):
+    def save_as_rejected(self, reason, *args, **kwargs):
         self.state = MODERATION_MODERATED_STATE
         self.approval = MODERATION_APPROVAL_REJECTED
+        self.reason = reason
+        self.published = False
+        self.save(*args, **kwargs)
+
+    def save_as_not_published(self, reason, *args, **kwargs):
+        self.state = MODERATION_MODERATED_STATE
+        self.approval = MODERATION_APPROVAL_APPROVED
+        self.published = False
         self.reason = reason
         self.save(*args, **kwargs)
 
