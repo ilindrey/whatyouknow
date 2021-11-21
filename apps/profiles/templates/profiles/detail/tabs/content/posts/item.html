@@ -9,9 +9,11 @@
          <div class="meta">
             {% status_moderation %}
         </div>
-        <div class="description">
-            {{ object.feed_article_preview }}
-        </div>
+        {% if object.feed_article_preview %}
+            <div class="description">
+                {{ object.feed_article_preview|safe }}
+            </div>
+        {% endif %}
         {% if user.is_authenticated and user == object.user %}
             <div class="extra">
                 {% include 'blog/post/detail/buttons/edit_post.html' %}
