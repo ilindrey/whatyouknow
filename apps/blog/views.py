@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 
 from dateutil.relativedelta import relativedelta
 
-from ..moderation.mixins import SetEditedByUserMixin
+from ..moderation.views import SetEditedByUserMixin
 from .models import Post, CategoryTypes
 from .mixins import PostCreateEditFormMixin
 

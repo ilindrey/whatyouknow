@@ -20,7 +20,7 @@ APPROVAL_CHOICES = [
 ]
 
 
-class BaseModeratedObject(models.Model):
+class ModeratedObjectMixin(models.Model):
     state = models.PositiveIntegerField(_('State'), choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
                                         null=False, blank=False, editable=False)
     approval = models.PositiveIntegerField(_('Approval'), choices=APPROVAL_CHOICES, default=None, null=True, blank=True)

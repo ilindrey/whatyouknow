@@ -14,7 +14,7 @@ from easy_thumbnails.signal_handlers import generate_aliases_global
 
 from apps_packages.summernote.validators import SummernoteMinValueValidator
 
-from ..moderation.models import BaseModeratedObject
+from ..moderation.models import ModeratedObjectMixin
 
 
 class CategoryTypes(Enum):
@@ -103,7 +103,7 @@ class CategoryTypes(Enum):
         return random_choice(cls.choices())
 
 
-class Post(BaseModeratedObject, models.Model):
+class Post(ModeratedObjectMixin, models.Model):
 
     user = models.ForeignKey(to=get_user_model(), on_delete=models.PROTECT, editable=False)
     category = models.IntegerField(_('Category'), choices=CategoryTypes.choices())

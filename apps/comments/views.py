@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from ..moderation.mixins import SetEditedByUserMixin
+from ..moderation.views import SetEditedByUserMixin
 from .models import Comment
 from .mixins import ContentTypeObjectCommentMixin, CreateUpdateCommentMixin
 

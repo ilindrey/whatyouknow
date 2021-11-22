@@ -14,10 +14,10 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from apps_packages.summernote.validators import SummernoteMinValueValidator
 from ..moderation.managers import ModeratedTreeManager
-from ..moderation.models import BaseModeratedObject
+from ..moderation.models import ModeratedObjectMixin
 
 
-class Comment(BaseModeratedObject, MPTTModel):
+class Comment(ModeratedObjectMixin, MPTTModel):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.PROTECT, editable=False)
     content_type = models.ForeignKey(to=ContentType, on_delete=models.CASCADE, editable=False)
     object_id = models.PositiveIntegerField(editable=False)
