@@ -52,10 +52,10 @@ INSTALLED_APPS = [
     'apps_packages.summernote',
     # project apps
     'apps.core',
-    'apps.profiles',
-    'apps.blog',
-    'apps.comments',
     'apps.moderation',
+    'apps.profiles',
+    'apps.comments',
+    'apps.blog',
     # rest API
     'rest_framework',
     'rest_framework.authtoken',
