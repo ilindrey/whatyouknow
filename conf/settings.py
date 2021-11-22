@@ -36,13 +36,16 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # default django apps
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
+    # admin apps
+    'grappelli.dashboard',
+    'grappelli',
+    # default admin app
+    'django.contrib.admin',
     # packages
     'mptt',
     'taggit',
@@ -317,3 +320,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 15
     }
+
+# grappelli
+
+GRAPPELLI_INDEX_DASHBOARD = 'conf.dashboard.CustomIndexDashboard'

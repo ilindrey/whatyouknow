@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # others
     path('summernote/', include('django_summernote.urls')),
+    path('grappelli/', include('grappelli.urls')),
     # api
     path('api/', include(api_patterns)),
     ]

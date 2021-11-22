@@ -1,6 +1,7 @@
 
 from django.urls import reverse
 from django.db import models
+from django.contrib.admin import display
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -45,5 +46,6 @@ class Comment(ModeratedObjectMixin, MPTTModel):
     def __str__(self):
         return '@%s, %s' % (self.user, truncatechars(self.text_representation(), 125))
 
+    @display(description='text')
     def text_representation(self):
         return strip_tags(mark_safe(self.text))

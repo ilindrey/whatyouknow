@@ -6,6 +6,7 @@ django-mptt
 django-taggit
 django-taggit-serializer
 django-summernote
+django-grappelli
 djangorestframework
 easy_thumbnails
 faker

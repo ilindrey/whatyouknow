@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 
@@ -96,4 +97,7 @@ class ModeratedObjectAdmin(admin.ModelAdmin):
             return _('Approved. Published')
 
     class Media:
-        js = ('moderation/js/moderated_object_admin.js',)
+        if 'grappelli' in settings.INSTALLED_APPS:
+            js = ('moderation/js/moderated_object_admin_grappelli.js',)
+        else:
+            js = ('moderation/js/moderated_object_admin.js',)

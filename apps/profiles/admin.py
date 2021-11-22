@@ -1,26 +1,8 @@
 from django.contrib import admin
-# from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-# from rest_framework.authtoken.models import Token, TokenProxy as DefaultTokenProxy
-# from rest_framework.authtoken.admin import TokenAdmin
-
 from .models import Profile
-
-
-# class GroupProxy(Group):
-#     class Meta:
-#         proxy = True
-#         app_label = 'profiles'
-#         verbose_name = 'Group'
-#
-#
-# class TokenProxy(Token):
-#     class Meta:
-#         proxy = True
-#         app_label = 'profiles'
-#         verbose_name = 'Token'
 
 
 class ProfileAdmin(UserAdmin):
@@ -46,9 +28,4 @@ class ProfileAdmin(UserAdmin):
     search_fields = ("username", "name", "email")
 
 
-# admin.site.unregister(Group)
-# admin.site.unregister(DefaultTokenProxy)
-
 admin.site.register(Profile, ProfileAdmin)
-# admin.site.register(GroupProxy, GroupAdmin)
-# admin.site.register(TokenProxy, TokenAdmin)
