@@ -4,6 +4,8 @@ from random import choice as random_choice
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.admin.templatetags.admin_urls import admin_urlname
+from django.utils.translation import gettext_lazy as _
 
 from django_summernote.fields import SummernoteTextField
 from taggit.managers import TaggableManager
@@ -103,16 +105,15 @@ class CategoryTypes(Enum):
 
 class Post(BaseModeratedObject, models.Model):
 
-    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, editable=False)
-    category = models.IntegerField(choices=CategoryTypes.choices())
-    title = models.CharField(max_length=200)
-    feed_cover = models.ImageField(upload_to='blog/feed_covers')
-    feed_article_preview = SummernoteTextField(null=True, blank=True)
-    text = SummernoteTextField(validators=[SummernoteMinValueValidator(500)])
+    user = models.ForeignKey(to=get_user_model(), on_delete=models.PROTECT, editable=False)
+    category = models.IntegerField(_('Category'), choices=CategoryTypes.choices())
+    title = models.CharField(_('Title'), max_length=200)
+    feed_cover = models.ImageField(_('Feed cover'), upload_to='blog/feed_covers')
+    feed_article_preview = SummernoteTextField(_('Feed article preview'), null=True, blank=True)
+    text = SummernoteTextField(_('Text'), validators=[SummernoteMinValueValidator(500)])
     tags = TaggableManager()
 
     class Meta:
-        verbose_name_plural = 'Posts'
         ordering = ('-date_created', )
 
     def __str__(self):
@@ -120,6 +121,10 @@ class Post(BaseModeratedObject, models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    def get_admin_url(self):
+        url = admin_urlname(self._meta, 'change')
+        return reverse(url, args=(self.pk,))
 
     def save(self, *args, **kwargs):
         if not self.feed_article_preview:

@@ -21,23 +21,23 @@ APPROVAL_CHOICES = [
 
 
 class BaseModeratedObject(models.Model):
-    state = models.PositiveIntegerField(choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
+    state = models.PositiveIntegerField(_('State'), choices=STATE_CHOICES, default=MODERATION_DRAFT_STATE,
                                         null=False, blank=False, editable=False)
-    approval = models.PositiveIntegerField(choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
+    approval = models.PositiveIntegerField(_('Approval'), choices=APPROVAL_CHOICES, default=None, null=True, blank=True)
     published = models.BooleanField(_('Published'), default=False, blank=True)
-    reason = models.TextField(null=True, blank=True)
+    reason = models.TextField(_('Reason'), null=True, blank=True)
 
-    date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-    date_published = models.DateTimeField(null=True, blank=True, editable=False)
+    date_created = models.DateTimeField(_('Date created'), auto_now=False, auto_now_add=True)
+    date_updated = models.DateTimeField(_('Date updated'), auto_now=True, auto_now_add=False)
+    date_published = models.DateTimeField(_('Date published'), null=True, blank=True, editable=False)
 
-    is_draft = models.BooleanField(default=False, null=False, editable=False)
-    is_pending = models.BooleanField(default=False, null=False, editable=False)
-    is_moderated = models.BooleanField(default=False, null=False, editable=False)
-    is_approved = models.BooleanField(default=False, null=False, editable=False)
-    is_rejected = models.BooleanField(default=False, null=False, editable=False)
+    is_draft = models.BooleanField(_('Is draft'), default=False, null=False, editable=False)
+    is_pending = models.BooleanField(_('Is pending'), default=False, null=False, editable=False)
+    is_moderated = models.BooleanField(_('Is moderated'), default=False, null=False, editable=False)
+    is_approved = models.BooleanField(_('Is approved'), default=False, null=False, editable=False)
+    is_rejected = models.BooleanField(_('Is rejected'), default=False, null=False, editable=False)
 
-    edited_by_user = models.BooleanField(default=False, null=False, editable=False)
+    edited_by_user = models.BooleanField(_('Edited by user'), default=False, null=False, editable=False)
 
     objects = ModeratedManager()
 

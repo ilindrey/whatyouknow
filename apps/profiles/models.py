@@ -32,8 +32,8 @@ class Profile(AbstractUser):
                               blank=False)
     specialization = models.CharField(_('specialization'), max_length=100, blank=True)
     description = models.TextField(_('description'), max_length=1000, blank=True)
-    excluded_feed_tags = TaggableManager()
     settings = models.JSONField(_('settings'), default=default_settings, blank=True)
+    excluded_feed_tags = TaggableManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'username']

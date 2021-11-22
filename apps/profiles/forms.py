@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm, UsernameField
+from django.utils.translation import gettext_lazy as _
 
 from taggit.models import Tag
 
@@ -25,12 +26,13 @@ class EditProfileForm(forms.ModelForm):
 
 
 class EditFeedSettingsForm(forms.ModelForm):
-    categories = forms.TypedMultipleChoiceField(required=False,
+    categories = forms.TypedMultipleChoiceField(label=_('Categories'),
+                                                required=False,
                                                 choices=CategoryTypes.choices(),
                                                 coerce=lambda x: int(x),
                                                 widget=SemanticCheckboxSelectMultiple(inline=False,
                                                                                       type_checkbox='toggle'))
-    excluded_feed_tags = forms.ModelMultipleChoiceField(label='Exclude tags',
+    excluded_feed_tags = forms.ModelMultipleChoiceField(label=_('Exclude tags'),
                                                         queryset=Tag.objects.all().order_by('name'),
                                                         required=False,
                                                         widget=SemanticSelectMultipleDropdown(
