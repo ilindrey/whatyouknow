@@ -26,12 +26,6 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         first_tab = self.kwargs.get('first_tab', default_first_tab)
         second_tab = self.kwargs.get('second_tab', default_second_tab)
 
-        if first_tab == 'settings':
-            raise Http404(_('Invalid profile setting page (%(first_tab)s): %(second_tab)s') % {
-                'first_tab': first_tab,
-                'second_tab': second_tab
-            })
-
         username = self.kwargs[self.slug_url_kwarg]
         default_kwargs = {self.slug_url_kwarg: username}
 
@@ -63,6 +57,7 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         first_tab_data = tab_list.get(first_tab)
         if first_tab_data is None:
             first_tab = default_first_tab
+            second_tab = None
         else:
             descendant_tab_list = first_tab_data.get('descendant_tab_list')
             if descendant_tab_list:
@@ -75,7 +70,8 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         context['first_tab'] = first_tab
         context['second_tab'] = second_tab
         context['tab_list'] = tab_list
-        context['base_pathname_url'] = reverse('profile_detail', kwargs=default_kwargs)
+        context['base_pathname_url'] = reverse(
+            'profile_detail', kwargs=default_kwargs)
 
         return context
 
@@ -112,11 +108,10 @@ class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tab = self.kwargs.get('tab', 'profile')
+        default_tab = 'profile'
+        tab = self.kwargs.get('tab', default_tab)
         if tab not in self.get_tab_list():
-            raise Http404(_('Invalid profile setting tab: (%(tab)s)') % {
-                'tab': tab,
-                })
+            tab = default_tab
         context['cur_tab'] = tab
         return context
 
