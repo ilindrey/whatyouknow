@@ -1,74 +1,73 @@
 {% load moderation %}
 
-<div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}"{% endif %}>
+<div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}" {% endif %}>
     {% if node.is_approved or node.user == user or user.is_superuser or user.is_staff %}
-        <a class="avatar">
-            {% include 'profiles/avatar/comment.html' %}
+    <a class="avatar" href="{% url 'profile_detail' node.user.username %}">
+        {% include 'profiles/avatar/comment.html' %}
+    </a>
+    <div class="content">
+        <a class="author" href="{% url 'profile_detail' node.user.username %}">
+            {{ node.user.username }}
         </a>
-        <div class="content">
-            <a class="author">
-                {{ node.user.username }}
+        <div class="metadata">
+            <a href="{{ node.get_absolute_url }}" class="href">
+                <i class="grey linkify icon"></i>
             </a>
-            <div class="metadata">
-                <a href="{{ node.get_absolute_url }}" class="href">
-                    <i class="grey linkify icon"></i>
-                </a>
-                {% if user.is_superuser or user.is_staff %}
-                    <a href="{{ node.get_admin_url }}">
-                        <i class="grey gavel icon"></i>
-                    </a>
+            {% if user.is_superuser or user.is_staff %}
+            <a href="{{ node.get_admin_url }}">
+                <i class="grey gavel icon"></i>
+            </a>
+            {% endif %}
+            <span>
+                {% with object=node %}
+                {% include 'core/date_object.html' %}
+                {% endwith %}
+                {% if node.edited_by_user %}
+                <span>(edited)</span>
                 {% endif %}
-                <span>
-                    {% with object=node %}
-                        {% include 'core/date_object.html' %}
-                    {% endwith %}
-                    {% if node.edited_by_user %}
-                        <span>(edited)</span>
-                    {% endif %}
-                </span>
-                {% if node.user == user or user.is_superuser or user.is_staff %}
-                    {% status_moderation node %}
-                {% endif%}
-    {#            <span>id - {{ node.id }}</span>#}
-    {#            <span>parent_id - {{ node.parent_id }}</span>#}
-            </div>
-            <div class="text">
-                {{ node.text|safe }}
-            </div>
-            <div class="actions" >
-                {% if user.is_authenticated %}
-                <a class="reply" data-action-url="{% url 'comment_create'%}">
-                    Reply
+            </span>
+            {% if node.user == user or user.is_superuser or user.is_staff %}
+            {% status_moderation node %}
+            {% endif%}
+            {# <span>id - {{ node.id }}</span>#}
+            {# <span>parent_id - {{ node.parent_id }}</span>#}
+        </div>
+        <div class="text">
+            {{ node.text|safe }}
+        </div>
+        <div class="actions">
+            {% if user.is_authenticated %}
+            <a class="reply" data-action-url="{% url 'comment_create'%}">
+                Reply
+            </a>
+                {% if node.user == user %}
+                <a class="edit" data-action-url="{% url 'comment_edit' node.id %}">
+                    Edit
                 </a>
-                    {% if node.user == user %}
-                        <a class="edit" data-action-url="{% url 'comment_edit' node.id %}">
-                            Edit
-                        </a>
-                    {% endif %}
-                {% endif  %}
-                <a class="like"><i class="thumbs up link icon"></i>13</a>
-                <a class="dislike"><i class="thumbs down link icon"></i>2</a>
-            </div>
+                {% endif %}
+            {% endif %}
+            <a class="like"><i class="thumbs up link icon"></i>13</a>
+            <a class="dislike"><i class="thumbs down link icon"></i>2</a>
         </div>
+    </div>
     {% else %}
-        <a class="avatar">
-{#            {% include 'profiles/avatar/comment.html' %}#}
-        </a>
-        <div class="content">
-            <div class="author">
-            </div>
-            <div class="metadata">
-            </div>
-            <div class="text">
-                Comment deleted by moderator.
-            </div>
-            <div class="actions">
-            </div>
+    <a class="avatar">
+    </a>
+    <div class="content">
+        <div class="author">
         </div>
+        <div class="metadata">
+        </div>
+        <div class="text">
+            Comment deleted by moderator.
+        </div>
+        <div class="actions">
+        </div>
+    </div>
     {% endif %}
     {% if not node.is_leaf_node %}
-        <div class="ui comments">
-            {{ children }}
-        </div>
+    <div class="ui comments">
+        {{ children }}
+    </div>
     {% endif %}
 </div>
