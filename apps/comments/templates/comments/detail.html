@@ -13,11 +13,7 @@
             <a href="{{ node.get_absolute_url }}" class="href">
                 <i class="grey linkify icon"></i>
             </a>
-            {% if user.is_superuser or user.is_staff %}
-            <a href="{{ node.get_admin_url }}">
-                <i class="grey gavel icon"></i>
-            </a>
-            {% endif %}
+            {% link_to_moderation obj=node as_button=False icon='grey gavel icon' name=None %}
             <span>
                 {% with object=node %}
                 {% include 'core/date_object.html' %}

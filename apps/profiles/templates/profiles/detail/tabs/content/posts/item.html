@@ -17,6 +17,7 @@
         {% if user.is_authenticated and user == object.user %}
             <div class="extra">
                 {% include 'blog/post/detail/buttons/edit_post.html' %}
+                {% link_to_moderation extra_button_class='primary right floated basic' %}
             </div>
         {% endif %}
     </div>

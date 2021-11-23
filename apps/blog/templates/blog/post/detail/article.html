@@ -25,8 +25,9 @@
                         {% endif %}
                     </div>
             </div>
-            {% if cur_action != 'preview' and user.is_authenticated and user == object.user %}
+            {% if cur_action != 'preview' and user.is_authenticated %}
                 <div class="right aligned six wide column">
+                    {% link_to_moderation %}
                     {% include 'blog/post/detail/buttons/edit_post.html' %}
                 </div>
             {% endif %}
