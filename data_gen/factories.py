@@ -44,12 +44,11 @@ class ModerationObjectFactory(factory.django.DjangoModelFactory):
                 case 'not_published':
                     instance.save_as_not_published(reason=FAKER.sentence())
                 case 'published':
+                    edited_by_user = randrange(10) >= 4
                     date_published = FAKER.date_time_between_dates(datetime_start=instance.date_created,
                                                                    datetime_end=now(),
                                                                    tzinfo=CUR_TZ)
-                    edited_by_user = randrange(10) >= 4
-                    instance.save_as_published(
-                        date_published=date_published, edited_by_user=edited_by_user)
+                    instance.save_as_published(date_published=date_published, edited_by_user=edited_by_user)
         super()._after_postgeneration(instance, create, results)
 
 
@@ -97,18 +96,15 @@ class PostFactory(ModerationObjectFactory):
         model = 'blog.Post'
         django_get_or_create = ('user', 'category', 'title')
 
-    user = factory.Faker(
-        'random_element', elements=rm.USER.objects.filter(is_superuser=False))
-    category = factory.LazyAttribute(
-        lambda o: CategoryTypes.get_random_choices()[0])
+    user = factory.Faker('random_element', elements=rm.USER.objects.filter(is_superuser=False))
+    category = factory.LazyAttribute(lambda o: CategoryTypes.get_random_choices()[0])
     title = factory.Faker('sentence')
     feed_cover = factory.django.FileField(
         filename=factory.LazyAttribute(
             lambda o: rm.POST.feed_cover.field.name + '_' + str(randint(1000000, 9999999)) + '.jpg'),
         data=factory.LazyAttribute(
             lambda o: get_image_file_data(min_width=360, min_height=250)))
-    feed_article_preview = factory.Faker(
-        'text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
+    feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
     text = factory.LazyFunction(get_post_text)
 
     @factory.post_generation
@@ -123,20 +119,16 @@ class PostCommentsFactory(ModerationObjectFactory):
         django_get_or_create = ('content_type', 'object_id', 'user')
 
     class Params:
-        is_comment_edited = factory.LazyAttribute(
-            lambda o: randrange(3) == 0)  # for 1 out of 3 cases
-        is_comment_reply = factory.LazyAttribute(
-            lambda o: randrange(10) < 5)  # for 5 out of 10 cases
+        is_comment_edited = factory.LazyAttribute(lambda o: randrange(3) == 0)  # for 1 out of 3 cases
+        is_comment_reply = factory.LazyAttribute(lambda o: randrange(10) < 5)  # for 5 out of 10 cases
 
     content_object = factory.Faker('random_element',
                                    elements=rm.POST.objects.published())
     content_type = factory.LazyAttribute(
         lambda o: ContentType.objects.get_for_model(o.content_object))
     object_id = factory.SelfAttribute('content_object.pk')
-    user = factory.Faker('random_element',
-                         elements=rm.USER.objects.filter(is_superuser=False))
-    text = factory.Faker('text',
-                         max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
+    user = factory.Faker('random_element', elements=rm.USER.objects.filter(is_superuser=False))
+    text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
 
     @factory.lazy_attribute
     def parent(self):

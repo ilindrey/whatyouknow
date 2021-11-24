@@ -1,5 +1,4 @@
-from datetime import tzinfo
-import os
+
 from json import load as json_load
 from requests import get as requests_get
 from random import choice, randint
@@ -136,11 +135,9 @@ def get_post_text():
             image_tag = html_template_image.format(value)
             if gen_image_captions:
                 caption = FAKER.sentence()
-                value_with_html_template = html_template_image_align_with_captions.format(
-                    image_tag, caption)
+                value_with_html_template = html_template_image_align_with_captions.format(image_tag, caption)
             else:
-                value_with_html_template = html_template_image_align_without_captions.format(
-                    image_tag)
+                value_with_html_template = html_template_image_align_without_captions.format(image_tag)
         elif current_gen_type == 'text':
             value = FAKER.text(max_nb_chars=randint(500, 5000))
             value_with_html_template = html_template_text_block.format(value)
@@ -161,15 +158,13 @@ def get_post_text():
             for j in range(randint(2, 20)):
                 value = FAKER.sentence()
                 items_list_str += html_template_list_item.format(value)
-            value_with_html_template = html_template_ordered_list.format(
-                items_list_str)
+            value_with_html_template = html_template_ordered_list.format(items_list_str)
         elif current_gen_type == 'unordered_list':
             items_list_str = ''
             for j in range(randint(2, 20)):
                 value = FAKER.sentence()
                 items_list_str += html_template_list_item.format(value)
-            value_with_html_template = html_template_unordered_list.format(
-                items_list_str)
+            value_with_html_template = html_template_unordered_list.format(items_list_str)
 
         text += value_with_html_template
         previous_gen_type = current_gen_type
@@ -179,8 +174,7 @@ def get_post_text():
 
 def get_tags(index_category):
 
-    category_name = CategoryTypes.get_value(
-        index_category, 'index')['full_name']
+    category_name = CategoryTypes.get_value(index_category, 'index')['full_name']
 
     with open(settings.BASE_DIR / 'data_gen/assets/tags.json', 'r') as file:
         data = json_load(file)

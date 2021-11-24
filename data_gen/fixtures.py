@@ -40,8 +40,7 @@ def make_objects(factor=1):
 
     run_create_batch(ProfileFactory, user_count * factor)
     run_create_batch(PostFactory, post_count * factor)
-    run_create_batch(PostCommentsFactory, post_count *
-                     post_comments_factor * factor)
+    run_create_batch(PostCommentsFactory, post_count * post_comments_factor * factor)
 
 
 def run_create_batch(factory, size):
@@ -72,10 +71,8 @@ def print_cleared_model(model, extra_msg=None):
 
 
 def print_info_create_start(factory, count):
-    print('Start creating ' + str(count) +
-          ' records of the ' + factory.__name__ + ' factory.')
+    print('Start creating ' + str(count) + ' records of the ' + factory.__name__ + ' factory.')
 
 
 def print_info_create_complete(factory, count):
-    print('-- Factory ' + factory.__name__ +
-          ' created batch ' + str(count) + ' count.')
+    print('-- Factory ' + factory.__name__ + ' created batch ' + str(count) + ' count.')
