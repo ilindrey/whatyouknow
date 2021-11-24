@@ -13,7 +13,7 @@ function safeWrap() {
         idEditCommentForm = charID + keyEditCommentForm,
         idCancelEditCommentButton = charID + keyCancelEditCommentButton;
 
-    let $infoComments, $commentListRow, $loader, infoCommentsData,  objParams, urls;
+    let $infoComments, $commentListRow, $loader, infoCommentsData, objParams, urls;
 
     $(document).ready(function () {
 
@@ -47,42 +47,37 @@ function safeWrap() {
                 if (param) {
                     let comment = $('#comment_' + param);
                     if (comment.length) {
-                        comment[0].scrollIntoView({block: 'start'});
-                        const url = deleteParamURL(keyCommentParams);
-                        history.replaceState(null, null, url.href);
+                        comment[0].scrollIntoView({ block: 'start' });
                     }
+                    const url = deleteParamURL(keyCommentParams);
+                    history.replaceState(null, null, url.href);
                 }
             }
         });
     });
 
-    $(document).on('click', '.href', function (e)
-    {
+    $(document).on('click', '.href', function (e) {
         e.preventDefault();
         navigator.clipboard.writeText(this.href);
     });
 
-    $(document).on('click', '#add_comment', function (e)
-    {
+    $(document).on('click', '#add_comment', function (e) {
         actionAddReplyEditCommentHandler(e, 'add', this);
     });
 
-    $(document).on('click', '.comments .comment .reply', function (e)
-    {
+    $(document).on('click', '.comments .comment .reply', function (e) {
         actionAddReplyEditCommentHandler(e, 'reply', this);
     });
 
-    $(document).on('click', '.comments .comment .edit', function (e)
-    {
+    $(document).on('click', '.comments .comment .edit', function (e) {
         actionAddReplyEditCommentHandler(e, 'edit', this);
     });
 
-    $(document).on('click', idCancelEditCommentButton, function (e)
-    {
+    $(document).on('click', idCancelEditCommentButton, function (e) {
         e.preventDefault();
 
         let $form = $(idEditCommentForm);
-        if($form.length) {
+        if ($form.length) {
             $form.remove();
         }
     });
@@ -92,7 +87,7 @@ function safeWrap() {
         e.preventDefault();
 
         let $form = $(this);
-        if(!$form.length)
+        if (!$form.length)
             return;
 
         let actionURL = $form.attr('action');
@@ -120,20 +115,17 @@ function safeWrap() {
             },
             success: function (responseText) {
 
-                if (responseText.includes(keyEditCommentForm))
-                {
+                if (responseText.includes(keyEditCommentForm)) {
                     let $comment = $form.closest('.comment');
                     outputEditCommentForm(responseText, actionType, $comment);
                 }
-                else
-                {
+                else {
                     $form.remove();
                     $commentListRow.html(responseText);
                 }
             },
             complete: function () {
-                if($form.length)
-                {
+                if ($form.length) {
                     $('#cancel_edit_comment_button').removeClass('disabled');
                     $form.removeClass('loading');
                 }
@@ -142,12 +134,11 @@ function safeWrap() {
 
     });
 
-    function actionAddReplyEditCommentHandler(e, actionType, element)
-    {
+    function actionAddReplyEditCommentHandler(e, actionType, element) {
         e.preventDefault();
 
         let cancelButton = $(idCancelEditCommentButton);
-        if(cancelButton.length) {
+        if (cancelButton.length) {
             cancelButton.click();
         }
 
@@ -160,7 +151,7 @@ function safeWrap() {
         let params = {}
         params.action_type = actionType;
         params.action_url = url;
-        if(id)
+        if (id)
             params.target_id = id;
         Object.assign(params, objParams);
 
@@ -174,30 +165,25 @@ function safeWrap() {
         });
     };
 
-    function outputEditCommentForm(responseText, actionType, $comment)
-    {
+    function outputEditCommentForm(responseText, actionType, $comment) {
         let $form = $(idEditCommentForm);
-        if($form.length) {
+        if ($form.length) {
             $form.remove();
         }
-        if(actionType === 'add')
-        {
+        if (actionType === 'add') {
             $commentListRow.prepend(responseText);
         }
-        else
-        {
+        else {
             let descendant_comments = $comment.find('.comments').first();
-            if(descendant_comments.length)
-            {
+            if (descendant_comments.length) {
                 descendant_comments.before(responseText);
             }
-            else
-            {
+            else {
                 $comment.append(responseText);
             }
         }
         $form = $(idEditCommentForm);
-        if($form.length) {
+        if ($form.length) {
             $form.form();
         }
     };
@@ -217,14 +203,12 @@ function safeWrap() {
         };
     };
 
-    function showLoader()
-    {
+    function showLoader() {
         $commentListRow.html('');
         $loader.show();
     }
 
-    function hideLoader()
-    {
+    function hideLoader() {
         $loader.hide();
     }
 }

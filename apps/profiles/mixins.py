@@ -31,14 +31,14 @@ class ProfileTabStructureMixin:
             'is_descendant_menu': False,
             'descendant_tab_list': None,
             'step_context': '.ui.items',
-            }
+        }
 
 
 class ProfileTabListMixin(ProfileAuthMixin):
     paginate_by = 10
 
     def get_queryset(self):
-        if self.is_auth_user:
+        if self.is_auth_user or self.request.user.is_staff or self.request.user.is_superuser:
             self.queryset = self.model._default_manager.all()
             self.ordering = '-date_created'
         else:

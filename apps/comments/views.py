@@ -12,7 +12,7 @@ class CommentListView(ContentTypeObjectCommentMixin, ListView):
     template_name = 'comments/list.html'
 
     def get_queryset(self):
-        return super().get_queryset().published()\
+        return super().get_queryset()\
             .filter(content_type=self.content_type,
                     object_id=self.ct_object.pk)
 

@@ -1,7 +1,8 @@
 {% load moderation %}
 
-<div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}data-parent-id="{{ node.parent_id }}" {% endif %}>
-    {% if node.is_approved or node.user == user or user.is_superuser or user.is_staff %}
+<div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}
+    data-parent-id="{{ node.parent_id }}" {% endif %}>
+    {% if node.is_published or node.user == user or user.is_superuser or user.is_staff %}
     <a class="avatar" href="{% url 'profile_detail' node.user.username %}">
         {% include 'profiles/avatar/comment.html' %}
     </a>
@@ -36,11 +37,11 @@
             <a class="reply" data-action-url="{% url 'comment_create'%}">
                 Reply
             </a>
-                {% if node.user == user %}
-                <a class="edit" data-action-url="{% url 'comment_edit' node.id %}">
-                    Edit
-                </a>
-                {% endif %}
+            {% if node.user == user %}
+            <a class="edit" data-action-url="{% url 'comment_edit' node.id %}">
+                Edit
+            </a>
+            {% endif %}
             {% endif %}
             <a class="like"><i class="thumbs up link icon"></i>13</a>
             <a class="dislike"><i class="thumbs down link icon"></i>2</a>

@@ -8,5 +8,12 @@
         <div class="description">
             {{ object.text|safe }}
         </div>
+        {% if user.is_authenticated %}
+        {% if user == object.user or user.is_staff or user.is_superuser %}
+        <div class="extra">
+            {% link_to_moderation extra_button_class='primary right floated basic' %}
+        </div>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
