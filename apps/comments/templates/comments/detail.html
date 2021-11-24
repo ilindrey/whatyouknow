@@ -2,7 +2,7 @@
 
 <div class="comment" id="comment_{{ node.id }}" data-id="{{ node.id }}" {% if node.parent_id %}
     data-parent-id="{{ node.parent_id }}" {% endif %}>
-    {% if node.is_published or node.user == user or user.is_superuser or user.is_staff %}
+    {% if node.published or node.user == user or user.is_superuser or user.is_staff %}
     <a class="avatar" href="{% url 'profile_detail' node.user.username %}">
         {% include 'profiles/avatar/comment.html' %}
     </a>
