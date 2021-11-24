@@ -1,3 +1,4 @@
+from random import randint
 from shutil import rmtree
 
 from django.core.files.storage import default_storage
@@ -29,22 +30,18 @@ def make_objects(factor=1):
     TaggedItem.objects.all().delete()
     Tag.objects.all().delete()
 
-    # user_count = randint(1, factor)
-    # post_count = randint(factor, user_count * factor)
-    #
-    # post_comments_factor = randint(post_count, post_count * factor)
+    user_count = randint(1, factor)
+    post_count = randint(factor, user_count * factor)
 
-    user_count = 1
-    post_count = 10
-
-    post_comments_factor = 10
+    post_comments_factor = randint(post_count, post_count * factor)
 
     SuperUserFactory.create()
     print('Superuser was created.')
 
     run_create_batch(ProfileFactory, user_count * factor)
     run_create_batch(PostFactory, post_count * factor)
-    run_create_batch(PostCommentsFactory, post_count * post_comments_factor * factor)
+    run_create_batch(PostCommentsFactory, post_count *
+                     post_comments_factor * factor)
 
 
 def run_create_batch(factory, size):
@@ -75,8 +72,10 @@ def print_cleared_model(model, extra_msg=None):
 
 
 def print_info_create_start(factory, count):
-    print('Start creating ' + str(count) + ' records of the ' + factory.__name__ + ' factory.')
+    print('Start creating ' + str(count) +
+          ' records of the ' + factory.__name__ + ' factory.')
 
 
 def print_info_create_complete(factory, count):
-    print('-- Factory ' + factory.__name__ + ' created batch ' + str(count) + ' count.')
+    print('-- Factory ' + factory.__name__ +
+          ' created batch ' + str(count) + ' count.')
