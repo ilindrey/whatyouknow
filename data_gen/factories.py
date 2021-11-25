@@ -104,7 +104,10 @@ class PostFactory(ModerationObjectFactory):
             lambda o: rm.POST.feed_cover.field.name + '_' + str(randint(1000000, 9999999)) + '.jpg'),
         data=factory.LazyAttribute(
             lambda o: get_image_file_data(min_width=360, min_height=250)))
-    feed_article_preview = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500)))
+    feed_article_preview = factory.Maybe(
+        factory.LazyFunction(lambda: randrange(10) > 0),
+        yes_declaration=factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500))),
+        no_declaration=None)
     text = factory.LazyFunction(get_post_text)
 
     @factory.post_generation

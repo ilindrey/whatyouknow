@@ -31,16 +31,15 @@ def make_objects(factor=1):
     Tag.objects.all().delete()
 
     user_count = randint(1, factor)
-    post_count = randint(factor, user_count * factor)
-
-    post_comments_factor = randint(post_count, post_count * factor)
+    post_count = randint(factor, user_count * factor) * user_count
+    post_comments_count = randint(post_count, post_count * factor) * post_count
 
     SuperUserFactory.create()
     print('Superuser was created.')
 
     run_create_batch(ProfileFactory, user_count * factor)
     run_create_batch(PostFactory, post_count * factor)
-    run_create_batch(PostCommentsFactory, post_count * post_comments_factor * factor)
+    run_create_batch(PostCommentsFactory, post_comments_count * factor)
 
 
 def run_create_batch(factory, size):
