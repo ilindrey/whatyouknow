@@ -17,7 +17,7 @@
             {% link_to_moderation obj=node as_button=False icon='grey gavel icon' name=None %}
             <span>
                 {% with object=node %}
-                {% include 'core/date_object.html' %}
+                {% include 'structure/includes/date_object.html' %}
                 {% endwith %}
                 {% if node.edited_by_user %}
                 <span>(edited)</span>

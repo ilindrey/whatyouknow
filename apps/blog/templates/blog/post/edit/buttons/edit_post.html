@@ -1,0 +1,10 @@
+{% extends 'structure/buttons/link/primary.html' %}
+
+{% block extra_class %} right floated{% endblock %}
+
+{% block id %}post_edit_button{% endblock %}
+
+{% block href %}{% url 'post_edit' object.pk %}{% endblock %}
+
+{% block name %}Edit{% endblock %}
+

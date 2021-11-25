@@ -1,0 +1,8 @@
+{% if user.is_authenticated %}
+    <div class="ui primary basic button"
+            id="add_comment"
+            data-action-url="{% url 'comment_create' %}">
+        <i class="comment medical icon"></i>
+        Add a comment
+    </div>
+{% endif %}

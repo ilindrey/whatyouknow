@@ -55,14 +55,14 @@
                      {% if descendant_value.is_descendant_menu %}data-is-descendant-menu="{{ descendant_value.is_descendant_menu|lower }}"{% endif %}
                      {% if descendant_value.step_context %}data-step-context="{{ descendant_value.step_context }}"{% endif %}
                 >
-                    {% include 'core/loader.html' %}
+                    {% include 'structure/includes/loader.html' %}
                 </div>
 
             {% endfor %}
 
         {% endif %}
 
-        {% include 'core/loader.html' %}
+        {% include 'structure/includes/loader.html' %}
 
     </div>
 

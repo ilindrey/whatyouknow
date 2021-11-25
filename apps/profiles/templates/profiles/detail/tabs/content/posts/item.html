@@ -1,4 +1,4 @@
-{% load thumbnail moderation %}
+{% load thumbnail posts moderation %}
 
 <div class="item">
     <a class="image" href="{% url 'post_detail' object.pk %}">
@@ -17,7 +17,7 @@
         {% if user.is_authenticated %}
         {% if user == object.user or user.is_staff or user.is_superuser %}
         <div class="extra">
-            {% include 'blog/post/detail/buttons/edit_post.html' %}
+            {% post_edit_button %}
             {% link_to_moderation extra_button_class='primary right floated basic' %}
         </div>
         {% endif %}

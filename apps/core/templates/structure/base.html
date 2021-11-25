@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <title>WhatYouKnow</title>
 
-        {% include 'core/logo/tab.html' %}
+        {% include 'structure/logo/tab.html' %}
 
         <link rel="stylesheet" type="text/css" href="{% static 'core/semantic/semantic.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'core/css/styles.css' %}"> <!-- Style setting -->
@@ -24,7 +24,7 @@
         <div class="ui attached black inverted text menu">
             <div class="ui container">
                 {% block menu %}
-                    {% include 'core/menu/main.html' %}
+                    {% include 'structure/menu/main.html' %}
                 {% endblock %}
             </div>
         </div>
@@ -32,12 +32,12 @@
         <div class="ui basic main segment">
             <div class="ui container">
                 {% block container %}
-                    {% include 'core/containers/base.html' %}
+                    {% include 'structure/base/container.html' %}
                 {% endblock %}
             </div>
         </div>
 
-        {% include 'core/footer.html' %}
+        {% include 'structure/base/footer.html' %}
 
     </body>
 </html>

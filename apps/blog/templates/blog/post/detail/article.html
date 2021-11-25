@@ -1,4 +1,4 @@
-{% load moderation %}
+{% load posts moderation %}
 
 <div class="ui grid">
         <div class="row">
@@ -12,7 +12,7 @@
                         </a>
                         <div class="disabled item">
                             <span class="ui grey text">
-                                {% include 'core/date_object.html' %}
+                                {% include 'structure/includes/date_object.html' %}
                             </span>
                             {% if object.edited_by_user %}
                                 <span class="ui grey text">(edited)</span>
@@ -28,7 +28,7 @@
             {% if cur_action != 'preview' and user.is_authenticated %}
                 <div class="right aligned six wide column">
                     {% link_to_moderation %}
-                    {% include 'blog/post/detail/buttons/edit_post.html' %}
+                    {% post_edit_button %}
                 </div>
             {% endif %}
         </div>
