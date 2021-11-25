@@ -1,26 +1,28 @@
 <footer class="ui attached inverted black footer segment" >
     <div class="ui container">
         <div class="ui stackable inverted divided equal height stackable grid">
+            {% if user.is_authenticated %}
             <div class="three wide column">
                 <h4 class="ui inverted header">Quick Links</h4>
-                <div class="ui inverted link list">
+                <div class="ui inverted list">
                     <div class="item">
-                        <a>Create post</a>
+                        <a href="{% url 'post_create' %}">Create post</a>
                     </div>
                     <div class="item">
                         <a>Bookmarks</a>
                     </div>
                     <div class="item">
-                        <a>Profile</a>
+                        <a href="{% url 'profile_detail' user.username %}">Profile</a>
                     </div>
                     <div class="item">
-                        <a>Settings</a>
+                        <a href="{% url 'profile_settings' user.username %}">Settings</a>
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="three wide column">
                 <h4 class="ui inverted header">Info</h4>
-                <div class="ui inverted link list">
+                <div class="ui inverted list">
                     <div class="item">
                         <a>Contact us</a>
                     </div>
@@ -33,24 +35,24 @@
                 <h4 class="ui inverted header">Follow Us</h4>
                 <div class="ui inverted horizontal list">
                     <div class="item">
-                        <button class="ui circular facebook icon button">
+                        <a class="ui circular facebook icon button">
                             <i class="facebook icon"></i>
-                        </button>
+                        </a>
                     </div>
                     <div class="item">
-                        <button class="ui circular instagram icon button">
+                        <a class="ui circular instagram icon button">
                             <i class="instagram icon"></i>
-                        </button>
+                        </a>
                     </div>
                     <div class="item">
-                        <button class="ui circular twitter icon button">
+                        <a class="ui circular twitter icon button">
                             <i class="twitter icon"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="four wide column">
-                <p>© 2020 - {% now "Y" %} WhatYouKnow</p>
+                <p>© 2021 - {% now "Y" %} WhatYouKnow</p>
                 <p>This site is made by Scronullik</p>
             </div>
         </div>
