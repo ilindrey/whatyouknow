@@ -1,4 +1,6 @@
 
+const isFirefox = typeof window.InstallTrigger !== 'undefined';
+
 const isEmptyValue = (value) => {
     if (value === '' || value === null || value === undefined) {
         return true

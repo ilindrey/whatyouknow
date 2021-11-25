@@ -178,9 +178,16 @@ function safeWrap() {
         $roll.data(keyCurrentPage, page);
 
         updateContent();
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $("#user_profile_menu").offset().top
-        }, "fast");
+        if(isFirefox)
+        {
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#user_profile_menu").offset().top
+            }, "fast");
+        }
+        else
+        {
+            $(document.body).get(0).scrollIntoView();
+        }
     }
 
     function updateContent() {
