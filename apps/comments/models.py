@@ -20,7 +20,7 @@ from ..moderation.models import ModeratedObjectMixin
 
 class Comment(ModeratedObjectMixin, MPTTModel):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.PROTECT, editable=False)
-    content_type = models.ForeignKey(to=ContentType, on_delete=models.CASCADE, editable=False)
+    content_type = models.ForeignKey(to=ContentType, on_delete=models.PROTECT, editable=False)
     object_id = models.PositiveIntegerField(editable=False)
     content_object = GenericForeignKey('content_type', 'object_id')
     text = SummernoteTextField(_('Text'), validators=[SummernoteMinValueValidator(10)])
