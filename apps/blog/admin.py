@@ -14,7 +14,8 @@ class PostAdmin(ModeratedObjectAdmin, admin.ModelAdmin):
     readonly_fields = ('user',)
 
     def save_model(self, request, obj, form, change):
-        obj.user = request.user
+        if not change:
+            obj.user = request.user
         super().save_model(request, obj, form, change)
 
 

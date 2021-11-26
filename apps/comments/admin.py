@@ -19,10 +19,11 @@ class CommentAdmin(ModeratedObjectAdmin, MPTTModelAdmin, admin.ModelAdmin):
     mptt_indent_field = 'text_representation'
     autocomplete_lookup_fields = {
         'generic': ['content_type', 'object_id'],
-        }
+    }
 
     def save_model(self, request, obj, form, change):
-        obj.user = request.user
+        if not change:
+            obj.user = request.user
         super().save_model(request, obj, form, change)
 
     @admin.display(description='Object')
@@ -35,4 +36,3 @@ class CommentAdmin(ModeratedObjectAdmin, MPTTModelAdmin, admin.ModelAdmin):
         return format_html("<a href='{}'>{}</a>",
                            instance.content_object.get_admin_url(),
                            self.content_object_representation(instance))
-
