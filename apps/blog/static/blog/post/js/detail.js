@@ -1,10 +1,8 @@
 
 safeWrap();
 
-function safeWrap()
-{
-    $(document).on('click', '#tags .item a', function (e)
-    {
+function safeWrap() {
+    $(document).on('click', '#tags .item a', function (e) {
         e.preventDefault();
 
         let $element = $(this);
@@ -18,5 +16,10 @@ function safeWrap()
         url = setParamURL('tag', value, url.href);
 
         location = url;
+    });
+
+    $(document).on('click', '#share_link', function (e) {
+        e.preventDefault();
+        navigator.clipboard.writeText(window.location.href);
     });
 }
