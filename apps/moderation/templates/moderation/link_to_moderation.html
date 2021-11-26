@@ -1,6 +1,8 @@
-{% if user.is_superuser or user.is_staff %}
-    <a {% if as_button %}class="ui {% if extra_button_class %}{{ extra_button_class }} {% endif %}button"{% endif %} href="{{ object.get_admin_url }}">
-        {% if show_icon and icon %}<i class="{{ icon }}"></i>{% endif %}
-        {% if name %}{{ name }}{% endif %}
-    </a>
+{% if user.is_authenticated %}
+    {% if user.is_superuser or user.is_staff %}
+        <a {% if as_button %}class="ui {% if extra_button_class %}{{ extra_button_class }} {% endif %}button"{% endif %} href="{{ object.get_admin_url }}">
+            {% if show_icon and icon %}<i class="{{ icon }}"></i>{% endif %}
+            {% if name %}{{ name }}{% endif %}
+        </a>
+    {% endif %}
 {% endif %}

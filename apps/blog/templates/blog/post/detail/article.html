@@ -18,11 +18,11 @@
                                 <span class="ui grey text">(edited)</span>
                             {% endif %}
                         </div>
-                        {% if cur_action != 'preview' and user.is_authenticated and user == object.user %}
+                        {% if cur_action != 'preview' %}
                             <div class="item">
                                 {% status_moderation %}
                             </div>
-                        {% endif %}
+                    {% endif %}
                     </div>
             </div>
             {% if cur_action != 'preview' and user.is_authenticated %}

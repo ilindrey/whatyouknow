@@ -14,13 +14,9 @@
             {{ object.feed_article_preview|safe }}
         </div>
         {% endif %}
-        {% if user.is_authenticated %}
-        {% if user == object.user or user.is_staff or user.is_superuser %}
         <div class="extra">
             {% post_edit_button %}
             {% link_to_moderation extra_button_class='primary right floated basic' %}
         </div>
-        {% endif %}
-        {% endif %}
     </div>
 </div>
