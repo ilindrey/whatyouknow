@@ -1,11 +1,12 @@
-from django import template
+from django.template import Library
 from django.db.models import Model
 from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 
 from apps.comments.models import Comment
 
-register = template.Library()
+
+register = Library()
 
 
 @register.inclusion_tag('comments/base.html', takes_context=True)
@@ -16,13 +17,13 @@ def render_comments(context, obj):
         'app_label': obj._meta.app_label,
         'model_name': obj._meta.model_name,
         'model_pk': obj.pk
-        }
+    }
     obj_comment_count = comments_count(obj)
     return {
         'obj': obj_data,
         'comments_count': obj_comment_count,
         'user': context['request'].user
-        }
+    }
 
 
 @register.simple_tag

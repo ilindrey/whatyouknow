@@ -1,6 +1,7 @@
-from django import template
+from django.template import Library
 
-register = template.Library()
+
+register = Library()
 
 
 @register.inclusion_tag('moderation/status_label.html', takes_context=True)
