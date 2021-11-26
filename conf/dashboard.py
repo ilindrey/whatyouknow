@@ -19,58 +19,41 @@ class CustomIndexDashboard(Dashboard):
 
     def init_with_context(self, context):
         # site_name = get_admin_site_name(context)
-        request = context['request']
+        # request = context['request']
 
-        # append a group for "Administration" & "Applications"
+        # append a model list module for "Applications"
         self.children.append(modules.ModelList(
-                    _('Blog'),
-                    column=1,
-                    collapsible=True,
-                    models=('apps.blog.*', 'apps.comments.*', 'apps.*'),
-                    exclude=('apps.profiles.*',),
-                    ))
+            _('Blog'),
+            column=1,
+            collapsible=True,
+            models=('apps.blog.*', 'apps.comments.*', 'apps.*'),
+            exclude=('apps.profiles.*',),
+        ))
 
-        # append an app list module for "Administration"
-        if request.user.is_authenticated:
-            if request.user.is_superuser:
-                self.children.append(modules.Group(
-                    _('Administration'),
+        # append a group for "Administration"
+        self.children.append(modules.Group(
+            _('Administration'),
+            column=1,
+            collapsible=True,
+            children=[
+                modules.ModelList(
+                    _('Authentication and Authorization'),
                     column=1,
-                    collapsible=True,
-                    children=[
-                        modules.ModelList(
-                            _('Authentication and Authorization'),
-                            column=1,
-                            collapsible=False,
-                            models=('apps.profiles.*', 'django.contrib.auth.*', 'rest_framework.authtoken.*'),
-                        ),
-                        modules.AppList(
-                            _('Dictionaries'),
-                            collapsible=False,
-                            column=1,
-                            css_classes=('collapse closed',),
-                            exclude=('apps.*',
-                                     'django.contrib.*',
-                                     'rest_framework.*',
-                                     ),
-                            )
-                    ],
-                ))
-            elif request.user.is_staff:
-                self.children.append(
-                    modules.ModelList(
-                            _('Authentication and Authorization'),
-                            column=1,
-                            collapsible=True,
-                            models=('apps.profiles.*', ),
-                            ))
-                self.children.append(
-                    modules.ModelList(
-                            _('Dictionaries'),
-                            column=1,
-                            collapsible=True,
-                            models=('taggit.*', ),
-                            ))
+                    collapsible=False,
+                    models=('apps.profiles.*', 'django.contrib.auth.*', 'rest_framework.authtoken.*'),
+                ),
+                modules.AppList(
+                    _('Dictionaries'),
+                    collapsible=False,
+                    column=1,
+                    css_classes=('collapse closed',),
+                    exclude=('apps.*',
+                             'django.contrib.*',
+                             'rest_framework.*',
+                             ),
+                )
+            ],
+        ))
 
         # append a recent actions module
         self.children.append(modules.RecentActions(
