@@ -34,7 +34,7 @@ class Comment(ModeratedObjectMixin, MPTTModel):
     objects = ModeratedTreeManager()
 
     class MPTTMeta:
-        order_insertion_by = ['date_created']
+        order_insertion_by = ['object_id', 'date_created']
 
     def get_absolute_url(self):
         return self.content_object.get_absolute_url() + '?comment=' + str(self.pk)
