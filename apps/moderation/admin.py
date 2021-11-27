@@ -80,6 +80,11 @@ class ModeratedObjectAdmin(admin.ModelAdmin):
         list_display += ('status',)
         return list_display
 
+    def get_readonly_fields(self, request, obj):
+        fields = super().get_readonly_fields(request, obj=obj)
+        fields += ('date_created', 'date_updated', 'date_published')
+        return fields
+
     @admin.display(description='Status moderation')
     def status(self, instance):
         if instance.state == MODERATION_DRAFT_STATE:
