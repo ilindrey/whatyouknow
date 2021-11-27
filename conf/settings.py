@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'taggit_serializer',
-    ]
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ]
+]
 
 ROOT_URLCONF = 'conf.urls'
 
@@ -89,10 +89,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                ],
-            },
+            ],
         },
-    ]
+    },
+]
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
@@ -105,8 +105,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',  # Django >=3.0
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # Django 2.2
-        }
     }
+}
 
 
 # Password validation
@@ -115,17 +115,17 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-        },
+    },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        },
+    },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-        },
+    },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-        },
-    ]
+    },
+]
 
 
 # Internationalization
@@ -229,45 +229,45 @@ SUMMERNOTE_CONFIG = {
             ['insert', ['link', 'picture', 'video', 'hr']],
             ['view', ['fullscreen', 'codeview']],
             ['help', ['help']],
-            ],
+        ],
         'popover': {
             'image': [
                 ['custom', ['imageAttributes']],
                 ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
                 ['float', ['floatLeft', 'floatRight', 'floatNone']],
                 ['remove', ['removeMedia']],
-                ],
-            },
+            ],
+        },
         'imageAttributes': {
             'icon': '<i class="note-icon-pencil"/>',
             'figureClass': '',
             'figcaptionClass': '',
             'captionText': 'Caption Goes Here.',
             'manageAspectRatio': True  # true = Lock the Image Width/Height, Default to true
-            },
         },
+    },
     'js': (
         '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
-        ),
+    ),
     'css': (
         '/static/core/css/fonts.css',
-        ),
+    ),
     'js_for_inplace': (
         '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
-        ),
+    ),
     'css_for_inplace': (
         '/static/core/css/fonts.css',
-        ),
-    }
+    ),
+}
 
 
 # easy_thumbnails
 
 THUMBNAIL_DEFAULT_OPTIONS = {
     'quality': 100, 'subsampling': 2
-    }
+}
 
 THUMBNAIL_ALIASES = {
     'profiles.Profile.avatar': {
@@ -275,36 +275,36 @@ THUMBNAIL_ALIASES = {
             {
                 'size': (28, 28),
                 'crop': 'smart',
-                },
+            },
         'comment':
             {
                 'size': (35, 35),
                 'crop': 'smart',
-                },
+            },
         'tiny': {
             'size': (80, 80),
             'crop': 'smart',
-            },
+        },
         'small':  # semantic image size
             {
                 'size': (150, 150),
                 'crop': 'smart',
-                }
-        },
+            }
+    },
     'blog.Post.feed_cover': {
         'default':
             {
                 'size': (360, 250),
                 'crop': 'smart',
 
-                },
+            },
         'item':
             {
                 'size': (180, 125),
                 'crop': 'smart',
-                },
-        }
+            },
     }
+}
 
 
 # rest_framework
@@ -313,14 +313,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        ],
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
-        ],
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 15
-    }
+}
 
 # grappelli
 
+GRAPPELLI_ADMIN_TITLE = 'WhatYouKnow | Administration'
 GRAPPELLI_INDEX_DASHBOARD = 'conf.dashboard.CustomIndexDashboard'
