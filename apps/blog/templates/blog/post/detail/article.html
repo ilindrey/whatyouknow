@@ -3,27 +3,27 @@
 <div class="ui grid">
         <div class="row">
             <div class="left aligned ten wide column">
-                    <div class="ui horizontal link list" >
-                        <a class="item" href="{% url 'profile_detail' object.user %}">
-                            {% include 'profiles/avatar/author.html' %}
-                            <div class="content">
-                                <div class="ui header">{{ object.user.username }}</div>
-                            </div>
-                        </a>
+                <div class="ui horizontal link list" >
+                    <a class="item" href="{% url 'profile_detail' object.user %}">
+                        {% include 'profiles/avatar/author.html' %}
+                        <div class="content">
+                            <div class="ui header">{{ object.user.username }}</div>
+                        </div>
+                    </a>
+                    {% if cur_action != 'preview' %}
                         <div class="disabled item">
                             <span class="ui grey text">
-                                {% include 'structure/includes/dates/published.html' %}
+                                {% include 'structure/includes/dates/updated.html' %}
                             </span>
                             {% if object.edited_by_user %}
                                 <span class="ui grey text">(edited)</span>
                             {% endif %}
-                        </div>
-                        {% if cur_action != 'preview' %}
                             <div class="item">
                                 {% status_moderation %}
                             </div>
+                        </div>
                     {% endif %}
-                    </div>
+                </div>
             </div>
             {% if cur_action != 'preview' and user.is_authenticated %}
                 <div class="right aligned six wide column">

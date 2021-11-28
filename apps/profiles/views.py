@@ -95,11 +95,11 @@ class ProfilePostsTabLazyLoadDataListView(ProfilePostsTabBaseLoadDataListView):
 
 class ProfileCommentsTabLoadDataListView(ProfileTabListMixin, generic.ListView):
     model = Comment
+    ordering = '-date_created'
     template_name = 'profiles/detail/tabs/content/comments/base.html'
 
 
 class ProfileCommentsTabLazyDataListView(ProfileCommentsTabLoadDataListView):
-    model = Comment
     template_name = 'profiles/detail/tabs/content/comments/list.html'
 
 

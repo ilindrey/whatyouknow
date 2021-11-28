@@ -25,7 +25,7 @@ class PostListLoadDataView(ListView):
     model = Post
     template_name = 'blog/post/list/roll_out.html'
     paginate_by = 15
-    ordering = '-date_published'
+    ordering = '-date_updated'
 
     def get_queryset(self):
         filters = {}
@@ -55,7 +55,7 @@ class PostListLoadDataView(ListView):
 
         param = self.request.GET.get('period')
         if param:
-            key = 'date_published__gte'
+            key = 'date_updated__gte'
             match param:
                 case 'day':
                     filters[key] = now() - relativedelta(days=+1)

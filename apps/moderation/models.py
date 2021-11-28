@@ -57,7 +57,7 @@ class ModeratedObjectMixin(models.Model):
 
         if self.pk is None and self.date_created is None:
             self.date_created = kwargs.get('date_created', now())
-        self.date_updated = kwargs.get('date_created', now())
+        self.date_updated = kwargs.get('date_updated', now())
 
         if self.approval is not None and self.pk is not None:
             self.state = MODERATION_MODERATED_STATE
