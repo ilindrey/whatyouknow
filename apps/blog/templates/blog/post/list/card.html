@@ -1,6 +1,10 @@
 {% load comments thumbnail %}
 
-<a class="ui card" href="{% url 'post_detail' object.pk %}">
+{% if cur_action != 'preview' %}
+    <a class="ui card" href="{% url 'post_detail' object.pk %}">
+{% else %}
+    <div class="ui card">
+{% endif %}
 
     <div class="image">
         <img src="{{ object.feed_cover|thumbnail_url:'default' }}">
@@ -48,9 +52,16 @@
             </div>
 
         </div>
-        <div class="right floated item">
-            {% include 'structure/includes/dates/updated.html' %}
-        </div>
+        {% if cur_action != 'preview' %}
+            <div class="right floated item">
+                {% include 'structure/includes/dates/updated.html' %}
+            </div>
+        {% endif %}
     </div>
 
-</a>
+
+{% if cur_action != 'preview' %}
+    </a>
+{% else %}
+    </div>
+{% endif %}
