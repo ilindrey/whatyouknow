@@ -21,7 +21,10 @@
             "program": "${workspaceFolder}/data_gen",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"
-            }
+            },
+            "args": [
+                "--factor=11"
+            ],
         },
     ]
 }

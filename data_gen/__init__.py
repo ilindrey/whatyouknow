@@ -1,5 +1,5 @@
 
-def main():
+def main(*args, **kwargs):
     import os
     import django
 
@@ -7,4 +7,5 @@ def main():
     django.setup()
 
     from .fixtures import make_objects
-    make_objects(factor=10)
+    factor = (args[0] if len(args) > 0 else kwargs.get('factor')) or 5
+    make_objects(factor)

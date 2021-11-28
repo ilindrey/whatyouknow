@@ -24,15 +24,15 @@ class ModerationObjectFactory(factory.django.DjangoModelFactory):
                                  datetime_start='-2y',
                                  datetime_end=now(),
                                  tzinfo=CUR_TZ)
-    date_updated = factory.Faker('date_time_between_dates',
-                                 datetime_start=factory.SelfAttribute(
-                                     '..date_created'),
-                                 datetime_end=now(),
-                                 tzinfo=CUR_TZ)
 
     @classmethod
     def _after_postgeneration(cls, instance, create, results=None):
         if create:
+            date_updated = FAKER.date_time_between_dates(datetime_start=instance.date_created,
+                                                         datetime_end=now(),
+                                                         tzinfo=CUR_TZ)
+            kwargs = {'date_updated': date_updated}
+
             as_published = randrange(10) > 2
             if as_published:
                 l = ['published']
@@ -41,19 +41,19 @@ class ModerationObjectFactory(factory.django.DjangoModelFactory):
             choice = randchoice(l)
             match choice:
                 case 'draft':
-                    instance.save_as_draft()
+                    instance.save_as_draft(**kwargs)
                 case 'pending':
-                    instance.save_as_pending()
+                    instance.save_as_pending(**kwargs)
                 case 'rejected':
-                    instance.save_as_rejected(reason=FAKER.sentence())
+                    instance.save_as_rejected(reason=FAKER.sentence(), **kwargs)
                 case 'not_published':
-                    instance.save_as_not_published(reason=FAKER.sentence())
+                    instance.save_as_not_published(reason=FAKER.sentence(), **kwargs)
                 case 'published':
-                    edited_by_user = randrange(10) >= 4
-                    date_published = FAKER.date_time_between_dates(datetime_start=instance.date_created,
-                                                                   datetime_end=now(),
-                                                                   tzinfo=CUR_TZ)
-                    instance.save_as_published(date_published=date_published, edited_by_user=edited_by_user)
+                    kwargs.update({
+                        'date_published': FAKER.date_time_between_dates(datetime_start=date_updated, datetime_end=now(), tzinfo=CUR_TZ),
+                        'edited_by_user': randrange(10) >= 4,
+                    })
+                    instance.save_as_published(**kwargs)
         super()._after_postgeneration(instance, create, results)
 
 
@@ -113,10 +113,10 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         model = USER_MODEL
         django_get_or_create = ('username',)
 
-    username = factory.Faker('user_name')
-    password = factory.PostGenerationMethodCall('set_password', '1234')
-    email = factory.Faker('email')
     name = factory.Faker('name')
+    username = factory.Faker('user_name')
+    email = factory.Faker('email')
+    password = factory.PostGenerationMethodCall('set_password', '1234')
     is_active = True
     is_staff = factory.LazyAttribute(lambda o: randrange(10) == 0)
     is_superuser = False
@@ -155,10 +155,11 @@ class PostFactory(ModerationObjectFactory):
         no_declaration=None)
     text = factory.LazyFunction(get_post_text)
 
-    @factory.post_generation
-    def post_tags(self, create, extracted, **kwargs):
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
         if create:
-            self.tags.add(*get_tags(self.category))
+            instance.tags.add(*get_tags(instance.category))
+        super()._after_postgeneration(instance, create, results)
 
 
 class PostCommentsFactory(ModerationObjectFactory):
@@ -166,28 +167,26 @@ class PostCommentsFactory(ModerationObjectFactory):
         model = 'comments.Comment'
         django_get_or_create = ('content_type', 'object_id', 'user', 'date_created')
 
-    class Params:
-        is_comment_edited = factory.LazyAttribute(lambda o: randrange(3) == 0)  # for 1 out of 3 cases
-        is_comment_reply = factory.LazyAttribute(lambda o: randrange(10) < 5)  # for 5 out of 10 cases
-
-    content_object = factory.Faker('random_element',
-                                   elements=Post.objects.published())
+    content_object = factory.Faker('random_element', elements=Post.objects.published())
     content_type = factory.LazyAttribute(
         lambda o: ContentType.objects.get_for_model(o.content_object))
     object_id = factory.SelfAttribute('content_object.pk')
     user = factory.Faker('random_element', elements=USER_MODEL.objects.filter(is_superuser=False))
     text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
+    date_created = factory.Faker('date_time_between_dates',
+                                 datetime_start=factory.SelfAttribute('..content_object.date_published'),
+                                 datetime_end=now(),
+                                 tzinfo=CUR_TZ)
 
     @factory.lazy_attribute
     def parent(self):
-        if self.is_comment_reply:
+        id_reply = randrange(10) < 5   # for 5 out of 10 cases
+        if id_reply:
             qs = Comment.objects.filter(
                 content_type=self.content_type,
                 object_id=self.object_id,
-                date_created__gte=self.date_created
+                date_created__lte=self.date_created
             )
             count = qs.count()
-            if count > 0:
-                return qs[randint(0, count - 1)]
-            return None
+            return qs[randint(0, count - 1)] if count > 0 else None
         return None
