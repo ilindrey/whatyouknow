@@ -16,7 +16,7 @@ class PostRedirectDefaultCategoryListView(RedirectView):
     pattern_name = 'post_list'
 
     def get_redirect_url(self, *args, **kwargs):
-        kwargs['category'] = 'feed'
+        kwargs['category'] = 'feed' if self.request.user.is_authenticated else 'all'
         return super().get_redirect_url(*args, **kwargs)
 
 
@@ -30,6 +30,7 @@ class PostListLoadDataView(ListView):
     def get_queryset(self):
         filters = {}
         excludes = {}
+        default_category = 'feed' if self.request.user.is_authenticated else 'all'
 
         param = self.kwargs.get('category') or self.request.GET.getlist('category') or 'all'
         if param:
@@ -47,7 +48,7 @@ class PostListLoadDataView(ListView):
                     if category_list is not None:
                         filters['category__in'] = [category['index'] for category in category_list]
                     elif 'category' in self.kwargs.keys():  # set default tab in category menu on main page
-                        param = ['feed']
+                        param = [default_category]
                         self.kwargs['category'] = param[0]
                     else:
                         raise Http404(_('Invalid category (%(category_param)s)') % {'category_param': param})
@@ -87,19 +88,20 @@ class PostListContainerView(PostListLoadDataView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'category_list': self.get_category_list(),
+            'category_list': self.get_category_list(self.request.user.is_authenticated),
             'rating_list': self.get_rating_list(),
             'period_list': self.get_period_list(),
-            'cur_category': self.kwargs.get('category', 'feed'),
+            'cur_category': self.kwargs.get('category', 'feed' if self.request.user.is_authenticated else 'all'),
             'cur_page': context['page_obj'].number
-            })
+        })
         return context
 
     @staticmethod
-    def get_category_list():
+    def get_category_list(add_feed):
         cl = CategoryTypes.get()
         cl.insert(0, {'index': -1, 'short_name': 'All', 'short_name_lower': 'all', 'full_name': 'All posts'})
-        cl.insert(0, {'index': -2, 'short_name': 'Feed', 'short_name_lower': 'feed', 'full_name': 'My feed'})
+        if add_feed:
+            cl.insert(0, {'index': -2, 'short_name': 'Feed', 'short_name_lower': 'feed', 'full_name': 'My feed'})
         return cl
 
     @staticmethod
@@ -135,7 +137,7 @@ class PostCreateView(PostCreateEditFormMixin, CreateView):
             'post_write_url': reverse('post_create_container'),
             'cur_url': reverse('post_create'),
             'cur_action': 'create',
-            })
+        })
         return context
 
     def form_valid(self, form):
@@ -152,7 +154,7 @@ class PostEditView(PostCreateEditFormMixin, SetEditedByUserMixin, UpdateView):
             'post_write_url': reverse('post_edit_container', kwargs=self.kwargs),
             'cur_url': reverse('post_edit', kwargs=self.kwargs),
             'cur_action': 'edit',
-            })
+        })
         return context
 
 
@@ -165,7 +167,7 @@ class PostPreviewView(LoginRequiredMixin, DetailView):
         context.update({
             'cur_url': reverse('post_preview', kwargs=self.kwargs),
             'cur_action': 'preview',
-            })
+        })
         return context
 
 
@@ -178,7 +180,7 @@ class PostDoneView(LoginRequiredMixin, DetailView):
         context.update({
             'cur_url': reverse('post_done', kwargs=self.kwargs),
             'cur_action': 'done',
-            })
+        })
         return context
 
     def get(self, request, *args, **kwargs):
