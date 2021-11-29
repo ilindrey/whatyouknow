@@ -11,16 +11,16 @@
                         </div>
                     </a>
                     {% if cur_action != 'preview' %}
-                        <div class="disabled item">
+                        <div class="item">
                             <span class="ui grey text">
                                 {% include 'structure/includes/dates/updated.html' %}
                             </span>
                             {% if object.edited_by_user %}
                                 <span class="ui grey text">(edited)</span>
                             {% endif %}
-                            <div class="item">
-                                {% status_moderation %}
-                            </div>
+                        </div>
+                        <div class="item">
+                            {% status_moderation %}
                         </div>
                     {% endif %}
                 </div>
