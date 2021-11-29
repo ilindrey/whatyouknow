@@ -2,9 +2,9 @@
 
 <div class="ui vertically divided grid"
      id="info-comments"
-     data-param-app-label="{{ obj.app_label }}"
-     data-param-model-name="{{ obj.model_name }}"
-     data-param-model-pk="{{ obj.model_pk }}"
+     data-param-app-label="{{ object.app_label }}"
+     data-param-model-name="{{ object.model_name }}"
+     data-param-model-pk="{{ object.model_pk }}"
      data-url-comment-list="{% url 'comment_list' %}"
 >
 
@@ -15,7 +15,9 @@
             </h2>
         </div>
         <div class="right aligned column">
-            {% include 'comments/buttons/add_comment.html' %}
+            {% if not object.is_draft %}
+                {% include 'comments/buttons/add_comment.html' %}
+            {% endif %}
         </div>
     </div>
 
