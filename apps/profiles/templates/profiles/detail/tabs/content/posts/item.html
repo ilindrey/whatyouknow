@@ -1,4 +1,4 @@
-{% load thumbnail posts moderation %}
+{% load thumbnail moderation posts comments %}
 
 <div class="item">
     <a class="image" href="{% url 'post_detail' object.pk %}">
@@ -10,6 +10,12 @@
             <span>
                 {% include 'structure/includes/dates/updated.html' %}
             </span>
+            {% if object.published %}
+            <span class="ui grey text">
+                <i class="ui comments icon"></i>
+                {% comments_count object %}
+            </span>
+            {% endif %}
             {% status_moderation %}
         </div>
         {% if object.feed_article_preview %}
