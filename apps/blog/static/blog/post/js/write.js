@@ -146,6 +146,7 @@ function safeWrap()
     {
         $stepContent.html('');
         $loader.show();
+        scrollOnTop();
     }
 
     function hideLoader()

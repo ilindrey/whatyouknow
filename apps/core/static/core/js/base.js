@@ -1,4 +1,3 @@
-
 const isFirefox = typeof window.InstallTrigger !== 'undefined';
 
 const isEmptyValue = (value) => {
@@ -9,8 +8,7 @@ const isEmptyValue = (value) => {
     }
 }
 
-function showMessage(text, class_message='success')
-{
+function showMessage(text, class_message = 'success') {
     $('body').toast({
         class: class_message,
         position: 'bottom right',
@@ -19,27 +17,32 @@ function showMessage(text, class_message='success')
     console.log(class_message + ': ' + text);
 }
 
-function showSuccessMessage(text)
-{
+function showSuccessMessage(text) {
     showMessage(text, 'success');
 }
 
-function showInfoMessage(text)
-{
+function showInfoMessage(text) {
     showMessage(text, 'info');
 }
 
-function showErrorMessage(xhr, ajaxOptions, thrownError)
-{
+function showErrorMessage(xhr, ajaxOptions, thrownError) {
     let text = xhr.status + ' ' + xhr.statusText;
     showMessage(text, 'error');
 }
 
-function setMenuActiveItem(menuItems, currentItem)
-{
-    menuItems.map(function (index, item)
-    {
+function setMenuActiveItem(menuItems, currentItem) {
+    menuItems.map(function (index, item) {
         $(item).removeClass('active');
     });
     currentItem.addClass('active');
+}
+
+function scrollOnTop() {
+    if (isFirefox) {
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#user_profile_menu").offset().top
+        }, "fast");
+    } else {
+        $(document.body).get(0).scrollIntoView();
+    }
 }
