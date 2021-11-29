@@ -38,7 +38,7 @@
     {% if cur_action != 'preview' %}
     <div class="extra">
         <div class="ui horizontal list">
-            <div class="item">
+            {% comment %} <div class="item">
                 <span class="ui green text">
                     <i class="green plus icon"></i>
                 133</span>
@@ -46,7 +46,7 @@
             <div class="item">
                 <i class="ui bookmark icon"></i>
                 7
-            </div>
+            </div> {% endcomment %}
             <div class="item">
                 <i class="ui comments icon"></i>
                 {% comments_count object %}

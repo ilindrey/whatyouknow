@@ -6,6 +6,7 @@
      data-current-category="{{ cur_category }}"
 >
 
+    {% if category_list %}
     <div class="ui primary secondary pointing menu" id="categories">
         {% for value in category_list %}
             <div class="item"
@@ -15,19 +16,24 @@
             </div>
         {% endfor %}
     </div>
+    {% endif %}
 
+    {% if rating_list %}
     <select id="rating" class="compact">
         <option value="">Any rating</option>
         {% for index, name in rating_list %}
             <option value="{{ index }}">{{ name }}</option>
         {% endfor %}
     </select>
+    {% endif %}
 
+    {% if period_list %}
     <select id="period" class="compact">
         <option value="">All time</option>
         {% for index, name in period_list %}
             <option value="{{ index }}">{{ name }}</option>
         {% endfor %}
     </select>
+    {% endif %}
 
 </div>

@@ -89,8 +89,8 @@ class PostListContainerView(PostListLoadDataView):
         context = super().get_context_data(**kwargs)
         context.update({
             'category_list': self.get_category_list,
-            'rating_list': self.get_rating_list,
-            'period_list': self.get_period_list,
+            # 'rating_list': self.get_rating_list,
+            # 'period_list': self.get_period_list,
             'cur_category': self.kwargs.get('category', 'feed' if self.request.user.is_authenticated else 'all'),
             'cur_page': context['page_obj'].number
         })
