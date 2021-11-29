@@ -23,37 +23,37 @@ class CategoryTypes(Enum):
         'short_name': 'Develop',
         'short_name_lower': 'develop',
         'full_name': 'Development'
-        }
+    }
     ADMINISTRATING = {
         'index': 1,
         'short_name': 'Admin',
         'short_name_lower': 'admin',
         'full_name': 'Administrating'
-        }
+    }
     DESIGN = {
         'index': 2,
         'short_name': 'Design',
         'short_name_lower': 'design',
         'full_name': 'Design'
-        }
+    }
     MANAGEMENT = {
         'index': 3,
         'short_name': 'Management',
         'short_name_lower': 'management',
         'full_name': 'Management'
-        }
+    }
     MARKETING = {
         'index': 4,
         'short_name': 'Marketing',
         'short_name_lower': 'marketing',
         'full_name': 'Marketing'
-        }
+    }
     POPULAR_SCIENCE = {
         'index': 5,
         'short_name': 'PopSci',
         'short_name_lower': 'popsci',
         'full_name': 'Popular Science'
-        }
+    }
 
     @classmethod
     def get(cls, *args):
@@ -109,7 +109,7 @@ class Post(ModeratedObjectMixin, models.Model):
     category = models.IntegerField(_('Category'), choices=CategoryTypes.choices())
     title = models.CharField(_('Title'), max_length=200)
     feed_cover = models.ImageField(_('Feed cover'), upload_to='blog/feed_covers')
-    feed_article_preview = SummernoteTextField(_('Feed article preview'), null=True, blank=True)
+    feed_article_preview = SummernoteTextField(_('Feed article preview'), blank=True)
     text = SummernoteTextField(_('Text'), validators=[SummernoteMinValueValidator(500)])
     tags = TaggableManager()
 
@@ -125,11 +125,6 @@ class Post(ModeratedObjectMixin, models.Model):
     def get_admin_url(self):
         url = admin_urlname(self._meta, 'change')
         return reverse(url, args=(self.pk,))
-
-    def save(self, *args, **kwargs):
-        if not self.feed_article_preview:
-            self.feed_article_preview = None
-        super().save(*args, **kwargs)
 
 
 saved_file.connect(generate_aliases_global)

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.template.defaultfilters import truncatechars
 
+from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import MPTTModelAdmin
 
 from ..moderation.admin import ModeratedObjectAdmin
@@ -10,7 +11,7 @@ from .models import Comment
 
 
 @admin.register(Comment)
-class CommentAdmin(ModeratedObjectAdmin, MPTTModelAdmin, admin.ModelAdmin):
+class CommentAdmin(ModeratedObjectAdmin, MPTTModelAdmin, SummernoteModelAdmin):
 
     list_display = ('text_representation', 'user', 'content_object_representation')
     list_display_links = ('text_representation',)
@@ -20,6 +21,7 @@ class CommentAdmin(ModeratedObjectAdmin, MPTTModelAdmin, admin.ModelAdmin):
     autocomplete_lookup_fields = {
         'generic': ['content_type', 'object_id'],
     }
+    summernote_fields = ('text', )
 
     def save_model(self, request, obj, form, change):
         if not change:
