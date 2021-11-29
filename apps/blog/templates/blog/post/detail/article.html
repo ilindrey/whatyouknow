@@ -4,7 +4,7 @@
         <div class="row">
             <div class="left aligned ten wide column">
                 <div class="ui horizontal link list" >
-                    <a class="item" href="{% url 'profile_detail' object.user %}">
+                    <a class="{% if cur_action == 'preview' %}disabled {% endif %}item" href="{% url 'profile_detail' object.user %}">
                         {% include 'profiles/avatar/author.html' %}
                         <div class="content">
                             <div class="ui header">{{ object.user.username }}</div>
@@ -47,7 +47,7 @@
                     <div class="ui horizontal link list" id="tags">
 
                         {% for tag in object.tags.all %}
-                            <div class="item">
+                            <div class="{% if cur_action == 'preview' %}disabled {% endif %}item">
                                 {% if forloop.last %}
                                     <a href="{% url 'search' %}" data-value="{{ tag.name }}">{{ tag.name }}</a>
                                 {% else %}
