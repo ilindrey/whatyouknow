@@ -10,7 +10,7 @@ class PostAdmin(ModeratedObjectAdmin, admin.ModelAdmin):
     list_display = ('__str__', 'user', 'category')
     search_fields = ('title', 'user__username')
     list_filter = ('category', )
-    ordering = ('-date_created', )
+    ordering = ('-date_updated', )
     readonly_fields = ('user',)
 
     def save_model(self, request, obj, form, change):
