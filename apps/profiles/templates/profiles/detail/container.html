@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="right aligned four wide column">
-                                {% if is_auth_user %}
+                                {% if has_perms %}
                                     <a class="ui primary icon button" href="{% url 'profile_settings' object.username %}">
                                         <i class="setting icon"></i>
                                     </a>

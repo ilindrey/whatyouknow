@@ -2,12 +2,13 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from ..core.mixins import HasPermsMixin
 from ..moderation.views import SetEditedByUserMixin
 from .models import Comment
 from .mixins import ContentTypeObjectCommentMixin, CreateUpdateCommentMixin
 
 
-class CommentListView(ContentTypeObjectCommentMixin, ListView):
+class CommentListView(ContentTypeObjectCommentMixin, HasPermsMixin, ListView):
     model = Comment
     template_name = 'comments/list.html'
 

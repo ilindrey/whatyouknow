@@ -1,45 +1,31 @@
+
+from ..core.mixins import HasPermsMixin
 from .models import Profile
 
 
-class CurrentAuthUserMixin:
+class HasPermsMixin(HasPermsMixin):
 
     @property
-    def is_auth_user(self):
-        return self.request.user.is_authenticated and self.request.user.username == self.kwargs['username']
+    def is_cur_auth_user(self):
+        return self.request.user.username == self.kwargs.get('username')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_auth_user'] = self.is_auth_user
-        return context
+    @property
+    def has_perms(self):
+        return self.is_cur_auth_user or super().has_perms
 
 
-class ProfileAuthMixin(CurrentAuthUserMixin):
+class ProfileMixin(HasPermsMixin):
     model = Profile
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
 
-class ProfileTabStructureMixin:
-
-    @property
-    def default_tab_params(self):
-        return {
-            'count': None,
-            'is_lazy_load': False,
-            'link_load_data': None,
-            'link_lazy_load': None,
-            'is_descendant_menu': False,
-            'descendant_tab_list': None,
-            'step_context': '.ui.items',
-        }
-
-
-class ProfileTabListMixin(ProfileAuthMixin):
+class ProfileTabListMixin(ProfileMixin):
     paginate_by = 10
     ordering = '-date_updated'
 
     def get_queryset(self):
-        if self.is_auth_user or self.request.user.is_staff or self.request.user.is_superuser:
+        if self.has_perms:
             self.queryset = self.model._default_manager.all()
         else:
             self.queryset = self.model._default_manager.published()

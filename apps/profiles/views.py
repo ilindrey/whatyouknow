@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -11,10 +11,10 @@ from apps.comments.models import Comment
 
 from .models import Profile
 from .forms import EditProfileForm, EditFeedSettingsForm, RegistrationForm
-from .mixins import CurrentAuthUserMixin, ProfileAuthMixin, ProfileTabStructureMixin, ProfileTabListMixin
+from .mixins import HasPermsMixin, ProfileMixin, ProfileTabListMixin
 
 
-class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView):
+class ProfileView(ProfileMixin, generic.DetailView):
     template_name = 'profiles/detail.html'
 
     def get_context_data(self, **kwargs):
@@ -70,10 +70,21 @@ class ProfileView(ProfileAuthMixin, ProfileTabStructureMixin, generic.DetailView
         context['first_tab'] = first_tab
         context['second_tab'] = second_tab
         context['tab_list'] = tab_list
-        context['base_pathname_url'] = reverse(
-            'profile_detail', kwargs=default_kwargs)
+        context['base_pathname_url'] = reverse('profile_detail', kwargs=default_kwargs)
 
         return context
+
+    @property
+    def default_tab_params(self):
+        return {
+            'count': None,
+            'is_lazy_load': False,
+            'link_load_data': None,
+            'link_lazy_load': None,
+            'is_descendant_menu': False,
+            'descendant_tab_list': None,
+            'step_context': '.ui.items',
+        }
 
 
 class ProfileFirstTabView(ProfileView):
@@ -103,7 +114,7 @@ class ProfileCommentsTabLazyDataListView(ProfileCommentsTabLoadDataListView):
     template_name = 'profiles/detail/tabs/content/comments/list.html'
 
 
-class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
+class SettingsView(LoginRequiredMixin, ProfileMixin, generic.DetailView):
     template_name = 'profiles/settings.html'
 
     def get_context_data(self, **kwargs):
@@ -120,7 +131,7 @@ class SettingsView(LoginRequiredMixin, ProfileAuthMixin, generic.DetailView):
         return ['profile', 'password', 'feed']
 
 
-class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
+class EditProfileView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'profiles/settings/forms/edit_profile.html'
 
@@ -128,7 +139,7 @@ class EditProfileView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
         return reverse('edit_profile', kwargs={self.slug_url_kwarg: self.object.username})
 
 
-class EditFeedView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
+class EditFeedView(LoginRequiredMixin, ProfileMixin, generic.UpdateView):
     form_class = EditFeedSettingsForm
     template_name = 'profiles/settings/forms/edit_feed_settings.html'
 
@@ -144,14 +155,14 @@ class EditFeedView(LoginRequiredMixin, ProfileAuthMixin, generic.UpdateView):
         return reverse('edit_feed', kwargs={self.slug_url_kwarg: self.kwargs[self.slug_url_kwarg]})
 
 
-class PasswordChangeView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeView):
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'profiles/settings/forms/password_change_form.html'
 
     def get_success_url(self):
         return reverse('password_change_done', kwargs={'username': self.kwargs['username']})
 
 
-class PasswordChangeDoneView(LoginRequiredMixin, CurrentAuthUserMixin, PasswordChangeDoneView):
+class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'profiles/settings/password_change_done.html'
 
 
