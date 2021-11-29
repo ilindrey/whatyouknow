@@ -35,6 +35,7 @@
         </div>
 
     </div>
+    {% if cur_action != 'preview' %}
     <div class="extra">
         <div class="ui horizontal list">
             <div class="item">
@@ -52,12 +53,11 @@
             </div>
 
         </div>
-        {% if cur_action != 'preview' %}
-            <div class="right floated item">
-                {% include 'structure/includes/dates/updated.html' %}
-            </div>
-        {% endif %}
+        <div class="right floated item">
+            {% include 'structure/includes/dates/updated.html' %}
+        </div>
     </div>
+    {% endif %}
 
 
 {% if cur_action != 'preview' %}
