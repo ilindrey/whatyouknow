@@ -88,31 +88,31 @@ class PostListContainerView(PostListLoadDataView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'category_list': self.get_category_list(self.request.user.is_authenticated),
-            'rating_list': self.get_rating_list(),
-            'period_list': self.get_period_list(),
+            'category_list': self.get_category_list,
+            'rating_list': self.get_rating_list,
+            'period_list': self.get_period_list,
             'cur_category': self.kwargs.get('category', 'feed' if self.request.user.is_authenticated else 'all'),
             'cur_page': context['page_obj'].number
         })
         return context
 
-    @staticmethod
-    def get_category_list(add_feed):
+    @property
+    def get_category_list(self):
         cl = CategoryTypes.get()
         cl.insert(0, {'index': -1, 'short_name': 'All', 'short_name_lower': 'all', 'full_name': 'All posts'})
-        if add_feed:
+        if self.request.user.is_authenticated:
             cl.insert(0, {'index': -2, 'short_name': 'Feed', 'short_name_lower': 'feed', 'full_name': 'My feed'})
         return cl
 
-    @staticmethod
-    def get_period_list():
+    @property
+    def get_period_list(self):
         return [('day', 'Day'),
                 ('week', 'Week'),
                 ('month', 'Month'),
                 ('year', 'Year')]
 
-    @staticmethod
-    def get_rating_list():
+    @property
+    def get_rating_list(self):
         return [(25, 25),
                 (50, 50),
                 (75, 75),
