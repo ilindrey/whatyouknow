@@ -152,7 +152,7 @@ class PostFactory(ModerationObjectFactory):
     feed_article_preview = factory.Maybe(
         factory.LazyFunction(lambda: randrange(10) > 0),
         yes_declaration=factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500))),
-        no_declaration=None)
+        no_declaration='')
     text = factory.LazyFunction(get_post_text)
 
     @classmethod
