@@ -12,7 +12,7 @@ from taggit.models import Tag, TaggedItem
 from apps.blog.models import Post
 from apps.comments.models import Comment
 
-from .factories import StaffGroupFactory, SuperUserFactory, ProfileFactory, PostFactory, PostCommentsFactory
+from .factories import StaffGroupFactory, SuperUserFactory, CommonProfileFactory, StaffProfileFactory, PostFactory, PostCommentsFactory
 
 
 USER_MODEL = get_user_model()
@@ -20,14 +20,16 @@ USER_MODEL = get_user_model()
 
 def make_objects(factor):
 
-    user_count = round(randint(factor, factor**2) / factor) * factor
-    post_count = user_count * randint(5, 10)
+    staff_user_count = factor
+    common_user_count = staff_user_count * randint(5, 10)
+    post_count = common_user_count * randint(5, 10)
     post_comments_count = post_count * randint(75, 125)
 
     factories = {
         SuperUserFactory: 1,
         StaffGroupFactory: 1,
-        ProfileFactory: user_count,
+        StaffProfileFactory: staff_user_count,
+        CommonProfileFactory: common_user_count,
         PostFactory: post_count,
         PostCommentsFactory: post_comments_count,
     }

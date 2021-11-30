@@ -136,6 +136,14 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         super()._after_postgeneration(instance, create, results)
 
 
+class CommonProfileFactory(ProfileFactory):
+    is_staff = False
+
+
+class StaffProfileFactory(ProfileFactory):
+    is_staff = True
+
+
 class PostFactory(ModerationObjectFactory):
     class Meta:
         model = 'blog.Post'
