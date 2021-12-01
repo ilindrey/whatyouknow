@@ -1,5 +1,5 @@
 #!/bin/bash
 
-function django_secret() { python -c "import random,string;print('SECRET_KEY='+''.join([random.SystemRandom().choice(\"{}{}{}\".format(string.ascii_letters, string.digits, string.punctuation)) for i in range(63)]).replace('\\'','\\'\"\\'\"\\''))"; }
+function django_secret() { python -c "from secrets import token_urlsafe;print(f'SECRET_KEY={token_urlsafe(64)}')"; }
 echo "DEBUG=True" > .env
 django_secret >> .env

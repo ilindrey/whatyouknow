@@ -11,7 +11,7 @@
 
     {% if user.is_authenticated %}
 
-    {% comment %} <a class="item">
+        {% comment %} <a class="item">
         <i class="bell primary large icon"></i>
     </a>
 
@@ -19,76 +19,76 @@
         <i class="bookmark primary large icon"></i>
     </a> {% endcomment %}
 
-    <div class="item">
+        <div class="item">
 
-        <div class="ui black icon top right labeled pointing dropdown" id="user_profile_menu">
+            <div class="ui black icon top right labeled pointing dropdown" id="user_profile_menu">
 
-            {% include 'profiles/avatar/menu.html' %}
-            <i class="ui primary dropdown icon"></i>
+                {% include 'profiles/avatar/menu.html' %}
+                <i class="ui primary dropdown icon"></i>
 
-            <div class="ui vertical menu">
+                <div class="ui vertical menu">
 
-                <a class="item" href="{% url 'profile_detail' user.username %}">
+                    <a class="item" href="{% url 'profile_detail' user.username %}">
 
-                    <div class="ui basic fitted segment">
-                        {% include 'profiles/avatar/menu.html' %}
-                        <span class="ui primary text">{{ user.username }}</span>
-                    </div>
+                        <div class="ui basic fitted segment">
+                            {% include 'profiles/avatar/menu.html' %}
+                            <span class="ui primary text">{{ user.username }}</span>
+                        </div>
 
-                </a>
+                    </a>
 
-                <div class="ui divider"></div>
+                    <div class="ui divider"></div>
 
-                <a class="item" href="{% url 'profile_tab' user.username 'posts' %}">
-                    <i class="pencil icon"></i>
-                    <span class="ui text">Your posts</span>
-                </a>
+                    <a class="item" href="{% url 'profile_tab' user.username 'posts' %}">
+                        <i class="pencil icon"></i>
+                        <span class="ui text">Your posts</span>
+                    </a>
 
-                <a class="item" href="{% url 'profile_tab' user.username 'comments' %}">
-                    <i class="comments icon"></i>
-                    <span class="ui text">Your comments</span>
-                </a>
+                    <a class="item" href="{% url 'profile_tab' user.username 'comments' %}">
+                        <i class="comments icon"></i>
+                        <span class="ui text">Your comments</span>
+                    </a>
 
-                <div class="ui divider"></div>
+                    <div class="ui divider"></div>
 
-                <a class="item" href="{% url 'post_create' %}">
-                    <i class="pencil icon"></i>
-                    <span class="ui text">Write a post</span>
-                </a>
+                    <a class="item" href="{% url 'post_create' %}">
+                        <i class="pencil icon"></i>
+                        <span class="ui text">Write a post</span>
+                    </a>
 
-                <div class="ui divider"></div>
+                    <div class="ui divider"></div>
 
-                <a class="item" href="{% url 'profile_settings' user.username %}">
-                    <i class="setting icon"></i>
-                    <span class="ui text">Settings</span>
-                </a>
+                    <a class="item" href="{% url 'profile_settings' user.username %}">
+                        <i class="setting icon"></i>
+                        <span class="ui text">Settings</span>
+                    </a>
 
-                <div class="ui divider"></div>
+                    <div class="ui divider"></div>
 
-                <a class="item" href="{% url 'logout' %}">
-                    <i class="sign out icon"></i>
-                    <span class="ui text">Sign out</span>
-                </a>
+                    <a class="item" href="{% url 'logout' %}">
+                        <i class="sign out icon"></i>
+                        <span class="ui text">Sign out</span>
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-
     {% else %}
 
-    <div class="item">
-        <a class="ui primary basic button" href="{% url 'login' %}">
-            {% translate 'Log in' %}
-        </a>
-    </div>
+        <div class="item">
+            <a class="ui primary basic button" href="{% url 'login' %}">
+                {% translate 'Log in' %}
+            </a>
+        </div>
 
-    <div class="item">
-        <a class="ui primary button" href="{% url 'registration' %}">
-            {% translate 'Sing up' %}
-        </a>
-    </div>
+        <div class="item">
+            <a class="ui primary button" href="{% url 'registration' %}">
+                {% translate 'Sign up' %}
+            </a>
+        </div>
 
     {% endif %}
 
