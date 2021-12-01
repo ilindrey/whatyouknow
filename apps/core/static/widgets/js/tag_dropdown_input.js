@@ -1,22 +1,19 @@
 safeWrap();
 
-function safeWrap()
-{
+function safeWrap() {
     const keyInitial = 'tag_input_dropdown';
 
     $(document).ready(function () {
         initialDropdown();
     });
 
-    $(document).ajaxComplete(function( event, xhr, settings ) {
-        if (xhr.statusText === 'OK' && xhr.responseText.includes(keyInitial))
-        {
+    $(document).ajaxComplete(function (event, xhr, settings) {
+        if (xhr.statusText === 'OK' && xhr.responseText.includes(keyInitial)) {
             initialDropdown();
         }
     });
 
-    function initialDropdown()
-    {
+    function initialDropdown() {
         const separator = ', ',
             quotes = '\"',
             $element = $('#' + keyInitial),
@@ -31,73 +28,67 @@ function safeWrap()
         let tagsInput = $element.find('#id_' + nameTagsInput);
 
         let tagsInputValue = tagsInput.val();
-        if(tagsInputValue)
-        {
+        if (tagsInputValue) {
             let arrayOfValue = tagsInputValue.split(separator);
-            arrayOfValue.map(function(item, index) {
+            arrayOfValue.map(function (item, index) {
                 arrayOfValue[index] = item.replaceAll(quotes, '');
             });
             $element.dropdown('set selected', arrayOfValue);
         }
 
         $element.dropdown({
-                onAdd: function (addedValue, addedText, $addedChoice)
-                {
-                    let tagsInputValue = tagsInput.val();
+            onAdd: function (addedValue, addedText, $addedChoice) {
+                let tagsInputValue = tagsInput.val();
 
-                    let formattedText;
-                    let arrayOfText = addedText.split(' ');
-                    if (arrayOfText.length > 1)
-                    {
-                        formattedText = quotes + addedText + quotes;
+                let formattedText;
+                let arrayOfText = addedText.split(' ');
+                if (arrayOfText.length > 1) {
+                    formattedText = quotes + addedText + quotes;
+                }
+                else {
+                    formattedText = addedText;
+                }
+
+                if (tagsInputValue) {
+                    let arrayOfValue = tagsInputValue.split(separator);
+                    arrayOfValue.push(formattedText);
+                    tagsInputValue = arrayOfValue.join(separator);
+                }
+                else {
+                    tagsInputValue = formattedText;
+                }
+
+                tagsInput.val(tagsInputValue);
+            },
+            onRemove: function (removedValue, removedText, $removedChoice) {
+                let tagsInputValue = tagsInput.val();
+
+                let arrayOfInputValue = tagsInputValue.split(separator);
+                arrayOfInputValue.map(function (item, index) {
+                    arrayOfInputValue[index] = item.replaceAll(quotes, '');
+                });
+
+                const index = arrayOfInputValue.indexOf(removedText);
+                if (index > -1) {
+                    arrayOfInputValue.splice(index, 1);
+                }
+
+                arrayOfInputValue.map(function (item, index) {
+                    let value = item;
+                    let arrayOfItem = item.split(' ');
+                    if (arrayOfItem.length > 1) {
+                        value = quotes + item + quotes;
                     }
-                    else {
-                        formattedText = addedText;
-                    }
+                    arrayOfInputValue[index] = value;
+                });
 
-                    if(tagsInputValue)
-                    {
-                        let arrayOfValue = tagsInputValue.split(separator);
-                        arrayOfValue.push(formattedText);
-                        tagsInputValue = arrayOfValue.join(separator);
-                    }
-                    else
-                    {
-                        tagsInputValue = formattedText;
-                    }
-
-                    tagsInput.val(tagsInputValue);
-                },
-                onRemove: function (removedValue, removedText, $removedChoice)
-                {
-                    let tagsInputValue = tagsInput.val();
-
-                    let arrayOfInputValue = tagsInputValue.split(separator);
-                    arrayOfInputValue.map(function(item, index) {
-                        arrayOfInputValue[index] = item.replaceAll(quotes, '');
-                    });
-
-                    const index = arrayOfInputValue.indexOf(removedText);
-                    if (index > -1) {
-                        arrayOfInputValue.splice(index, 1);
-                    }
-
-                    arrayOfInputValue.map(function(item, index) {
-                        let value = item;
-                        let arrayOfItem = item.split(' ');
-                        if (arrayOfItem.length > 1)
-                        {
-                            value = quotes + item + quotes;
-                        }
-                        arrayOfInputValue[index] = value;
-                    });
-
-                    tagsInputValue = arrayOfInputValue.join(separator);
-                    tagsInput.val(tagsInputValue);
-                },
-                clearable: clearable,
-                allowAdditions: allowAdditions,
-            }
+                tagsInputValue = arrayOfInputValue.join(separator);
+                tagsInput.val(tagsInputValue);
+            },
+            clearable: clearable,
+            allowAdditions: allowAdditions,
+            forceSelection: false,
+        }
         );
     }
 }
