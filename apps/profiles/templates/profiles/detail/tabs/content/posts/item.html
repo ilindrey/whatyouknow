@@ -1,11 +1,11 @@
 {% load thumbnail moderation posts comments %}
 
 <div class="item">
-    <a class="image" href="{% url 'post_detail' object.pk %}">
+    <a class="image" href="{{ object.get_absolute_url }}">
         <img src="{{ object.feed_cover|thumbnail_url:'item' }}">
     </a>
     <div class="content">
-        <a class="header" href="{% url 'post_detail' object.pk %}">{{ object.title }}</a>
+        <a class="header" href="{{ object.get_absolute_url }}">{{ object.title }}</a>
         <div class="meta">
             <span>
                 {% include 'structure/includes/dates/updated.html' %}

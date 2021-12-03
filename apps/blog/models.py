@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
+from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 
 from django_summernote.fields import SummernoteTextField
@@ -105,6 +106,7 @@ class CategoryTypes(Enum):
 
 class Post(ModeratedObjectMixin, models.Model):
 
+    slug = models.SlugField(null=False, blank=False)
     user = models.ForeignKey(to=get_user_model(), on_delete=models.PROTECT, editable=False)
     category = models.IntegerField(_('Category'), choices=CategoryTypes.choices())
     title = models.CharField(_('Title'), max_length=200)
@@ -119,12 +121,24 @@ class Post(ModeratedObjectMixin, models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def url_kwargs(self):
+        return {'pk': self.pk, 'slug': self.slug}
+
     def get_absolute_url(self):
-        return reverse('post_detail', kwargs={'pk': self.pk})
+        return reverse('post_detail', kwargs=self.url_kwargs)
+
+    def get_edit_url(self):
+        return reverse('post_edit', kwargs=self.url_kwargs)
 
     def get_admin_url(self):
         url = admin_urlname(self._meta, 'change')
         return reverse(url, args=(self.pk,))
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 saved_file.connect(generate_aliases_global)

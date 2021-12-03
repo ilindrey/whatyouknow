@@ -10,7 +10,7 @@ class PostCreateEditFormMixin(LoginRequiredMixin):
     form_class = EditPostForm
 
     def get_success_url(self):
-        kwargs = {'pk': self.object.pk}
+        kwargs = {'pk': self.object.pk, 'slug': self.object.slug}
         if self.request.POST.get('next_action') == 'preview':
             return reverse('post_preview_container', kwargs=kwargs)
         else:

@@ -17,8 +17,12 @@ class PostAdmin(ModeratedObjectAdmin, SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('user',)
     summernote_fields = ('feed_article_preview', 'text')
-    # fields = ('category', 'title', 'slug', 'feed_cover', 'feed_article_preview',
-    #           'text', 'tags', 'user', 'date_created', 'date_updated', 'date_published')
+
+    def get_fields(self, request, obj=None, **kwargs):
+        fields = list(super().get_fields(request, obj, **kwargs))
+        fields.remove('slug')
+        fields.insert(2, 'slug')
+        return fields
 
     def save_model(self, request, obj, form, change):
         if not change:

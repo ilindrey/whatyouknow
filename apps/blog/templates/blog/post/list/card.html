@@ -1,7 +1,7 @@
 {% load comments thumbnail %}
 
 {% if cur_action != 'preview' %}
-    <a class="ui card" href="{% url 'post_detail' object.pk %}">
+    <a class="ui card" href="{{ object.get_absolute_url }}">
 {% else %}
     <div class="ui card">
 {% endif %}

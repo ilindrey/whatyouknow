@@ -4,7 +4,7 @@
 
 {% block id %}post_edit_button{% endblock %}
 
-{% block href %}{% url 'post_edit' object.pk %}{% endblock %}
+{% block href %}{% url 'post_edit' object.pk object.slug %}{% endblock %}
 
 {% block name %}Edit{% endblock %}
 
