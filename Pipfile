@@ -17,7 +17,6 @@ cssselect2 = "==0.4.1"
 django-grappelli = "==2.15.3"
 django-js-asset = "==1.2.2"
 django-mptt = "==0.13.4"
-django-summernote = "==0.8.20.0"
 django-taggit = "==2.0.0"
 django-taggit-serializer = "==0.1.7"
 djangorestframework = "==3.12.4"
@@ -41,6 +40,7 @@ webencodings = "==0.5.1"
 Django = "==3.2.9"
 Faker = "==9.8.3"
 Pillow = "==8.4.0"
+django-summernote = "==0.8.11.6"
 
 [dev-packages]
 

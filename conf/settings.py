@@ -196,7 +196,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode, default
-    'iframe': True,
+    # 'iframe': True,
 
     # # Or, you can set it to `False` to use SummernoteInplaceWidget by default - no iframe mode
     # # In this case, you have to load Bootstrap/jQuery sources and dependencies manually.
@@ -213,18 +213,19 @@ SUMMERNOTE_CONFIG = {
         'height': '480',
 
         # Use proper language setting automatically (default)
-        # 'lang': None,
+        'lang': 'en',
 
         # Toolbar customization
         # https://summernote.org/deep-dive/#custom-toolbar-popover
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-                      'strikethrough', 'clear']],
+                              'strikethrough', 'clear']],
             # ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
             ['color', ['color']],
-            ['list', ['ul', 'ol']],
-            ['para', ['paragraph']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
             ['table', ['table']],
             ['insert', ['link', 'picture', 'video', 'hr']],
             ['view', ['fullscreen', 'codeview']],
@@ -233,9 +234,9 @@ SUMMERNOTE_CONFIG = {
         'popover': {
             'image': [
                 ['custom', ['imageAttributes']],
-                ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
                 ['float', ['floatLeft', 'floatRight', 'floatNone']],
-                ['remove', ['removeMedia']],
+                ['remove', ['removeMedia']]
             ],
         },
         'imageAttributes': {
@@ -245,22 +246,15 @@ SUMMERNOTE_CONFIG = {
             'captionText': 'Caption Goes Here.',
             'manageAspectRatio': True  # true = Lock the Image Width/Height, Default to true
         },
-
-        # Or, explicitly set language/locale for editor
-        # 'lang': 'ko-KR',
-
-        # You can also add custom settings for external plugins
-        # 'print': {
-        #     'stylesheetUrl': '/some_static_folder/printable.css',
-        # },
-        'codemirror': {
-            'mode': 'htmlmixed',
-            'lineNumbers': 'true',
-            # You have to include theme file in 'css' or 'css_for_inplace' before using it.
-            'theme': 'monokai',
-        },
     },
 
+    'default_js': (
+        '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
+        '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
+    ),
+    'default_css': (
+        '/static/core/css/fonts.css',
+    ),
     'js': (
         '/static/summernote/plugins/summernote-image-attribute-editor/summernote-image-attributes.js',
         '/static/summernote/plugins/summernote-image-attribute-editor/lang/en-us.js',
@@ -275,7 +269,6 @@ SUMMERNOTE_CONFIG = {
     'css_for_inplace': (
         '/static/core/css/fonts.css',
     ),
-
 
     # Lazy initialization
     # If you want to initialize summernote at the bottom of page, set this as True
