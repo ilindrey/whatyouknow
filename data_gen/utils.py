@@ -1,14 +1,18 @@
 
 from json import load as json_load
 from requests import get as requests_get
-from random import choice, randint
+from random import choice, randint, randrange
+from io import BytesIO
 
 from django.conf import settings
 from django.utils.timezone import get_current_timezone
+from django.core.files.images import ImageFile
 
 from faker import Faker
+from django_summernote.models import Attachment
 
 from apps.blog.models import CategoryTypes
+
 
 CUR_TZ = get_current_timezone()
 FAKER = Faker()
@@ -18,8 +22,8 @@ def get_image_url(min_width=500, min_height=500, max_width=None, max_height=None
 
     url_list = [
         # 'https://picsum.photos/{}/{}',  # bug
-        # 'https://loremflickr.com/{}/{}',  # only cats
-        'https://placeimg.com/{}/{}/any',
+        'https://loremflickr.com/{}/{}/all',
+        # 'https://placeimg.com/{}/{}/any',
     ]
 
     url = choice(url_list)
@@ -35,10 +39,24 @@ def get_image_url(min_width=500, min_height=500, max_width=None, max_height=None
     return url.format(width, height)
 
 
-def get_image_file_data(min_width=500, min_height=500):
+def get_image(min_width=500, min_height=500):
     image_url = get_image_url(min_width=min_width, min_height=min_height)
-    response = requests_get(image_url, stream=True)
-    return response.content
+    i = 0
+    response = None
+    while i < 5 and (response is None or not response.ok):
+        try:
+            response = requests_get(image_url, stream=True)
+        except Exception as e:
+            print(f'Image file load failed: {e}')
+        i += 1
+    try:
+        return response.url, response.content
+    except:
+        return '', '', None
+
+
+def get_image_data(min_width=500, min_height=500):
+    return get_image(min_width, min_height)[1]
 
 
 def get_post_text():
@@ -65,15 +83,15 @@ def get_post_text():
                     </div>
                     """
 
-    gen_headers = randint(0, 2) in [i for i in range(2)]
-    gen_subheaders = gen_headers and randint(0, 5) == 0
+    gen_headers = randrange(2) == 2
+    gen_subheaders = gen_headers and randrange(10) == 0
 
-    gen_ordered_list = randint(0, 2) == 0
-    gen_unordered_list = randint(0, 2) == 0
+    gen_ordered_list = randrange(10) == 0
+    gen_unordered_list = randrange(10) == 0
 
-    gen_image_first = randint(0, 1) == 0
-    gen_image_captions = randint(0, 10) == 0
-    gen_several_images_in_row = randint(0, 10) == 0
+    gen_image_first = randrange(1) == 0
+    gen_image_captions = randrange(10) == 0
+    gen_several_images_in_row = randrange(10) == 0
 
     generation_list = [
         'image',
@@ -130,41 +148,53 @@ def get_post_text():
             continue
 
         value_with_html_template = ''
-        if current_gen_type == 'image':
-            value = get_image_url()
-            image_tag = html_template_image.format(value)
-            if gen_image_captions:
-                caption = FAKER.sentence()
-                value_with_html_template = html_template_image_align_with_captions.format(image_tag, caption)
-            else:
-                value_with_html_template = html_template_image_align_without_captions.format(image_tag)
-        elif current_gen_type == 'text':
-            value = FAKER.text(max_nb_chars=randint(500, 5000))
-            value_with_html_template = html_template_text_block.format(value)
-            current_header_contains_text = True
-        elif current_gen_type == 'header':
-            value = FAKER.sentence()
-            value_with_html_template = html_template_header.format(value)
-            subheader_current_iteration = 0
-            current_header_contains_text = False
-        elif current_gen_type == 'subheader':
-            value = FAKER.sentence()
-            subheader_current_iteration += 1
-            value_with_html_template = html_template_subheader.format(
-                subheader_current_iteration, value)
-            current_header_contains_text = False
-        elif current_gen_type == 'ordered_list':
-            items_list_str = ''
-            for j in range(randint(2, 20)):
+        match current_gen_type:
+            case 'image':
+                url, data = get_image()
+                gen_image_as_file = randrange(10) > 5
+                if gen_image_as_file:
+                    try:
+                        img_file = ImageFile(BytesIO(data), name=f'text_{randint(1000000, 9999999)}.jpg')
+                        img = Attachment._default_manager.create(file=img_file)
+                        value = img.file.url
+                    except:
+                        value = url
+                        gen_image_as_file = False
+                else:
+                    value = url
+                image_tag = html_template_image.format(value)
+                if gen_image_captions:
+                    caption = FAKER.sentence()
+                    value_with_html_template = html_template_image_align_with_captions.format(image_tag, caption)
+                else:
+                    value_with_html_template = html_template_image_align_without_captions.format(image_tag)
+            case 'text':
+                value = FAKER.text(max_nb_chars=randint(500, 5000))
+                value_with_html_template = html_template_text_block.format(value)
+                current_header_contains_text = True
+            case 'header':
                 value = FAKER.sentence()
-                items_list_str += html_template_list_item.format(value)
-            value_with_html_template = html_template_ordered_list.format(items_list_str)
-        elif current_gen_type == 'unordered_list':
-            items_list_str = ''
-            for j in range(randint(2, 20)):
+                value_with_html_template = html_template_header.format(value)
+                subheader_current_iteration = 0
+                current_header_contains_text = False
+            case 'subheader':
                 value = FAKER.sentence()
-                items_list_str += html_template_list_item.format(value)
-            value_with_html_template = html_template_unordered_list.format(items_list_str)
+                subheader_current_iteration += 1
+                value_with_html_template = html_template_subheader.format(
+                    subheader_current_iteration, value)
+                current_header_contains_text = False
+            case 'ordered_list':
+                items_list_str = ''
+                for j in range(randint(2, 20)):
+                    value = FAKER.sentence()
+                    items_list_str += html_template_list_item.format(value)
+                value_with_html_template = html_template_ordered_list.format(items_list_str)
+            case 'unordered_list':
+                items_list_str = ''
+                for j in range(randint(2, 20)):
+                    value = FAKER.sentence()
+                    items_list_str += html_template_list_item.format(value)
+                value_with_html_template = html_template_unordered_list.format(items_list_str)
 
         text += value_with_html_template
         previous_gen_type = current_gen_type

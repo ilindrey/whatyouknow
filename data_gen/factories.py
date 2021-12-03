@@ -10,7 +10,7 @@ import factory
 from apps.blog.models import Post, CategoryTypes
 from apps.comments.models import Comment
 
-from .utils import get_image_file_data, get_post_text, get_tags, CUR_TZ, FAKER
+from .utils import get_image_data, get_post_text, get_tags, CUR_TZ, FAKER
 
 
 USER_MODEL = get_user_model()
@@ -105,7 +105,7 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
         filename=factory.LazyAttribute(
             lambda o: 'admin_' + USER_MODEL.avatar.field.name + '.jpg'),
         data=factory.LazyAttribute(
-            lambda o: get_image_file_data(min_width=300, min_height=300)))
+            lambda o: get_image_data(min_width=300, min_height=300)))
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -124,8 +124,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     description = factory.Faker('paragraph', nb_sentences=randint(10, 25))
     avatar = factory.django.FileField(
         filename=factory.LazyAttribute(
-            lambda o: USER_MODEL.avatar.field.name + '_' + str(randint(1000000, 9999999)) + '.jpg'),
-        data=factory.LazyAttribute(lambda o: get_image_file_data(min_width=300, min_height=300)))
+            lambda o: f'{USER_MODEL.avatar.field.name}_{randint(1000000, 9999999)}.jpg'),
+        data=factory.LazyAttribute(lambda o: get_image_data(min_width=300, min_height=300)))
 
     @classmethod
     def _after_postgeneration(cls, instance, create, results=None):
@@ -154,9 +154,9 @@ class PostFactory(ModerationObjectFactory):
     title = factory.Faker('sentence')
     feed_cover = factory.django.FileField(
         filename=factory.LazyAttribute(
-            lambda o: Post.feed_cover.field.name + '_' + str(randint(1000000, 9999999)) + '.jpg'),
+            lambda o: f'{Post.feed_cover.field.name}_{randint(1000000, 9999999)}jpg'),
         data=factory.LazyAttribute(
-            lambda o: get_image_file_data(min_width=360, min_height=250)))
+            lambda o: get_image_data(min_width=360, min_height=250)))
     feed_article_preview = factory.Maybe(
         factory.LazyFunction(lambda: randrange(10) > 0),
         yes_declaration=factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500))),

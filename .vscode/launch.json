@@ -23,7 +23,7 @@
                 "PYTHONPATH": "${workspaceFolder}"
             },
             "args": [
-                "--factor=11"
+                "--factor=1"
             ],
         },
     ]

@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group
 
 from easy_thumbnails.models import Source, Thumbnail, ThumbnailDimensions
 from taggit.models import Tag, TaggedItem
+from django_summernote.models import Attachment
 
 from apps.blog.models import Post
 from apps.comments.models import Comment
@@ -49,6 +50,7 @@ def make_objects(factor):
     run_cleanup_model(Source)
     run_cleanup_model(TaggedItem)
     run_cleanup_model(Tag)
+    run_cleanup_model(Attachment)
 
     cleanup_media_files()  # delete all media files
 
