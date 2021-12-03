@@ -83,7 +83,7 @@ def get_post_text():
                     </div>
                     """
 
-    gen_headers = randrange(2) == 2
+    gen_headers = randrange(2) == 0
     gen_subheaders = gen_headers and randrange(10) == 0
 
     gen_ordered_list = randrange(10) == 0
@@ -151,7 +151,9 @@ def get_post_text():
         match current_gen_type:
             case 'image':
                 url, data = get_image()
-                gen_image_as_file = randrange(10) > 5
+                if not url and not data:
+                    continue
+                gen_image_as_file = data and randrange(10) > 5
                 if gen_image_as_file:
                     try:
                         img_file = ImageFile(BytesIO(data), name=f'text_{randint(1000000, 9999999)}.jpg')

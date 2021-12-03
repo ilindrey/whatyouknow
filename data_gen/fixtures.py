@@ -2,6 +2,8 @@
 from random import randint
 from shutil import rmtree
 
+from concurrent.futures import ThreadPoolExecutor
+
 from django.core.files.storage import default_storage
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -67,37 +69,6 @@ def make_objects(factor):
     print('Data generation completed.')
 
 
-def cleanup_media_files():
-    """
-    Delete MEDIA_ROOT directory with media files
-    :return:
-    """
-    location = default_storage.base_location
-    try:
-        listdir = default_storage.listdir(location)[0]
-        for dir in listdir:
-            rmtree(default_storage.path(dir))
-    except OSError as e:
-        print(f'Error: {e.strerror}')
-
-
-def run_cleanup_model(model, **kwargs):
-    model.objects.all().delete()
-    print_info_cleared_model(model, **kwargs)
-
-
-def run_create(factory):
-    print_info_create_start(factory)
-    factory.create()
-    print_info_create_complete(factory)
-
-
-def run_create_batch(factory, size):
-    print_info_create_batch_start(factory, size)
-    factory.create_batch(size=size)
-    print_info_create_batch_complete(factory, size)
-
-
 def print_divider():
     print('====================================================================')
 
@@ -108,24 +79,38 @@ def print_info_total(factories):
         print(f'{factory.__name__} --> {count}')
 
 
-def print_info_cleared_model(model, extra_msg=None):
+def cleanup_media_files():
+    """
+    Delete MEDIA_ROOT directory with media files
+    :return:
+    """
+    location = default_storage.base_location
+    try:
+        listdir = default_storage.listdir(location)[0]
+        for dir in listdir:
+            rmtree(default_storage.path(dir))
+        print("The MEDIA_ROOT directory was cleared.")
+    except OSError as e:
+        print(f'Error: {e.strerror}')
+
+
+def run_cleanup_model(model, extra_msg=None):
+    model.objects.all().delete()
     msg = f'{model.__name__} model was cleared.'
     if extra_msg:
-        msg += ' ' + extra_msg
+        msg += str(extra_msg)
     print(msg)
 
 
-def print_info_create_start(factory):
+def run_create(factory):
     print(f'Start creating of the {factory.__name__} factory.')
-
-
-def print_info_create_complete(factory):
+    factory.create()
     print(f'+++++ Factory {factory.__name__} was created. +++++')
 
 
-def print_info_create_batch_start(factory, count):
-    print(f'Start creating {count} records of the {factory.__name__} factory.')
-
-
-def print_info_create_batch_complete(factory, count):
-    print(f'+++++ Factory {factory.__name__} created batch {count} count. +++++')
+def run_create_batch(factory, size):
+    print(f'Start creating {size} records of the {factory.__name__} factory.')
+    with ThreadPoolExecutor() as executor:
+        for _ in range(size):
+            executor.submit(factory.create)
+    print(f'+++++ Factory {factory.__name__} created batch {size} count. +++++')

@@ -147,14 +147,14 @@ class StaffProfileFactory(ProfileFactory):
 class PostFactory(ModerationObjectFactory):
     class Meta:
         model = 'blog.Post'
-        django_get_or_create = ('user', 'category', 'title')
+        django_get_or_create = ('title',)
 
     user = factory.Faker('random_element', elements=USER_MODEL.objects.filter(is_superuser=False))
     category = factory.LazyAttribute(lambda o: CategoryTypes.get_random_choices()[0])
     title = factory.Faker('sentence')
     feed_cover = factory.django.FileField(
         filename=factory.LazyAttribute(
-            lambda o: f'{Post.feed_cover.field.name}_{randint(1000000, 9999999)}jpg'),
+            lambda o: f'{Post.feed_cover.field.name}_{randint(1000000, 9999999)}.jpg'),
         data=factory.LazyAttribute(
             lambda o: get_image_data(min_width=360, min_height=250)))
     feed_article_preview = factory.Maybe(
@@ -173,11 +173,9 @@ class PostFactory(ModerationObjectFactory):
 class PostCommentsFactory(ModerationObjectFactory):
     class Meta:
         model = 'comments.Comment'
-        django_get_or_create = ('content_type', 'object_id', 'user', 'date_created')
 
     content_object = factory.Faker('random_element', elements=Post.objects.published())
-    content_type = factory.LazyAttribute(
-        lambda o: ContentType.objects.get_for_model(o.content_object))
+    content_type = factory.LazyAttribute(lambda o: ContentType.objects.get_for_model(o.content_object))
     object_id = factory.SelfAttribute('content_object.pk')
     user = factory.Faker('random_element', elements=USER_MODEL.objects.filter(is_superuser=False))
     text = factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(100, 1500)))
