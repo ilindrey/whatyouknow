@@ -36,6 +36,12 @@ function safeWrap() {
             },
             success: function (responseText) {
                 $commentListRow.html(responseText);
+                $('.ui.comments').map(function (index, item) {
+                    let $item = $(item)
+                    if (!$item.has('.comment').length) {
+                        $item.remove();
+                    }
+                });
             },
             complete: function () {
                 hideLoader();
