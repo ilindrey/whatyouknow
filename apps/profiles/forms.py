@@ -4,9 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 from taggit.models import Tag
 
-from apps.core.widgets import SemanticCheckboxSelectMultiple, SemanticSelectMultipleDropdown, SemanticImageFileInput
-from apps.blog.models import CategoryTypes
-
+from ..core.widgets import SemanticCheckboxSelectMultiple, SemanticSelectMultipleDropdown, SemanticImageFileInput
+from ..blog.models import CategoryTypes
 from .models import Profile
 
 
@@ -18,7 +17,7 @@ class EditProfileForm(forms.ModelForm):
                                   thumbnail_size='small',
                                   img_size='small',
                                   img_type='circular',
-                                  ))
+                              ))
 
     class Meta:
         model = Profile

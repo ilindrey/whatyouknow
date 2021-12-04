@@ -3,8 +3,7 @@ from django.views.generic import RedirectView, FormView, TemplateView
 
 from taggit.models import Tag
 
-from apps.blog.models import Post, CategoryTypes
-
+from ..blog.models import Post, CategoryTypes
 from .forms import SearchForm
 
 
@@ -20,7 +19,7 @@ class SearchView(FormView):
         context = super().get_context_data()
         context.update({
             'cur_page': self.kwargs.get('page', 1)
-            })
+        })
         return context
 
 
@@ -38,7 +37,7 @@ class SearchSuitableResultsListView(TemplateView):
         posts = Post.objects.published().filter(title__startswith=query).order_by('title') \
                     .values_list('title', flat=True)[:self.max_results]
         tags = Tag.objects.filter(name__startswith=query).order_by('name') \
-                    .values_list('name', flat=True)[:self.max_results]
+            .values_list('name', flat=True)[:self.max_results]
 
         j = []
         for value in categories:
@@ -47,7 +46,7 @@ class SearchSuitableResultsListView(TemplateView):
                 'value': value['short_name_lower'],
                 'title': value['full_name'],
                 'type': 'category'
-                })
+            })
 
         for value in posts:
             j.append({
@@ -55,7 +54,7 @@ class SearchSuitableResultsListView(TemplateView):
                 'value': value,
                 'title': value,
                 'type': 'text'
-                })
+            })
 
         for value in tags:
             j.append({
@@ -63,7 +62,7 @@ class SearchSuitableResultsListView(TemplateView):
                 'value': value,
                 'title': value,
                 'type': 'tag'
-                })
+            })
 
         j_rd = [dict(t) for t in {tuple(d.items()) for d in j}]  # remove duplicates
         s = sorted(j_rd, key=lambda x: x['title'].lower())
@@ -90,6 +89,5 @@ class SearchSelectionsView(TemplateView):
             'text': text,
             'category_list': CategoryTypes.get_values(*category_list, key='short_name_lower'),
             'tag_list': tag_list,
-            })
+        })
         return context
-

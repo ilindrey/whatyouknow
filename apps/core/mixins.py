@@ -1,5 +1,5 @@
 
-class HasPermsMixin:
+class BaseHasPermsMixin:
 
     @property
     def has_perms(self):
@@ -25,3 +25,7 @@ class HasPermsMixin:
         context = super().get_context_data(**kwargs)
         context['has_perms'] = self.has_perms
         return context
+
+
+class HasPermsMixin(BaseHasPermsMixin):
+    pass

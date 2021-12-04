@@ -6,12 +6,11 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from apps.blog.models import Post
-from apps.comments.models import Comment
-
+from ..blog.models import Post
+from ..comments.models import Comment
 from .models import Profile
 from .forms import EditProfileForm, EditFeedSettingsForm, RegistrationForm
-from .mixins import HasPermsMixin, ProfileMixin, ProfileTabListMixin
+from .mixins import ProfileMixin, ProfileTabListMixin
 
 
 class ProfileView(ProfileMixin, generic.DetailView):

@@ -1,9 +1,9 @@
 
-from ..core.mixins import HasPermsMixin
+from ..core.mixins import BaseHasPermsMixin
 from .models import Profile
 
 
-class HasPermsMixin(HasPermsMixin):
+class HasPermsMixin(BaseHasPermsMixin):
 
     @property
     def is_cur_auth_user(self):

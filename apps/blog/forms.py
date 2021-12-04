@@ -1,13 +1,10 @@
 from django import forms
-from django.forms import widgets
 from django.utils.translation import gettext_lazy as _
 
-from taggit.forms import TagField
-from django_summernote.fields import SummernoteTextFormField
 from django_summernote.widgets import SummernoteWidget
+from taggit.forms import TagField
 
-from apps.core.widgets import SemanticImageFileInput, SemanticTagDropdownWidgetInput
-
+from ..core.widgets import SemanticImageFileInput, SemanticTagDropdownWidgetInput
 from ..moderation.forms import ModeratedObjectForm
 from .models import Post
 

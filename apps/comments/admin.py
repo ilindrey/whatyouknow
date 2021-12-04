@@ -6,7 +6,6 @@ from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import MPTTModelAdmin
 
 from ..moderation.admin import ModeratedObjectAdmin
-
 from .models import Comment
 
 
