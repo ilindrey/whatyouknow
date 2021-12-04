@@ -5,20 +5,10 @@ from shutil import rmtree
 from concurrent.futures import ThreadPoolExecutor
 
 from django.core.files.storage import default_storage
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 
-from easy_thumbnails.models import Source, Thumbnail, ThumbnailDimensions
-from taggit.models import Tag, TaggedItem
-from django_summernote.models import Attachment
-
-from apps.blog.models import Post
-from apps.comments.models import Comment
+from factory.django import get_model
 
 from .factories import StaffGroupFactory, SuperUserFactory, CommonProfileFactory, StaffProfileFactory, PostFactory, PostCommentsFactory
-
-
-USER_MODEL = get_user_model()
 
 
 def make_objects(factor):
@@ -43,17 +33,19 @@ def make_objects(factor):
 
     print_divider()
 
-    run_cleanup_model(Comment)
-    run_cleanup_model(Post)
-    run_cleanup_model(Group)
-    run_cleanup_model(USER_MODEL)
-    run_cleanup_model(ThumbnailDimensions)
-    run_cleanup_model(Thumbnail)
-    run_cleanup_model(Source)
-    run_cleanup_model(TaggedItem)
-    run_cleanup_model(Tag)
-    run_cleanup_model(Attachment)
-
+    cleaning_list = [
+        'comments.comment',
+        'blog.post',
+        'auth.Group',
+        'profiles.Profile',
+        'easy_thumbnails.ThumbnailDimensions',
+        'easy_thumbnails.Thumbnail',
+        'easy_thumbnails.Source',
+        'taggit.TaggedItem',
+        'taggit.Tag',
+        'django_summernote.Attachment'
+    ]
+    run_cleanup_models(cleaning_list)
     cleanup_media_files()  # delete all media files
 
     print_divider()
@@ -79,6 +71,29 @@ def print_info_total(factories):
         print(f'{factory.__name__} --> {count}')
 
 
+def get_model_class(definition):
+    # code based on https://github.com/FactoryBoy/factory_boy/blob/371815b219d0f91c3032fdd479fc2ef7d1d3af6b/factory/django.py#L90
+    if isinstance(definition, str) and '.' in definition:
+        app, model = definition.split('.', 1)
+        return get_model(app, model)
+
+    return definition
+
+
+def run_cleanup_models(model_list=[]):
+    for model in model_list:
+        run_cleanup_model(model)
+
+
+def run_cleanup_model(definition, extra_msg=None):
+    model = get_model_class(definition)
+    model.objects.all().delete()
+    msg = f'{model.__name__} model was cleared.'
+    if extra_msg:
+        msg += str(extra_msg)
+    print(msg)
+
+
 def cleanup_media_files():
     """
     Delete MEDIA_ROOT directory with media files
@@ -92,14 +107,6 @@ def cleanup_media_files():
         print("The MEDIA_ROOT directory was cleared.")
     except OSError as e:
         print(f'Error: {e.strerror}')
-
-
-def run_cleanup_model(model, extra_msg=None):
-    model.objects.all().delete()
-    msg = f'{model.__name__} model was cleared.'
-    if extra_msg:
-        msg += str(extra_msg)
-    print(msg)
 
 
 def run_create(factory):

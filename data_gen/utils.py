@@ -22,8 +22,9 @@ def get_image_url(min_width=500, min_height=500, max_width=None, max_height=None
 
     url_list = [
         # 'https://picsum.photos/{}/{}',  # bug
-        'https://loremflickr.com/{}/{}/all',
+        # 'https://loremflickr.com/{}/{}/all',
         # 'https://placeimg.com/{}/{}/any',
+        'https://source.unsplash.com/random/{}x{}/'
     ]
 
     url = choice(url_list)
@@ -39,8 +40,8 @@ def get_image_url(min_width=500, min_height=500, max_width=None, max_height=None
     return url.format(width, height)
 
 
-def get_image(min_width=500, min_height=500):
-    image_url = get_image_url(min_width=min_width, min_height=min_height)
+def get_image(min_width=500, min_height=500, max_width=None, max_height=None):
+    image_url = get_image_url(min_width, min_height, max_width, max_height=max_height)
     i = 0
     response = None
     while i < 5 and (response is None or not response.ok):
@@ -52,11 +53,11 @@ def get_image(min_width=500, min_height=500):
     try:
         return response.url, response.content
     except:
-        return '', '', None
+        return '', None
 
 
-def get_image_data(min_width=500, min_height=500):
-    return get_image(min_width, min_height)[1]
+def get_image_data(min_width=500, min_height=500, max_width=None, max_height=None):
+    return get_image(min_width, min_height, max_width, max_height)[1]
 
 
 def get_post_text():
@@ -150,7 +151,7 @@ def get_post_text():
         value_with_html_template = ''
         match current_gen_type:
             case 'image':
-                url, data = get_image()
+                url, data = get_image(max_width=2048)
                 if not url and not data:
                     continue
                 gen_image_as_file = data and randrange(10) > 5

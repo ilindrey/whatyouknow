@@ -105,7 +105,7 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
         filename=factory.LazyAttribute(
             lambda o: 'admin_' + USER_MODEL.avatar.field.name + '.jpg'),
         data=factory.LazyAttribute(
-            lambda o: get_image_data(min_width=300, min_height=300)))
+            lambda o: get_image_data(min_width=300, min_height=300, max_width=1024)))
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -125,7 +125,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     avatar = factory.django.FileField(
         filename=factory.LazyAttribute(
             lambda o: f'{USER_MODEL.avatar.field.name}_{randint(1000000, 9999999)}.jpg'),
-        data=factory.LazyAttribute(lambda o: get_image_data(min_width=300, min_height=300)))
+        data=factory.LazyAttribute(lambda o: get_image_data(min_width=300, min_height=300, max_width=1024)))
 
     @classmethod
     def _after_postgeneration(cls, instance, create, results=None):
@@ -156,7 +156,7 @@ class PostFactory(ModerationObjectFactory):
         filename=factory.LazyAttribute(
             lambda o: f'{Post.feed_cover.field.name}_{randint(1000000, 9999999)}.jpg'),
         data=factory.LazyAttribute(
-            lambda o: get_image_data(min_width=360, min_height=250)))
+            lambda o: get_image_data(min_width=360, min_height=250, max_width=1024)))
     feed_article_preview = factory.Maybe(
         factory.LazyFunction(lambda: randrange(10) > 0),
         yes_declaration=factory.Faker('text', max_nb_chars=factory.LazyAttribute(lambda o: randint(200, 500))),
