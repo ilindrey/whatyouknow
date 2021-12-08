@@ -32,20 +32,16 @@ function safeWrap() {
         basePathnameURL = $profileMenu.data(keyBasePathnameUrl);
         currentTab = $profileMenu.data(keyCurrentTab);
 
-        if(currentTab)
-        {
-            for (let i = 0; i < $profileMenuItems.length; i++)
-            {
+        if (currentTab) {
+            for (let i = 0; i < $profileMenuItems.length; i++) {
                 let $item = $($profileMenuItems[i]);
-                if($item.data('value') == currentTab)
-                {
+                if ($item.data('value') == currentTab) {
                     $item.click();
                     break;
                 }
             }
         }
-        else
-        {
+        else {
             $profileMenuItems.get(0).click();
         }
     });
@@ -66,20 +62,27 @@ function safeWrap() {
         const url = getURL(null, null, basePathnameURL, currentTab);
         history.replaceState(null, null, url.href);
 
-        showLoader();
-        deferred = $.get(currentUrl);
-        deferred.done(function (responseText) {
-            updateSegment(responseText);
+        $.ajax({
+            type: 'get',
+            url: currentUrl,
+            beforeSend: function (jqXHR, settings) {
+                showLoader();
+            },
+            success: function (responseText) {
+                updateSegment(responseText);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                showErrorMessage(xhr, ajaxOptions, thrownError);
+            },
+            complete: function (jqXHR, textStatus) {
+                hideLoader();
+            },
         });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
-        hideLoader();
     });
 
     $(document).on('submit', '#edit_profile_form', function (e) {
         e.preventDefault();
-        profileSubmit();
+        formSubmit('Profile updated!')
     });
 
     $(document).on('submit', '#password_change_form', function (e) {
@@ -93,49 +96,47 @@ function safeWrap() {
         formSubmit('Password updated!')
     });
 
-    function profileSubmit()
-    {
-        let data = new FormData($currentForm.get(0));
+    function formSubmit(successMessage = null) {
+        let data, processData, contentType, enctype;
+
+        const isEditProfileForm = $currentForm.is('#edit_profile_form');
+        const formsWithFiles = isEditProfileForm;
+
+        if (formsWithFiles) {
+            data = new FormData($currentForm.get(0));
+            processData = false;
+            contentType = false;
+        }
+        else {
+            data = $currentForm.serialize();
+            processData = true;
+            contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
+        }
+        enctype = $currentForm.attr('enctype');
 
         $.ajax({
             type: 'post',
             url: currentUrl,
             data: data,
-            processData: false,
-            contentType: false,
-            enctype: 'multipart/form-data',
-            beforeSend: function(jqXHR, settings)
-            {
+            processData: processData,
+            contentType: contentType,
+            enctype: enctype,
+            beforeSend: function (jqXHR, settings) {
                 showLoader();
             },
             success: function (responseText) {
-                updateSegment(responseText, 'Profile updated!', true);
+                updateSegment(responseText, successMessage, isEditProfileForm);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             },
-            complete: function (jqXHR, textStatus)
-            {
+            complete: function (jqXHR, textStatus) {
                 hideLoader();
             },
         });
     }
 
-    function formSubmit(successMessage = null)
-    {
-        showLoader();
-        let deferred = $.post(currentUrl, $currentForm.serialize());
-        deferred.done(function (responseText) {
-            updateSegment(responseText, successMessage, false);
-        });
-        deferred.fail(function (xhr, ajaxOptions, thrownError) {
-            showErrorMessage(xhr, ajaxOptions, thrownError);
-        });
-        hideLoader();
-    }
-
-    function updateSegment(responseText, successMessage= null, runActionsUpdateUsername = false)
-    {
+    function updateSegment(responseText, successMessage = null, runActionsUpdateUsername = false) {
         $profileInteractionArea.html(responseText);
 
         $currentForm = $profileInteractionArea.find('.ui.form');
@@ -154,19 +155,16 @@ function safeWrap() {
             updateUrlsWhenUsernameChanged();
     }
 
-    function showLoader()
-    {
+    function showLoader() {
         $profileInteractionArea.html('');
         $loader.show();
     }
 
-    function hideLoader()
-    {
+    function hideLoader() {
         $loader.hide();
     }
 
-    function updateUrlsWhenUsernameChanged()
-    {
+    function updateUrlsWhenUsernameChanged() {
         let oldUsername = $profileMenu.data(keyCurrentUsername);
         let newUsername = $currentForm.find('#id_username').val();
 
