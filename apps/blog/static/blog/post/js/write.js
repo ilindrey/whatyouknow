@@ -1,32 +1,31 @@
 
 safeWrap();
 
-function safeWrap()
-{
+function safeWrap() {
     const keyContent = '#content',
-        keyStepContent = '#step_content',
+        keySubContent = '#sub_content',
         keyWriteForm = '#edit_post_form',
         keyCurUrl = 'cur-url',
         keyCurAction = 'cur-action',
         keyActionUrl = 'action-url';
 
     let $content,
-        $stepContent,
+        $subContent,
         $writeForm,
         $loader;
 
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
         $content = $(keyContent);
-        $loader = $content.find('.loader').closest('.segment');
-        $stepContent = $content.find(keyStepContent);
+        $subContent = $content.find(keySubContent);
 
+        $loader = $content.find('.loader').closest('.segment');
         hideLoader();
 
-        const curAction = $stepContent.data(keyCurAction);
-        if(curAction === 'create' || curAction === 'edit') {
+        const curAction = $subContent.data(keyCurAction);
+        if (curAction === 'create' || curAction === 'edit') {
             initWriteForm();
         }
+        setCurrentUrl();
     });
 
     $(document).on('click', '#save_as_draft_button', function (e) {
@@ -64,57 +63,47 @@ function safeWrap()
             processData: false,
             contentType: false,
             enctype: 'multipart/form-data',
-            beforeSend: function(jqXHR, settings)
-            {
+            beforeSend: function (jqXHR, settings) {
                 showLoader();
             },
-            success: function (responseText)
-            {
+            success: function (responseText) {
                 loadingStepContent(responseText, nextAction);
             },
-            error: function (xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             },
-            complete: function (jqXHR, textStatus)
-            {
+            complete: function (jqXHR, textStatus) {
                 hideLoader();
             },
         });
     }
 
-    function runAction(button, nextAction)
-    {
+    function runAction(button, nextAction) {
         $.ajax({
             type: 'get',
             url: button.data(keyActionUrl),
             data: {
                 'next_action': nextAction
             },
-            beforeSend: function(jqXHR, settings)
-            {
+            beforeSend: function (jqXHR, settings) {
                 showLoader();
             },
-            success: function (responseText)
-            {
+            success: function (responseText) {
                 loadingStepContent(responseText);
             },
-            error: function (xhr, ajaxOptions, thrownError)
-            {
+            error: function (xhr, ajaxOptions, thrownError) {
                 showErrorMessage(xhr, ajaxOptions, thrownError);
             },
-            complete: function (jqXHR, textStatus)
-            {
+            complete: function (jqXHR, textStatus) {
                 hideLoader();
             },
         });
     }
 
-    function loadingStepContent(responseText, nextAction)
-    {
+    function loadingStepContent(responseText, nextAction) {
         if ($content) {
             $content.html(responseText);
-            $stepContent = $content.find(keyStepContent);
+            $subContent = $content.find(keySubContent);
             if (nextAction === 'edit') {
                 initWriteForm();
             }
@@ -123,18 +112,17 @@ function safeWrap()
     }
 
     function initWriteForm() {
-        if ($stepContent) {
-            $writeForm = $stepContent.find(keyWriteForm);
-            if ($writeForm)
-            {
+        if ($subContent) {
+            $writeForm = $subContent.find(keyWriteForm);
+            if ($writeForm) {
                 $writeForm.form();
             }
         }
     }
 
     function setCurrentUrl() {
-        if ($stepContent) {
-            const curUrl = $stepContent.data(keyCurUrl);
+        if ($subContent) {
+            const curUrl = $subContent.data(keyCurUrl);
             if (curUrl) {
                 const url = getURL(null, null, curUrl);
                 history.replaceState(null, null, url.href);
@@ -142,15 +130,13 @@ function safeWrap()
         }
     }
 
-    function showLoader()
-    {
-        $stepContent.html('');
+    function showLoader() {
+        $subContent.html('');
         $loader.show();
         scrollOnTop();
     }
 
-    function hideLoader()
-    {
+    function hideLoader() {
         $loader.hide();
     }
 }

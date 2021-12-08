@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 from ..moderation.views import SetEditedByUserMixin
 from .models import Post, CategoryTypes
-from .mixins import PostCreateEditFormMixin
+from .mixins import PostCreateEditFormMixin, ArtualObjectKwargsMixin
 
 
 class PostRedirectDefaultCategoryListView(RedirectView):
@@ -123,9 +123,16 @@ class PostListView(PostListContainerView):
     template_name = 'blog/post/list.html'
 
 
-class PostDetailView(DetailView):
+class PostDetailView(ArtualObjectKwargsMixin, DetailView):
     model = Post
     template_name = 'blog/post/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'cur_url': reverse('post_detail', kwargs=self.get_kwargs),
+        })
+        return context
 
 
 class PostCreateView(PostCreateEditFormMixin, CreateView):
@@ -151,41 +158,41 @@ class PostEditView(PostCreateEditFormMixin, SetEditedByUserMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context.update({
-            'post_write_url': reverse('post_edit_container', kwargs=self.kwargs),
-            'cur_url': reverse('post_edit', kwargs=self.kwargs),
+            'post_write_url': reverse('post_edit_container', kwargs=self.get_kwargs),
+            'cur_url': reverse('post_edit', kwargs=self.get_kwargs),
             'cur_action': 'edit',
         })
         return context
 
 
-class PostPreviewView(LoginRequiredMixin, DetailView):
+class PostPreviewView(LoginRequiredMixin, ArtualObjectKwargsMixin, DetailView):
     model = Post
     template_name = 'blog/post/preview.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context.update({
-            'cur_url': reverse('post_preview', kwargs=self.kwargs),
+            'cur_url': reverse('post_preview', kwargs=self.get_kwargs),
             'cur_action': 'preview',
         })
         return context
 
 
-class PostDoneView(LoginRequiredMixin, DetailView):
+class PostDoneView(LoginRequiredMixin, ArtualObjectKwargsMixin, DetailView):
     model = Post
     template_name = 'blog/post/done.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context.update({
-            'cur_url': reverse('post_done', kwargs=self.kwargs),
+            'cur_url': reverse('post_done', kwargs=self.get_kwargs),
             'cur_action': 'done',
         })
         return context
 
     def get(self, request, *args, **kwargs):
         render_to_response = super().get(request, *args, **kwargs)
-        if not self.object.is_approved:
+        if not self.object.published:
             self.object.save_as_pending()
         return render_to_response
 

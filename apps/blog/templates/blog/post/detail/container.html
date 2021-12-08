@@ -3,7 +3,9 @@
 
 {% block content %}
 
-    <div class="ui text left floated container">
+    <div class="ui text left floated container" 
+        id="sub_content" 
+        data-cur-url="{{ cur_url }}">
 
         {% include 'blog/post/detail/article.html' %}
 

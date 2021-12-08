@@ -1,7 +1,7 @@
 {% extends 'blog/post/edit/container.html' %}
 
 {% block step %}
-    {% if is_approved %}
+    {% if object.published %}
         <span class="ui info text">Changes saved successfully.</span>
     {% else %}
         <span class="ui info text">Your post is on moderation. It will be posted when our moderation team reviews it.</span>
