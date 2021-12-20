@@ -40,7 +40,7 @@ function setMenuActiveItem(menuItems, currentItem) {
 function scrollOnTop() {
     if (isFirefox) {
         $([document.documentElement, document.body]).animate({
-            scrollTop: $("#user_profile_menu").offset().top
+            scrollTop: $("#menu").offset().top
         }, "fast");
     } else {
         $(document.body).get(0).scrollIntoView();
