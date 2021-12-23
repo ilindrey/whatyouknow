@@ -81,3 +81,18 @@ And wait a little. To control the amount of data generated, specify a factor usi
 ```
 python -m data_gen -f 5
 ```
+
+## Running with Docker
+
+To run in a container with all dependencies, download and install [Docker](https://www.docker.com/products/docker-desktop). Then run the command in a terminal:
+
+```
+cd whatyouknow
+docker-compose up
+```
+
+To generate test data (the container must be running):
+
+```
+docker-compose exec web python -m data_gen -f 5
+```
