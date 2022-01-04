@@ -11,6 +11,9 @@ from factory.django import get_model
 from .factories import StaffGroupFactory, SuperUserFactory, CommonProfileFactory, StaffProfileFactory, PostFactory, PostCommentsFactory
 
 
+DIVIDER_LENGTH = 80
+
+
 def make_objects(factor):
 
     staff_user_count = factor
@@ -27,13 +30,7 @@ def make_objects(factor):
         PostCommentsFactory: post_comments_count,
     }
 
-    print(f'Start generating data with a factor - {factor}.')
-
-    print_info_total(factories)
-
-    print_divider()
-
-    cleaning_list = [
+    cleaning_model_list = [
         'comments.comment',
         'blog.post',
         'auth.Group',
@@ -45,24 +42,34 @@ def make_objects(factor):
         'taggit.Tag',
         'django_summernote.Attachment'
     ]
-    run_cleanup_models(cleaning_list)
+
+    print_divider()
+    print(f'Start generating data with a factor - {factor}.')
+
+    print_divider()
+    print_info_total(factories)
+
+    print_divider()
+    run_cleanup_models(cleaning_model_list)
+
+    print_divider()
     cleanup_media_files()  # delete all media files
 
     print_divider()
-
-    for factory, count in factories.items():
-        if count > 1:
-            run_create_batch(factory, count)
-        else:
-            run_create(factory)
+    run_create(factories)
 
     print_divider()
-
     print('Data generation completed.')
 
 
 def print_divider():
-    print('====================================================================')
+    print()
+    print('=' * DIVIDER_LENGTH)
+    print()
+
+
+def print_local_divider():
+    print('+' * DIVIDER_LENGTH)
 
 
 def print_info_total(factories):
@@ -76,22 +83,21 @@ def get_model_class(definition):
     if isinstance(definition, str) and '.' in definition:
         app, model = definition.split('.', 1)
         return get_model(app, model)
-
     return definition
 
 
-def run_cleanup_models(model_list=[]):
-    for model in model_list:
-        run_cleanup_model(model)
-
-
-def run_cleanup_model(definition, extra_msg=None):
+def perform_model_cleanup(definition, extra_msg=None):
     model = get_model_class(definition)
     model.objects.all().delete()
     msg = f'{model.__name__} model was cleared.'
     if extra_msg:
         msg += str(extra_msg)
     print(msg)
+
+
+def run_cleanup_models(model_list=[]):
+    for model in model_list:
+        perform_model_cleanup(model)
 
 
 def cleanup_media_files():
@@ -109,15 +115,26 @@ def cleanup_media_files():
         print(f'Error: {e.strerror}')
 
 
-def run_create(factory):
+def run_create(factories):
+    for factory, count in factories.items():
+        print_local_divider()
+        if count > 1:
+            perform_create_batch(factory, count)
+        else:
+            perform_create(factory)
+    if len(factories):
+        print_local_divider()
+
+
+def perform_create(factory):
     print(f'Start creating of the {factory.__name__} factory.')
     factory.create()
-    print(f'+++++ Factory {factory.__name__} was created. +++++')
+    print(f'Factory {factory.__name__} was created.')
 
 
-def run_create_batch(factory, size):
+def perform_create_batch(factory, size):
     print(f'Start creating {size} records of the {factory.__name__} factory.')
     with ThreadPoolExecutor() as executor:
         for _ in range(size):
             executor.submit(factory.create)
-    print(f'+++++ Factory {factory.__name__} created batch {size} count. +++++')
+    print(f'Factory {factory.__name__} created batch {size} count.')
