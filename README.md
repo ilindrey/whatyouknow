@@ -1,6 +1,6 @@
 # WhatYouKnow.
 
-This is a [demo](http://3.234.249.104:8080/) project of the blogging platform WhatYouKnow. Written using Django and
+This is a demo project of the blogging platform WhatYouKnow. Written using Django and
 Fomantic-ui.
 
 ## Dependencies
